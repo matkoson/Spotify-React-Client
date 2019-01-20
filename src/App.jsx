@@ -1,5 +1,10 @@
 import React, { Component } from "react";
 import "./App.sass";
+import logo from "./assets/svg/logo.svg";
+import search from "./assets/svg/search.svg";
+import home from "./assets/svg/home.svg";
+import lib from "./assets/svg/lib.svg";
+import "./assets/fonts/Rubik-Light.woff";
 
 class App extends Component {
   render() {
@@ -7,36 +12,40 @@ class App extends Component {
       <main className="app">
         <div className="left-tab">
           <div className="left-tab__logo">
-            <img src="./assets/logo.svg" alt="spotify-logo+text" />
-            <div className="left-tab__logo__img" />
-            <div className="left-tab__logo__text" />
+            <img
+              className="left-tab__logo__logo"
+              src={logo}
+              alt="spotify-logo+text"
+            />
           </div>
           <div className="left-tab__app-nav">
-            {/*  */}
-            <div className="left-tab__app-nav__search">
-              <span className="left-tab__app-nav__search__icon">
-                <span className="left-tab__app-nav__search__text">
-                  {"Search"}
-                </span>
+            <div className="left-tab__app-nav__search left-tab__app-nav__icon-text">
+              <img src={search} alt="search icon" />
+              <span className="left-tab__app-nav__search__text left-tab__app-nav__text">
+                {"Search"}
               </span>
             </div>
             {/*  */}
-            <div className="left-tab__app-nav__home">
-              <span className="left-tab__app-nav__home__icon">
-                <span className="left-tab__app-nav__home__text">{"Home"}</span>
+            <div className="left-tab__app-nav__home left-tab__app-nav__icon-text">
+              <img src={home} alt="home icon" />
+              <span className="left-tab__app-nav__home__text left-tab__app-nav__text">
+                {"Home"}
               </span>
             </div>
             {/*  */}
-            <div className="left-tab__app-nav__library">
-              <span className="left-tab__app-nav__library__icon">
-                <span className="left-tab__app-nav__library__text">
-                  {"Your Library"}
-                </span>
+            <div className="left-tab__app-nav__library left-tab__app-nav__icon-text">
+              <img src={lib} alt="lib icon" />
+              <span className="left-tab__app-nav__library__text left-tab__app-nav__text">
+                {"Your Library"}
               </span>
             </div>
             {/*  */}
           </div>
         </div>
+        {/*  */}
+        {/*  */}
+        {/*  */}
+        <div className="right-tab" />
       </main>
     );
   }
