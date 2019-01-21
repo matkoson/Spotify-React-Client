@@ -1,3 +1,5 @@
+//TODO
+  //add js for green spotify underscore on the right-nav
 *
   box-sizing: border-box
   margin: 0
@@ -8,12 +10,17 @@
   font-family: 'Rubik'
   src: local('Rubik'), url('./assets/fonts/Rubik-Light.woff') format('woff')
 
+@font-face
+  font-family: 'Rubik-Medium'
+  src: local('Rubik-Medium'), url('./assets/fonts/Rubik-Medium.woff') format('woff')
+
 .app
   width: 100vw
   height: 100vh
   display: flex
   font-family: 'Rubik'
-  background-image: linear-gradient(120deg, #fccb90 0%, #d57eeb 100%)
+  background-image: linear-gradient(-20deg, #2b5876 0%, #4e4376 100%)
+  // background-image: linear-gradient(120deg, #fccb90 0%, #d57eeb 100%)
 
 
 .left-tab
@@ -37,12 +44,19 @@
   display: flex
   justify-content: space-between
   margin-bottom: 10%
+  cursor: pointer
+  opacity: 0.6
 
 .left-tab__app-nav__text
   text-align: left
   width: 77%
   display: flex
   align-items: center
+
+
+.left-tab__app-nav__icon-text:hover
+  opacity: 1
+  transition-duration: 500ms
 
 .left-tab__logo
   padding-top: 20px
@@ -56,6 +70,53 @@
   max-height: 40px
   min-width: 70px
   width: 141px
+
+.left-tab__app-nav__logo
+  cursor: pointer
+  opacity: 0.6
+
+
 .right-tab
   flex-basis: 75%
+
+.right-tab__right-nav
+  display: flex
+  flex-wrap: wrap
+  justify-content: space-around
+  margin: 42px auto
+  width: 80%
+  font-size: 13px
+  // font-family: 'Rubik-Medium'
+  color: white
+  list-style: none
+  line-height: 16px
+  letter-spacing: 0.15rem
+
+.right-tab__right-nav__element
+  flex-basis: 10%
+  min-width: 150px
+  margin-bottom: 3%
+  position: relative
+  text-align: center
+  opacity: 0.6
+  transition-duration: 500ms
+
+
+.right-tab__right-nav__element:hover
+  opacity: 1
+  cursor: pointer
+
+.right-tab__right-nav__element--clicked:before:before
+    content: ""
+    height: 2px
+    background-color: #1db954
+    width: 30px
+    position: absolute
+    display: block
+    bottom: -4px
+    left: 50%
+    margin-left: -15px
+
+
+
 
