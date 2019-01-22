@@ -7,8 +7,50 @@ import lib from "./assets/svg/lib.svg";
 import "./assets/fonts/Rubik-Light.woff";
 import RecentlyPlayed from "./Components/RecentlyPlayed";
 import "./Components/RecentlyPlayed.sass";
+import axios from "axios";
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { token: "" };
+    this.clientID = "25be93ebc6a047cfbf6ed82187d766b4";
+    this.getPlaylists = this.getPlaylists.bind(this);
+  }
+  componentDidMount() {
+    console.log(this.state);
+    const currAd = window.location.href;
+    if (/callback/.test(currAd)) {
+      const regexToken = /access_token=(.*)&token/g;
+      const token = regexToken.exec(currAd)[1];
+      this.setState({ token });
+      return this.getPlaylists(token);
+    } else if (/access_denied/.test(currAd)) {
+      console.error("Access denied by the user!");
+    }
+    if (!this.state.token) {
+      const scopes =
+        "playlist-read-private playlist-read-collaborative user-modify-playback-state user-top-read user-read-recently-played user-read-playback-state user-read-currently-playing user-modify-playback-state";
+      const accessReq = `https:accounts.spotify.com/authorize?client_id=${
+        this.clientID
+      }&scope=${encodeURIComponent(
+        scopes
+      )}&response_type=token&redirect_uri=http://localhost:3000/callback`;
+      console.log("hopla w nieznane");
+      window.location.href = accessReq;
+    }
+  }
+  getPlaylists(token) {
+    console.log("on", this.state);
+    const auth = `Bearer ${token}`;
+    console.log(auth);
+    const playlists = axios
+      .get("https://api.spotify.com/v1/me/playlists", {
+        headers: {
+          Authorization: auth
+        }
+      })
+      .then(res => console.log(res.data.items.map(e => e.name)));
+  }
   render() {
     return (
       <main className="app">
@@ -79,3 +121,5 @@ export default App;
 
 // window.location.href =
 //   "https://accounts.spotify.com/authorize?client_id=230be2f46909426b8b80cac36446b52a&scope=playlist-read-private%20playlist-read-collaborative%20playlist-modify-public%20user-read-recently-played%20playlist-modify-private%20ugc-image-upload%20user-follow-modify%20user-follow-read%20user-library-read%20user-library-modify%20user-read-private%20user-read-email%20user-top-read%20user-read-playback-state&response_type=token&redirect_uri=http://localhost:3000/callback";
+
+// http://localhost:3000/callback#access_token=BQDQWFwGEss__M3kawusvVJTeEBBt1mTKHHm6Gyy68jXvaHKz0lKuD3SxHHzFiUcCmKyI3j340utLFnDasrFOkZNRRtU_7uaMazZacbVN9vL4zmng1q8ZsPYHZ7IZGU9sr-CQ3NsVsKANihTOpRJj7LAG4YFaF4-VUI&token_type=Bearer&expires_in=3600
