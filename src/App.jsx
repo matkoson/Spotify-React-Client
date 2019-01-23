@@ -8,22 +8,27 @@ import "./assets/fonts/Rubik-Light.woff";
 import RecentlyPlayed from "./Components/RecentlyPlayed";
 import "./Components/RecentlyPlayed.sass";
 import axios from "axios";
+import HomeScreen from "./Components/HomeScreen";
+import "./Components/HomeScreen.sass";
 
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = { token: "" };
+    this.state = { token: "", auth: "", recentlyPlayed: "", featured: "" };
+    //
+    //
+    //
     this.clientID = "25be93ebc6a047cfbf6ed82187d766b4";
-    this.getPlaylists = this.getPlaylists.bind(this);
+    this.getRecent = this.getRecent.bind(this);
+    this.processRecent = this.processRecent.bind(this);
+    this.getFtrdPlay = this.getFtrdPlay.bind(this);
   }
   componentDidMount() {
-    console.log(this.state);
     const currAd = window.location.href;
     if (/callback/.test(currAd)) {
       const regexToken = /access_token=(.*)&token/g;
       const token = regexToken.exec(currAd)[1];
-      this.setState({ token });
-      return this.getPlaylists(token);
+      return this.setState({ token });
     } else if (/access_denied/.test(currAd)) {
       console.error("Access denied by the user!");
     }
@@ -35,22 +40,34 @@ class App extends Component {
       }&scope=${encodeURIComponent(
         scopes
       )}&response_type=token&redirect_uri=http://localhost:3000/callback`;
-      console.log("hopla w nieznane");
       window.location.href = accessReq;
     }
   }
-  getPlaylists(token) {
-    console.log("on", this.state);
-    const auth = `Bearer ${token}`;
-    console.log(auth);
-    const playlists = axios
-      .get("https://api.spotify.com/v1/me/playlists", {
+  componentDidUpdate() {
+    if (!this.state.recentlyPlayed) this.getRecent(this.state.token);
+    if (!this.state.featured) this.getFtrdPlay(this.state.token);
+  }
+  getFtrdPlay(token) {
+    axios
+      .get("https://api.spotify.com/v1/browse/featured-playlists", {
         headers: {
-          Authorization: auth
+          Authorization: this.auth
         }
       })
-      .then(res => console.log(res.data.items.map(e => e.name)));
+      .then(res => this.setState({ featured: res.data }));
   }
+  getRecent(token) {
+    this.auth = `Bearer ${token}`;
+
+    axios
+      .get("https://api.spotify.com/v1/me/player/recently-played", {
+        headers: {
+          Authorization: this.auth
+        }
+      })
+      .then(res => this.setState({ recentlyPlayed: res.data }));
+  }
+  processRecent(set) {}
   render() {
     return (
       <main className="app">
@@ -97,7 +114,7 @@ class App extends Component {
             </div>
             {/*  */}
           </div>
-          <RecentlyPlayed />
+          <RecentlyPlayed rawRecPlayed={this.state.recentlyPlayed} />
         </div>
         {/*  */}
         {/*  */}
@@ -110,7 +127,11 @@ class App extends Component {
             <li className="right-tab__right-nav__element">GENRES & MOODS</li>
             <li className="right-tab__right-nav__element">NEW RELEASES</li>
             <li className="right-tab__right-nav__element">DISCOVER</li>
-          </ul>{" "}
+          </ul>
+          <HomeScreen
+            featured={this.state.featured}
+            recent={this.state.recentlyPlayed}
+          />
         </div>
       </main>
     );
