@@ -16,10 +16,11 @@
 
 .app
   width: 100vw
-  height: 100vh
+  min-height: 100vh
   display: flex
   font-family: 'Rubik'
   background-image: linear-gradient(-20deg, #2b5876 0%, #4e4376 100%)
+  overflow-x: hidden
   // background-image: linear-gradient(120deg, #fccb90 0%, #d57eeb 100%)
 
 
@@ -27,13 +28,15 @@
   background-color: #131102
   height: 100%
   flex-basis: 25%
-  max-width: 240px
+  width: 230px
   padding-left: 2%
-  padding-right: 1%
+  padding-right: 10px
   padding-top: 1%
   padding-bottom: 1%
   color: #ffffff
   font-size: 14px
+  position: fixed
+  z-index: 1
 
 .left-tab__app-nav
   display: flex
@@ -78,10 +81,15 @@
 
 .right-tab
   overflow-y: scroll
+  overflow-x: hidden
   width: 100%
+  // max-width: 100% - 240px
   display: flex
   flex-direction: column
   align-content: center
+  margin-left: 240px
+  margin-right: 0
+  padding-right: 0
 
 .right-tab__right-nav
   display: flex
@@ -89,7 +97,7 @@
   justify-content: space-around
   margin: 42px auto
   width: 80%
-  font-size: 13px
+  font-size: 12px
   // font-family: 'Rubik-Medium'
   color: white
   list-style: none
