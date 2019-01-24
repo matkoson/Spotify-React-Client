@@ -8,27 +8,42 @@ import "./assets/fonts/Rubik-Light.woff";
 import RecentlyPlayed from "./Components/RecentlyPlayed";
 import "./Components/RecentlyPlayed.sass";
 import axios from "axios";
-import HomeScreen from "./Components/HomeScreen";
-import "./Components/HomeScreen.sass";
+import HomeScreen from "./Components/HomeScreen/HomeScreen";
+import "./Components/HomeScreen/HomeScreen.sass";
+import "./globalStyles.sass";
 
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = { token: "", auth: "", recentlyPlayed: "", featured: "" };
+    this.state = {
+      auth: "",
+      recentlyPlayed: "",
+      featured: "",
+      topRelatedArtists: "",
+      topArtist: ""
+    };
     //
     //
     //
     this.clientID = "25be93ebc6a047cfbf6ed82187d766b4";
     this.getRecent = this.getRecent.bind(this);
-    this.processRecent = this.processRecent.bind(this);
     this.getFtrdPlay = this.getFtrdPlay.bind(this);
+    this.getTopArtist = this.getTopArtist.bind(this);
+    this.handleResize = this.handleResize.bind(this);
   }
   componentDidMount() {
+    window.addEventListener("resize", this.handleResize);
     const currAd = window.location.href;
     if (/callback/.test(currAd)) {
       const regexToken = /access_token=(.*)&token/g;
       const token = regexToken.exec(currAd)[1];
-      return this.setState({ token });
+      return this.setState({
+        auth: {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }
+      });
     } else if (/access_denied/.test(currAd)) {
       console.error("Access denied by the user!");
     }
@@ -43,31 +58,61 @@ class App extends Component {
       window.location.href = accessReq;
     }
   }
-  componentDidUpdate() {
-    if (!this.state.recentlyPlayed) this.getRecent(this.state.token);
-    if (!this.state.featured) this.getFtrdPlay(this.state.token);
+  handleResize() {
+    if (!this.state.windowWidth) {
+      this.setState({ windowWidth: window.innerWidth });
+    } else {
+      if (this.state.windowWidth > 1000 && window.innerWidth < 1000) {
+        this.setState({ windowWidth: window.innerWidth });
+      }
+      if (this.state.windowWidth < 1000 && window.innerWidth > 1000)
+        this.setState({ windowWidth: window.innerWidth });
+    }
   }
-  getFtrdPlay(token) {
+  componentDidUpdate() {
+    if (this.state.auth) {
+      if (!this.state.recentlyPlayed) this.getRecent();
+      if (!this.state.featured) this.getFtrdPlay();
+      if (!this.state.topRelatedArtists) this.getTopArtist();
+    }
+  }
+  getFtrdPlay() {
     axios
-      .get("https://api.spotify.com/v1/browse/featured-playlists", {
-        headers: {
-          Authorization: this.auth
-        }
-      })
+      .get(
+        "https://api.spotify.com/v1/browse/featured-playlists",
+        this.state.auth
+      )
       .then(res => this.setState({ featured: res.data }));
   }
-  getRecent(token) {
-    this.auth = `Bearer ${token}`;
-
+  getRecent() {
     axios
-      .get("https://api.spotify.com/v1/me/player/recently-played", {
-        headers: {
-          Authorization: this.auth
-        }
-      })
+      .get(
+        "https://api.spotify.com/v1/me/player/recently-played",
+        this.state.auth
+      )
       .then(res => this.setState({ recentlyPlayed: res.data }));
   }
-  processRecent(set) {}
+  getTopArtist() {
+    // let name,topID,genres
+    return axios
+      .get("https://api.spotify.com/v1/me/top/artists", this.state.auth)
+      .then(res => {
+        var { id, name } = res.data.items[0];
+        return axios
+          .get(
+            `https://api.spotify.com/v1/artists/${id}/related-artists`,
+            this.state.auth
+          )
+          .then(res =>
+            this.setState({
+              topRelatedArtists: res.data.artists.slice(0, 6),
+              topArtist: name
+            })
+          )
+          .catch(err => console.error(err));
+      });
+    // axios.get()
+  }
   render() {
     return (
       <main className="app">
@@ -131,6 +176,8 @@ class App extends Component {
           <HomeScreen
             featured={this.state.featured}
             recent={this.state.recentlyPlayed}
+            relatedTop={this.state.topRelatedArtists}
+            topArtist={this.state.topArtist}
           />
         </div>
       </main>
