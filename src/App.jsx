@@ -115,25 +115,43 @@ class App extends Component {
   }
   handleNavClick(ele, navType) {
     let allNavElems = Array.from(ele.currentTarget.children);
-    let chosenOne = ele.target.innerText;
-    let basicClass, clickedClass;
-    console.log(chosenOne, allNavElems.map(e => e.offsetTop), navType);
+    let chosenOne = ele.target;
+    let basicClass, clickedClass, strategy;
+    // console.log(chosenOne, allNavElems.map(e => e.offsetTop), navType);
     if (navType === "right") {
+      strategy = "offsetLeft";
       basicClass = "right-tab__right-nav__element";
       clickedClass = "right-tab__right-nav__element--clicked";
     } else if (navType === "left") {
+      strategy = "offsetTop";
       basicClass = "left-tab__app-nav__search left-tab__app-nav__icon-text";
       clickedClass = "left-tab__app-nav__icon-text--clicked";
+      chosenOne = chosenOne.offsetParent;
+      // allNavElems = Array.from(
+      //   ele.currentTarget.children.map(e => e.offsetParent)
+      // );
     } else if (navType === "recent") {
-      basicClass = "recently-played__element";
-      clickedClass = "left-tab__app-nav__icon-text--clicked";
+      strategy = "offsetTop";
+      basicClass = "recently-played__element ";
+      clickedClass =
+        "left-tab__app-nav__icon-text--clicked recently-played__element--modified";
     }
+    // console.log(chosenOne[strategy], "theone");
+
     allNavElems = allNavElems.forEach(e => {
-      if (e.innerText.substr(1, e.innerText.length - 2) === chosenOne) {
-        e.className = `${basicClass} ${clickedClass}`;
-      } else {
-        e.className = basicClass;
-      }
+      if (navType === "recent")
+        if (e[strategy] === chosenOne[strategy]) {
+          e.className = `${basicClass} ${clickedClass}`;
+        } else if (
+          navType === "recent" &&
+          e.className === chosenOne.parentNode.className
+        ) {
+          e.className = `${basicClass} ${clickedClass}`;
+          e.dataset.clicked = true;
+        } else {
+          e.className = basicClass;
+          if (e.dataset && e.dataset.clicked) e.dataset.clicked = false;
+        }
     });
   }
   render() {

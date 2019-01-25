@@ -3,19 +3,24 @@ import React, { Component } from "react";
 class RecentlyPlayed extends Component {
   render() {
     let set;
-
     if (this.props.rawRecPlayed) {
       set = this.props.rawRecPlayed.items.slice(0, 7);
       set = set.map(e => {
         return (
           <div
+            data-clicked={false}
             onMouseOver={e =>
               (e.currentTarget.className = e.currentTarget.className =
                 "recently-played__element recently-played__element--modified")
             }
-            onMouseLeave={e =>
-              (e.currentTarget.className = "recently-played__element")
-            }
+            onMouseLeave={e => {
+              if (e.currentTarget.dataset.clicked === "true") {
+                e.currentTarget.className =
+                  "recently-played__element left-tab__app-nav__icon-text--clicked";
+              } else {
+                e.currentTarget.className = "recently-played__element";
+              }
+            }}
             key={e.played_at}
             className="recently-played__element"
           >
