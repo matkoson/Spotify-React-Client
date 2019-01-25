@@ -5,11 +5,13 @@ import search from "./assets/svg/search.svg";
 import home from "./assets/svg/home.svg";
 import lib from "./assets/svg/lib.svg";
 import "./assets/fonts/Rubik-Light.woff";
-import RecentlyPlayed from "./Components/RecentlyPlayed";
-import "./Components/RecentlyPlayed.sass";
+import RecentlyPlayed from "./Components/RecentlyPlayed/RecentlyPlayed";
+import "./Components/RecentlyPlayed/RecentlyPlayed.sass";
 import axios from "axios";
 import HomeScreen from "./Components/HomeScreen/HomeScreen";
 import "./Components/HomeScreen/HomeScreen.sass";
+import PlayerBar from "./Components/PlayerBar/PlayerBar";
+import "./Components/PlayerBar/PlayerBar.sass";
 import "./globalStyles.sass";
 
 class App extends Component {
@@ -34,6 +36,7 @@ class App extends Component {
   }
   componentDidMount() {
     window.addEventListener("resize", this.handleResize);
+    //
     const currAd = window.location.href;
     if (/callback/.test(currAd)) {
       const regexToken = /access_token=(.*)&token/g;
@@ -48,6 +51,7 @@ class App extends Component {
     } else if (/access_denied/.test(currAd)) {
       console.error("Access denied by the user!");
     }
+    //
     if (!this.state.token) {
       const scopes =
         "playlist-read-private playlist-read-collaborative user-modify-playback-state user-top-read user-read-recently-played user-read-playback-state user-read-currently-playing user-modify-playback-state";
@@ -117,9 +121,8 @@ class App extends Component {
     let allNavElems = Array.from(ele.currentTarget.children);
     let chosenOne = ele.target;
     let basicClass, clickedClass, strategy;
-    // console.log(chosenOne, allNavElems.map(e => e.offsetTop), navType);
     if (navType === "right") {
-      strategy = "offsetLeft";
+      strategy = "innerText";
       basicClass = "right-tab__right-nav__element";
       clickedClass = "right-tab__right-nav__element--clicked";
     } else if (navType === "left") {
@@ -127,31 +130,26 @@ class App extends Component {
       basicClass = "left-tab__app-nav__search left-tab__app-nav__icon-text";
       clickedClass = "left-tab__app-nav__icon-text--clicked";
       chosenOne = chosenOne.offsetParent;
-      // allNavElems = Array.from(
-      //   ele.currentTarget.children.map(e => e.offsetParent)
-      // );
     } else if (navType === "recent") {
       strategy = "offsetTop";
       basicClass = "recently-played__element ";
       clickedClass =
         "left-tab__app-nav__icon-text--clicked recently-played__element--modified";
     }
-    // console.log(chosenOne[strategy], "theone");
 
     allNavElems = allNavElems.forEach(e => {
-      if (navType === "recent")
-        if (e[strategy] === chosenOne[strategy]) {
-          e.className = `${basicClass} ${clickedClass}`;
-        } else if (
-          navType === "recent" &&
-          e.className === chosenOne.parentNode.className
-        ) {
-          e.className = `${basicClass} ${clickedClass}`;
-          e.dataset.clicked = true;
-        } else {
-          e.className = basicClass;
-          if (e.dataset && e.dataset.clicked) e.dataset.clicked = false;
-        }
+      if (e[strategy] === chosenOne[strategy]) {
+        e.className = `${basicClass} ${clickedClass}`;
+      } else if (
+        navType === "recent" &&
+        e.className === chosenOne.parentNode.className
+      ) {
+        e.className = `${basicClass} ${clickedClass}`;
+        e.dataset.clicked = true;
+      } else {
+        e.className = basicClass;
+        if (e.dataset && e.dataset.clicked) e.dataset.clicked = false;
+      }
     });
   }
   render() {
@@ -232,6 +230,7 @@ class App extends Component {
             topArtist={this.state.topArtist}
           />
         </div>
+        <PlayerBar />
       </main>
     );
   }
