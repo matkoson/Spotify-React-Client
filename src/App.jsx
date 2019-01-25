@@ -30,6 +30,7 @@ class App extends Component {
     this.getFtrdPlay = this.getFtrdPlay.bind(this);
     this.getTopArtist = this.getTopArtist.bind(this);
     this.handleResize = this.handleResize.bind(this);
+    this.handleNavClick = this.handleNavClick.bind(this);
   }
   componentDidMount() {
     window.addEventListener("resize", this.handleResize);
@@ -111,7 +112,29 @@ class App extends Component {
           )
           .catch(err => console.error(err));
       });
-    // axios.get()
+  }
+  handleNavClick(ele, navType) {
+    let allNavElems = Array.from(ele.currentTarget.children);
+    let chosenOne = ele.target.innerText;
+    let basicClass, clickedClass;
+    console.log(chosenOne, allNavElems.map(e => e.offsetTop), navType);
+    if (navType === "right") {
+      basicClass = "right-tab__right-nav__element";
+      clickedClass = "right-tab__right-nav__element--clicked";
+    } else if (navType === "left") {
+      basicClass = "left-tab__app-nav__search left-tab__app-nav__icon-text";
+      clickedClass = "left-tab__app-nav__icon-text--clicked";
+    } else if (navType === "recent") {
+      basicClass = "recently-played__element";
+      clickedClass = "left-tab__app-nav__icon-text--clicked";
+    }
+    allNavElems = allNavElems.forEach(e => {
+      if (e.innerText.substr(1, e.innerText.length - 2) === chosenOne) {
+        e.className = `${basicClass} ${clickedClass}`;
+      } else {
+        e.className = basicClass;
+      }
+    });
   }
   render() {
     return (
@@ -124,7 +147,10 @@ class App extends Component {
               alt="spotify-logo+text"
             />
           </div>
-          <div className="left-tab__app-nav">
+          <div
+            onClick={e => this.handleNavClick(e, "left")}
+            className="left-tab__app-nav"
+          >
             <div className="left-tab__app-nav__search left-tab__app-nav__icon-text">
               <img
                 className="left-tab__app-nav__logo"
@@ -136,7 +162,7 @@ class App extends Component {
               </span>
             </div>
             {/*  */}
-            <div className="left-tab__app-nav__home left-tab__app-nav__icon-text">
+            <div className="left-tab__app-nav__home left-tab__app-nav__icon-text left-tab__app-nav__icon-text--clicked">
               <img
                 className="left-tab__app-nav__logo"
                 src={home}
@@ -159,14 +185,22 @@ class App extends Component {
             </div>
             {/*  */}
           </div>
-          <RecentlyPlayed rawRecPlayed={this.state.recentlyPlayed} />
+          <RecentlyPlayed
+            handleNavClick={this.handleNavClick}
+            rawRecPlayed={this.state.recentlyPlayed}
+          />
         </div>
         {/*  */}
         {/*  */}
         {/*  */}
         <div className="right-tab">
-          <ul className="right-tab__right-nav">
-            <li className="right-tab__right-nav__element">FEATURED</li>
+          <ul
+            onClick={e => this.handleNavClick(e, "right")}
+            className="right-tab__right-nav"
+          >
+            <li className="right-tab__right-nav__element right-tab__right-nav__element--clicked">
+              FEATURED
+            </li>
             <li className="right-tab__right-nav__element">PODCASTS</li>
             <li className="right-tab__right-nav__element">CHARTS</li>
             <li className="right-tab__right-nav__element">GENRES & MOODS</li>

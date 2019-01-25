@@ -10,9 +10,8 @@ class RecentlyPlayed extends Component {
         return (
           <div
             onMouseOver={e =>
-              (e.currentTarget.className =
-                e.currentTarget.className +
-                " recently-played__element--modified")
+              (e.currentTarget.className = e.currentTarget.className =
+                "recently-played__element recently-played__element--modified")
             }
             onMouseLeave={e =>
               (e.currentTarget.className = "recently-played__element")
@@ -35,7 +34,12 @@ class RecentlyPlayed extends Component {
     return (
       <div className="recently-played">
         <h2 className="recently-played__h2">RECENTLY PLAYED</h2>
-        {set ? set : "Loading"}
+        <div
+          onClick={e => this.props.handleNavClick(e, "recent")}
+          className="recently-played__track-set"
+        >
+          {set ? set : "Loading"}
+        </div>
       </div>
     );
   }
