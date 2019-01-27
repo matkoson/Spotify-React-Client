@@ -118,6 +118,7 @@ class App extends Component {
       });
   }
   handleNavClick(ele, navType) {
+    // eslint-disable-next-line
     let allNavElems = Array.from(ele.currentTarget.children);
     let chosenOne = ele.target;
     let basicClass, clickedClass, strategy;

@@ -1,9 +1,120 @@
-// .player-bar
-// 	width: 100%
-// 	background-color: #282828
-// 	height: 90px
-// 	padding: 0 16px
-// 	position: fixed
-// 	bottom: 0
-// 	z-index: 1
-// 	border-top: 1px solid black
+.player-bar
+	width: 100%
+	background-color: #282828
+	height: 90px
+	padding: 0 16px
+	position: fixed
+	bottom: 0
+	z-index: 1
+	border-top: 1px solid black
+	color: #fff
+	display: flex
+	justify-content: space-between
+
+.player-bar__tab
+	height: 100%
+	display: flex
+	// background-color: darkgray
+	margin-right: 2%
+
+
+.player-bar__perip-tab
+	width: 30%
+	min-width: 180px
+	max-width: 261px
+
+.player-bar__center-tab
+	width: 40%
+	max-width: 722px
+	flex-direction: column
+
+.player-bar__player-controls
+	display: flex
+	height: 50%
+	width: 224px
+	justify-content: space-between
+	align-items: center
+	margin: 0 auto
+	margin-bottom: 4px
+	margin-top: 12px
+
+.player__play-pause
+	border: 2px solid gray
+	padding: 6px
+	border-radius: 50%
+	display: flex
+	justify-content: center
+	align-items: center
+
+.player-bar .fas
+	width: 30px
+	height: 30px
+	display: flex !important
+	justify-content: center
+	align-items: center
+	font-size: 12px
+
+.player-bar__left-tab
+	display: flex
+	justify-content: center
+	align-items: center
+
+.player-bar__left-tab__perip
+	flex-basis: 20%
+	height: 100%
+	justify-content: center
+	align-items: center
+	width: 30px
+	height: 30px
+
+.player-bar__album-img
+	width: 56px
+	height: 56px
+	background-color: gray
+.player-bar__left-tab__center
+	height: 100%
+	flex-basis: 50%
+	font-size: 14px
+	display: flex
+	flex-direction: column
+	justify-content: center
+	align-items: flex-start
+	text-align: left
+	margin-left: 14px
+	margin-right: 14px
+
+.player-bar__player-progress
+	display: flex
+	justify-content: center
+	align-items: center
+
+.player-bar__progress-bar
+	height: 4px
+	background-color: gray
+	border-radius: 2px
+
+.player-bar__player-progress__bar
+	width: 70%
+
+.player-bar__player-progress__time
+	width: 15%
+	font-size: 12px
+	display: flex
+	justify-content: center
+	align-items: center
+
+.player-bar__right-tab
+	display: flex
+	align-items: center
+	justify-content: flex-end
+
+.player-bar__right-tab__controls
+	justify-content: center
+	align-items: center
+	display: flex
+
+.player-bar__right-tab_volume-bar
+	width: 30%
+
+.player-bar__right-tab
+	margin-right: 0
