@@ -1,17 +1,29 @@
 import React, { Component } from "react";
-import genAlbumEle from "../HomeScreen/genAlbumEle";
-import { getTopArtist } from "../../APImethods";
 
 class PlayerBar extends Component {
   render() {
-    const currPlay = this.props.currentlyPlaying;
-    let albumImg, songTitle, artistName;
-    console.log(currPlay);
+    const currPlay = this.props.currentlyPlaying.data;
+    let albumImg, songTitle, artistName, totalLength, progressLength;
+    // console.log(currPlay);
     if (currPlay) {
-      albumImg = currPlay.album.images[0].url;
-      songTitle = currPlay.name;
-      artistName = currPlay.artists[0].name;
-      console.log(albumImg);
+      albumImg = currPlay.item.album.images[0].url;
+      songTitle = currPlay.item.name;
+      artistName = currPlay.item.artists[0].name;
+      totalLength = currPlay.item.duration_ms;
+      progressLength = currPlay.progress_ms;
+      console.log(currPlay);
+      totalLength = (totalLength - (totalLength % 1000)) / 1000;
+      progressLength = ((progressLength - (progressLength % 1000)) / 1000) % 60;
+      console.log(
+        totalLength,
+        progressLength,
+        "minutes",
+        Math.floor(totalLength / 60),
+        "seconds",
+        totalLength % 60,
+        Math.round((progressLength / totalLength) * 100),
+        "%"
+      );
     }
 
     return (

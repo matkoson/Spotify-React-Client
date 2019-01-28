@@ -17,7 +17,8 @@ import {
   getToken,
   getFtrdPlay,
   getRecent,
-  getTopArtist
+  getTopArtist,
+  playerRequest
 } from "./APImethods";
 
 class App extends Component {
@@ -29,7 +30,7 @@ class App extends Component {
       featured: "",
       topRelatedArtists: "",
       topArtist: "",
-      lastPlayed: ""
+      currentlyPlaying: ""
     };
     //
     //
@@ -42,8 +43,10 @@ class App extends Component {
     this.getTopArtist = getTopArtist.bind(this);
     this.handleResize = this.handleResize.bind(this);
     this.handleNavClick = this.handleNavClick.bind(this);
+    this.playerRequest = playerRequest.bind(this);
   }
   componentDidMount() {
+    window.addEventListener("resize", this.handleResize);
     //
     const currAd = window.location.href;
     if (/callback/.test(currAd)) {
@@ -55,7 +58,6 @@ class App extends Component {
     if (!this.state.token) {
       this.getToken();
     }
-    window.addEventListener("resize", this.handleResize);
   }
 
   handleResize() {
@@ -71,6 +73,11 @@ class App extends Component {
   }
   componentDidUpdate() {
     if (this.state.auth) {
+      if (!this.state.currentlyPlaying) {
+        this.playerRequest("currentlyPlaying");
+      } else {
+        console.log(this.state.currentlyPlaying);
+      }
       if (!this.state.recentlyPlayed) this.getRecent();
       if (!this.state.featured) this.getFtrdPlay();
       if (!this.state.topRelatedArtists) this.getTopArtist();
@@ -192,7 +199,7 @@ class App extends Component {
           />
         </div>
         <PlayerBar
-          currentlyPlaying={this.state.currPlay || this.state.lastPlayed}
+          currentlyPlaying={this.state.currPlay || this.state.currentlyPlaying}
         />
       </main>
     );

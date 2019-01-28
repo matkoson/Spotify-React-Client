@@ -64,3 +64,62 @@ export function getTopArtist() {
         .catch(err => console.error(err));
     });
 }
+
+export function playerRequest(type) {
+  console.log("called with type", type);
+  const types = {
+    currentPlayback: {
+      uri: "https://api.spotify.com/v1/me/player",
+      type: "get"
+    },
+    currentlyPlaying: {
+      uri: "https://api.spotify.com/v1/me/player/currently-playing",
+      type: "get"
+    },
+    setPosition: {
+      uri: "https://api.spotify.com/v1/me/player/seek",
+      type: "put"
+    },
+    skipToNext: {
+      uri: "https://api.spotify.com/v1/me/player/next",
+      type: "post"
+    },
+    setVolume: { uri: "https://api.spotify.com/v1/me/player/volume" },
+    previousTrack: {
+      uri: "https://api.spotify.com/v1/me/player/previous",
+      type: "post"
+    },
+    pausePlayback: {
+      uri: "https://api.spotify.com/v1/me/player/pause",
+      type: "put"
+    },
+    setRepeat: {
+      uri: "https://api.spotify.com/v1/me/player/repeat",
+      type: "put"
+    },
+    startResume: {
+      uri: "https://api.spotify.com/v1/me/player/play",
+      type: "put"
+    },
+    getDevices: {
+      uri: "https://api.spotify.com/v1/me/player/devices",
+      type: "get"
+    },
+    transferPlayback: {
+      uri: "https://api.spotify.com/v1/me/player",
+      type: "put"
+    },
+    toggleShuffle: {
+      uri: "https://api.spotify.com/v1/me/player/shuffle",
+      type: "put"
+    }
+  };
+  //
+  //
+  //
+  const chosen = types[type];
+  console.log("player sent", chosen);
+  return axios[chosen.type](chosen.uri, this.state.auth)
+    .then(res => this.setState({ [type]: res }))
+    .catch(err => console.log(err.message));
+}
