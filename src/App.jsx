@@ -7,12 +7,18 @@ import lib from "./assets/svg/lib.svg";
 import "./assets/fonts/Rubik-Light.woff";
 import RecentlyPlayed from "./Components/RecentlyPlayed/RecentlyPlayed";
 import "./Components/RecentlyPlayed/RecentlyPlayed.sass";
-import axios from "axios";
 import HomeScreen from "./Components/HomeScreen/HomeScreen";
 import "./Components/HomeScreen/HomeScreen.sass";
 import PlayerBar from "./Components/PlayerBar/PlayerBar";
 import "./Components/PlayerBar/PlayerBar.sass";
 import "./globalStyles.sass";
+import {
+  setToken,
+  getToken,
+  getFtrdPlay,
+  getRecent,
+  getTopArtist
+} from "./APImethods";
 
 class App extends Component {
   constructor(props) {
@@ -22,47 +28,36 @@ class App extends Component {
       recentlyPlayed: "",
       featured: "",
       topRelatedArtists: "",
-      topArtist: ""
+      topArtist: "",
+      lastPlayed: ""
     };
     //
     //
     //
     this.clientID = "25be93ebc6a047cfbf6ed82187d766b4";
-    this.getRecent = this.getRecent.bind(this);
-    this.getFtrdPlay = this.getFtrdPlay.bind(this);
-    this.getTopArtist = this.getTopArtist.bind(this);
+    this.setToken = setToken.bind(this);
+    this.getToken = getToken.bind(this);
+    this.getRecent = getRecent.bind(this);
+    this.getFtrdPlay = getFtrdPlay.bind(this);
+    this.getTopArtist = getTopArtist.bind(this);
     this.handleResize = this.handleResize.bind(this);
     this.handleNavClick = this.handleNavClick.bind(this);
   }
   componentDidMount() {
-    window.addEventListener("resize", this.handleResize);
     //
     const currAd = window.location.href;
     if (/callback/.test(currAd)) {
-      const regexToken = /access_token=(.*)&token/g;
-      const token = regexToken.exec(currAd)[1];
-      return this.setState({
-        auth: {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        }
-      });
+      return this.setToken(currAd);
     } else if (/access_denied/.test(currAd)) {
       console.error("Access denied by the user!");
     }
     //
     if (!this.state.token) {
-      const scopes =
-        "playlist-read-private playlist-read-collaborative user-modify-playback-state user-top-read user-read-recently-played user-read-playback-state user-read-currently-playing user-modify-playback-state";
-      const accessReq = `https:accounts.spotify.com/authorize?client_id=${
-        this.clientID
-      }&scope=${encodeURIComponent(
-        scopes
-      )}&response_type=token&redirect_uri=http://localhost:3000/callback`;
-      window.location.href = accessReq;
+      this.getToken();
     }
+    window.addEventListener("resize", this.handleResize);
   }
+
   handleResize() {
     if (!this.state.windowWidth) {
       this.setState({ windowWidth: window.innerWidth });
@@ -81,42 +76,7 @@ class App extends Component {
       if (!this.state.topRelatedArtists) this.getTopArtist();
     }
   }
-  getFtrdPlay() {
-    axios
-      .get(
-        "https://api.spotify.com/v1/browse/featured-playlists",
-        this.state.auth
-      )
-      .then(res => this.setState({ featured: res.data }));
-  }
-  getRecent() {
-    axios
-      .get(
-        "https://api.spotify.com/v1/me/player/recently-played",
-        this.state.auth
-      )
-      .then(res => this.setState({ recentlyPlayed: res.data }));
-  }
-  getTopArtist() {
-    // let name,topID,genres
-    return axios
-      .get("https://api.spotify.com/v1/me/top/artists", this.state.auth)
-      .then(res => {
-        var { id, name } = res.data.items[0];
-        return axios
-          .get(
-            `https://api.spotify.com/v1/artists/${id}/related-artists`,
-            this.state.auth
-          )
-          .then(res =>
-            this.setState({
-              topRelatedArtists: res.data.artists.slice(0, 6),
-              topArtist: name
-            })
-          )
-          .catch(err => console.error(err));
-      });
-  }
+
   handleNavClick(ele, navType) {
     // eslint-disable-next-line
     let allNavElems = Array.from(ele.currentTarget.children);
@@ -231,7 +191,9 @@ class App extends Component {
             topArtist={this.state.topArtist}
           />
         </div>
-        <PlayerBar />
+        <PlayerBar
+          currentlyPlaying={this.state.currPlay || this.state.lastPlayed}
+        />
       </main>
     );
   }
