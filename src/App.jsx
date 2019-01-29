@@ -76,7 +76,7 @@ class App extends Component {
       if (!this.state.currentlyPlaying) {
         this.playerRequest("currentlyPlaying");
       } else {
-        console.log(this.state.currentlyPlaying);
+        // console.log(this.state.currentlyPlaying);
       }
       if (!this.state.recentlyPlayed) this.getRecent();
       if (!this.state.featured) this.getFtrdPlay();
@@ -199,7 +199,8 @@ class App extends Component {
           />
         </div>
         <PlayerBar
-          currentlyPlaying={this.state.currPlay || this.state.currentlyPlaying}
+          APIrequest={this.playerRequest}
+          currentlyPlaying={this.state.currentlyPlaying}
         />
       </main>
     );

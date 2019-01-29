@@ -1,31 +1,77 @@
 import React, { Component } from "react";
 
+const getMinsSecs = ms => {
+  console.log(ms, "ms");
+  ms = (ms - (ms % 1000)) / 1000;
+  return {
+    min: String(
+      Math.floor(ms / 60) < 10 ? `0${Math.floor(ms / 60)}` : Math.floor(ms / 60)
+    ),
+    sec: String(ms % 60 < 10 ? `0${ms % 60}` : ms % 60)
+  };
+};
+const getPerc = (progT, totT) => 100 - (progT / totT) * 100;
+let albumImg, songTitle, artistName, totT, progT, progPerc, rawTot, rawProg;
+
 class PlayerBar extends Component {
-  render() {
+  constructor(props) {
+    super(props);
+    this.state = {
+      progDis: "",
+      totDis: "",
+      rawProg: "",
+      rawTot: "",
+      progPerc: ""
+    };
+    this.updateProgressBar = this.updateProgressBar.bind(this);
+  }
+  updateProgressBar(currPlay) {
+    progPerc = 100 - (progT / totT) * 100;
+    totT = getMinsSecs(totT);
+    progT = getMinsSecs(progT);
+    // console.log(progPerc);
+  }
+  componentDidUpdate() {
+    console.log("UPDATED!", this.props);
     const currPlay = this.props.currentlyPlaying.data;
-    let albumImg, songTitle, artistName, totalLength, progressLength;
-    // console.log(currPlay);
     if (currPlay) {
       albumImg = currPlay.item.album.images[0].url;
       songTitle = currPlay.item.name;
       artistName = currPlay.item.artists[0].name;
-      totalLength = currPlay.item.duration_ms;
-      progressLength = currPlay.progress_ms;
-      console.log(currPlay);
-      totalLength = (totalLength - (totalLength % 1000)) / 1000;
-      progressLength = ((progressLength - (progressLength % 1000)) / 1000) % 60;
-      console.log(
-        totalLength,
-        progressLength,
-        "minutes",
-        Math.floor(totalLength / 60),
-        "seconds",
-        totalLength % 60,
-        Math.round((progressLength / totalLength) * 100),
-        "%"
-      );
-    }
+      rawTot = currPlay.item.duration_ms;
+      rawProg = currPlay.progress_ms;
+      console.log(songTitle);
+      if (currPlay.is_playing) {
+        if (!this.interval) {
+          this.interval = setInterval(() => {
+            this.setState(state => {
+              console.log(state.rawProg, state.rawTot);
+              if (state.rawProg > state.rawTot) {
+                console.log("hit hit hit");
+                this.props.APIrequest("currentlyPlaying");
+                return { rawProg: "", rawTot: "" };
+              }
 
+              return {
+                progDis: getMinsSecs(state.rawProg || rawProg),
+                totDis: getMinsSecs(rawTot),
+                rawTot,
+                rawProg:
+                  (state.rawProg && Number(state.rawProg) + 1000) ||
+                  rawProg + 2000,
+                progPerc: state && getPerc(state.rawProg, state.rawTot)
+              };
+            });
+          }, 1000);
+        }
+      }
+    }
+  }
+  render() {
+    progT = this.state.progDis || { min: "00", sec: "00" };
+    totT = this.state.totDis || { min: "00", sec: "00" };
+    progPerc = this.state.progPerc || 0;
+    // console.log(progPerc, "progPerc");
     return (
       <div className="player-bar">
         {/*  */}
@@ -61,14 +107,27 @@ class PlayerBar extends Component {
             <i className="fas fa-random" />
             <i className="fas fa-step-backward" />
             {/* <i className="fas fa-pause player__play-pause" /> */}
-            <i className="fas fa-play player__play-pause" />
+            <i className="player__play-pause fas fa-play" />
             <i className="fas fa-step-forward" />
             <i className="fas fa-redo" />
           </div>
           <div className="player-bar__player-progress">
-            <div className="player-bar__player-progress__time">00:00</div>
-            <div className="player-bar__player-progress__bar player-bar__progress-bar" />
-            <div className="player-bar__player-progress__time">00:00</div>
+            <div className="player-bar__player-progress__time">
+              {progT && `${progT.min}:${progT.sec}`}
+            </div>
+            <div className="player-bar__player-progress__bar player-bar__progress-bar player-bar__progress-bar--static">
+              <div
+                style={{
+                  left: `-${progPerc}%`,
+                  transitionDuration: "0.3s",
+                  transitionTimingFunction: "cubic-bezier(1,0,.7,1)"
+                }}
+                className="player-bar__progress-bar player-bar__progress-bar--dynamic"
+              />
+            </div>
+            <div className="player-bar__player-progress__time">
+              {totT && `${totT.min}:${totT.sec}`}
+            </div>
           </div>
         </div>
         {/*  */}
@@ -79,7 +138,12 @@ class PlayerBar extends Component {
             <i className="fas fa-tablet-alt" />
             <i className="fas fa-volume-up" />
           </div>
-          <div className="player-bar__right-tab_volume-bar player-bar__progress-bar" />
+          <div className="player-bar__right-tab_volume-bar player-bar__progress-bar player-bar__progress-bar--static">
+            <div
+              style={{ left: "-50%" }}
+              className="player-bar__progress-bar player-bar__progress-bar--dynamic "
+            />
+          </div>
           {/* <i className="fas fa-volume-mute"></i> */}
         </div>
       </div>

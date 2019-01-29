@@ -38,14 +38,6 @@
 	margin-bottom: 4px
 	margin-top: 12px
 
-.player__play-pause
-	border: 2px solid gray
-	padding: 6px
-	border-radius: 50%
-	display: flex
-	justify-content: center
-	align-items: center
-
 .player-bar .fas
 	width: 30px
 	height: 30px
@@ -53,6 +45,24 @@
 	justify-content: center
 	align-items: center
 	font-size: 12px
+
+.player__play-pause
+	width: 100%
+	height: 100%
+	border: 2px solid gray
+	padding: 6px
+	border-radius: 50%
+	display: flex
+	justify-content: center
+	align-items: center
+	font-size: 8px !important
+	position: relative
+
+.player-bar .fa-play:before
+	position: absolute
+	left: 9px
+	width: 50%
+	height: 50%
 
 .player-bar__album-img
 	max-width: 56px
@@ -94,8 +104,17 @@
 
 .player-bar__progress-bar
 	height: 4px
-	background-color: gray
 	border-radius: 2px
+
+.player-bar__progress-bar--static
+	background-color: gray
+	position: relative
+	overflow: hidden
+
+.player-bar__progress-bar--dynamic
+	background-color: #b3b3b3
+	width: 100%
+	position: relative
 
 .player-bar__player-progress__bar
 	width: 70%
@@ -122,3 +141,7 @@
 
 .player-bar__right-tab
 	margin-right: 0
+
+.player-bar__left-tab__center-title-artist__artist
+	font-size: 12px
+	opacity: 0.6
