@@ -8,18 +8,12 @@ class HomeScreen extends Component {
 
   render() {
     let ftrdMssg, albumPics, ftrdProp, recentProp, processedProp, relatedTop;
-    // console.log(this.props);
-    //
-    //
-    //
     if (this.props.recent) {
       recentProp = this.props.recent.items.slice(0, 6);
       processedProp = this.genAlbumEle(recentProp, "recent");
     }
-    // if (recentProp) console.log("recent", processedProp);
     if (this.props.featured) {
       ftrdProp = this.props.featured;
-      // console.log(ftrdProp);
       ftrdMssg = ftrdProp.message;
       albumPics = this.genAlbumEle(
         ftrdProp.playlists.items.slice(0, 6),
@@ -29,7 +23,6 @@ class HomeScreen extends Component {
     if (this.props.relatedTop) {
       relatedTop = this.genAlbumEle(this.props.relatedTop, "related");
     }
-    // console.log(albumPics, processedProp, relatedTop);
     return (
       <div className="home-screen">
         <h2 className="app__fetch-title home-screen__made-for-user__title">

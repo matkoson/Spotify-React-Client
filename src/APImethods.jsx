@@ -14,7 +14,7 @@ export function setToken(currAd) {
 
 export function getToken() {
   const scopes =
-    "playlist-read-private playlist-read-collaborative user-modify-playback-state user-top-read user-read-recently-played user-read-playback-state user-read-currently-playing user-modify-playback-state";
+    "playlist-read-private playlist-modify-private playlist-modify-public playlist-read-collaborative user-modify-playback-state user-read-currently-playing user-read-playback-state user-top-read user-read-recently-played app-remote-control streaming user-read-birthdate user-read-email user-read-private user-follow-read user-follow-modify user-library-modify user-library-read";
   const accessReq = `https:accounts.spotify.com/authorize?client_id=${
     this.clientID
   }&scope=${encodeURIComponent(
@@ -65,7 +65,7 @@ export function getTopArtist() {
     });
 }
 
-export function playerRequest(type) {
+export function playerRequest(type, additional) {
   console.log("called with type", type);
   const types = {
     currentPlayback: {
@@ -77,14 +77,19 @@ export function playerRequest(type) {
       type: "get"
     },
     setPosition: {
-      uri: "https://api.spotify.com/v1/me/player/seek",
+      // uri: `https://api.spotify.com/v1/me/player/seek?position_ms=${additional &&
+      //   additional.ms}`,
+      uri: "https://api.spotify.com/v1/me/player/seek?position_ms=25000",
       type: "put"
     },
     skipToNext: {
       uri: "https://api.spotify.com/v1/me/player/next",
       type: "post"
     },
-    setVolume: { uri: "https://api.spotify.com/v1/me/player/volume" },
+    setVolume: {
+      uri: "https://api.spotify.com/v1/me/player/volume",
+      type: "put"
+    },
     previousTrack: {
       uri: "https://api.spotify.com/v1/me/player/previous",
       type: "post"
@@ -118,7 +123,7 @@ export function playerRequest(type) {
   //
   //
   const chosen = types[type];
-  console.log("player sent", chosen);
+  console.log("player sent", chosen, "uri", chosen.uri);
   return axios[chosen.type](chosen.uri, this.state.auth)
     .then(res => this.setState({ [type]: res }))
     .catch(err => console.log(err.message));

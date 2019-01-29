@@ -45,6 +45,11 @@
 	justify-content: center
 	align-items: center
 	font-size: 12px
+	opacity: 0.6
+
+.player-bar .fas:hover
+	opacity: 1
+	transform: scale(1.2)
 
 .player__play-pause
 	width: 100%
@@ -117,7 +122,13 @@
 	position: relative
 
 .player-bar__player-progress__bar
-	width: 70%
+	width: 100%
+
+.player-bar__player-progress__wrapper
+	height: 12px
+	width: 100%
+	display: flex
+	align-items: center
 
 .player-bar__player-progress__time
 	width: 15%
