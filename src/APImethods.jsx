@@ -1,13 +1,9 @@
-import axios from "axios";
-
 export function setToken(currAd) {
   const regexToken = /access_token=(.*)&token/g;
   const token = regexToken.exec(currAd)[1];
   return this.setState({
     auth: {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
+      Authorization: `Bearer ${token}`
     }
   });
 }
@@ -24,40 +20,43 @@ export function getToken() {
 }
 
 export function getFtrdPlay() {
-  axios
-    .get(
-      "https://api.spotify.com/v1/browse/featured-playlists",
-      this.state.auth
-    )
-    .then(res => this.setState({ featured: res.data }));
+  fetch("https://api.spotify.com/v1/browse/featured-playlists", {
+    headers: this.state.auth,
+    method: "GET"
+  })
+    .then(res => res.json())
+    .then(res => this.setState({ featured: res }));
 }
 export function getRecent() {
-  axios
-    .get(
-      "https://api.spotify.com/v1/me/player/recently-played",
-      this.state.auth
-    )
-    .then(res =>
+  fetch("https://api.spotify.com/v1/me/player/recently-played", {
+    headers: this.state.auth,
+    method: "GET"
+  })
+    .then(res => res.json())
+    .then(res => {
       this.setState({
-        recentlyPlayed: res.data,
-        lastPlayed: res.data.items[0].track
-      })
-    );
+        recentlyPlayed: res,
+        lastPlayed: res.items[0].track
+      });
+    });
 }
 export function getTopArtist() {
   // let name,topID,genres
-  return axios
-    .get("https://api.spotify.com/v1/me/top/artists", this.state.auth)
+  return fetch("https://api.spotify.com/v1/me/top/artists", {
+    headers: this.state.auth,
+    method: "GET"
+  })
+    .then(res => res.json())
     .then(res => {
-      var { id, name } = res.data.items[0];
-      return axios
-        .get(
-          `https://api.spotify.com/v1/artists/${id}/related-artists`,
-          this.state.auth
-        )
+      var { id, name } = res.items[0];
+      return fetch(`https://api.spotify.com/v1/artists/${id}/related-artists`, {
+        headers: this.state.auth,
+        method: "GET"
+      })
+        .then(res => res.json())
         .then(res =>
           this.setState({
-            topRelatedArtists: res.data.artists.slice(0, 6),
+            topRelatedArtists: res.artists.slice(0, 6),
             topArtist: name
           })
         )
@@ -70,53 +69,52 @@ export function playerRequest(type, additional) {
   const types = {
     currentPlayback: {
       uri: "https://api.spotify.com/v1/me/player",
-      type: "get"
+      type: "GET"
     },
     currentlyPlaying: {
       uri: "https://api.spotify.com/v1/me/player/currently-playing",
-      type: "get"
+      type: "GET"
     },
     setPosition: {
-      // uri: `https://api.spotify.com/v1/me/player/seek?position_ms=${additional &&
-      //   additional.ms}`,
-      uri: "https://api.spotify.com/v1/me/player/seek?position_ms=25000",
-      type: "put"
+      uri: `https://api.spotify.com/v1/me/player/seek?position_ms=${additional &&
+        additional.ms}`,
+      type: "PUT"
     },
-    skipToNext: {
+    nextTrack: {
       uri: "https://api.spotify.com/v1/me/player/next",
-      type: "post"
-    },
-    setVolume: {
-      uri: "https://api.spotify.com/v1/me/player/volume",
-      type: "put"
+      type: "POST"
     },
     previousTrack: {
       uri: "https://api.spotify.com/v1/me/player/previous",
-      type: "post"
+      type: "POST"
+    },
+    setVolume: {
+      uri: "https://api.spotify.com/v1/me/player/volume",
+      type: "PUT"
+    },
+    playPlayback: {
+      uri: "https://api.spotify.com/v1/me/player/play",
+      type: "PUT"
     },
     pausePlayback: {
       uri: "https://api.spotify.com/v1/me/player/pause",
-      type: "put"
+      type: "PUT"
     },
     setRepeat: {
       uri: "https://api.spotify.com/v1/me/player/repeat",
-      type: "put"
-    },
-    startResume: {
-      uri: "https://api.spotify.com/v1/me/player/play",
-      type: "put"
+      type: "PUT"
     },
     getDevices: {
       uri: "https://api.spotify.com/v1/me/player/devices",
-      type: "get"
+      type: "GET"
     },
     transferPlayback: {
       uri: "https://api.spotify.com/v1/me/player",
-      type: "put"
+      type: "PUT"
     },
     toggleShuffle: {
       uri: "https://api.spotify.com/v1/me/player/shuffle",
-      type: "put"
+      type: "PUT"
     }
   };
   //
@@ -124,7 +122,8 @@ export function playerRequest(type, additional) {
   //
   const chosen = types[type];
   console.log("player sent", chosen, "uri", chosen.uri);
-  return axios[chosen.type](chosen.uri, this.state.auth)
+  return fetch(chosen.uri, { headers: this.state.auth, method: [chosen.type] })
+    .then(res => res.json())
     .then(res => this.setState({ [type]: res }))
-    .catch(err => console.log(err.message));
+    .catch(err => console.log(err));
 }

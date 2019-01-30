@@ -27,6 +27,15 @@ class PlayerBar extends PureComponent {
     this.state = { playing: "" };
     this.handleAPIpayload = this.handleAPIpayload.bind(this);
     this.handleProgressSkip = this.handleProgressSkip.bind(this);
+    this.handlePausePlay = this.handlePausePlay.bind(this);
+  }
+  handlePausePlay(e) {
+    console.log(e.target);
+    if (this.state.playing) {
+      this.props.APIrequest("pausePlayback");
+    } else {
+      this.props.APIrequest("playPlayback");
+    }
   }
   handleAPIpayload(payload) {
     // console.log("payload", payload);
@@ -48,20 +57,18 @@ class PlayerBar extends PureComponent {
   }
   //
   handleProgressSkip(e) {
+    console.log(e.target, "wrong");
     const targetMeasure = e.target.getBoundingClientRect();
     const beginning = targetMeasure.left;
     const end = targetMeasure.left + targetMeasure.width;
     const eventMeasure = e.clientX;
     const desiredProg = ((eventMeasure - beginning) / (end - beginning)) * 100;
     const desiredMs = Math.round((desiredProg * rawTot) / 100);
-    console.log(desiredProg, "%", desiredMs, "ms", rawTot, "total");
-    // this.props.APIrequest("setPosition", { ms: desiredMs });
-    this.props.APIrequest("pausePlayback");
+    this.props.APIrequest("setPosition", { ms: desiredMs });
   }
   //
   componentDidUpdate() {
-    // console.log("UPDATED!", this.props);
-    const currPlay = this.props.currentlyPlaying.data;
+    const currPlay = this.props.currentlyPlaying;
     if (currPlay) {
       this.handleAPIpayload(currPlay);
       if (currPlay.is_playing) {
@@ -113,14 +120,16 @@ class PlayerBar extends PureComponent {
         <div className="player-bar__tab player-bar__center-tab">
           <div className="player-bar__player-controls">
             <i className="fas fa-random" />
-            <i className="fas fa-step-backward" />
-            {this.state.playing ? (
-              <i className="fas fa-pause player__play-pause" />
+            <i onClick={()=>this.props.APIrequest('previousTrack')}className="fas fa-step-backward" />
+            <div  onClick={this.handlePausePlay}className="player-bar__play-pause">{this.state.playing ? (
+            <i
+            className="fas fa-pause player__play-pause"
+            />
             ) : (
-              <i className="fas fa-play player__play-pause" />
-            )}
+            <i  className="fas fa-play player__play-pause" />
+            )}</div>
             {/* */}
-            <i className="fas fa-step-forward" />
+            <i onClick={()=>this.props.APIrequest('nextTrack')}className="fas fa-step-forward" />
             <i className="fas fa-redo" />
           </div>
           <div className="player-bar__player-progress">
