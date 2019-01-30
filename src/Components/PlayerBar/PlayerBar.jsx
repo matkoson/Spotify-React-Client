@@ -76,7 +76,7 @@ class PlayerBar extends PureComponent {
           this.interval = setInterval(() => {
             // console.log("api call");
             this.props.APIrequest("currentlyPlaying");
-          }, 1000);
+          }, 800);
         }
       }
     }
@@ -120,16 +120,25 @@ class PlayerBar extends PureComponent {
         <div className="player-bar__tab player-bar__center-tab">
           <div className="player-bar__player-controls">
             <i className="fas fa-random" />
-            <i onClick={()=>this.props.APIrequest('previousTrack')}className="fas fa-step-backward" />
-            <div  onClick={this.handlePausePlay}className="player-bar__play-pause">{this.state.playing ? (
             <i
-            className="fas fa-pause player__play-pause"
+              onClick={() => this.props.APIrequest("previousTrack")}
+              className="fas fa-step-backward"
             />
-            ) : (
-            <i  className="fas fa-play player__play-pause" />
-            )}</div>
+            <div
+              onClick={this.handlePausePlay}
+              className="player-bar__play-pause"
+            >
+              {this.state.playing ? (
+                <i className="fas fa-pause player__play-pause" />
+              ) : (
+                <i className="fas fa-play player__play-pause" />
+              )}
+            </div>
             {/* */}
-            <i onClick={()=>this.props.APIrequest('nextTrack')}className="fas fa-step-forward" />
+            <i
+              onClick={() => this.props.APIrequest("nextTrack")}
+              className="fas fa-step-forward"
+            />
             <i className="fas fa-redo" />
           </div>
           <div className="player-bar__player-progress">

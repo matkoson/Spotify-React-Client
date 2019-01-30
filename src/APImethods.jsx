@@ -121,7 +121,7 @@ export function playerRequest(type, additional) {
   //
   //
   const chosen = types[type];
-  console.log("player sent", chosen, "uri", chosen.uri);
+  console.log("player sent", type, chosen, "uri", chosen.uri);
   return fetch(chosen.uri, { headers: this.state.auth, method: [chosen.type] })
     .then(res => res.json())
     .then(res => this.setState({ [type]: res }))
