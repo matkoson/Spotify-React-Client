@@ -1,24 +1,29 @@
 import React from "react";
-export default function GenAlbumEle(props) {
+// import { playerRequest } from "././APImethods";
+function GenAlbumEle(props) {
   let name,
     image,
     key,
     dataType,
     cx,
     cx_pos,
+    recentTracks,
+    recentTracksPos,
     data = props.data,
     type = props.type;
   if (window.innerWidth < 1000 && data.length > 3) data = data.slice(0, 3);
-  console.log("generator data", data, type);
+  // console.log("generator data", data, type);
   return data.map((e, i) => {
-    // if (i === 0) console.log(e.type, type);
+    // if (type === "featured") console.log(data);
     if (type === "recent") {
       name = e.track.name;
       image = e.track.album.images[0].url;
       key = e.played_at;
       dataType = e.track.type;
-      cx = e.context.uri;
+      cx = e.track.uri;
       cx_pos = e.track.track_number;
+      recentTracksPos = i;
+      if (!recentTracks) recentTracks = data.map(e => e.track.uri);
     } else if (type === "featured") {
       name = e.name;
       image = e.images[0].url;
@@ -43,8 +48,25 @@ export default function GenAlbumEle(props) {
         <div
           className="home-screen__made-for-user__playlist-element__img"
           data-cx={cx}
-          data-cx_pos={cx_pos ? cx_pos : null}
-          onClick={e => console.log(e.currentTarget.dataset, "uriDISPLAY")}
+          data-cx_pos={
+            cx_pos ? (dataType !== "track" ? cx_pos : recentTracksPos) : null
+          }
+          data-recent_pos={dataType === "track" ? recentTracksPos : null}
+          onClick={e => {
+            if (dataType === "artist") {
+              props.playCX("playArtist", { cx: e.currentTarget.dataset.cx });
+            } else if (dataType === "playlist") {
+              props.playCX("playSpecificPlayback", {
+                cx: e.currentTarget.dataset.cx,
+                cx_pos: e.currentTarget.dataset.cx_pos
+              });
+            } else if (dataType === "track") {
+              props.playCX("playRecentTracks", {
+                cx: recentTracks,
+                cx_pos: e.currentTarget.dataset.recent_pos
+              });
+            }
+          }}
           onMouseOver={e => {
             e.currentTarget.className =
               "home-screen__made-for-user__playlist-element__img--hover";
@@ -95,3 +117,5 @@ export default function GenAlbumEle(props) {
     );
   });
 }
+
+export default GenAlbumEle;

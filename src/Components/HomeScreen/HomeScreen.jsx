@@ -1,17 +1,25 @@
 import React, { Component } from "react";
-import GenAlbumEle from "./GenAlbumEle";
+import GenAlbumEle from "../../GenAlbumEle";
 class HomeScreen extends Component {
   render() {
     let ftrdMssg, albumPics, ftrdProp, recentProp, processedProp, relatedTop;
     if (this.props.recent) {
       recentProp = this.props.recent.items.slice(0, 6);
-      processedProp = <GenAlbumEle data={recentProp} type={"recent"} />;
+      // console.log(this.props.recent, "recent");
+      processedProp = (
+        <GenAlbumEle
+          playCX={this.props.APIrequest}
+          data={recentProp}
+          type={"recent"}
+        />
+      );
     }
     if (this.props.featured) {
       ftrdProp = this.props.featured;
       ftrdMssg = ftrdProp.message;
       albumPics = (
         <GenAlbumEle
+          playCX={this.props.APIrequest}
           data={ftrdProp.playlists.items.slice(0, 6)}
           type={"featured"}
         />
@@ -19,7 +27,11 @@ class HomeScreen extends Component {
     }
     if (this.props.relatedTop) {
       relatedTop = (
-        <GenAlbumEle data={this.props.relatedTop} type={"related"} />
+        <GenAlbumEle
+          playCX={this.props.APIrequest}
+          data={this.props.relatedTop}
+          type={"related"}
+        />
       );
     }
     return (

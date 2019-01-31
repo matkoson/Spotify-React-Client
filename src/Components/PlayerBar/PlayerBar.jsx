@@ -39,21 +39,23 @@ class PlayerBar extends PureComponent {
   }
   handleAPIpayload(payload) {
     // console.log("payload", payload);
-    if (!this.state.playing && payload.is_playing) {
-      this.setState({ playing: true });
-    } else if (this.state.playing && !payload.is_playing) {
-      this.setState({ playing: false });
+    if (payload) {
+      if (!this.state.playing && payload.is_playing) {
+        this.setState({ playing: true });
+      } else if (this.state.playing && !payload.is_playing) {
+        this.setState({ playing: false });
+      }
+      rawProg = payload.progress_ms;
+      payload = payload.item;
+      //
+      albumImg = payload.album.images[0].url;
+      songTitle = payload.name;
+      artistName = payload.artists[0].name;
+      rawTot = payload.duration_ms;
+      progDis = getMinsSecs(rawProg);
+      totDist = getMinsSecs(rawTot);
+      progPerc = getPerc(rawProg, rawTot);
     }
-    rawProg = payload.progress_ms;
-    payload = payload.item;
-    //
-    albumImg = payload.album.images[0].url;
-    songTitle = payload.name;
-    artistName = payload.artists[0].name;
-    rawTot = payload.duration_ms;
-    progDis = getMinsSecs(rawProg);
-    totDist = getMinsSecs(rawTot);
-    progPerc = getPerc(rawProg, rawTot);
   }
   //
   handleProgressSkip(e) {
