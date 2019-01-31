@@ -162,8 +162,35 @@ export function playerRequest(type, additional) {
   if (type === "playSpecificPlayback" || type === "playRecentTracks")
     console.log(request);
   return fetch(chosen.uri, request)
-    .then(res => res.json())
-    .then(res => this.setState({ [type]: res }))
+    .then(res => {
+      // console.log(res.body);
+      const reader = res.body.getReader();
+      const stream = new ReadableStream({
+        start(controller) {
+          function push() {
+            reader.read().then(({ done, value }) => {
+              if (done) {
+                controller.close();
+                return;
+              }
+              controller.enqueue(value);
+              push();
+            });
+          }
+          push();
+        }
+      });
+      new Response(stream, {
+        headers: {
+          "Content-Type": "application/json"
+        }
+      })
+        .json()
+        .then(res => this.setState({ [type]: res }));
+      // return res.body.on("end", res =>
+      //   res.json().then(res => this.setState({ [type]: res }))
+      // );
+    })
     .catch(err => console.log(err));
 }
 
