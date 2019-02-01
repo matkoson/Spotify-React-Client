@@ -1,35 +1,27 @@
 import React, { Component } from "react";
-import genAlbumEle from "./genAlbumEle";
+import GenAlbumEle from "./GenAlbumEle";
 class HomeScreen extends Component {
-  constructor(props) {
-    super(props);
-    this.genAlbumEle = genAlbumEle.bind(this);
-  }
-
   render() {
     let ftrdMssg, albumPics, ftrdProp, recentProp, processedProp, relatedTop;
-    // console.log(this.props);
-    //
-    //
-    //
     if (this.props.recent) {
       recentProp = this.props.recent.items.slice(0, 6);
-      processedProp = this.genAlbumEle(recentProp, "recent");
+      processedProp = <GenAlbumEle data={recentProp} type={"recent"} />;
     }
-    // if (recentProp) console.log("recent", processedProp);
     if (this.props.featured) {
       ftrdProp = this.props.featured;
-      // console.log(ftrdProp);
       ftrdMssg = ftrdProp.message;
-      albumPics = this.genAlbumEle(
-        ftrdProp.playlists.items.slice(0, 6),
-        "featured"
+      albumPics = (
+        <GenAlbumEle
+          data={ftrdProp.playlists.items.slice(0, 6)}
+          type={"featured"}
+        />
       );
     }
     if (this.props.relatedTop) {
-      relatedTop = this.genAlbumEle(this.props.relatedTop, "related");
+      relatedTop = (
+        <GenAlbumEle data={this.props.relatedTop} type={"related"} />
+      );
     }
-    // console.log(albumPics, processedProp, relatedTop);
     return (
       <div className="home-screen">
         <h2 className="app__fetch-title home-screen__made-for-user__title">
