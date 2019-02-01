@@ -25,6 +25,8 @@ class PlayerBar extends PureComponent {
   constructor(props) {
     super(props);
     this.state = { playing: "" };
+    this.audio = React.createRef();
+    //
     this.handleAPIpayload = this.handleAPIpayload.bind(this);
     this.handleProgressSkip = this.handleProgressSkip.bind(this);
     this.handlePausePlay = this.handlePausePlay.bind(this);
@@ -39,21 +41,23 @@ class PlayerBar extends PureComponent {
   }
   handleAPIpayload(payload) {
     // console.log("payload", payload);
-    if (!this.state.playing && payload.is_playing) {
-      this.setState({ playing: true });
-    } else if (this.state.playing && !payload.is_playing) {
-      this.setState({ playing: false });
+    if (payload) {
+      if (!this.state.playing && payload.is_playing) {
+        this.setState({ playing: true });
+      } else if (this.state.playing && !payload.is_playing) {
+        this.setState({ playing: false });
+      }
+      rawProg = payload.progress_ms;
+      payload = payload.item;
+      //
+      albumImg = payload.album.images[0].url;
+      songTitle = payload.name;
+      artistName = payload.artists[0].name;
+      rawTot = payload.duration_ms;
+      progDis = getMinsSecs(rawProg);
+      totDist = getMinsSecs(rawTot);
+      progPerc = getPerc(rawProg, rawTot);
     }
-    rawProg = payload.progress_ms;
-    payload = payload.item;
-    //
-    albumImg = payload.album.images[0].url;
-    songTitle = payload.name;
-    artistName = payload.artists[0].name;
-    rawTot = payload.duration_ms;
-    progDis = getMinsSecs(rawProg);
-    totDist = getMinsSecs(rawTot);
-    progPerc = getPerc(rawProg, rawTot);
   }
   //
   handleProgressSkip(e) {
@@ -68,6 +72,8 @@ class PlayerBar extends PureComponent {
   }
   //
   componentDidUpdate() {
+    // console.log(String(this.props.audio), this.audio.current);
+    // this.audio.current.play();
     const currPlay = this.props.currentlyPlaying;
     if (currPlay) {
       this.handleAPIpayload(currPlay);
@@ -181,6 +187,7 @@ class PlayerBar extends PureComponent {
           </div>
           {/* <i className="fas fa-volume-mute"></i> */}
         </div>
+        <audio ref={this.audio} src={this.props.audio} />
       </div>
     );
   }

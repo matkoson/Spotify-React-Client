@@ -2,9 +2,7 @@ export function setToken(currAd) {
   const regexToken = /access_token=(.*)&token/g;
   const token = regexToken.exec(currAd)[1];
   return this.setState({
-    auth: {
-      Authorization: `Bearer ${token}`
-    }
+    auth: `Bearer ${token}`
   });
 }
 
@@ -21,15 +19,16 @@ export function getToken() {
 
 export function getFtrdPlay() {
   fetch("https://api.spotify.com/v1/browse/featured-playlists", {
-    headers: this.state.auth,
+    headers: { Authorization: this.state.auth },
     method: "GET"
   })
     .then(res => res.json())
-    .then(res => this.setState({ featured: res }));
+    .then(res => this.setState({ featured: res }))
+    .catch(e => console.log(e));
 }
 export function getRecent() {
   fetch("https://api.spotify.com/v1/me/player/recently-played", {
-    headers: this.state.auth,
+    headers: { Authorization: this.state.auth },
     method: "GET"
   })
     .then(res => res.json())
@@ -38,19 +37,20 @@ export function getRecent() {
         recentlyPlayed: res,
         lastPlayed: res.items[0].track
       });
-    });
+    })
+    .catch(e => console.error(e));
 }
 export function getTopArtist() {
   // let name,topID,genres
   return fetch("https://api.spotify.com/v1/me/top/artists", {
-    headers: this.state.auth,
+    headers: { Authorization: this.state.auth },
     method: "GET"
   })
     .then(res => res.json())
     .then(res => {
       var { id, name } = res.items[0];
       return fetch(`https://api.spotify.com/v1/artists/${id}/related-artists`, {
-        headers: this.state.auth,
+        headers: { Authorization: this.state.auth },
         method: "GET"
       })
         .then(res => res.json())
@@ -61,11 +61,12 @@ export function getTopArtist() {
           })
         )
         .catch(err => console.error(err));
-    });
+    })
+    .catch(err => console.error(err));
 }
 
 export function playerRequest(type, additional) {
-  console.log("called with type", type);
+  // console.log("called with type", type);
   const types = {
     currentPlayback: {
       uri: "https://api.spotify.com/v1/me/player",
@@ -96,6 +97,29 @@ export function playerRequest(type, additional) {
       uri: "https://api.spotify.com/v1/me/player/play",
       type: "PUT"
     },
+    playSpecificPlayback: {
+      uri: "https://api.spotify.com/v1/me/player/play",
+      type: "PUT",
+      body: {
+        context_uri: additional && additional.cx,
+        offset: { position: additional && (additional.cx_pos || 0) }
+      }
+    },
+    playRecentTracks: {
+      uri: "https://api.spotify.com/v1/me/player/play",
+      type: "PUT",
+      body: {
+        uris: additional && additional.cx,
+        offset: { position: additional && additional.cx_pos }
+      }
+    },
+    playArtist: {
+      uri: "https://api.spotify.com/v1/me/player/play",
+      type: "PUT",
+      body: {
+        context_uri: additional && additional.cx
+      }
+    },
     pausePlayback: {
       uri: "https://api.spotify.com/v1/me/player/pause",
       type: "PUT"
@@ -121,9 +145,64 @@ export function playerRequest(type, additional) {
   //
   //
   const chosen = types[type];
-  console.log("player sent", type, chosen, "uri", chosen.uri);
-  return fetch(chosen.uri, { headers: this.state.auth, method: [chosen.type] })
-    .then(res => res.json())
-    .then(res => this.setState({ [type]: res }))
+  // console.log("chosen", chosen, type, additional);
+  let request = {
+    GET: {
+      headers: { Authorization: this.state.auth },
+      method: "GET"
+    },
+    PUT: {
+      headers: {
+        Authorization: this.state.auth
+      },
+      method: "PUT",
+      body: JSON.stringify(chosen.body)
+    }
+  };
+  request = request[chosen.type];
+  if (type === "playSpecificPlayback" || type === "playRecentTracks")
+    console.log(request);
+  return fetch(chosen.uri, request)
+    .then(res => {
+      // console.log(res.body);
+      const reader = res.body.getReader();
+      //refactor for handling readableStream in order to avoid JSON's 'unexpected end of input' error
+      const stream = new ReadableStream({
+        start(controller) {
+          function push() {
+            reader.read().then(({ done, value }) => {
+              if (done) {
+                controller.close();
+                return;
+              }
+              controller.enqueue(value);
+              push();
+            });
+          }
+          push();
+        }
+      });
+      new Response(stream, {
+        headers: {
+          "Content-Type": "application/json"
+        }
+      })
+        .json()
+        .then(res => {
+          // console.log(type);
+          if (type !== "currentlyPlaying")
+            return this.setState({ [type]: res });
+          const firstRes = res;
+          console.log("FIRST", firstRes);
+          fetch(res.item.href, request).then(res => {
+            return this.setState({ [type]: firstRes, audio: res.url });
+          });
+        });
+    })
     .catch(err => console.log(err));
 }
+
+// fetch("https://api.spotify.com/v1/browse/featured-playlists", {
+//   headers: { Authorization: this.state.auth },
+//   method: "GET"
+// });
