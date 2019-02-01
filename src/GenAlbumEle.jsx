@@ -12,7 +12,8 @@ function GenAlbumEle(props) {
     data = props.data,
     type = props.type;
   if (window.innerWidth < 1000 && data.length > 3) data = data.slice(0, 3);
-  console.log("generator data", data, type);
+  // console.log("generator data", data, type);
+  // console.log('currPlay',props.currPlay)
   if (props && data)
     return data.map((e, i) => {
       // if (type === "featured") console.log(data);
@@ -32,6 +33,10 @@ function GenAlbumEle(props) {
         dataType = e.type;
         cx = e.uri;
       } else if (type === "related") {
+    //     if(props.currPlay)
+    //  {   console.log(props.currPlay)
+    //     console.log(props.currPlay.item.artists[0].name, e.name)}
+
         name = e.name;
         image = e.images[0].url;
         key = e.id;
@@ -97,9 +102,11 @@ function GenAlbumEle(props) {
                 (e.currentTarget.className = "app__play-hover")
               }
             >
-              {((dataType === "track" || dataType === "artist") &&
+              {((dataType === "track") &&
                 props.currPlay.item &&
                 cx === props.currPlay.item.uri) ||
+                (dataType==='artist'&&props.currPlay&&props.currPlay.item.artists[0].name===e.name)
+                ||
               (dataType === "playlist" &&
                 props.currPlay.context &&
                 cx === props.currPlay.context.uri) ? (

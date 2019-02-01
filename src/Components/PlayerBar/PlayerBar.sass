@@ -63,11 +63,18 @@
 	font-size: 8px !important
 	position: relative
 
-.player-bar .fa-play:before
-	position: absolute
-	left: 9px
-	width: 50%
-	height: 50%
+.player-bar
+	.fa-play:before
+		position: absolute
+		left: 9px
+		width: 50%
+		height: 50%
+	.fa-pause:before
+		position: absolute
+		left: 8px
+		width: 50%
+		height: 50%
+
 
 .player-bar__album-img
 	max-width: 56px
@@ -148,7 +155,14 @@
 	display: flex
 
 .player-bar__right-tab_volume-bar
+	width: 100%
+
+.player-bar__volume-wrapper
 	width: 30%
+	height: 12px
+	display: flex
+	align-items: center
+	transition-duration: 1s
 
 .player-bar__right-tab
 	margin-right: 0
@@ -156,3 +170,6 @@
 .player-bar__left-tab__center-title-artist__artist
 	font-size: 12px
 	opacity: 0.6
+
+.player-bar__redo-icon--repeat-cx
+	color: rgb(29, 185, 84)

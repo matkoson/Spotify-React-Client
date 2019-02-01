@@ -23,7 +23,7 @@ export function getFtrdPlay() {
     method: "GET"
   })
     .then(res => res.json())
-    .then(res => this.setState({ featured: res }))
+    .then(res => {if(!res.error){return this.setState({ featured: res })}})
     .catch(e => console.log(e));
 }
 export function getRecent() {
@@ -33,6 +33,7 @@ export function getRecent() {
   })
     .then(res => res.json())
     .then(res => {
+      if(!res.error)
       this.setState({
         recentlyPlayed: res,
         lastPlayed: res.items[0].track
@@ -48,20 +49,22 @@ export function getTopArtist() {
   })
     .then(res => res.json())
     .then(res => {
+      if (!res.error){
       var { id, name } = res.items[0];
       return fetch(`https://api.spotify.com/v1/artists/${id}/related-artists`, {
         headers: { Authorization: this.state.auth },
         method: "GET"
       })
         .then(res => res.json())
-        .then(res =>
-          this.setState({
+        .then(res =>{
+                if (!res.error){
+        return this.setState({
             topRelatedArtists: res.artists.slice(0, 6),
             topArtist: name
-          })
+          })}}
         )
         .catch(err => console.error(err));
-    })
+    }})
     .catch(err => console.error(err));
 }
 
@@ -90,7 +93,7 @@ export function playerRequest(type, additional) {
       type: "POST"
     },
     setVolume: {
-      uri: "https://api.spotify.com/v1/me/player/volume",
+      uri: `https://api.spotify.com/v1/me/player/volume?volume_percent=${additional&&additional.vol}`,
       type: "PUT"
     },
     playPlayback: {
@@ -125,7 +128,7 @@ export function playerRequest(type, additional) {
       type: "PUT"
     },
     setRepeat: {
-      uri: "https://api.spotify.com/v1/me/player/repeat",
+      uri: `https://api.spotify.com/v1/me/player/repeat?state=${additional && additional.mode}`,
       type: "PUT"
     },
     getDevices: {
@@ -191,13 +194,16 @@ export function playerRequest(type, additional) {
         .then(res => {
           // console.log(type);
           if (type !== "currentlyPlaying")
+            if (!res.error)
             return this.setState({ [type]: res });
           const firstRes = res;
-          console.log("FIRST", firstRes);
+          // console.log("FIRST", firstRes);
           fetch(res.item.href, request).then(res => {
+            if (!res.error)
             return this.setState({ [type]: firstRes, audio: res.url });
-          });
-        });
+          }).catch(err => err.reason);
+        }).catch(err => err.reason);
+
     })
     .catch(err => console.log(err));
 }
