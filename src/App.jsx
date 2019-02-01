@@ -1,9 +1,7 @@
 import React, { Component } from "react";
 import "./App.sass";
-import logo from "./assets/svg/logo.svg";
-import search from "./assets/svg/search.svg";
-import home from "./assets/svg/home.svg";
-import lib from "./assets/svg/lib.svg";
+import LeftTab from './Components/LeftTab/LeftTab'
+import RightTab from './Components/RightTab/RightTab'
 import "./assets/fonts/Rubik-Light.woff";
 import RecentlyPlayed from "./Components/RecentlyPlayed/RecentlyPlayed";
 import "./Components/RecentlyPlayed/RecentlyPlayed.sass";
@@ -53,7 +51,7 @@ class App extends Component {
     if (/callback/.test(currAd)) {
       return this.setToken(currAd);
     } else if (/access_denied/.test(currAd)) {
-      console.error("Access denied by the user!");
+      console.error("Access denied by the user");
     }
     //
     if (!this.state.token) {
@@ -124,74 +122,13 @@ class App extends Component {
   render() {
     return (
       <main className="app">
-        <div className="left-tab">
-          <div className="left-tab__logo">
-            <img
-              className="left-tab__logo__logo"
-              src={logo}
-              alt="spotify-logo+text"
-            />
-          </div>
-          <div
-            onClick={e => this.handleNavClick(e, "left")}
-            className="left-tab__app-nav"
-          >
-            <div className="left-tab__app-nav__search left-tab__app-nav__icon-text">
-              <img
-                className="left-tab__app-nav__logo"
-                src={search}
-                alt="search icon"
-              />
-              <span className="left-tab__app-nav__search__text left-tab__app-nav__text">
-                {"Search"}
-              </span>
-            </div>
-            {/*  */}
-            <div className="left-tab__app-nav__home left-tab__app-nav__icon-text left-tab__app-nav__icon-text--clicked">
-              <img
-                className="left-tab__app-nav__logo"
-                src={home}
-                alt="home icon"
-              />
-              <span className="left-tab__app-nav__home__text left-tab__app-nav__text">
-                {"Home"}
-              </span>
-            </div>
-            {/*  */}
-            <div className="left-tab__app-nav__library left-tab__app-nav__icon-text">
-              <img
-                className="left-tab__app-nav__logo"
-                src={lib}
-                alt="lib icon"
-              />
-              <span className="left-tab__app-nav__library__text left-tab__app-nav__text">
-                {"Your Library"}
-              </span>
-            </div>
-            {/*  */}
-          </div>
+        <LeftTab handleNavClick={this.handleNavClick}>
           <RecentlyPlayed
             handleNavClick={this.handleNavClick}
             rawRecPlayed={this.state.recentlyPlayed}
           />
-        </div>
-        {/*  */}
-        {/*  */}
-        {/*  */}
-        <div className="right-tab">
-          <ul
-            onClick={e => this.handleNavClick(e, "right")}
-            className="right-tab__right-nav"
-          >
-            <li className="right-tab__right-nav__element right-tab__right-nav__element--clicked">
-              FEATURED
-            </li>
-            <li className="right-tab__right-nav__element">PODCASTS</li>
-            <li className="right-tab__right-nav__element">CHARTS</li>
-            <li className="right-tab__right-nav__element">GENRES & MOODS</li>
-            <li className="right-tab__right-nav__element">NEW RELEASES</li>
-            <li className="right-tab__right-nav__element">DISCOVER</li>
-          </ul>
+</LeftTab>
+        <RightTab handleNavClick={this.handleNavClick}>
           <HomeScreen
             featured={this.state.featured}
             recent={this.state.recentlyPlayed}
@@ -200,11 +137,12 @@ class App extends Component {
             APIrequest={this.playerRequest}
             currentlyPlaying={this.state.currentlyPlaying}
           />
-        </div>
+        </RightTab>
         <PlayerBar
           audio={this.state.audio}
           APIrequest={this.playerRequest}
           currentlyPlaying={this.state.currentlyPlaying}
+          currentPlayback={this.state.currentPlayback}
         />
       </main>
     );
