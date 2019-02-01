@@ -30,7 +30,8 @@ class App extends Component {
       featured: "",
       topRelatedArtists: "",
       topArtist: "",
-      currentlyPlaying: ""
+      currentlyPlaying: "",
+      audio: ""
     };
     //
     //
@@ -197,9 +198,11 @@ class App extends Component {
             relatedTop={this.state.topRelatedArtists}
             topArtist={this.state.topArtist}
             APIrequest={this.playerRequest}
+            currentlyPlaying={this.state.currentlyPlaying}
           />
         </div>
         <PlayerBar
+          audio={this.state.audio}
           APIrequest={this.playerRequest}
           currentlyPlaying={this.state.currentlyPlaying}
         />

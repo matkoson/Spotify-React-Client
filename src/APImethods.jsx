@@ -23,7 +23,8 @@ export function getFtrdPlay() {
     method: "GET"
   })
     .then(res => res.json())
-    .then(res => this.setState({ featured: res }));
+    .then(res => this.setState({ featured: res }))
+    .catch(e => console.log(e));
 }
 export function getRecent() {
   fetch("https://api.spotify.com/v1/me/player/recently-played", {
@@ -165,6 +166,7 @@ export function playerRequest(type, additional) {
     .then(res => {
       // console.log(res.body);
       const reader = res.body.getReader();
+      //refactor for handling readableStream in order to avoid JSON's 'unexpected end of input' error
       const stream = new ReadableStream({
         start(controller) {
           function push() {
@@ -186,10 +188,16 @@ export function playerRequest(type, additional) {
         }
       })
         .json()
-        .then(res => this.setState({ [type]: res }));
-      // return res.body.on("end", res =>
-      //   res.json().then(res => this.setState({ [type]: res }))
-      // );
+        .then(res => {
+          // console.log(type);
+          if (type !== "currentlyPlaying")
+            return this.setState({ [type]: res });
+          const firstRes = res;
+          console.log("FIRST", firstRes);
+          fetch(res.item.href, request).then(res => {
+            return this.setState({ [type]: firstRes, audio: res.url });
+          });
+        });
     })
     .catch(err => console.log(err));
 }

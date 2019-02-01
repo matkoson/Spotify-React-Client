@@ -25,6 +25,8 @@ class PlayerBar extends PureComponent {
   constructor(props) {
     super(props);
     this.state = { playing: "" };
+    this.audio = React.createRef();
+    //
     this.handleAPIpayload = this.handleAPIpayload.bind(this);
     this.handleProgressSkip = this.handleProgressSkip.bind(this);
     this.handlePausePlay = this.handlePausePlay.bind(this);
@@ -70,6 +72,8 @@ class PlayerBar extends PureComponent {
   }
   //
   componentDidUpdate() {
+    // console.log(String(this.props.audio), this.audio.current);
+    // this.audio.current.play();
     const currPlay = this.props.currentlyPlaying;
     if (currPlay) {
       this.handleAPIpayload(currPlay);
@@ -183,6 +187,7 @@ class PlayerBar extends PureComponent {
           </div>
           {/* <i className="fas fa-volume-mute"></i> */}
         </div>
+        <audio ref={this.audio} src={this.props.audio} />
       </div>
     );
   }
