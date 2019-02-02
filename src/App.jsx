@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "./App.sass";
-import LeftTab from './Components/LeftTab/LeftTab'
-import RightTab from './Components/RightTab/RightTab'
+import LeftTab from "./Components/LeftTab/LeftTab";
+import RightTab from "./Components/RightTab/RightTab";
 import "./assets/fonts/Rubik-Light.woff";
 import RecentlyPlayed from "./Components/RecentlyPlayed/RecentlyPlayed";
 import "./Components/RecentlyPlayed/RecentlyPlayed.sass";
@@ -10,6 +10,8 @@ import "./Components/HomeScreen/HomeScreen.sass";
 import PlayerBar from "./Components/PlayerBar/PlayerBar";
 import "./Components/PlayerBar/PlayerBar.sass";
 import "./globalStyles.sass";
+import cdnLoader from './loadScript';
+import SDK from "./SDKinit";
 import {
   setToken,
   getToken,
@@ -43,22 +45,44 @@ class App extends Component {
     this.handleResize = this.handleResize.bind(this);
     this.handleNavClick = this.handleNavClick.bind(this);
     this.playerRequest = playerRequest.bind(this);
+    this.checkForSDK = this.checkForSDK.bind(this);
   }
   componentDidMount() {
     window.addEventListener("resize", this.handleResize);
+    cdnLoader({ src: 'https://sdk.scdn.co/spotify-player.js',id:'SDK',callback:()=>this.setState({SDKloaded: true})});
+    let { Spotify, find } = window
+    console.log(Spotify, find, window);
     //
     const currAd = window.location.href;
     if (/callback/.test(currAd)) {
-      return this.setToken(currAd);
+      this.setToken(currAd);
+      if(this.state.SDK){
+      return this.checkForSDK();
+      } else {
+        return
+      }
     } else if (/access_denied/.test(currAd)) {
       console.error("Access denied by the user");
     }
     //
-    if (!this.state.token) {
+    if (!this.state.auth) {
       this.getToken();
     }
   }
-
+  checkForSDK() {
+    const { auth } = this.state;
+    console.log(auth, window.Spotify);
+    if (window.Spotify !== null) {
+      this.player = new window.Spotify.Player({
+        name: "React Spotify Web Player",
+        getOAuthToken: cb => {
+          cb(auth);
+        }
+      });
+      this.player.connect();
+      return this.setState({SDKconnected: true});
+    }
+  }
   handleResize() {
     if (!this.state.windowWidth) {
       this.setState({ windowWidth: window.innerWidth });
@@ -71,6 +95,8 @@ class App extends Component {
     }
   }
   componentDidUpdate() {
+    if(window.Spotify && !this.state.SDKconnected)
+this.checkForSDK();
     if (this.state.auth) {
       if (!this.state.currentlyPlaying) {
         this.playerRequest("currentlyPlaying");
@@ -127,7 +153,7 @@ class App extends Component {
             handleNavClick={this.handleNavClick}
             rawRecPlayed={this.state.recentlyPlayed}
           />
-</LeftTab>
+        </LeftTab>
         <RightTab handleNavClick={this.handleNavClick}>
           <HomeScreen
             featured={this.state.featured}
