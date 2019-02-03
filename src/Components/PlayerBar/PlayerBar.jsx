@@ -12,7 +12,7 @@ const getMinsSecs = (ms = 0) => {
 };
 const getPerc = (progressTime, totalTime) =>
   100 - (progressTime / totalTime) * 100;
-let totalTime, progressTime, rawTotal, volumePercentage;
+let totalTime, progressTime;
 
 class PlayerBar extends PureComponent {
   constructor(props) {
@@ -29,7 +29,7 @@ class PlayerBar extends PureComponent {
       volumePercentage: "", //7
       progressPercentage: "", //8
       distanceTotal: "",
-      paused: true,
+      paused: false,
       shuffled: false
     };
     this.audio = React.createRef();
@@ -52,7 +52,8 @@ class PlayerBar extends PureComponent {
         repeatMode: "off", //4
         rawTrackTime: lastTrack.duration_ms, //5
         rawTrackProgress: 0, //6
-        volumePercentage: 100 //7
+        volumePercentage: 100, //7
+        paused: false
       });
     } else if (this.props.SDK && !this.player) {
       //if I have the player ready
@@ -84,7 +85,7 @@ class PlayerBar extends PureComponent {
               processedProgress: getMinsSecs(
                 prevState && prevState.rawTrackProgress
               ),
-              paused: state.position === prevState.rawTrackTime ? true : false,
+              paused: state.paused,
               shuffled: state.shuffle
             };
           });
@@ -227,10 +228,10 @@ class PlayerBar extends PureComponent {
               onClick={this.handlePausePlay}
               className="player-bar__play-pause"
             >
-              {!this.state.paused ? (
-                <i className="fas fa-pause player__play-pause" />
-              ) : (
+              {this.state.paused || !this.playbackSDK ? (
                 <i className="fas fa-play player__play-pause" />
+              ) : (
+                <i className="fas fa-pause player__play-pause" />
               )}
             </div>
             {/* */}
