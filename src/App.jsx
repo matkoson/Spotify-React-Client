@@ -10,8 +10,8 @@ import "./Components/HomeScreen/HomeScreen.sass";
 import PlayerBar from "./Components/PlayerBar/PlayerBar";
 import "./Components/PlayerBar/PlayerBar.sass";
 import "./globalStyles.sass";
-import cdnLoader from './loadScript';
-import SDK from "./SDKinit";
+import cdnLoader from "./loadScript";
+import initSDK from "./initSDK";
 import {
   setToken,
   getToken,
@@ -31,7 +31,10 @@ class App extends Component {
       topRelatedArtists: "",
       topArtist: "",
       currentlyPlaying: "",
-      audio: ""
+      audio: "",
+      tokenSDK: "",
+      playbackSDK: "",
+      shuffle: false
     };
     //
     //
@@ -45,21 +48,30 @@ class App extends Component {
     this.handleResize = this.handleResize.bind(this);
     this.handleNavClick = this.handleNavClick.bind(this);
     this.playerRequest = playerRequest.bind(this);
-    this.checkForSDK = this.checkForSDK.bind(this);
+    this.initSDK = initSDK.bind(this);
   }
   componentDidMount() {
     window.addEventListener("resize", this.handleResize);
-    cdnLoader({ src: 'https://sdk.scdn.co/spotify-player.js',id:'SDK',callback:()=>this.setState({SDKloaded: true})});
-    let { Spotify, find } = window
-    console.log(Spotify, find, window);
+    //Initiate Spotify SDK Player through cdn script
+    cdnLoader({
+      src: "https://sdk.scdn.co/spotify-player.js",
+      id: "SDK",
+      callback: () => {
+        this.setState({ SDKloaded: true });
+        return (window.onSpotifyWebPlaybackSDKReady = () => {
+          this.initSDK(this.state.tokenSDK);
+        });
+      }
+    });
+    //
     //
     const currAd = window.location.href;
     if (/callback/.test(currAd)) {
       this.setToken(currAd);
-      if(this.state.SDK){
-      return this.checkForSDK();
+      if (this.state.SDK) {
+        return this.checkSDK();
       } else {
-        return
+        return;
       }
     } else if (/access_denied/.test(currAd)) {
       console.error("Access denied by the user");
@@ -67,20 +79,6 @@ class App extends Component {
     //
     if (!this.state.auth) {
       this.getToken();
-    }
-  }
-  checkForSDK() {
-    const { auth } = this.state;
-    console.log(auth, window.Spotify);
-    if (window.Spotify !== null) {
-      this.player = new window.Spotify.Player({
-        name: "React Spotify Web Player",
-        getOAuthToken: cb => {
-          cb(auth);
-        }
-      });
-      this.player.connect();
-      return this.setState({SDKconnected: true});
     }
   }
   handleResize() {
@@ -95,8 +93,6 @@ class App extends Component {
     }
   }
   componentDidUpdate() {
-    if(window.Spotify && !this.state.SDKconnected)
-this.checkForSDK();
     if (this.state.auth) {
       if (!this.state.currentlyPlaying) {
         this.playerRequest("currentlyPlaying");
@@ -165,7 +161,12 @@ this.checkForSDK();
           />
         </RightTab>
         <PlayerBar
-          audio={this.state.audio}
+          recent={
+            this.state.recentlyPlayed && this.state.recentlyPlayed.items[0]
+          }
+          SDK={this.player}
+          deviceId={this.state.deviceID}
+          // playbackSDK={this.state.playbackSDK}
           APIrequest={this.playerRequest}
           currentlyPlaying={this.state.currentlyPlaying}
           currentPlayback={this.state.currentPlayback}
@@ -176,8 +177,3 @@ this.checkForSDK();
 }
 
 export default App;
-
-// window.location.href =
-//   "https://accounts.spotify.com/authorize?client_id=230be2f46909426b8b80cac36446b52a&scope=playlist-read-private%20playlist-read-collaborative%20playlist-modify-public%20user-read-recently-played%20playlist-modify-private%20ugc-image-upload%20user-follow-modify%20user-follow-read%20user-library-read%20user-library-modify%20user-read-private%20user-read-email%20user-top-read%20user-read-playback-state&response_type=token&redirect_uri=http://localhost:3000/callback";
-
-// http://localhost:3000/callback#access_token=BQDQWFwGEss__M3kawusvVJTeEBBt1mTKHHm6Gyy68jXvaHKz0lKuD3SxHHzFiUcCmKyI3j340utLFnDasrFOkZNRRtU_7uaMazZacbVN9vL4zmng1q8ZsPYHZ7IZGU9sr-CQ3NsVsKANihTOpRJj7LAG4YFaF4-VUI&token_type=Bearer&expires_in=3600

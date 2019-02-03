@@ -1,6 +1,7 @@
 import React, { PureComponent } from "react";
 
-const getMinsSecs = ms => {
+const getMinsSecs = (ms = 0) => {
+  // console.log(ms);
   ms = (ms - (ms % 1000)) / 1000;
   return {
     min: String(
@@ -9,149 +10,183 @@ const getMinsSecs = ms => {
     sec: String(ms % 60 < 10 ? `0${ms % 60}` : ms % 60)
   };
 };
-const getPerc = (progT, totT) => 100 - (progT / totT) * 100;
-let albumImg,
-  songTitle,
-  artistName,
-  totT,
-  progT,
-  progPerc,
-  rawTot,
-  rawProg,
-  progDis,
-  totDist,volPerc, repeat;
+const getPerc = (progressTime, totalTime) =>
+  100 - (progressTime / totalTime) * 100;
+let totalTime, progressTime, rawTotal, volumePercentage;
 
 class PlayerBar extends PureComponent {
   constructor(props) {
     super(props);
-    this.state = { playing: "" };
+    this.state = {
+      playing: "",
+      songProgress: getMinsSecs(0),
+      albumImage: "", //1
+      songTitle: "", //2
+      artistName: "", //3
+      repeatMode: "", //4
+      rawTrackTime: "", //5
+      rawTrackProgress: "", //6
+      volumePercentage: "", //7
+      progressPercentage: "", //8
+      distanceTotal: "",
+      paused: true,
+      shuffled: false
+    };
     this.audio = React.createRef();
+    this.repeatMode = ["off", "context", "track"];
+
     //
-    this.handleAPIpayload = this.handleAPIpayload.bind(this);
     this.handlePausePlay = this.handlePausePlay.bind(this);
-    // this.handleProgressSkip = this.handleProgressSkip.bind(this);
-    // this.handleVolumeSet = this.handleVolumeSet.bind(this);
     this.handleRangeChange = this.handleRangeChange.bind(this);
     this.handleRepeatModeChange = this.handleRepeatModeChange.bind(this);
-
+    this.playbackSDKinterval = this.playbackSDKinterval.bind(this);
   }
   componentDidUpdate() {
-    // console.log(String(this.props.audio), this.audio.current);
-    // this.audio.current.play();
-    const currPlay = this.props.currentlyPlaying;
-    const playback = this.props.currentPlayback;
-    // console.log(playback);
-    if (currPlay) {
-      this.handleAPIpayload(currPlay, playback);
-      if (currPlay.is_playing) {
-        if (!this.interval) {
-          this.interval = setInterval(() => {
-            // console.log("api call");
-            this.props.APIrequest("currentlyPlaying");
-            this.props.APIrequest('currentPlayback');
-          }, 800);
+    //at first viable update, while SDK is still not acitve, display the info from the last played track
+    if (!this.props.SDK && this.props.recent) {
+      const lastTrack = this.props.recent.track;
+      this.setState({
+        albumImage: lastTrack.album.images[0].url, //1
+        songTitle: lastTrack.name, //2
+        artistName: lastTrack.artists[0].name, //3
+        repeatMode: "off", //4
+        rawTrackTime: lastTrack.duration_ms, //5
+        rawTrackProgress: 0, //6
+        volumePercentage: 100 //7
+      });
+    } else if (this.props.SDK && !this.player) {
+      //if I have the player ready
+      this.player = this.props.SDK;
+    } else if (this.player) {
+      if (!this.playbackSDK) {
+        this.playbackSDKinterval();
+      }
+    }
+  }
+
+  playbackSDKinterval() {
+    this.playbackSDK = setInterval(() => {
+      this.player.getCurrentState().then(state => {
+        if (state) {
+          // console.log("SDK updated, state:", state);
+          const trackPlaying = state.track_window.current_track;
+          return this.setState(prevState => {
+            console.log("state", state, "prevState", prevState);
+            if (prevState.songTitle !== trackPlaying.name)
+              this.props.APIrequest("currentlyPlaying");
+            return {
+              albumImage: trackPlaying.album.images[0].url, //1
+              songTitle: trackPlaying.name, //2
+              artistName: trackPlaying.artists[0].name, //3
+              repeatMode: this.repeatMode[state.repeat_mode], //4
+              rawTrackTime: trackPlaying.duration_ms, //5
+              rawTrackProgress: state.position, //6
+              processedProgress: getMinsSecs(
+                prevState && prevState.rawTrackProgress
+              ),
+              paused: state.position === prevState.rawTrackTime ? true : false,
+              shuffled: state.shuffle
+            };
+          });
+        } else {
+          console.log("No playback on SDK");
+          clearInterval(this.playbackSDK);
+          this.playbackSDK = null;
         }
-      }
-    }
+      });
+    }, 1000);
   }
+
   handlePausePlay(e) {
-    console.log(e.target);
-    if (this.state.playing) {
-      this.props.APIrequest("pausePlayback");
-    } else {
-      this.props.APIrequest("playPlayback");
+    console.log(this.playbackSDK, this.props.recent, "recent");
+    if (this.player) {
+      if (this.state.paused) {
+        if (!this.playbackSDK) {
+          this.props.APIrequest("playRecentTracks", {
+            cx: this.props.recent.track.uri
+          });
+        } else {
+          this.player.resume().then(() => this.setState({ paused: false }));
+        }
+      } else {
+        this.player.pause().then(() => this.setState({ paused: true }));
+      }
     }
   }
-  handleAPIpayload(playingPayload, playbackPayload) {
-    if(playbackPayload && !playbackPayload.device)
-    console.log("playbackPayload", playbackPayload);
-    if (playingPayload) {
-      if (!this.state.playing && playingPayload.is_playing) {
-        this.setState({ playing: true });
-      } else if (this.state.playing && !playingPayload.is_playing) {
-        this.setState({ playing: false });
-      }
-      rawProg = playingPayload.progress_ms;
-      playingPayload = playingPayload.item;
-      //
-      albumImg = playingPayload.album.images[0].url;
-      songTitle = playingPayload.name;
-      artistName = playingPayload.artists[0].name;
-      rawTot = playingPayload.duration_ms;
-      progDis = getMinsSecs(rawProg);
-      totDist = getMinsSecs(rawTot);
-      progPerc = getPerc(rawProg, rawTot);
-      if(playbackPayload&&playbackPayload.device){
-      volPerc = playbackPayload.device.volume_percent;
-      repeat = playbackPayload.repeat_state;
-      }
-      // console.log(volPerc,'volPerc')
-    }
-  }
-  //
+
   handleRangeChange(e) {
-    // console.log(e.currentTarget.id);
+    console.log(e.currentTarget.id);
     const targetId = e.currentTarget.id;
     const targetMeasure = e.target.getBoundingClientRect();
     const beginning = targetMeasure.left;
     const end = targetMeasure.left + targetMeasure.width;
     const eventMeasure = e.clientX;
     let desiredProg;
-    if(targetId === 'progress-bar'){
-      desiredProg = ((eventMeasure - beginning) / (end - beginning)) * 100;
-      const desiredMs = Math.round((desiredProg * rawTot) / 100);
-      return this.props.APIrequest("setPosition", { ms: desiredMs });
-    }else if(targetId === 'volume-bar'){
-      desiredProg = Math.round(((eventMeasure - beginning) / (end - beginning)) * 100);
-      return this.props.APIrequest("setVolume", { vol: desiredProg });
+    //
+    if (this.player) {
+      if (targetId === "progress-bar") {
+        desiredProg = ((eventMeasure - beginning) / (end - beginning)) * 100;
+        const desiredMs =
+          Math.round(desiredProg * this.state.rawTrackTime) / 100;
+        console.log(desiredProg);
+        this.player
+          .seek(desiredMs)
+          .then(() =>
+            this.player
+              .getCurrentState()
+              .then(state =>
+                this.setState({ rawTrackProgress: state.position })
+              )
+          );
+      } else if (targetId === "volume-bar") {
+        desiredProg =
+          Math.round(((eventMeasure - beginning) / (end - beginning)) * 100) /
+          100;
+        this.player.setVolume(desiredProg).then(() => {
+          return this.player.getVolume().then(vol => {
+            return this.setState({ volumePercentage: vol * 100 }); //7
+          });
+        });
+      }
     }
   }
-  handleRepeatModeChange(e){
-    const repeatMode = ['off','context','track'];
-    const currentI = repeatMode.indexOf(repeat);
-    const current = repeatMode[(currentI+1)%repeatMode.length]
-    console.log(current,repeat);
-
-    return this.props.APIrequest('setRepeat', {mode:current})
+  handleRepeatModeChange(e) {
+    if (this.playbackSDK) {
+      const currentI = this.repeatMode.indexOf(this.state.repeatMode);
+      const current = this.repeatMode[(currentI + 1) % this.repeatMode.length];
+      console.log(current, this.state.repeatMode);
+      return this.props.APIrequest("setRepeat", { mode: current });
+    }
   }
-  // handleProgressSkip(e) {
-  //   console.log(e.currentTarget.id);
-  //   const targetMeasure = e.target.getBoundingClientRect();
-  //   const beginning = targetMeasure.left;
-  //   const end = targetMeasure.left + targetMeasure.width;
-  //   const eventMeasure = e.clientX;
-  //   const desiredProg = ((eventMeasure - beginning) / (end - beginning)) * 100;
-  //   const desiredMs = Math.round((desiredProg * rawTot) / 100);
-  //   this.props.APIrequest("setPosition", { ms: desiredMs });
-  // }
-  // handleVolumeSet(e){
-  //   console.log(e.currentTarget.id);
-  //   const targetMeasure = e.target.getBoundingClientRect();
-  //   const beginning = targetMeasure.left;
-  //   const end = targetMeasure.left + targetMeasure.width;
-  //   const eventMeasure = e.clientX;
-  //   const desiredProg = Math.round(((eventMeasure - beginning) / (end - beginning)) * 100);
-  //   console.log(desiredProg)
-  //   this.props.APIrequest("setVolume", { vol: desiredProg });
-
-  // }
-  //
-
 
   render() {
-    progT = progDis || { min: "00", sec: "00" };
-    totT = totDist || { min: "00", sec: "00" };
-    progPerc = progPerc || 100;
-    // console.log(progPerc, "progPerc");
+    //
+    let {
+      rawTrackProgress,
+      rawTrackTime,
+      albumImage,
+      songTitle,
+      artistName,
+      processedProgress,
+      progressPercentage,
+      repeatMode,
+      volumePercentage
+    } = this.state;
+    const initVal = getMinsSecs(0);
+    progressTime = processedProgress || initVal;
+    totalTime = getMinsSecs(rawTrackTime) || initVal;
+    progressPercentage = getPerc(rawTrackProgress, rawTrackTime) || 100;
+    //
+    // console.log(progressPercentage, "progressPercentage");
     return (
       <div className="player-bar">
         {/*  */}
         <div className="player-bar__tab player-bar__left-tab player-bar__perip-tab">
           <div className="player-bar__left-tab__inside-perip">
             <div className="player-bar__album-img">
-              {albumImg && (
+              {albumImage && (
                 <img
-                  src={`${albumImg}`}
+                  src={`${albumImage}`}
                   alt="album cover"
                   height="56px"
                   width="56px"
@@ -175,16 +210,24 @@ class PlayerBar extends PureComponent {
         {/*  */}
         <div className="player-bar__tab player-bar__center-tab">
           <div className="player-bar__player-controls">
-            <i className="fas fa-random" />
             <i
-              onClick={() => this.props.APIrequest("previousTrack")}
+              onClick={() =>
+                this.props.APIrequest("toggleShuffle", {
+                  shuffle: !this.state.shuffled
+                })
+              }
+              style={{ color: this.state.shuffled ? "#1db954" : "white" }}
+              className="fas fa-random"
+            />
+            <i
+              onClick={() => this.player.previousTrack()}
               className="fas fa-step-backward"
             />
             <div
               onClick={this.handlePausePlay}
               className="player-bar__play-pause"
             >
-              {this.state.playing ? (
+              {!this.state.paused ? (
                 <i className="fas fa-pause player__play-pause" />
               ) : (
                 <i className="fas fa-play player__play-pause" />
@@ -192,27 +235,33 @@ class PlayerBar extends PureComponent {
             </div>
             {/* */}
             <i
-              onClick={() => this.props.APIrequest("nextTrack")}
+              onClick={() => this.player.nextTrack()}
               className="fas fa-step-forward"
             />
-            <i onClick={this.handleRepeatModeChange}className={
-              repeat === 'off'?
-            "fas fa-redo": "fas fa-redo player-bar__redo-icon--repeat-cx"
-            } >{repeat==="track"?<span>1</span>:null}</i>
+            <i
+              onClick={this.handleRepeatModeChange}
+              className={
+                repeatMode === "off"
+                  ? "fas fa-redo"
+                  : "fas fa-redo player-bar__redo-icon--repeat-cx"
+              }
+            >
+              {repeatMode === "track" ? <span>1</span> : null}
+            </i>
           </div>
           <div className="player-bar__player-progress">
             <div className="player-bar__player-progress__time">
-              {progT && `${progT.min}:${progT.sec}`}
+              {progressTime && `${progressTime.min}:${progressTime.sec}`}
             </div>
             <div
-            id="progress-bar"
+              id="progress-bar"
               className="player-bar__player-progress__wrapper"
               onClick={this.handleRangeChange}
             >
               <div className="player-bar__player-progress__bar player-bar__progress-bar player-bar__progress-bar--static">
                 <div
                   style={{
-                    left: `-${progPerc}%`,
+                    left: `-${progressPercentage}%`,
                     transitionDuration: "0.3s",
                     transitionTimingFunction: "cubic-bezier(1,0,.7,1)"
                   }}
@@ -221,7 +270,7 @@ class PlayerBar extends PureComponent {
               </div>
             </div>
             <div className="player-bar__player-progress__time">
-              {totT && `${totT.min}:${totT.sec}`}
+              {totalTime && `${totalTime.min}:${totalTime.sec}`}
             </div>
           </div>
         </div>
@@ -233,12 +282,18 @@ class PlayerBar extends PureComponent {
             <i className="fas fa-tablet-alt" />
             <i className="fas fa-volume-up" />
           </div>
-          <div id="volume-bar" className="player-bar__volume-wrapper" onClick={this.handleRangeChange}><div className="player-bar__right-tab_volume-bar player-bar__progress-bar player-bar__progress-bar--static">
           <div
-          style={{ left: `-${100-volPerc}%` }}
-          className="player-bar__progress-bar player-bar__progress-bar--dynamic "
-          />
-          </div></div>
+            id="volume-bar"
+            className="player-bar__volume-wrapper"
+            onClick={this.handleRangeChange}
+          >
+            <div className="player-bar__right-tab_volume-bar player-bar__progress-bar player-bar__progress-bar--static">
+              <div
+                style={{ left: `-${100 - volumePercentage}%` }}
+                className="player-bar__progress-bar player-bar__progress-bar--dynamic "
+              />
+            </div>
+          </div>
           {/* <i className="fas fa-volume-mute"></i> */}
         </div>
         <audio ref={this.audio} src={this.props.audio} />
@@ -248,3 +303,76 @@ class PlayerBar extends PureComponent {
 }
 
 export default PlayerBar;
+
+// if (this.props.SDK) {
+//   this.player = this.props.SDK;
+//   this.player.getCurrentState().then(state => {
+//     if (state) {
+//       console.log("player-bar updated, SDK state:", state);
+//     } else {
+//       return console.log("User is not playing music through player.");
+//     }
+//   });
+// }
+// let currPlay, playback;
+// if (this.props.playbackSDK) {
+//   currPlay = this.props.playbackSDK;
+// } else if (this.props.currentlyPlaying && this.props.currentPlayback) {
+//   currPlay = this.props.currentlyPlaying;
+//   playback = this.props.currentPlayback;
+// }
+// if (currPlay) {
+//   this.handleAPIpayload(currPlay, playback);
+//   if (currPlay.is_playing) {
+//     if (!this.playbackSDK) {
+//       this.playbackSDK = setInterval(() => {
+//         this.props.APIrequest("currentlyPlaying");
+//         this.props.APIrequest("currentPlayback");
+//       }, 800);
+//     }
+//   }
+// }
+
+// handleAPIpayload(playingPayload, playbackPayload) {
+//   if (this.props.playbackSDK) {
+//     const currTrack = playingPayload.track_window.current_track;
+//     //
+//     this.setState({
+//       rawTrackTime: currTrack.duration_ms,
+//       rawTrackProgress: this.props.playbackSDK,
+//       albumImage: currTrack.album.images[0].url,
+//       songTitle: currTrack.name,
+//       artistName: currTrack.artists[0].name
+//     });
+//     // rawTotal = currTrack.duration_ms;
+//     // rawProgress = this.props.playbackSDK;
+//     distanceProgress = getMinsSecs(rawProgress);
+//     distanceTotal = getMinsSecs(rawTotal);
+//     // albumImage = currTrack.album.images[0].url;
+//     // songTitle = currTrack.name;
+//     // artistName = currTrack.artists[0].name;
+//     if (!this.playbackSDK)
+//       this.playbackSDK = setInterval(() => this.forceUpdate(), 1000);
+//   } else if (this.props.currentlyPlaying) {
+//     if (playbackPayload && !playbackPayload.device)
+//       console.log("playbackPayload", playbackPayload);
+//     if (playingPayload) {
+//       if (!this.state.playing && playingPayload.is_playing) {
+//         this.setState({ playing: true });
+//       } else if (this.state.playing && !playingPayload.is_playing) {
+//         this.setState({ playing: false });
+//       }
+//       rawProgress = playingPayload.progress_ms;
+//       playingPayload = playingPayload.item;
+//       //
+//       albumImage = playingPayload.album.images[0].url;
+//       songTitle = playingPayload.name;
+//       artistName = playingPayload.artists[0].name;
+//       rawTotal = playingPayload.duration_ms;
+//       distanceProgress = getMinsSecs(rawProgress);
+//       distanceTotal = getMinsSecs(rawTotal);
+//       progressPercentage = getPerc(rawProgress, rawTotal);
+//     }
+//   }
+// }
+//

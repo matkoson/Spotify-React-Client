@@ -2,7 +2,8 @@ export function setToken(currAd) {
   const regexToken = /access_token=(.*)&token/g;
   const token = regexToken.exec(currAd)[1];
   return this.setState({
-    auth: `Bearer ${token}`
+    auth: `Bearer ${token}`,
+    tokenSDK: token
   });
 }
 
@@ -23,7 +24,11 @@ export function getFtrdPlay() {
     method: "GET"
   })
     .then(res => res.json())
-    .then(res => {if(!res.error){return this.setState({ featured: res })}})
+    .then(res => {
+      if (!res.error) {
+        return this.setState({ featured: res });
+      }
+    })
     .catch(e => console.log(e));
 }
 export function getRecent() {
@@ -33,11 +38,11 @@ export function getRecent() {
   })
     .then(res => res.json())
     .then(res => {
-      if(!res.error)
-      this.setState({
-        recentlyPlayed: res,
-        lastPlayed: res.items[0].track
-      });
+      if (!res.error)
+        this.setState({
+          recentlyPlayed: res,
+          lastPlayed: res.items[0].track
+        });
     })
     .catch(e => console.error(e));
 }
@@ -49,22 +54,27 @@ export function getTopArtist() {
   })
     .then(res => res.json())
     .then(res => {
-      if (!res.error){
-      var { id, name } = res.items[0];
-      return fetch(`https://api.spotify.com/v1/artists/${id}/related-artists`, {
-        headers: { Authorization: this.state.auth },
-        method: "GET"
-      })
-        .then(res => res.json())
-        .then(res =>{
-                if (!res.error){
-        return this.setState({
-            topRelatedArtists: res.artists.slice(0, 6),
-            topArtist: name
-          })}}
+      if (!res.error) {
+        var { id, name } = res.items[0];
+        return fetch(
+          `https://api.spotify.com/v1/artists/${id}/related-artists`,
+          {
+            headers: { Authorization: this.state.auth },
+            method: "GET"
+          }
         )
-        .catch(err => console.error(err));
-    }})
+          .then(res => res.json())
+          .then(res => {
+            if (!res.error) {
+              return this.setState({
+                topRelatedArtists: res.artists.slice(0, 6),
+                topArtist: name
+              });
+            }
+          })
+          .catch(err => console.error(err));
+      }
+    })
     .catch(err => console.error(err));
 }
 
@@ -93,15 +103,20 @@ export function playerRequest(type, additional) {
       type: "POST"
     },
     setVolume: {
-      uri: `https://api.spotify.com/v1/me/player/volume?volume_percent=${additional&&additional.vol}`,
+      uri: `https://api.spotify.com/v1/me/player/volume?volume_percent=${additional &&
+        additional.vol}`,
       type: "PUT"
     },
     playPlayback: {
-      uri: "https://api.spotify.com/v1/me/player/play",
+      uri: `https://api.spotify.com/v1/me/player/play?device_id=${
+        this.state.deviceID
+      }`,
       type: "PUT"
     },
     playSpecificPlayback: {
-      uri: "https://api.spotify.com/v1/me/player/play",
+      uri: `https://api.spotify.com/v1/me/player/play?=device_id=${
+        this.state.deviceID
+      }`,
       type: "PUT",
       body: {
         context_uri: additional && additional.cx,
@@ -109,26 +124,35 @@ export function playerRequest(type, additional) {
       }
     },
     playRecentTracks: {
-      uri: "https://api.spotify.com/v1/me/player/play",
+      uri: `https://api.spotify.com/v1/me/player/play?device_id=${
+        this.state.deviceID
+      }`,
       type: "PUT",
       body: {
-        uris: additional && additional.cx,
-        offset: { position: additional && additional.cx_pos }
+        uris: Array.isArray(additional && additional.cx)
+          ? additional && additional.cx
+          : additional && [additional.cx],
+        offset: { position: (additional && additional.cx_pos) || 0 }
       }
     },
     playArtist: {
-      uri: "https://api.spotify.com/v1/me/player/play",
+      uri: `https://api.spotify.com/v1/me/player/play?device_id=${
+        this.state.deviceID
+      }`,
       type: "PUT",
       body: {
         context_uri: additional && additional.cx
       }
     },
     pausePlayback: {
-      uri: "https://api.spotify.com/v1/me/player/pause",
+      uri: `https://api.spotify.com/v1/me/player/pausedevice_id=${
+        this.state.deviceID
+      }`,
       type: "PUT"
     },
     setRepeat: {
-      uri: `https://api.spotify.com/v1/me/player/repeat?state=${additional && additional.mode}`,
+      uri: `https://api.spotify.com/v1/me/player/repeat?state=${additional &&
+        additional.mode}`,
       type: "PUT"
     },
     getDevices: {
@@ -140,7 +164,8 @@ export function playerRequest(type, additional) {
       type: "PUT"
     },
     toggleShuffle: {
-      uri: "https://api.spotify.com/v1/me/player/shuffle",
+      uri: `https://api.spotify.com/v1/me/player/shuffle?state=${additional &&
+        additional.shuffle}`,
       type: "PUT"
     }
   };
@@ -148,7 +173,7 @@ export function playerRequest(type, additional) {
   //
   //
   const chosen = types[type];
-  // console.log("chosen", chosen, type, additional);
+  console.log("chosen", chosen, type, additional);
   let request = {
     GET: {
       headers: { Authorization: this.state.auth },
@@ -164,7 +189,7 @@ export function playerRequest(type, additional) {
   };
   request = request[chosen.type];
   if (type === "playSpecificPlayback" || type === "playRecentTracks")
-    console.log(request);
+    console.log(request, chosen.uri);
   return fetch(chosen.uri, request)
     .then(res => {
       // console.log(res.body);
@@ -194,16 +219,17 @@ export function playerRequest(type, additional) {
         .then(res => {
           // console.log(type);
           if (type !== "currentlyPlaying")
-            if (!res.error)
-            return this.setState({ [type]: res });
+            if (!res.error) return this.setState({ [type]: res });
           const firstRes = res;
           // console.log("FIRST", firstRes);
-          fetch(res.item.href, request).then(res => {
-            if (!res.error)
-            return this.setState({ [type]: firstRes, audio: res.url });
-          }).catch(err => err.reason);
-        }).catch(err => err.reason);
-
+          fetch(res.item.href, request)
+            .then(res => {
+              if (!res.error)
+                return this.setState({ [type]: firstRes, audio: res.url });
+            })
+            .catch(err => err.reason);
+        })
+        .catch(err => err.reason);
     })
     .catch(err => console.log(err));
 }
