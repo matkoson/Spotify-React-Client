@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "./App.sass";
-import LeftTab from './Components/LeftTab/LeftTab'
-import RightTab from './Components/RightTab/RightTab'
+import LeftTab from "./Components/LeftTab/LeftTab";
+import RightTab from "./Components/RightTab/RightTab";
 import "./assets/fonts/Rubik-Light.woff";
 import RecentlyPlayed from "./Components/RecentlyPlayed/RecentlyPlayed";
 import "./Components/RecentlyPlayed/RecentlyPlayed.sass";
@@ -10,6 +10,8 @@ import "./Components/HomeScreen/HomeScreen.sass";
 import PlayerBar from "./Components/PlayerBar/PlayerBar";
 import "./Components/PlayerBar/PlayerBar.sass";
 import "./globalStyles.sass";
+import cdnLoader from "./loadScript";
+import initSDK from "./APIconnection/initSDK";
 import {
   setToken,
   getToken,
@@ -17,7 +19,7 @@ import {
   getRecent,
   getTopArtist,
   playerRequest
-} from "./APImethods";
+} from "./APIconnection/APImethods";
 
 class App extends Component {
   constructor(props) {
@@ -29,7 +31,18 @@ class App extends Component {
       topRelatedArtists: "",
       topArtist: "",
       currentlyPlaying: "",
-      audio: ""
+      audio: "",
+      tokenSDK: "",
+      playerState: "",
+      shuffle: false,
+      deviceName: "",
+      deviceTabOn: false,
+      currGrad:
+        (this.gradientArr &&
+          this.gradientArr[
+            Math.round(Math.random() * this.gradientArr.length)
+          ]) ||
+        "linear-gradient(to right, #f9d423 0%, #ff4e50 100%)"
     };
     //
     //
@@ -40,25 +53,70 @@ class App extends Component {
     this.getRecent = getRecent.bind(this);
     this.getFtrdPlay = getFtrdPlay.bind(this);
     this.getTopArtist = getTopArtist.bind(this);
+    this.playerRequest = playerRequest.bind(this);
     this.handleResize = this.handleResize.bind(this);
     this.handleNavClick = this.handleNavClick.bind(this);
-    this.playerRequest = playerRequest.bind(this);
+    this.gradientCarousel = this.gradientCarousel.bind(this);
+    this.handleDeviceTabClick = this.handleDeviceTabClick.bind(this);
+    this.initSDK = initSDK.bind(this);
+    this.gradientArr = [
+      "linear-gradient(to right, #f9d423 0%, #ff4e50 100%)",
+      "linear-gradient(-225deg, #231557 0%, #44107A 29%, #FF1361 67%, #FFF800 100%)",
+      "linear-gradient(to right, #f9d423 0%, #ff4e50 100%)",
+      "linear-gradient(45deg, #874da2 0%, #c43a30 100%)",
+      "linear-gradient(to right, #434343 0%, black 100%)",
+      "linear-gradient(to top, #f43b47 0%, #453a94 100%)",
+      "linear-gradient(to top, #3f51b1 0%, #5a55ae 13%, #7b5fac 25%, #8f6aae 38%, #a86aa4 50%, #cc6b8e 62%, #f18271 75%, #f3a469 87%, #f7c978 100%)",
+      "linear-gradient(120deg, #fccb90 0%, #d57eeb 100%)",
+      "linear-gradient(to right, #2575fc 100%,#6a11cb 0%)",
+      " linear-gradient(to right, #b8cbb8 0%, #b8cbb8 0%, #b465da 0%, #cf6cc9 33%, #ee609c 66%, #ee609c 100%)"
+    ];
   }
   componentDidMount() {
+    // this.gradientCarousel();
     window.addEventListener("resize", this.handleResize);
+    //Initiate Spotify SDK Player through cdn script
+    cdnLoader({
+      src: "https://sdk.scdn.co/spotify-player.js",
+      id: "SDK",
+      callback: () => {
+        this.setState({ SDKloaded: true });
+        return (window.onSpotifyWebPlaybackSDKReady = () => {
+          this.initSDK(this.state.tokenSDK);
+        });
+      }
+    });
+    //
     //
     const currAd = window.location.href;
     if (/callback/.test(currAd)) {
-      return this.setToken(currAd);
+      this.setToken(currAd);
+      if (this.state.SDK) {
+        return this.checkSDK();
+      } else {
+        return;
+      }
     } else if (/access_denied/.test(currAd)) {
       console.error("Access denied by the user");
     }
     //
-    if (!this.state.token) {
+    if (!this.state.auth) {
       this.getToken();
     }
   }
-
+  gradientCarousel() {
+    this.gradientChange = setInterval(() => {
+      console.log(
+        "changing",
+        this.gradientArr[Math.round(Math.random() * this.gradientArr.length)]
+      );
+      this.setState({
+        currGrad: this.gradientArr[
+          Math.round(Math.random() * this.gradientArr.length)
+        ]
+      });
+    }, 1000 * 10);
+  }
   handleResize() {
     if (!this.state.windowWidth) {
       this.setState({ windowWidth: window.innerWidth });
@@ -69,6 +127,12 @@ class App extends Component {
       if (this.state.windowWidth < 1000 && window.innerWidth > 1000)
         this.setState({ windowWidth: window.innerWidth });
     }
+  }
+  handleDeviceTabClick(e) {
+    e.target.style.color === "rgb(255, 255, 255)"
+      ? (e.target.style.color = "#1db954")
+      : (e.target.style.color = "rgb(255, 255, 255)");
+    this.setState({ deviceTabOn: !this.state.deviceTabOn });
   }
   componentDidUpdate() {
     if (this.state.auth) {
@@ -121,25 +185,46 @@ class App extends Component {
   }
   render() {
     return (
-      <main className="app">
+      <main
+        className="app"
+        style={{
+          backgroundImage: this.state.currGrad,
+          transitionDuration: "1.5s"
+        }}
+        onClick={() =>
+          this.state.deviceTabOn ? this.setState({ deviceTabOn: false }) : null
+        }
+        //click anywhere in the app to make deviceTab disappear
+      >
         <LeftTab handleNavClick={this.handleNavClick}>
           <RecentlyPlayed
             handleNavClick={this.handleNavClick}
             rawRecPlayed={this.state.recentlyPlayed}
+            player={this.player}
+            APIrequest={this.playerRequest}
           />
-</LeftTab>
+        </LeftTab>
         <RightTab handleNavClick={this.handleNavClick}>
           <HomeScreen
+            playerState={this.state.playerState}
             featured={this.state.featured}
             recent={this.state.recentlyPlayed}
             relatedTop={this.state.topRelatedArtists}
             topArtist={this.state.topArtist}
             APIrequest={this.playerRequest}
             currentlyPlaying={this.state.currentlyPlaying}
+            player={this.player}
           />
         </RightTab>
         <PlayerBar
-          audio={this.state.audio}
+          recent={
+            this.state.recentlyPlayed && this.state.recentlyPlayed.items[0]
+          }
+          handleDeviceTabClick={this.handleDeviceTabClick}
+          isDeviceTabOn={this.state.deviceTabOn}
+          player={this.player}
+          deviceId={this.state.deviceID}
+          deviceName={this.state.deviceName}
           APIrequest={this.playerRequest}
           currentlyPlaying={this.state.currentlyPlaying}
           currentPlayback={this.state.currentPlayback}
@@ -150,8 +235,3 @@ class App extends Component {
 }
 
 export default App;
-
-// window.location.href =
-//   "https://accounts.spotify.com/authorize?client_id=230be2f46909426b8b80cac36446b52a&scope=playlist-read-private%20playlist-read-collaborative%20playlist-modify-public%20user-read-recently-played%20playlist-modify-private%20ugc-image-upload%20user-follow-modify%20user-follow-read%20user-library-read%20user-library-modify%20user-read-private%20user-read-email%20user-top-read%20user-read-playback-state&response_type=token&redirect_uri=http://localhost:3000/callback";
-
-// http://localhost:3000/callback#access_token=BQDQWFwGEss__M3kawusvVJTeEBBt1mTKHHm6Gyy68jXvaHKz0lKuD3SxHHzFiUcCmKyI3j340utLFnDasrFOkZNRRtU_7uaMazZacbVN9vL4zmng1q8ZsPYHZ7IZGU9sr-CQ3NsVsKANihTOpRJj7LAG4YFaF4-VUI&token_type=Bearer&expires_in=3600
