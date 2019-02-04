@@ -34,7 +34,8 @@ class App extends Component {
       audio: "",
       tokenSDK: "",
       playbackSDK: "",
-      shuffle: false
+      shuffle: false,
+      deviceName: ""
     };
     //
     //
@@ -166,7 +167,7 @@ class App extends Component {
           }
           SDK={this.player}
           deviceId={this.state.deviceID}
-          // playbackSDK={this.state.playbackSDK}
+          deviceName={this.state.deviceName}
           APIrequest={this.playerRequest}
           currentlyPlaying={this.state.currentlyPlaying}
           currentPlayback={this.state.currentPlayback}

@@ -148,6 +148,7 @@
 	display: flex
 	align-items: center
 	justify-content: flex-end
+	position: relative
 
 .player-bar__right-tab__controls
 	justify-content: center
@@ -173,3 +174,24 @@
 
 .player-bar__redo-icon--repeat-cx
 	color: rgb(29, 185, 84)
+
+.player-bar__devices-tab
+	width: 90%
+	height: 250px
+	padding: 5px
+	position: absolute
+	bottom: 80px
+	right: 5%
+	border-radius: 5px
+	z-index: 1
+	box-shadow: 0 6px 12px rgba(0,0,0,.175)
+	background-color: #282828
+
+.player-bar__devices-tab:before
+	content: ''
+	border-top: 10px solid #282828
+	border-left: 10px solid rgba(0,0,0,0)
+	border-right: 10px solid rgba(0,0,0,0)
+	position: relative
+	top: 105%
+	left: calc((92%/2))

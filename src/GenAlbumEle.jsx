@@ -33,9 +33,9 @@ function GenAlbumEle(props) {
         dataType = e.type;
         cx = e.uri;
       } else if (type === "related") {
-    //     if(props.currPlay)
-    //  {   console.log(props.currPlay)
-    //     console.log(props.currPlay.item.artists[0].name, e.name)}
+        //     if(props.currPlay)
+        //  {   console.log(props.currPlay)
+        //     console.log(props.currPlay.item.artists[0].name, e.name)}
 
         name = e.name;
         image = e.images[0].url;
@@ -102,11 +102,12 @@ function GenAlbumEle(props) {
                 (e.currentTarget.className = "app__play-hover")
               }
             >
-              {((dataType === "track") &&
+              {(dataType === "track" &&
                 props.currPlay.item &&
                 cx === props.currPlay.item.uri) ||
-                (dataType==='artist'&&props.currPlay&&props.currPlay.item.artists[0].name===e.name)
-                ||
+              (dataType === "artist" &&
+                props.currPlay &&
+                props.currPlay.item.artists[0].name === e.name) ||
               (dataType === "playlist" &&
                 props.currPlay.context &&
                 cx === props.currPlay.context.uri) ? (
@@ -125,8 +126,8 @@ function GenAlbumEle(props) {
                   ? "home-screen__made-for-user__playlist-element__img-pic"
                   : "app__rounded-album home-screen__made-for-user__playlist-element__img-pic"
               }
-              height="200px"
-              width="200px"
+              height="300px"
+              width="300px"
               src={image}
               alt=""
             />

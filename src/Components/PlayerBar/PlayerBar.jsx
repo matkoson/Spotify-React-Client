@@ -69,7 +69,7 @@ class PlayerBar extends PureComponent {
     this.playbackSDK = setInterval(() => {
       this.player.getCurrentState().then(state => {
         if (state) {
-          // console.log("SDK updated, state:", state);
+          console.log("SDK updated, state:", state);
           const trackPlaying = state.track_window.current_track;
           return this.setState(prevState => {
             console.log("state", state, "prevState", prevState);
@@ -295,9 +295,9 @@ class PlayerBar extends PureComponent {
               />
             </div>
           </div>
+          <div className="player-bar__devices-tab">{}</div>
           {/* <i className="fas fa-volume-mute"></i> */}
         </div>
-        <audio ref={this.audio} src={this.props.audio} />
       </div>
     );
   }

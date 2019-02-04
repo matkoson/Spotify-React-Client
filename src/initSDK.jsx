@@ -1,6 +1,7 @@
 export default function initSDK(token) {
+  const nameSDK = "React Web Playback SDK";
   this.player = new window.Spotify.Player({
-    name: "React Web Playback SDK",
+    name:nameSDK,
     getOAuthToken: cb => {
       cb(token);
     }
@@ -33,7 +34,11 @@ export default function initSDK(token) {
   // Ready
   this.player.addListener("ready", ({ device_id }) => {
     console.log("Ready with Device ID", device_id);
-    this.setState({ SDKconnected: true, deviceID: device_id });
+    this.setState({
+      SDKconnected: true,
+      deviceID: device_id,
+      deviceName: nameSDK
+    });
     return this.playerRequest('getDevices')
   });
 
