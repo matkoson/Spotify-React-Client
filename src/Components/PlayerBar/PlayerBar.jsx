@@ -1,4 +1,8 @@
 import React, { PureComponent } from "react";
+import DeviceTab from "./InnerComps/DeviceTab";
+import AlbumDetails from "./InnerComps/AlbumDetails";
+import PlayerControls from "./InnerComps/PlayerControls";
+import SideControls from "./InnerComps/SideControls";
 
 const getMinsSecs = (ms = 0) => {
   // console.log(ms);
@@ -43,11 +47,18 @@ class PlayerBar extends PureComponent {
   }
   componentDidUpdate() {
     //at first viable update, while SDK is still not acitve, display the info from the last played track
-    if (!this.props.SDK && this.props.recent) {
+    if (!this.props.player && this.props.recent) {
       const lastTrack = this.props.recent.track;
+      // console.log(lastTrack, lastTrack.name);
+
+      const songTitle =
+        lastTrack.name.length >= 32
+          ? `${lastTrack.name.slice(0, 29)}...`
+          : lastTrack.name;
+      // console.log(lastTrack.name.length);
       this.setState({
         albumImage: lastTrack.album.images[0].url, //1
-        songTitle: lastTrack.name, //2
+        songTitle, //2
         artistName: lastTrack.artists[0].name, //3
         repeatMode: "off", //4
         rawTrackTime: lastTrack.duration_ms, //5
@@ -55,9 +66,9 @@ class PlayerBar extends PureComponent {
         volumePercentage: 100, //7
         paused: false
       });
-    } else if (this.props.SDK && !this.player) {
+    } else if (this.props.player && !this.player) {
       //if I have the player ready
-      this.player = this.props.SDK;
+      this.player = this.props.player;
     } else if (this.player) {
       if (!this.playbackSDK) {
         this.playbackSDKinterval();
@@ -71,13 +82,17 @@ class PlayerBar extends PureComponent {
         if (state) {
           console.log("SDK updated, state:", state);
           const trackPlaying = state.track_window.current_track;
+          const songTitle =
+            trackPlaying.name.length >= 32
+              ? `${trackPlaying.name.slice(0, 29)}...`
+              : trackPlaying.name;
           return this.setState(prevState => {
-            console.log("state", state, "prevState", prevState);
+            // console.log("state", state, "prevState", prevState);
             if (prevState.songTitle !== trackPlaying.name)
               this.props.APIrequest("currentlyPlaying");
             return {
               albumImage: trackPlaying.album.images[0].url, //1
-              songTitle: trackPlaying.name, //2
+              songTitle, //2
               artistName: trackPlaying.artists[0].name, //3
               repeatMode: this.repeatMode[state.repeat_mode], //4
               rawTrackTime: trackPlaying.duration_ms, //5
@@ -99,23 +114,30 @@ class PlayerBar extends PureComponent {
   }
 
   handlePausePlay(e) {
-    console.log(this.playbackSDK, this.props.recent, "recent");
+    // console.log(this.playbackSDK, this.props.recent, "recent");
     if (this.player) {
-      if (this.state.paused) {
-        if (!this.playbackSDK) {
-          this.props.APIrequest("playRecentTracks", {
-            cx: this.props.recent.track.uri
+      if (!this.playbackSDK) {
+        this.props.APIrequest("playRecentTracks", {
+          cx: this.props.recent.track.uri
+        });
+      } else {
+        if (this.state.paused) {
+          this.player.resume().then(() => {
+            this.setState({ paused: false });
+            this.props.APIrequest("currentlyPlaying");
           });
         } else {
-          this.player.resume().then(() => this.setState({ paused: false }));
+          this.player.pause().then(() => {
+            this.props.APIrequest("currentlyPlaying");
+            this.setState({ paused: true });
+          });
         }
-      } else {
-        this.player.pause().then(() => this.setState({ paused: true }));
       }
     }
   }
 
   handleRangeChange(e) {
+    //handle onClick changes on progress/volume-bar
     console.log(e.currentTarget.id);
     const targetId = e.currentTarget.id;
     const targetMeasure = e.target.getBoundingClientRect();
@@ -136,7 +158,7 @@ class PlayerBar extends PureComponent {
             this.player
               .getCurrentState()
               .then(state =>
-                this.setState({ rawTrackProgress: state.position })
+                this.setState({ rawTrackProgress: state && state.position })
               )
           );
       } else if (targetId === "volume-bar") {
@@ -178,126 +200,35 @@ class PlayerBar extends PureComponent {
     totalTime = getMinsSecs(rawTrackTime) || initVal;
     progressPercentage = getPerc(rawTrackProgress, rawTrackTime) || 100;
     //
-    // console.log(progressPercentage, "progressPercentage");
     return (
       <div className="player-bar">
-        {/*  */}
-        <div className="player-bar__tab player-bar__left-tab player-bar__perip-tab">
-          <div className="player-bar__left-tab__inside-perip">
-            <div className="player-bar__album-img">
-              {albumImage && (
-                <img
-                  src={`${albumImage}`}
-                  alt="album cover"
-                  height="56px"
-                  width="56px"
-                />
-              )}
-            </div>
-          </div>
-          <div className="player-bar__tab player-bar__left-tab__center">
-            <span className="player-bar__left-tab__center-title-artist__title">
-              {songTitle}
-            </span>
-            <span className="player-bar__left-tab__center-title-artist__artist">
-              {artistName}
-            </span>
-          </div>
-          <div className="player-bar__tab player-bar__left-tab__perip">
-            <i className="fas fa-plus" />
-          </div>
-        </div>
-
-        {/*  */}
-        <div className="player-bar__tab player-bar__center-tab">
-          <div className="player-bar__player-controls">
-            <i
-              onClick={() =>
-                this.props.APIrequest("toggleShuffle", {
-                  shuffle: !this.state.shuffled
-                })
-              }
-              style={{ color: this.state.shuffled ? "#1db954" : "white" }}
-              className="fas fa-random"
-            />
-            <i
-              onClick={() => this.player.previousTrack()}
-              className="fas fa-step-backward"
-            />
-            <div
-              onClick={this.handlePausePlay}
-              className="player-bar__play-pause"
-            >
-              {this.state.paused || !this.playbackSDK ? (
-                <i className="fas fa-play player__play-pause" />
-              ) : (
-                <i className="fas fa-pause player__play-pause" />
-              )}
-            </div>
-            {/* */}
-            <i
-              onClick={() => this.player.nextTrack()}
-              className="fas fa-step-forward"
-            />
-            <i
-              onClick={this.handleRepeatModeChange}
-              className={
-                repeatMode === "off"
-                  ? "fas fa-redo"
-                  : "fas fa-redo player-bar__redo-icon--repeat-cx"
-              }
-            >
-              {repeatMode === "track" ? <span>1</span> : null}
-            </i>
-          </div>
-          <div className="player-bar__player-progress">
-            <div className="player-bar__player-progress__time">
-              {progressTime && `${progressTime.min}:${progressTime.sec}`}
-            </div>
-            <div
-              id="progress-bar"
-              className="player-bar__player-progress__wrapper"
-              onClick={this.handleRangeChange}
-            >
-              <div className="player-bar__player-progress__bar player-bar__progress-bar player-bar__progress-bar--static">
-                <div
-                  style={{
-                    left: `-${progressPercentage}%`,
-                    transitionDuration: "0.3s",
-                    transitionTimingFunction: "cubic-bezier(1,0,.7,1)"
-                  }}
-                  className="player-bar__progress-bar player-bar__progress-bar--dynamic"
-                />
-              </div>
-            </div>
-            <div className="player-bar__player-progress__time">
-              {totalTime && `${totalTime.min}:${totalTime.sec}`}
-            </div>
-          </div>
-        </div>
-        {/*  */}
-
-        <div className="player-bar__tab player-bar__right-tab player-bar__perip-tab">
-          <div className="player-bar__right-tab__controls">
-            <i className="fas fa-list-ol" />
-            <i className="fas fa-tablet-alt" />
-            <i className="fas fa-volume-up" />
-          </div>
-          <div
-            id="volume-bar"
-            className="player-bar__volume-wrapper"
-            onClick={this.handleRangeChange}
-          >
-            <div className="player-bar__right-tab_volume-bar player-bar__progress-bar player-bar__progress-bar--static">
-              <div
-                style={{ left: `-${100 - volumePercentage}%` }}
-                className="player-bar__progress-bar player-bar__progress-bar--dynamic "
-              />
-            </div>
-          </div>
-          <div className="player-bar__devices-tab">{}</div>
-          {/* <i className="fas fa-volume-mute"></i> */}
-        </div>
+        <AlbumDetails
+          albumImage={albumImage}
+          songTitle={songTitle}
+          artistName={artistName}
+        />
+        <PlayerControls
+          shuffled={this.state.shuffled}
+          handlePausePlay={this.handlePausePlay}
+          paused={this.state.paused}
+          playbackSDK={this.playbackSDK}
+          player={this.player}
+          repeatMode={repeatMode}
+          handleRepeatModeChange={this.handleRepeatModeChange}
+          progressTime={progressTime}
+          handleRangeChange={this.handleRangeChange}
+          progressPercentage={progressPercentage}
+          totalTime={totalTime}
+        />
+        <SideControls
+          handleDeviceTabClick={this.props.handleDeviceTabClick}
+          handleRangeChange={this.handleRangeChange}
+          volumePercentage={volumePercentage}
+        >
+          {this.props.isDeviceTabOn && (
+            <DeviceTab deviceName={this.props.deviceName} />
+          )}
+        </SideControls>
       </div>
     );
   }
@@ -305,8 +236,8 @@ class PlayerBar extends PureComponent {
 
 export default PlayerBar;
 
-// if (this.props.SDK) {
-//   this.player = this.props.SDK;
+// if (this.props.player) {
+//   this.player = this.props.player;
 //   this.player.getCurrentState().then(state => {
 //     if (state) {
 //       console.log("player-bar updated, SDK state:", state);

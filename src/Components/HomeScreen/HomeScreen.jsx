@@ -1,14 +1,20 @@
 import React, { Component } from "react";
-import GenAlbumEle from "../../GenAlbumEle";
+import GenAlbumContainer from "../GenAlbumContainer/GenAlbumContainer";
 class HomeScreen extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { playerState: "" };
+  }
+
   render() {
     let ftrdMssg, albumPics, ftrdProp, recentProp, processedProp, relatedTop;
     if (this.props.recent) {
       recentProp = this.props.recent.items.slice(0, 6);
       // console.log(this.props.recent, "recent");
       processedProp = (
-        <GenAlbumEle
-          playCX={this.props.APIrequest}
+        <GenAlbumContainer
+          playerState={this.props.playerState}
+          APIrequest={this.props.APIrequest}
           data={recentProp}
           type={"recent"}
           currPlay={this.props.currentlyPlaying}
@@ -19,8 +25,9 @@ class HomeScreen extends Component {
       ftrdProp = this.props.featured;
       ftrdMssg = ftrdProp.message;
       albumPics = (
-        <GenAlbumEle
-          playCX={this.props.APIrequest}
+        <GenAlbumContainer
+          playerState={this.props.playerState}
+          APIrequest={this.props.APIrequest}
           data={ftrdProp.playlists.items.slice(0, 6)}
           type={"featured"}
           currPlay={this.props.currentlyPlaying}
@@ -29,8 +36,9 @@ class HomeScreen extends Component {
     }
     if (this.props.relatedTop) {
       relatedTop = (
-        <GenAlbumEle
-          playCX={this.props.APIrequest}
+        <GenAlbumContainer
+          playerState={this.props.playerState}
+          APIrequest={this.props.APIrequest}
           data={this.props.relatedTop}
           type={"related"}
           currPlay={this.props.currentlyPlaying}

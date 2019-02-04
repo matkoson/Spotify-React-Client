@@ -1,19 +1,9 @@
 import React from "react";
 // import { playerRequest } from "././APImethods";
-function GenAlbumEle(props) {
-  let name,
-    image,
-    key,
-    dataType,
-    cx,
-    cx_pos,
-    recentTracks,
-    recentTracksPos,
-    data = props.data,
+let name, image, key, dataType, cx, cx_pos, recentTracks, recentTracksPos;
+export default function GenAlbumContainer(props) {
+  const data = props.data,
     type = props.type;
-  if (window.innerWidth < 1000 && data.length > 3) data = data.slice(0, 3);
-  // console.log("generator data", data, type);
-  // console.log('currPlay',props.currPlay)
   if (props && data)
     return data.map((e, i) => {
       // if (type === "featured") console.log(data);
@@ -62,14 +52,16 @@ function GenAlbumEle(props) {
             data-recent_pos={dataType === "track" ? recentTracksPos : null}
             onClick={e => {
               if (dataType === "artist") {
-                props.playCX("playArtist", { cx: e.currentTarget.dataset.cx });
+                props.APIrequest("playArtist", {
+                  cx: e.currentTarget.dataset.cx
+                });
               } else if (dataType === "playlist") {
-                props.playCX("playSpecificPlayback", {
+                props.APIrequest("playSpecificPlayback", {
                   cx: e.currentTarget.dataset.cx,
                   cx_pos: e.currentTarget.dataset.cx_pos
                 });
               } else if (dataType === "track") {
-                props.playCX("playRecentTracks", {
+                props.APIrequest("playRecentTracks", {
                   cx: recentTracks,
                   cx_pos: e.currentTarget.dataset.recent_pos
                 });
@@ -102,21 +94,23 @@ function GenAlbumEle(props) {
                 (e.currentTarget.className = "app__play-hover")
               }
             >
-              {(dataType === "track" &&
+              {props.playerState &&
+              !props.playerState.paused &&
+              ((dataType === "track" &&
                 props.currPlay.item &&
                 cx === props.currPlay.item.uri) ||
-              (dataType === "artist" &&
-                props.currPlay &&
-                props.currPlay.item.artists[0].name === e.name) ||
-              (dataType === "playlist" &&
-                props.currPlay.context &&
-                cx === props.currPlay.context.uri) ? (
+                (dataType === "artist" &&
+                  props.currPlay &&
+                  props.currPlay.item.artists[0].name === e.name) ||
+                (dataType === "playlist" &&
+                  props.currPlay.context &&
+                  cx === props.currPlay.context.uri)) ? (
                 <i
                   id="pause"
                   className="fas fa-pause app__pause-visible__icon"
                 />
               ) : (
-                <i if="play" className="fas fa-play app__play-hover__icon" />
+                <i id="play" className="fas fa-play app__play-hover__icon" />
               )}
               {/* check whether the uri of the curr playing album/artist/track is same as the uri of the generated element */}
             </div>
@@ -143,5 +137,3 @@ function GenAlbumEle(props) {
       );
     });
 }
-
-export default GenAlbumEle;

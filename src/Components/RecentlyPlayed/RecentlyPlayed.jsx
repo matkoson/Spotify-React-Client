@@ -5,6 +5,7 @@ class RecentlyPlayed extends Component {
     let set;
     if (this.props.rawRecPlayed) {
       set = this.props.rawRecPlayed.items.slice(0, 7);
+      // console.log("set", set, this.props.player);
       set = set.map(e => {
         return (
           <div
@@ -23,6 +24,15 @@ class RecentlyPlayed extends Component {
             }}
             key={e.played_at}
             className="recently-played__element"
+            onClick={() => {
+              console.log("ele", e);
+              if (this.props.player) {
+                this.props.APIrequest("playRecentTracks", {
+                  cx: e.track.uri
+                  // cx_pos: e.currentTarget.dataset.recent_pos
+                });
+              }
+            }}
           >
             <span className="recently-played__element__title">
               {e.track.name.length > 26

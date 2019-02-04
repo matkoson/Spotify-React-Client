@@ -1,7 +1,7 @@
 export default function initSDK(token) {
-  const nameSDK = "React Web Playback SDK";
+  const nameSDK = "React Spotify Web Client";
   this.player = new window.Spotify.Player({
-    name:nameSDK,
+    name: nameSDK,
     getOAuthToken: cb => {
       cb(token);
     }
@@ -11,15 +11,14 @@ export default function initSDK(token) {
   this.player.addListener("initialization_error", ({ message }) => {
     console.error(message);
     this.setState({ SDKconnected: false });
-
   });
   this.player.addListener("authentication_error", ({ message }) => {
     console.error(message);
-        this.setState({ SDKconnected: false });
+    this.setState({ SDKconnected: false });
   });
   this.player.addListener("account_error", ({ message }) => {
     console.error(message);
-        this.setState({ SDKconnected: false });
+    this.setState({ SDKconnected: false });
   });
   this.player.addListener("playback_error", ({ message }) => {
     console.error(message);
@@ -28,7 +27,7 @@ export default function initSDK(token) {
   // Playback status updates
   this.player.addListener("player_state_changed", state => {
     console.log(state);
-    this.setState({playbackSDK:state});
+    this.setState({ playerState: state });
   });
 
   // Ready
@@ -39,7 +38,7 @@ export default function initSDK(token) {
       deviceID: device_id,
       deviceName: nameSDK
     });
-    return this.playerRequest('getDevices')
+    return this.playerRequest("getDevices");
   });
 
   // Not Ready
@@ -49,5 +48,7 @@ export default function initSDK(token) {
   });
 
   // Connect to the player!
-  this.player.connect().then(success=>{if(success)console.log("SDK connected, waiting for ready...")});
+  this.player.connect().then(success => {
+    if (success) console.log("SDK connected, waiting for ready...");
+  });
 }

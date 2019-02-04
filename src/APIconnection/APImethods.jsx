@@ -54,7 +54,7 @@ export function getTopArtist() {
   })
     .then(res => res.json())
     .then(res => {
-      if (!res.error) {
+      if (!res.error && res.items) {
         var { id, name } = res.items[0];
         return fetch(
           `https://api.spotify.com/v1/artists/${id}/related-artists`,

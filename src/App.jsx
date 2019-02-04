@@ -11,7 +11,7 @@ import PlayerBar from "./Components/PlayerBar/PlayerBar";
 import "./Components/PlayerBar/PlayerBar.sass";
 import "./globalStyles.sass";
 import cdnLoader from "./loadScript";
-import initSDK from "./initSDK";
+import initSDK from "./APIconnection/initSDK";
 import {
   setToken,
   getToken,
@@ -19,7 +19,7 @@ import {
   getRecent,
   getTopArtist,
   playerRequest
-} from "./APImethods";
+} from "./APIconnection/APImethods";
 
 class App extends Component {
   constructor(props) {
@@ -33,9 +33,16 @@ class App extends Component {
       currentlyPlaying: "",
       audio: "",
       tokenSDK: "",
-      playbackSDK: "",
+      playerState: "",
       shuffle: false,
-      deviceName: ""
+      deviceName: "",
+      deviceTabOn: false,
+      currGrad:
+        (this.gradientArr &&
+          this.gradientArr[
+            Math.round(Math.random() * this.gradientArr.length)
+          ]) ||
+        "linear-gradient(to right, #f9d423 0%, #ff4e50 100%)"
     };
     //
     //
@@ -46,12 +53,27 @@ class App extends Component {
     this.getRecent = getRecent.bind(this);
     this.getFtrdPlay = getFtrdPlay.bind(this);
     this.getTopArtist = getTopArtist.bind(this);
+    this.playerRequest = playerRequest.bind(this);
     this.handleResize = this.handleResize.bind(this);
     this.handleNavClick = this.handleNavClick.bind(this);
-    this.playerRequest = playerRequest.bind(this);
+    this.gradientCarousel = this.gradientCarousel.bind(this);
+    this.handleDeviceTabClick = this.handleDeviceTabClick.bind(this);
     this.initSDK = initSDK.bind(this);
+    this.gradientArr = [
+      "linear-gradient(to right, #f9d423 0%, #ff4e50 100%)",
+      "linear-gradient(-225deg, #231557 0%, #44107A 29%, #FF1361 67%, #FFF800 100%)",
+      "linear-gradient(to right, #f9d423 0%, #ff4e50 100%)",
+      "linear-gradient(45deg, #874da2 0%, #c43a30 100%)",
+      "linear-gradient(to right, #434343 0%, black 100%)",
+      "linear-gradient(to top, #f43b47 0%, #453a94 100%)",
+      "linear-gradient(to top, #3f51b1 0%, #5a55ae 13%, #7b5fac 25%, #8f6aae 38%, #a86aa4 50%, #cc6b8e 62%, #f18271 75%, #f3a469 87%, #f7c978 100%)",
+      "linear-gradient(120deg, #fccb90 0%, #d57eeb 100%)",
+      "linear-gradient(to right, #2575fc 100%,#6a11cb 0%)",
+      " linear-gradient(to right, #b8cbb8 0%, #b8cbb8 0%, #b465da 0%, #cf6cc9 33%, #ee609c 66%, #ee609c 100%)"
+    ];
   }
   componentDidMount() {
+    // this.gradientCarousel();
     window.addEventListener("resize", this.handleResize);
     //Initiate Spotify SDK Player through cdn script
     cdnLoader({
@@ -82,6 +104,19 @@ class App extends Component {
       this.getToken();
     }
   }
+  gradientCarousel() {
+    this.gradientChange = setInterval(() => {
+      console.log(
+        "changing",
+        this.gradientArr[Math.round(Math.random() * this.gradientArr.length)]
+      );
+      this.setState({
+        currGrad: this.gradientArr[
+          Math.round(Math.random() * this.gradientArr.length)
+        ]
+      });
+    }, 1000 * 10);
+  }
   handleResize() {
     if (!this.state.windowWidth) {
       this.setState({ windowWidth: window.innerWidth });
@@ -92,6 +127,12 @@ class App extends Component {
       if (this.state.windowWidth < 1000 && window.innerWidth > 1000)
         this.setState({ windowWidth: window.innerWidth });
     }
+  }
+  handleDeviceTabClick(e) {
+    e.target.style.color === "rgb(255, 255, 255)"
+      ? (e.target.style.color = "#1db954")
+      : (e.target.style.color = "rgb(255, 255, 255)");
+    this.setState({ deviceTabOn: !this.state.deviceTabOn });
   }
   componentDidUpdate() {
     if (this.state.auth) {
@@ -144,28 +185,44 @@ class App extends Component {
   }
   render() {
     return (
-      <main className="app">
+      <main
+        className="app"
+        style={{
+          backgroundImage: this.state.currGrad,
+          transitionDuration: "1.5s"
+        }}
+        onClick={() =>
+          this.state.deviceTabOn ? this.setState({ deviceTabOn: false }) : null
+        }
+        //click anywhere in the app to make deviceTab disappear
+      >
         <LeftTab handleNavClick={this.handleNavClick}>
           <RecentlyPlayed
             handleNavClick={this.handleNavClick}
             rawRecPlayed={this.state.recentlyPlayed}
+            player={this.player}
+            APIrequest={this.playerRequest}
           />
         </LeftTab>
         <RightTab handleNavClick={this.handleNavClick}>
           <HomeScreen
+            playerState={this.state.playerState}
             featured={this.state.featured}
             recent={this.state.recentlyPlayed}
             relatedTop={this.state.topRelatedArtists}
             topArtist={this.state.topArtist}
             APIrequest={this.playerRequest}
             currentlyPlaying={this.state.currentlyPlaying}
+            player={this.player}
           />
         </RightTab>
         <PlayerBar
           recent={
             this.state.recentlyPlayed && this.state.recentlyPlayed.items[0]
           }
-          SDK={this.player}
+          handleDeviceTabClick={this.handleDeviceTabClick}
+          isDeviceTabOn={this.state.deviceTabOn}
+          player={this.player}
           deviceId={this.state.deviceID}
           deviceName={this.state.deviceName}
           APIrequest={this.playerRequest}
