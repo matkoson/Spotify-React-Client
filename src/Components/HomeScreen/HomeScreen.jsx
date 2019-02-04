@@ -1,35 +1,50 @@
 import React, { Component } from "react";
-import genAlbumEle from "./genAlbumEle";
+import GenAlbumContainer from "../GenAlbumContainer/GenAlbumContainer";
 class HomeScreen extends Component {
   constructor(props) {
     super(props);
-    this.genAlbumEle = genAlbumEle.bind(this);
+    this.state = { playerState: "" };
   }
 
   render() {
     let ftrdMssg, albumPics, ftrdProp, recentProp, processedProp, relatedTop;
-    // console.log(this.props);
-    //
-    //
-    //
     if (this.props.recent) {
       recentProp = this.props.recent.items.slice(0, 6);
-      processedProp = this.genAlbumEle(recentProp, "recent");
+      // console.log(this.props.recent, "recent");
+      processedProp = (
+        <GenAlbumContainer
+          playerState={this.props.playerState}
+          APIrequest={this.props.APIrequest}
+          data={recentProp}
+          type={"recent"}
+          currPlay={this.props.currentlyPlaying}
+        />
+      );
     }
-    // if (recentProp) console.log("recent", processedProp);
     if (this.props.featured) {
       ftrdProp = this.props.featured;
-      // console.log(ftrdProp);
       ftrdMssg = ftrdProp.message;
-      albumPics = this.genAlbumEle(
-        ftrdProp.playlists.items.slice(0, 6),
-        "featured"
+      albumPics = (
+        <GenAlbumContainer
+          playerState={this.props.playerState}
+          APIrequest={this.props.APIrequest}
+          data={ftrdProp.playlists.items.slice(0, 6)}
+          type={"featured"}
+          currPlay={this.props.currentlyPlaying}
+        />
       );
     }
     if (this.props.relatedTop) {
-      relatedTop = this.genAlbumEle(this.props.relatedTop, "related");
+      relatedTop = (
+        <GenAlbumContainer
+          playerState={this.props.playerState}
+          APIrequest={this.props.APIrequest}
+          data={this.props.relatedTop}
+          type={"related"}
+          currPlay={this.props.currentlyPlaying}
+        />
+      );
     }
-    // console.log(albumPics, processedProp, relatedTop);
     return (
       <div className="home-screen">
         <h2 className="app__fetch-title home-screen__made-for-user__title">
