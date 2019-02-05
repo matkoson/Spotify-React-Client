@@ -102,6 +102,16 @@ export function playerRequest(type, additional) {
       uri: "https://api.spotify.com/v1/me/player/previous",
       type: "POST"
     },
+    getCategories: {
+      uri: `https://api.spotify.com/v1/browse/categories`,
+      type: "GET"
+    },
+    getCategoryPlaylists: {
+      uri: `https://api.spotify.com/v1/browse/categories/${additional &&
+        additional.category}/playlists?country=${additional &&
+        additional.country}`,
+      type: "GET"
+    },
     setVolume: {
       uri: `https://api.spotify.com/v1/me/player/volume?volume_percent=${additional &&
         additional.vol}`,
@@ -140,9 +150,7 @@ export function playerRequest(type, additional) {
         this.state.deviceID
       }`,
       type: "PUT",
-      body: {
-        context_uri: additional && additional.cx
-      }
+      body: { context_uri: additional && additional.cx }
     },
     pausePlayback: {
       uri: `https://api.spotify.com/v1/me/player/pausedevice_id=${
@@ -217,9 +225,16 @@ export function playerRequest(type, additional) {
       })
         .json()
         .then(res => {
-          // console.log(type);
-          if (type !== "currentlyPlaying")
-            if (!res.error) return this.setState({ [type]: res });
+          console.log(type);
+          if (type === "getCategoryPlaylists") {
+            if (!res.error) {
+              console.log("resPlaylist", res, this.state[type]);
+              if (res.playlists.href.includes("country=PL"))
+                return this.setState({ PolandTop: res });
+              return this.setState({ [type]: [...this.state[type], res] });
+            }
+          }
+          if (!res.error) return this.setState({ [type]: res });
           const firstRes = res;
           // console.log("FIRST", firstRes);
           fetch(res.item.href, request)

@@ -4,6 +4,7 @@ let name, image, key, dataType, cx, cx_pos, recentTracks, recentTracksPos;
 export default function GenAlbumContainer(props) {
   const data = props.data,
     type = props.type;
+  // console.log(data, type);
   if (props && data)
     return data.map((e, i) => {
       // if (type === "featured") console.log(data);
@@ -16,23 +17,24 @@ export default function GenAlbumContainer(props) {
         cx_pos = e.track.track_number;
         recentTracksPos = i;
         if (!recentTracks) recentTracks = data.map(e => e.track.uri);
-      } else if (type === "featured") {
-        name = e.name;
-        image = e.images[0].url;
-        key = e.id;
-        dataType = e.type;
-        cx = e.uri;
-      } else if (type === "related") {
-        //     if(props.currPlay)
-        //  {   console.log(props.currPlay)
-        //     console.log(props.currPlay.item.artists[0].name, e.name)}
-
+      } else if (type === "playlists") {
         name = e.name;
         image = e.images[0].url;
         key = e.id;
         dataType = e.type;
         cx = e.uri;
       }
+      // } else if (type === "playlists") {
+      //   //     if(props.currPlay)
+      //   //  {   console.log(props.currPlay)
+      //   //     console.log(props.currPlay.item.artists[0].name, e.name)}
+
+      //   name = e.name;
+      //   image = e.images[0].url;
+      //   key = e.id;
+      //   dataType = e.type;
+      //   cx = e.uri;
+      // }
       // if (dataType === "playlist") console.log(props.data, props.currPlay);
 
       //
@@ -50,22 +52,27 @@ export default function GenAlbumContainer(props) {
               cx_pos ? (dataType !== "track" ? cx_pos : recentTracksPos) : null
             }
             data-recent_pos={dataType === "track" ? recentTracksPos : null}
+            data-data_type={dataType}
             onClick={e => {
-              if (dataType === "artist") {
+              // console.log(e.currentTarget.dataset);
+              if (e.currentTarget.dataset.data_type === "artist") {
                 props.APIrequest("playArtist", {
                   cx: e.currentTarget.dataset.cx
                 });
-              } else if (dataType === "playlist") {
+              }
+              if (e.currentTarget.dataset.data_type === "playlist") {
                 props.APIrequest("playSpecificPlayback", {
                   cx: e.currentTarget.dataset.cx,
                   cx_pos: e.currentTarget.dataset.cx_pos
                 });
-              } else if (dataType === "track") {
+              }
+              if (e.currentTarget.dataset.data_type === "track") {
                 props.APIrequest("playRecentTracks", {
                   cx: recentTracks,
                   cx_pos: e.currentTarget.dataset.recent_pos
                 });
               }
+              props.APIrequest("currentlyPlaying");
             }}
             onMouseOver={e => {
               e.currentTarget.className =
