@@ -69,7 +69,7 @@ class PlayerBar extends PureComponent {
     } else if (this.props.player && !this.player) {
       //if I have the player ready
       this.player = this.props.player;
-    } else if (this.player) {
+    } else if (this.props.player) {
       if (!this.playbackSDK) {
         this.playbackSDKinterval();
       }
@@ -80,7 +80,7 @@ class PlayerBar extends PureComponent {
     this.playbackSDK = setInterval(() => {
       this.player.getCurrentState().then(state => {
         if (state) {
-          console.log("SDK updated, state:", state);
+          // console.log("SDK updated, state:", state);
           const trackPlaying = state.track_window.current_track;
           const songTitle =
             trackPlaying.name.length >= 32

@@ -9,9 +9,11 @@ import HomeScreen from "./Components/HomeScreen/HomeScreen";
 import "./Components/HomeScreen/HomeScreen.sass";
 import PlayerBar from "./Components/PlayerBar/PlayerBar";
 import "./Components/PlayerBar/PlayerBar.sass";
+import Charts from "./Components/Charts/Charts";
 import "./globalStyles.sass";
 import cdnLoader from "./loadScript";
 import initSDK from "./APIconnection/initSDK";
+import { countryCodes } from "./assets/countries";
 import {
   setToken,
   getToken,
@@ -37,12 +39,11 @@ class App extends Component {
       shuffle: false,
       deviceName: "",
       deviceTabOn: false,
+      getCategories: "",
+      getCategoryPlaylists: [],
+      PolandTop: "",
       currGrad:
-        (this.gradientArr &&
-          this.gradientArr[
-            Math.round(Math.random() * this.gradientArr.length)
-          ]) ||
-        "linear-gradient(to right, #f9d423 0%, #ff4e50 100%)"
+        "linear-gradient(to right, #b8cbb8 0%, #b8cbb8 0%, #b465da 0%, #cf6cc9 33%, #ee609c 66%, #ee609c 100%)"
     };
     //
     //
@@ -71,6 +72,7 @@ class App extends Component {
       "linear-gradient(to right, #2575fc 100%,#6a11cb 0%)",
       " linear-gradient(to right, #b8cbb8 0%, #b8cbb8 0%, #b465da 0%, #cf6cc9 33%, #ee609c 66%, #ee609c 100%)"
     ];
+    this.countryCodes = countryCodes;
   }
   componentDidMount() {
     // this.gradientCarousel();
@@ -151,11 +153,41 @@ class App extends Component {
     // eslint-disable-next-line
     let allNavElems = Array.from(ele.currentTarget.children);
     let chosenOne = ele.target;
-    let basicClass, clickedClass, strategy;
+    let basicClass, clickedClass, strategy, chosenView;
     if (navType === "right") {
       strategy = "innerText";
       basicClass = "right-tab__right-nav__element";
       clickedClass = "right-tab__right-nav__element--clicked";
+      chosenView = ele.target.id;
+      //depending on the chosen view, make the right API request
+      if (chosenView === "Charts") {
+        this.playerRequest("getCategoryPlaylists", {
+          category: "toplists",
+          country: "PL"
+        });
+        console.log(this.countryCodes);
+        let visited = [],
+          index;
+        for (let i = 0; i < 20; i += 1) {
+          index = Math.round(Math.random() * (this.countryCodes.length - 1));
+          while (
+            visited.includes(index) //making sure to not fetch one country's playlists twice
+          )
+            index = Math.round(Math.random() * (this.countryCodes.length - 1));
+          visited.push(index);
+          console.log(visited, this.state.getCategoryPlaylists);
+          this.playerRequest("getCategoryPlaylists", {
+            category: "toplists",
+            country: this.countryCodes[index].isoCode
+          });
+        }
+      }
+      this.setState({
+        rightTabView: chosenView,
+        currGrad: this.gradientArr[
+          Math.round(Math.random() * this.gradientArr.length)
+        ]
+      });
     } else if (navType === "left") {
       strategy = "offsetTop";
       basicClass = "left-tab__app-nav__search left-tab__app-nav__icon-text";
@@ -184,6 +216,35 @@ class App extends Component {
     });
   }
   render() {
+    let rightTabView;
+    switch (this.state.rightTabView) {
+      case "Charts":
+        rightTabView = (
+          <Charts
+            APIrequest={this.playerRequest}
+            getCategories={this.state.getCategories}
+            getCategoryPlaylists={this.state.getCategoryPlaylists}
+            currentlyPlaying={this.state.currentlyPlaying}
+            playerState={this.state.playerState}
+            PolandTop={this.state.PolandTop}
+          />
+        );
+        break;
+      default:
+        rightTabView = (
+          <HomeScreen
+            playerState={this.state.playerState}
+            featured={this.state.featured}
+            recent={this.state.recentlyPlayed}
+            relatedTop={this.state.topRelatedArtists}
+            topArtist={this.state.topArtist}
+            APIrequest={this.playerRequest}
+            currentlyPlaying={this.state.currentlyPlaying}
+            player={this.player}
+          />
+        );
+        break;
+    }
     return (
       <main
         className="app"
@@ -204,18 +265,7 @@ class App extends Component {
             APIrequest={this.playerRequest}
           />
         </LeftTab>
-        <RightTab handleNavClick={this.handleNavClick}>
-          <HomeScreen
-            playerState={this.state.playerState}
-            featured={this.state.featured}
-            recent={this.state.recentlyPlayed}
-            relatedTop={this.state.topRelatedArtists}
-            topArtist={this.state.topArtist}
-            APIrequest={this.playerRequest}
-            currentlyPlaying={this.state.currentlyPlaying}
-            player={this.player}
-          />
-        </RightTab>
+        <RightTab handleNavClick={this.handleNavClick}>{rightTabView}</RightTab>
         <PlayerBar
           recent={
             this.state.recentlyPlayed && this.state.recentlyPlayed.items[0]

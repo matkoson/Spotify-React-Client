@@ -29,7 +29,7 @@ class HomeScreen extends Component {
           playerState={this.props.playerState}
           APIrequest={this.props.APIrequest}
           data={ftrdProp.playlists.items.slice(0, 6)}
-          type={"featured"}
+          type={"playlists"}
           currPlay={this.props.currentlyPlaying}
         />
       );
@@ -40,7 +40,7 @@ class HomeScreen extends Component {
           playerState={this.props.playerState}
           APIrequest={this.props.APIrequest}
           data={this.props.relatedTop}
-          type={"related"}
+          type={"playlists"}
           currPlay={this.props.currentlyPlaying}
         />
       );
