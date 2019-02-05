@@ -10,6 +10,7 @@ import "./Components/HomeScreen/HomeScreen.sass";
 import PlayerBar from "./Components/PlayerBar/PlayerBar";
 import "./Components/PlayerBar/PlayerBar.sass";
 import Charts from "./Components/Charts/Charts";
+import Genres from "./Components/Genres/Genres";
 import "./globalStyles.sass";
 import cdnLoader from "./loadScript";
 import initSDK from "./APIconnection/initSDK";
@@ -49,6 +50,7 @@ class App extends Component {
     //
     //
     this.clientID = "25be93ebc6a047cfbf6ed82187d766b4";
+    this.initSDK = initSDK.bind(this);
     this.setToken = setToken.bind(this);
     this.getToken = getToken.bind(this);
     this.getRecent = getRecent.bind(this);
@@ -58,8 +60,8 @@ class App extends Component {
     this.handleResize = this.handleResize.bind(this);
     this.handleNavClick = this.handleNavClick.bind(this);
     this.gradientCarousel = this.gradientCarousel.bind(this);
+    this.makeApropriateFetch = this.makeApropriateFetch.bind(this);
     this.handleDeviceTabClick = this.handleDeviceTabClick.bind(this);
-    this.initSDK = initSDK.bind(this);
     this.gradientArr = [
       "linear-gradient(to right, #f9d423 0%, #ff4e50 100%)",
       "linear-gradient(-225deg, #231557 0%, #44107A 29%, #FF1361 67%, #FFF800 100%)",
@@ -148,6 +150,32 @@ class App extends Component {
       if (!this.state.topRelatedArtists) this.getTopArtist();
     }
   }
+  makeApropriateFetch(chosenView) {
+    if (chosenView === "Charts") {
+      this.playerRequest("getCategoryPlaylists", {
+        category: "toplists",
+        country: "PL"
+      });
+      console.log(this.countryCodes);
+      let visited = [],
+        index;
+      for (let i = 0; i < 20; i += 1) {
+        index = Math.round(Math.random() * (this.countryCodes.length - 1));
+        while (
+          visited.includes(index) //making sure to not fetch one country's playlists twice
+        )
+          index = Math.round(Math.random() * (this.countryCodes.length - 1));
+        visited.push(index);
+        console.log(visited, this.state.getCategoryPlaylists);
+        this.playerRequest("getCategoryPlaylists", {
+          category: "toplists",
+          country: this.countryCodes[index].isoCode
+        });
+      }
+    } else if (chosenView === "Genres") {
+      this.playerRequest("getCategories");
+    }
+  }
 
   handleNavClick(ele, navType) {
     // eslint-disable-next-line
@@ -159,29 +187,8 @@ class App extends Component {
       basicClass = "right-tab__right-nav__element";
       clickedClass = "right-tab__right-nav__element--clicked";
       chosenView = ele.target.id;
+      this.makeApropriateFetch(chosenView);
       //depending on the chosen view, make the right API request
-      if (chosenView === "Charts") {
-        this.playerRequest("getCategoryPlaylists", {
-          category: "toplists",
-          country: "PL"
-        });
-        console.log(this.countryCodes);
-        let visited = [],
-          index;
-        for (let i = 0; i < 20; i += 1) {
-          index = Math.round(Math.random() * (this.countryCodes.length - 1));
-          while (
-            visited.includes(index) //making sure to not fetch one country's playlists twice
-          )
-            index = Math.round(Math.random() * (this.countryCodes.length - 1));
-          visited.push(index);
-          console.log(visited, this.state.getCategoryPlaylists);
-          this.playerRequest("getCategoryPlaylists", {
-            category: "toplists",
-            country: this.countryCodes[index].isoCode
-          });
-        }
-      }
       this.setState({
         rightTabView: chosenView,
         currGrad: this.gradientArr[
@@ -227,6 +234,16 @@ class App extends Component {
             currentlyPlaying={this.state.currentlyPlaying}
             playerState={this.state.playerState}
             PolandTop={this.state.PolandTop}
+          />
+        );
+        break;
+      case "Genres":
+        rightTabView = (
+          <Genres
+            getCategories={this.state.getCategories}
+            currentlyPlaying={this.state.currentlyPlaying}
+            playerState={this.state.playerState}
+            APIrequest={this.playerRequest}
           />
         );
         break;

@@ -4,7 +4,7 @@ let name, image, key, dataType, cx, cx_pos, recentTracks, recentTracksPos;
 export default function GenAlbumContainer(props) {
   const data = props.data,
     type = props.type;
-  // console.log(data, type);
+  console.log(data, type);
   if (props && data)
     return data.map((e, i) => {
       // if (type === "featured") console.log(data);
@@ -17,10 +17,10 @@ export default function GenAlbumContainer(props) {
         cx_pos = e.track.track_number;
         recentTracksPos = i;
         if (!recentTracks) recentTracks = data.map(e => e.track.uri);
-      } else if (type === "playlists") {
+      } else if (type === "playlists" || type === "categories") {
         name = e.name;
-        image = e.images[0].url;
-        key = e.id;
+        key = e.href || e.id;
+        image = type === "playlists" ? e.images[0].url : e.icons[0].url;
         dataType = e.type;
         cx = e.uri;
       }
@@ -91,36 +91,38 @@ export default function GenAlbumContainer(props) {
                 "home-screen__made-for-user__playlist-element__img--hover")
             }
           >
-            <div
-              className="app__play-hover"
-              onMouseOver={e =>
-                (e.currentTarget.className =
-                  "app__play-hover app__play-hover--hover")
-              }
-              onMouseLeave={e =>
-                (e.currentTarget.className = "app__play-hover")
-              }
-            >
-              {props.playerState &&
-              !props.playerState.paused &&
-              ((dataType === "track" &&
-                props.currPlay.item &&
-                cx === props.currPlay.item.uri) ||
-                (dataType === "artist" &&
-                  props.currPlay &&
-                  props.currPlay.item.artists[0].name === e.name) ||
-                (dataType === "playlist" &&
-                  props.currPlay.context &&
-                  cx === props.currPlay.context.uri)) ? (
-                <i
-                  id="pause"
-                  className="fas fa-pause app__pause-visible__icon"
-                />
-              ) : (
-                <i id="play" className="fas fa-play app__play-hover__icon" />
-              )}
-              {/* check whether the uri of the curr playing album/artist/track is same as the uri of the generated element */}
-            </div>
+            {props.type !== "categories" && (
+              <div
+                className="app__play-hover"
+                onMouseOver={e =>
+                  (e.currentTarget.className =
+                    "app__play-hover app__play-hover--hover")
+                }
+                onMouseLeave={e =>
+                  (e.currentTarget.className = "app__play-hover")
+                }
+              >
+                {props.playerState &&
+                !props.playerState.paused &&
+                ((dataType === "track" &&
+                  props.currPlay.item &&
+                  cx === props.currPlay.item.uri) ||
+                  (dataType === "artist" &&
+                    props.currPlay &&
+                    props.currPlay.item.artists[0].name === e.name) ||
+                  (dataType === "playlist" &&
+                    props.currPlay.context &&
+                    cx === props.currPlay.context.uri)) ? (
+                  <i
+                    id="pause"
+                    className="fas fa-pause app__pause-visible__icon"
+                  />
+                ) : (
+                  <i id="play" className="fas fa-play app__play-hover__icon" />
+                )}
+                {/* check whether the uri of the curr playing album/artist/track is same as the uri of the generated element */}
+              </div>
+            )}
             <img
               className={
                 dataType !== "artist"

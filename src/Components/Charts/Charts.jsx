@@ -7,6 +7,7 @@ class Podcasts extends Component {
     this.renderCharts = this.renderCharts.bind(this);
   }
   componentDidMount() {
+    this.props.APIrequest("getCategories");
     if (this.props.getCategoryPlaylists.playlists) this.renderCharts();
   }
   renderCharts() {
