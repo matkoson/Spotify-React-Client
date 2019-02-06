@@ -53,6 +53,7 @@ class App extends Component {
       deviceName: "",
       deviceTabOn: false,
       getCategories: "",
+      getCategory: "",
       getCategoryPlaylists: [],
       PolandTop: "",
       currGrad:
@@ -153,6 +154,7 @@ class App extends Component {
       case "Genres":
         rightTabView = (
           <Genres
+            makeApropriateFetch={this.makeApropriateFetch}
             getCategories={this.state.getCategories}
             currentlyPlaying={this.state.currentlyPlaying}
             playerState={this.state.playerState}
@@ -207,6 +209,8 @@ class App extends Component {
           <CatInnerView
             getCategories={this.state.getCategories}
             APIrequest={this.playerRequest}
+            PolandTop={this.state.PolandTop}
+            getCategory={this.state.getCategory}
           />
         )}
         <PlayerBar

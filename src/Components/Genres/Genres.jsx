@@ -28,7 +28,7 @@ class Genres extends React.Component {
   }
 
   render() {
-    if (!this.categoriesList) this.props.APIrequest("currentlyPlaying");
+    if (!this.categoriesList) this.props.makeApropriateFetch("Genres");
     return (
       <div style={{ color: "#ffffff" }} className="genres home-screen">
         <h2 className="app__fetch-title">{"Genres & Moods"}</h2>

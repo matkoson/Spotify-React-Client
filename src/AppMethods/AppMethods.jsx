@@ -103,7 +103,8 @@ export function gradientCarousel() {
 }
 export function handleMainRightViewChange(e) {
   const category = e.currentTarget.dataset.category_type;
-  this.playerRequest("getCategoryPlaylists", { category });
+  this.playerRequest("getCategoryPlaylists", { category, country: "PL" });
+  this.playerRequest("getCategory", { category, country: "PL" });
   this.setState({ mainRightView: category });
 }
 
