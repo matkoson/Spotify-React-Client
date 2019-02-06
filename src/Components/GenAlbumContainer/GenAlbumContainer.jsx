@@ -20,7 +20,6 @@ export default function GenAlbumContainer(props) {
       } else if (type === "playlists" || type === "categories") {
         name = e.name;
         key = e.href || e.id;
-        // console.log('key',key)
         image = type === "playlists" ? e.images[0].url : e.icons[0].url;
         dataType = type;
         cx = e.uri;
@@ -49,7 +48,7 @@ export default function GenAlbumContainer(props) {
                   cx: e.currentTarget.dataset.cx
                 });
               }
-              if (e.currentTarget.dataset.data_type === "playlist") {
+              if (e.currentTarget.dataset.data_type === "playlists") {
                 props.APIrequest("playSpecificPlayback", {
                   cx: e.currentTarget.dataset.cx,
                   cx_pos: e.currentTarget.dataset.cx_pos

@@ -13,6 +13,7 @@ import Charts from "./Components/Charts/Charts";
 import Genres from "./Components/Genres/Genres";
 import CatInnerView from "./Components/CatInnerView/CatInnerView";
 import "./globalStyles.sass";
+import "./Components/CatInnerView/CatInnerView.sass";
 import cdnLoader from "./loadScript";
 import initSDK from "./APIconnection/initSDK";
 import { countryCodes } from "./assets/countries";
@@ -207,10 +208,12 @@ class App extends Component {
           </RightTab>
         ) : (
           <CatInnerView
-            getCategories={this.state.getCategories}
             APIrequest={this.playerRequest}
             PolandTop={this.state.PolandTop}
             getCategory={this.state.getCategory}
+            currentlyPlaying={this.state.currentlyPlaying}
+            getCategoryPlaylists={this.state.getCategoryPlaylists}
+            playerState={this.state.playerState}
           />
         )}
         <PlayerBar
