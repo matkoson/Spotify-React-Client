@@ -11,10 +11,20 @@ import PlayerBar from "./Components/PlayerBar/PlayerBar";
 import "./Components/PlayerBar/PlayerBar.sass";
 import Charts from "./Components/Charts/Charts";
 import Genres from "./Components/Genres/Genres";
+import CatInnerView from "./Components/CatInnerView/CatInnerView";
 import "./globalStyles.sass";
 import cdnLoader from "./loadScript";
 import initSDK from "./APIconnection/initSDK";
 import { countryCodes } from "./assets/countries";
+import {
+  makeApropriateFetch,
+  handleNavClick,
+  handleDeviceTabClick,
+  handleResize,
+  gradientCarousel,
+  handleMainRightViewChange,
+  handleReturnHome
+} from "./AppMethods/AppMethods";
 import {
   setToken,
   getToken,
@@ -28,6 +38,8 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      mainRightView: "Home",
+      rightTabView: "",
       auth: "",
       recentlyPlayed: "",
       featured: "",
@@ -56,12 +68,14 @@ class App extends Component {
     this.getRecent = getRecent.bind(this);
     this.getFtrdPlay = getFtrdPlay.bind(this);
     this.getTopArtist = getTopArtist.bind(this);
+    this.handleResize = handleResize.bind(this);
     this.playerRequest = playerRequest.bind(this);
-    this.handleResize = this.handleResize.bind(this);
-    this.handleNavClick = this.handleNavClick.bind(this);
-    this.gradientCarousel = this.gradientCarousel.bind(this);
-    this.makeApropriateFetch = this.makeApropriateFetch.bind(this);
-    this.handleDeviceTabClick = this.handleDeviceTabClick.bind(this);
+    this.handleNavClick = handleNavClick.bind(this);
+    this.gradientCarousel = gradientCarousel.bind(this);
+    this.handleReturnHome = handleReturnHome.bind(this);
+    this.makeApropriateFetch = makeApropriateFetch.bind(this);
+    this.handleDeviceTabClick = handleDeviceTabClick.bind(this);
+    this.handleMainRightViewChange = handleMainRightViewChange.bind(this);
     this.gradientArr = [
       "linear-gradient(to right, #f9d423 0%, #ff4e50 100%)",
       "linear-gradient(-225deg, #231557 0%, #44107A 29%, #FF1361 67%, #FFF800 100%)",
@@ -108,36 +122,6 @@ class App extends Component {
       this.getToken();
     }
   }
-  gradientCarousel() {
-    this.gradientChange = setInterval(() => {
-      console.log(
-        "changing",
-        this.gradientArr[Math.round(Math.random() * this.gradientArr.length)]
-      );
-      this.setState({
-        currGrad: this.gradientArr[
-          Math.round(Math.random() * this.gradientArr.length)
-        ]
-      });
-    }, 1000 * 10);
-  }
-  handleResize() {
-    if (!this.state.windowWidth) {
-      this.setState({ windowWidth: window.innerWidth });
-    } else {
-      if (this.state.windowWidth > 1000 && window.innerWidth < 1000) {
-        this.setState({ windowWidth: window.innerWidth });
-      }
-      if (this.state.windowWidth < 1000 && window.innerWidth > 1000)
-        this.setState({ windowWidth: window.innerWidth });
-    }
-  }
-  handleDeviceTabClick(e) {
-    e.target.style.color === "rgb(255, 255, 255)"
-      ? (e.target.style.color = "#1db954")
-      : (e.target.style.color = "rgb(255, 255, 255)");
-    this.setState({ deviceTabOn: !this.state.deviceTabOn });
-  }
   componentDidUpdate() {
     if (this.state.auth) {
       if (!this.state.currentlyPlaying) {
@@ -150,76 +134,7 @@ class App extends Component {
       if (!this.state.topRelatedArtists) this.getTopArtist();
     }
   }
-  makeApropriateFetch(chosenView) {
-    if (chosenView === "Charts") {
-      this.playerRequest("getCategoryPlaylists", {
-        category: "toplists",
-        country: "PL"
-      });
-      console.log(this.countryCodes);
-      let visited = {},
-        index;
-      for (let i = 0; i < 20; i += 1) {
-        index = Math.round(Math.random() * (this.countryCodes.length - 1));
-        while (visited[this.countryCodes[index].isoCode])
-          index = Math.round(Math.random() * (this.countryCodes.length - 1)); //making sure to not fetch one country's playlists twice
-        visited[this.countryCodes[index].isoCode] = true;
-        console.log(visited, this.state.getCategoryPlaylists);
-        this.playerRequest("getCategoryPlaylists", {
-          category: "toplists",
-          country: this.countryCodes[index].isoCode
-        });
-      }
-    } else if (chosenView === "Genres") {
-      this.playerRequest("getCategories");
-    }
-  }
 
-  handleNavClick(ele, navType) {
-    // eslint-disable-next-line
-    let allNavElems = Array.from(ele.currentTarget.children);
-    let chosenOne = ele.target;
-    let basicClass, clickedClass, strategy, chosenView;
-    if (navType === "right") {
-      strategy = "innerText";
-      basicClass = "right-tab__right-nav__element";
-      clickedClass = "right-tab__right-nav__element--clicked";
-      chosenView = ele.target.id;
-      this.makeApropriateFetch(chosenView);
-      //depending on the chosen view, make the right API request
-      this.setState({
-        rightTabView: chosenView,
-        currGrad: this.gradientArr[
-          Math.round(Math.random() * this.gradientArr.length)
-        ]
-      });
-    } else if (navType === "left") {
-      strategy = "offsetTop";
-      basicClass = "left-tab__app-nav__search left-tab__app-nav__icon-text";
-      clickedClass = "left-tab__app-nav__icon-text--clicked";
-      chosenOne = chosenOne.offsetParent;
-    } else if (navType === "recent") {
-      strategy = "offsetTop";
-      basicClass = "recently-played__element ";
-      clickedClass =
-        "left-tab__app-nav__icon-text--clicked recently-played__element--modified";
-    }
-
-    allNavElems = allNavElems.forEach(e => {
-      if (e[strategy] === chosenOne[strategy]) {
-        e.className = `${basicClass} ${clickedClass}`;
-      } else if (
-        navType === "recent" &&
-        e.className === chosenOne.parentNode.className
-      ) {
-        e.className = `${basicClass} ${clickedClass}`;
-        e.dataset.clicked = true;
-      } else {
-        e.className = basicClass;
-        if (e.dataset && e.dataset.clicked) e.dataset.clicked = false;
-      }
-    });
-  }
   render() {
     let rightTabView;
     switch (this.state.rightTabView) {
@@ -242,6 +157,7 @@ class App extends Component {
             currentlyPlaying={this.state.currentlyPlaying}
             playerState={this.state.playerState}
             APIrequest={this.playerRequest}
+            handleMainRightViewChange={this.handleMainRightViewChange}
           />
         );
         break;
@@ -272,7 +188,10 @@ class App extends Component {
         }
         //click anywhere in the app to make deviceTab disappear
       >
-        <LeftTab handleNavClick={this.handleNavClick}>
+        <LeftTab
+          handleNavClick={this.handleNavClick}
+          handleReturnHome={this.handleReturnHome}
+        >
           <RecentlyPlayed
             handleNavClick={this.handleNavClick}
             rawRecPlayed={this.state.recentlyPlayed}
@@ -280,7 +199,16 @@ class App extends Component {
             APIrequest={this.playerRequest}
           />
         </LeftTab>
-        <RightTab handleNavClick={this.handleNavClick}>{rightTabView}</RightTab>
+        {this.state.mainRightView === "Home" ? (
+          <RightTab handleNavClick={this.handleNavClick}>
+            {rightTabView}
+          </RightTab>
+        ) : (
+          <CatInnerView
+            getCategories={this.state.getCategories}
+            APIrequest={this.playerRequest}
+          />
+        )}
         <PlayerBar
           recent={
             this.state.recentlyPlayed && this.state.recentlyPlayed.items[0]

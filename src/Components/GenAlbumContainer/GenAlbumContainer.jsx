@@ -1,10 +1,10 @@
 import React from "react";
 // import { playerRequest } from "././APImethods";
-let name, image, key, dataType, cx, cx_pos, recentTracks, recentTracksPos;
+let name, image, key, dataType, cx, cx_pos, recentTracks, recentTracksPos, id;
 export default function GenAlbumContainer(props) {
   const data = props.data,
     type = props.type;
-  // console.log(data, type);
+  if (type === "categories") console.log(data, type);
   if (props && data)
     return data.map((e, i) => {
       // if (type === "featured") console.log(data);
@@ -22,25 +22,10 @@ export default function GenAlbumContainer(props) {
         key = e.href || e.id;
         // console.log('key',key)
         image = type === "playlists" ? e.images[0].url : e.icons[0].url;
-        dataType = e.type;
+        dataType = type;
         cx = e.uri;
+        id = e.id;
       }
-      // } else if (type === "playlists") {
-      //   //     if(props.currPlay)
-      //   //  {   console.log(props.currPlay)
-      //   //     console.log(props.currPlay.item.artists[0].name, e.name)}
-
-      //   name = e.name;
-      //   image = e.images[0].url;
-      //   key = e.id;
-      //   dataType = e.type;
-      //   cx = e.uri;
-      // }
-      // if (dataType === "playlist") console.log(props.data, props.currPlay);
-
-      //
-      //
-      //
       return (
         <div key={key} className="home-screen__made-for-user__playlist-element">
           {/*  */}
@@ -54,8 +39,11 @@ export default function GenAlbumContainer(props) {
             }
             data-recent_pos={dataType === "track" ? recentTracksPos : null}
             data-data_type={dataType}
+            data-category_type={dataType === "categories" ? id : null}
             onClick={e => {
-              // console.log(e.currentTarget.dataset);
+              if (e.currentTarget.dataset.data_type === "categories") {
+                props.handleMainRightViewChange(e);
+              }
               if (e.currentTarget.dataset.data_type === "artist") {
                 props.APIrequest("playArtist", {
                   cx: e.currentTarget.dataset.cx

@@ -109,7 +109,7 @@ export function playerRequest(type, additional) {
     getCategoryPlaylists: {
       uri: `https://api.spotify.com/v1/browse/categories/${additional &&
         additional.category}/playlists?country=${additional &&
-        additional.country}`,
+        (additional.country || null)}`,
       type: "GET"
     },
     setVolume: {
