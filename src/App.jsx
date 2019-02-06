@@ -157,15 +157,13 @@ class App extends Component {
         country: "PL"
       });
       console.log(this.countryCodes);
-      let visited = [],
+      let visited = {},
         index;
       for (let i = 0; i < 20; i += 1) {
         index = Math.round(Math.random() * (this.countryCodes.length - 1));
-        while (
-          visited.includes(index) //making sure to not fetch one country's playlists twice
-        )
-          index = Math.round(Math.random() * (this.countryCodes.length - 1));
-        visited.push(index);
+        while (visited[this.countryCodes[index].isoCode])
+          index = Math.round(Math.random() * (this.countryCodes.length - 1)); //making sure to not fetch one country's playlists twice
+        visited[this.countryCodes[index].isoCode] = true;
         console.log(visited, this.state.getCategoryPlaylists);
         this.playerRequest("getCategoryPlaylists", {
           category: "toplists",

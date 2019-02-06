@@ -25,7 +25,11 @@ class Podcasts extends Component {
     if (this.props.getCategoryPlaylists) {
       this.countryTop = this.props.getCategoryPlaylists
         .map(e => e.playlists.items[e.playlists.items.length - 5])
-        .filter(e => e.name.includes("Top 50"));
+        .filter(e => {
+          return (
+            /^(?!.*(Global Top)).*50$/.test(e.name) && e.name.includes("Top")
+          );
+        });
       this.countryTop = (
         <GenAlbumContainer
           data={this.countryTop}
@@ -35,9 +39,17 @@ class Podcasts extends Component {
           currPlay={this.props.currentlyPlaying}
         />
       );
+      const hash = {};
       this.countryViral = this.props.getCategoryPlaylists
-        .map(e => e.playlists.items[e.playlists.items.length - 2])
-        .filter(e => e.name.includes("Viral 50"));
+        .map(e => {
+          const name = e.playlists.items[e.playlists.items.length - 2].name;
+          hash[name] ? (hash[name] += 1) : (hash[name] = 1);
+          return e.playlists.items[e.playlists.items.length - 2];
+        })
+        .filter(e => {
+          console.log("DUPL?", /^(?!.*(Global Viral)).*50$/.test(e.name));
+          return /^(?!.*(Global Viral)).*50$/.test(e.name) && hash[e.name] < 2;
+        });
     }
     this.countryViral = (
       <GenAlbumContainer

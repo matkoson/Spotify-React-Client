@@ -4,7 +4,7 @@ let name, image, key, dataType, cx, cx_pos, recentTracks, recentTracksPos;
 export default function GenAlbumContainer(props) {
   const data = props.data,
     type = props.type;
-  console.log(data, type);
+  // console.log(data, type);
   if (props && data)
     return data.map((e, i) => {
       // if (type === "featured") console.log(data);
@@ -20,6 +20,7 @@ export default function GenAlbumContainer(props) {
       } else if (type === "playlists" || type === "categories") {
         name = e.name;
         key = e.href || e.id;
+        // console.log('key',key)
         image = type === "playlists" ? e.images[0].url : e.icons[0].url;
         dataType = e.type;
         cx = e.uri;
