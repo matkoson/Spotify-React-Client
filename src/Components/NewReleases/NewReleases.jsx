@@ -2,9 +2,9 @@ import React from "react";
 import GenAlbumContainer from "../GenAlbumContainer/GenAlbumContainer";
 
 class NewReleases extends React.Component {
-  componentDidMount() {
-    console.log(this.props.getNewReleases);
-  }
+  // componentDidMount() {
+  //   console.log(this.props.getNewReleases);
+  // }
   render() {
     console.log(this.props.getNewReleases);
     if (this.props.getNewReleases)

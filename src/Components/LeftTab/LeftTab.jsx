@@ -6,7 +6,13 @@ import lib from "../../assets/svg/lib.svg";
 export default function LeftTab(props) {
   return (
     <div className="left-tab">
-      <div className="left-tab__logo">
+      <div
+        className="left-tab__logo"
+        style={{ cursor: "pointer" }}
+        onClick={() => {
+          props.handleReturnHome();
+        }}
+      >
         <img
           className="left-tab__logo__logo"
           src={logo}

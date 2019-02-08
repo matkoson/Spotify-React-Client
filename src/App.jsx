@@ -12,6 +12,7 @@ import "./Components/PlayerBar/PlayerBar.sass";
 import Charts from "./Components/Charts/Charts";
 import Genres from "./Components/Genres/Genres";
 import NewReleases from "./Components/NewReleases/NewReleases";
+import Discover from "./Components/Discover/Discover";
 import CatInnerView from "./Components/CatInnerView/CatInnerView";
 import "./globalStyles.sass";
 import "./Components/CatInnerView/CatInnerView.sass";
@@ -41,6 +42,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      alreadyViewed: [],
       mainRightView: "Home",
       rightTabView: "",
       auth: "",
@@ -173,6 +175,16 @@ class App extends Component {
             APIrequest={this.playerRequest}
             PolandTop={this.state.PolandTop}
             getCategory={this.state.getCategory}
+            currentlyPlaying={this.state.currentlyPlaying}
+          />
+        );
+        break;
+      case "Discover":
+        rightTabView = (
+          <Discover
+            getMultipleArtistAlbums={this.state.getMultipleArtistAlbums}
+            playerState={this.state.playerState}
+            APIrequest={this.playerRequest}
             currentlyPlaying={this.state.currentlyPlaying}
           />
         );

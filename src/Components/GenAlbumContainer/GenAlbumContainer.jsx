@@ -15,11 +15,11 @@ export default function GenAlbumContainer(props) {
     type = props.type,
     special = props.special;
   artistName = null;
-  // console.log("data", data, "type", type);
-  if (type === "playlists") console.log(data, type);
+  console.log(props, "data", data, "type", type);
+  // if (type === "playlists") console.log(data, type);
   if (props && data) {
     return data.map((e, i) => {
-      // if (type === "featured") console.log(data);
+      // console.log(e);
       if (type === "recent") {
         name = e.track.name;
         artistName = e.track.artists[0].name;
@@ -37,7 +37,9 @@ export default function GenAlbumContainer(props) {
         dataType = type;
         cx = e.uri;
         id = e.id;
-        if (e.album_type === "single") artistName = e.artists[0].name;
+        // artistName =  e.track.artists[0].name;
+        if (e.album_type === "single" || e.album_type === "album")
+          artistName = e.artists[0].name;
       }
       return (
         <div key={key} className="home-screen__made-for-user__playlist-element">
@@ -152,7 +154,10 @@ export default function GenAlbumContainer(props) {
   } else {
     let placeholder = new Array(10).fill(1);
     placeholder = placeholder.map((e, i) => (
-      <div key={i} className="home-screen__made-for-user__playlist-element">
+      <div
+        key={`${i}${Math.random * 100000}`}
+        className="home-screen__made-for-user__playlist-element"
+      >
         <div
           style={{ backgroundColor: "#282828" }}
           className="home-screen__made-for-user__playlist-element__img--fake"
@@ -160,7 +165,7 @@ export default function GenAlbumContainer(props) {
         {}
       </div>
     ));
-    console.log(placeholder, "placeholder");
+    // console.log(placeholder, "placeholder");
     return placeholder;
 
     // (
