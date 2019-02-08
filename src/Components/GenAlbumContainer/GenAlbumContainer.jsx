@@ -1,15 +1,28 @@
 import React from "react";
 // import { playerRequest } from "././APImethods";
-let name, image, key, dataType, cx, cx_pos, recentTracks, recentTracksPos;
+let name,
+  image,
+  key,
+  dataType,
+  cx,
+  cx_pos,
+  recentTracks,
+  recentTracksPos,
+  id,
+  artistName;
 export default function GenAlbumContainer(props) {
   const data = props.data,
-    type = props.type;
-  // console.log(data, type);
-  if (props && data)
+    type = props.type,
+    special = props.special;
+  artistName = null;
+  // console.log("data", data, "type", type);
+  if (type === "playlists") console.log(data, type);
+  if (props && data) {
     return data.map((e, i) => {
       // if (type === "featured") console.log(data);
       if (type === "recent") {
         name = e.track.name;
+        artistName = e.track.artists[0].name;
         image = e.track.album.images[0].url;
         key = e.played_at;
         dataType = e.track.type;
@@ -17,29 +30,15 @@ export default function GenAlbumContainer(props) {
         cx_pos = e.track.track_number;
         recentTracksPos = i;
         if (!recentTracks) recentTracks = data.map(e => e.track.uri);
-      } else if (type === "playlists") {
+      } else if (type === "playlists" || type === "categories") {
         name = e.name;
-        image = e.images[0].url;
-        key = e.id;
-        dataType = e.type;
+        key = e.href || e.id;
+        image = type === "playlists" ? e.images[0].url : e.icons[0].url;
+        dataType = type;
         cx = e.uri;
+        id = e.id;
+        if (e.album_type === "single") artistName = e.artists[0].name;
       }
-      // } else if (type === "playlists") {
-      //   //     if(props.currPlay)
-      //   //  {   console.log(props.currPlay)
-      //   //     console.log(props.currPlay.item.artists[0].name, e.name)}
-
-      //   name = e.name;
-      //   image = e.images[0].url;
-      //   key = e.id;
-      //   dataType = e.type;
-      //   cx = e.uri;
-      // }
-      // if (dataType === "playlist") console.log(props.data, props.currPlay);
-
-      //
-      //
-      //
       return (
         <div key={key} className="home-screen__made-for-user__playlist-element">
           {/*  */}
@@ -53,14 +52,17 @@ export default function GenAlbumContainer(props) {
             }
             data-recent_pos={dataType === "track" ? recentTracksPos : null}
             data-data_type={dataType}
+            data-category_type={dataType === "categories" ? id : null}
             onClick={e => {
-              // console.log(e.currentTarget.dataset);
-              if (e.currentTarget.dataset.data_type === "artist") {
-                props.APIrequest("playArtist", {
+              if (e.currentTarget.dataset.data_type === "categories") {
+                props.handleMainRightViewChange(e);
+              }
+              if (special) {
+                return props.APIrequest("playArtist", {
                   cx: e.currentTarget.dataset.cx
                 });
               }
-              if (e.currentTarget.dataset.data_type === "playlist") {
+              if (e.currentTarget.dataset.data_type === "playlists") {
                 props.APIrequest("playSpecificPlayback", {
                   cx: e.currentTarget.dataset.cx,
                   cx_pos: e.currentTarget.dataset.cx_pos
@@ -91,39 +93,41 @@ export default function GenAlbumContainer(props) {
                 "home-screen__made-for-user__playlist-element__img--hover")
             }
           >
-            <div
-              className="app__play-hover"
-              onMouseOver={e =>
-                (e.currentTarget.className =
-                  "app__play-hover app__play-hover--hover")
-              }
-              onMouseLeave={e =>
-                (e.currentTarget.className = "app__play-hover")
-              }
-            >
-              {props.playerState &&
-              !props.playerState.paused &&
-              ((dataType === "track" &&
-                props.currPlay.item &&
-                cx === props.currPlay.item.uri) ||
-                (dataType === "artist" &&
-                  props.currPlay &&
-                  props.currPlay.item.artists[0].name === e.name) ||
-                (dataType === "playlist" &&
-                  props.currPlay.context &&
-                  cx === props.currPlay.context.uri)) ? (
-                <i
-                  id="pause"
-                  className="fas fa-pause app__pause-visible__icon"
-                />
-              ) : (
-                <i id="play" className="fas fa-play app__play-hover__icon" />
-              )}
-              {/* check whether the uri of the curr playing album/artist/track is same as the uri of the generated element */}
-            </div>
+            {props.type !== "categories" && (
+              <div
+                className="app__play-hover"
+                onMouseOver={e =>
+                  (e.currentTarget.className =
+                    "app__play-hover app__play-hover--hover")
+                }
+                onMouseLeave={e =>
+                  (e.currentTarget.className = "app__play-hover")
+                }
+              >
+                {props.playerState &&
+                !props.playerState.paused &&
+                ((dataType === "track" &&
+                  props.currPlay.item &&
+                  cx === props.currPlay.item.uri) ||
+                  (dataType === "artist" &&
+                    props.currPlay &&
+                    props.currPlay.item.artists[0].name === e.name) ||
+                  (dataType === "playlist" &&
+                    props.currPlay.context &&
+                    cx === props.currPlay.context.uri)) ? (
+                  <i
+                    id="pause"
+                    className="fas fa-pause app__pause-visible__icon"
+                  />
+                ) : (
+                  <i id="play" className="fas fa-play app__play-hover__icon" />
+                )}
+                {/* check whether the uri of the curr playing album/artist/track is same as the uri of the generated element */}
+              </div>
+            )}
             <img
               className={
-                dataType !== "artist"
+                !special
                   ? "home-screen__made-for-user__playlist-element__img-pic"
                   : "app__rounded-album home-screen__made-for-user__playlist-element__img-pic"
               }
@@ -139,8 +143,34 @@ export default function GenAlbumContainer(props) {
           <div className="home-screen__made-for-user__playlist-element__title">
             {name}
           </div>
-          <div className="home-screen__made-for-user__playlist-element__artists" />
+          <div className="home-screen__made-for-user__playlist-element__artists">
+            {artistName ? artistName : null}
+          </div>
         </div>
       );
     });
+  } else {
+    let placeholder = new Array(10).fill(1);
+    placeholder = placeholder.map((e, i) => (
+      <div key={i} className="home-screen__made-for-user__playlist-element">
+        <div
+          style={{ backgroundColor: "#282828" }}
+          className="home-screen__made-for-user__playlist-element__img--fake"
+        />
+        {}
+      </div>
+    ));
+    console.log(placeholder, "placeholder");
+    return placeholder;
+
+    // (
+    //   <div className="home-screen__made-for-user__playlist-element">
+    //     <div
+    //       style={{ backgroundColor: "#282828" }}
+    //       className="home-screen__made-for-user__playlist-element__img"
+    //     />
+    //     {}
+    //   </div>
+    // );
+  }
 }

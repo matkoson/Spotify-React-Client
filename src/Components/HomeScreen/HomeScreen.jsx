@@ -41,6 +41,7 @@ class HomeScreen extends Component {
           APIrequest={this.props.APIrequest}
           data={this.props.relatedTop}
           type={"playlists"}
+          special={true}
           currPlay={this.props.currentlyPlaying}
         />
       );
@@ -51,7 +52,7 @@ class HomeScreen extends Component {
           {ftrdMssg ? ftrdMssg : null}
         </h2>
         <div className="app__fetch-container home-screen__made-for-user__playlist-container">
-          {albumPics}
+          {albumPics || <GenAlbumContainer />}
         </div>
         {/*  */}
         {/*  */}
@@ -60,13 +61,13 @@ class HomeScreen extends Component {
           Recently played
         </h2>
         <div className="app__fetch-container home-screen__made-for-user__playlist-container">
-          {processedProp}
+          {processedProp || <GenAlbumContainer />}
         </div>
         <h2 className="app__fetch-title home-screen__recommendation">
           More like {this.props.topArtist}
         </h2>
         <div className="app__fetch-container home-screen__made-for-user__playlist-container">
-          {relatedTop}
+          {relatedTop || <GenAlbumContainer />}
         </div>
       </div>
     );
