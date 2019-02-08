@@ -13,6 +13,8 @@ import Charts from "./Components/Charts/Charts";
 import Genres from "./Components/Genres/Genres";
 import NewReleases from "./Components/NewReleases/NewReleases";
 import Discover from "./Components/Discover/Discover";
+import Search from "./Components/Search/Search";
+import "./Components/Search/Search.sass";
 import CatInnerView from "./Components/CatInnerView/CatInnerView";
 import "./globalStyles.sass";
 import "./Components/CatInnerView/CatInnerView.sass";
@@ -26,7 +28,7 @@ import {
   handleResize,
   gradientCarousel,
   handleMainRightViewChange,
-  handleReturnHome
+  handleMainRightChange
 } from "./AppMethods/AppMethods";
 import {
   setToken,
@@ -62,8 +64,7 @@ class App extends Component {
       getCategoryPlaylists: [],
       getMultipleArtistAlbums: [],
       PolandTop: "",
-      currGrad:
-        "linear-gradient(105deg, rgba(112,45,58,1) 25%, rgba(44,44,44,1) 56%)"
+      currGrad: "linear-gradient(105deg, rgba(112,45,58,1) 25%, #282828 56%)"
     };
     //
     //
@@ -79,19 +80,21 @@ class App extends Component {
     this.playerRequest = playerRequest.bind(this);
     this.handleNavClick = handleNavClick.bind(this);
     this.gradientCarousel = gradientCarousel.bind(this);
-    this.handleReturnHome = handleReturnHome.bind(this);
+    this.handleMainRightChange = handleMainRightChange.bind(this);
     this.makeApropriateFetch = makeApropriateFetch.bind(this);
     this.handleDeviceTabClick = handleDeviceTabClick.bind(this);
     this.getContentFromMultiArtists = getContentFromMultiArtists.bind(this);
     this.handleMainRightViewChange = handleMainRightViewChange.bind(this);
     this.gradientArr = [
-      "linear-gradient(105deg, rgba(124,113,10,1) 25%, rgba(44,44,44,1) 56%)",
-      "linear-gradient(105deg, rgba(102,37,37,1) 25%, rgba(44,44,44,1) 56%)",
-      "linear-gradient(105deg, rgba(127,22,7,1) 25%, rgba(44,44,44,1) 56%)",
-      " linear-gradient(105deg, rgba(52,54,81,1) 25%, rgba(44,44,44,1) 56%)",
-      "linear-gradient(105deg, rgba(60,81,52,1) 25%, rgba(44,44,44,1) 56%)",
-      "linear-gradient(105deg, rgba(81,52,79,1) 25%, rgba(44,44,44,1) 56%)",
-      "linear-gradient(105deg, rgba(81,52,80,1) 25%, rgba(44,44,44,1) 56%)"
+      "linear-gradient(105deg, rgba(67,13,107,1) 25%, #282828 56%);",
+      "linear-gradient(105deg, rgba(13,28,107,1) 25%, #282828 56%)",
+      "linear-gradient(105deg, rgba(13,82,107,1) 25%, #282828 56%)",
+      "linear-gradient(105deg, rgba(124,113,10,1) 25%, #282828 56%)",
+      "linear-gradient(105deg, rgba(102,37,37,1) 25%, #282828 56%)",
+      "linear-gradient(105deg, rgba(127,22,7,1) 25%, #282828 56%)",
+      " linear-gradient(105deg, rgba(52,54,81,1) 25%, #282828 56%)",
+      "linear-gradient(105deg, rgba(81,52,79,1) 25%, #282828 56%)",
+      "linear-gradient(105deg, rgba(107,13,20,1) 25%, #282828 56%)"
     ];
     this.countryCodes = countryCodes;
   }
@@ -142,6 +145,7 @@ class App extends Component {
 
   render() {
     let rightTabView;
+    let rightOverride;
     switch (this.state.rightTabView) {
       case "Charts":
         rightTabView = (
@@ -202,8 +206,26 @@ class App extends Component {
             player={this.player}
           />
         );
-        break;
     }
+
+    switch (this.state.mainRightView) {
+      case "Search":
+        rightOverride = <Search />;
+
+        break;
+      default:
+        rightOverride = (
+          <CatInnerView
+            APIrequest={this.playerRequest}
+            PolandTop={this.state.PolandTop}
+            getCategory={this.state.getCategory}
+            currentlyPlaying={this.state.currentlyPlaying}
+            getCategoryPlaylists={this.state.getCategoryPlaylists}
+            playerState={this.state.playerState}
+          />
+        );
+    }
+    console.log(rightOverride, "OVERRIDE");
     return (
       <main
         className="app"
@@ -218,7 +240,7 @@ class App extends Component {
       >
         <LeftTab
           handleNavClick={this.handleNavClick}
-          handleReturnHome={this.handleReturnHome}
+          handleMainRightChange={this.handleMainRightChange}
         >
           <RecentlyPlayed
             handleNavClick={this.handleNavClick}
@@ -232,14 +254,7 @@ class App extends Component {
             {rightTabView}
           </RightTab>
         ) : (
-          <CatInnerView
-            APIrequest={this.playerRequest}
-            PolandTop={this.state.PolandTop}
-            getCategory={this.state.getCategory}
-            currentlyPlaying={this.state.currentlyPlaying}
-            getCategoryPlaylists={this.state.getCategoryPlaylists}
-            playerState={this.state.playerState}
-          />
+          <React.Fragment> {rightOverride}</React.Fragment>
         )}
         <PlayerBar
           recent={
