@@ -11,6 +11,7 @@ import PlayerBar from "./Components/PlayerBar/PlayerBar";
 import "./Components/PlayerBar/PlayerBar.sass";
 import Charts from "./Components/Charts/Charts";
 import Genres from "./Components/Genres/Genres";
+import NewReleases from "./Components/NewReleases/NewReleases";
 import CatInnerView from "./Components/CatInnerView/CatInnerView";
 import "./globalStyles.sass";
 import "./Components/CatInnerView/CatInnerView.sass";
@@ -32,7 +33,8 @@ import {
   getFtrdPlay,
   getRecent,
   getTopArtist,
-  playerRequest
+  playerRequest,
+  getContentFromMultiArtists
 } from "./APIconnection/APImethods";
 
 class App extends Component {
@@ -56,9 +58,10 @@ class App extends Component {
       getCategories: "",
       getCategory: "",
       getCategoryPlaylists: [],
+      getMultipleArtistAlbums: [],
       PolandTop: "",
       currGrad:
-        "linear-gradient(to right, #b8cbb8 0%, #b8cbb8 0%, #b465da 0%, #cf6cc9 33%, #ee609c 66%, #ee609c 100%)"
+        "linear-gradient(105deg, rgba(112,45,58,1) 25%, rgba(44,44,44,1) 56%)"
     };
     //
     //
@@ -77,18 +80,16 @@ class App extends Component {
     this.handleReturnHome = handleReturnHome.bind(this);
     this.makeApropriateFetch = makeApropriateFetch.bind(this);
     this.handleDeviceTabClick = handleDeviceTabClick.bind(this);
+    this.getContentFromMultiArtists = getContentFromMultiArtists.bind(this);
     this.handleMainRightViewChange = handleMainRightViewChange.bind(this);
     this.gradientArr = [
-      "linear-gradient(to right, #f9d423 0%, #ff4e50 100%)",
-      "linear-gradient(-225deg, #231557 0%, #44107A 29%, #FF1361 67%, #FFF800 100%)",
-      "linear-gradient(to right, #f9d423 0%, #ff4e50 100%)",
-      "linear-gradient(45deg, #874da2 0%, #c43a30 100%)",
-      "linear-gradient(to right, #434343 0%, black 100%)",
-      "linear-gradient(to top, #f43b47 0%, #453a94 100%)",
-      "linear-gradient(to top, #3f51b1 0%, #5a55ae 13%, #7b5fac 25%, #8f6aae 38%, #a86aa4 50%, #cc6b8e 62%, #f18271 75%, #f3a469 87%, #f7c978 100%)",
-      "linear-gradient(120deg, #fccb90 0%, #d57eeb 100%)",
-      "linear-gradient(to right, #2575fc 100%,#6a11cb 0%)",
-      " linear-gradient(to right, #b8cbb8 0%, #b8cbb8 0%, #b465da 0%, #cf6cc9 33%, #ee609c 66%, #ee609c 100%)"
+      "linear-gradient(105deg, rgba(124,113,10,1) 25%, rgba(44,44,44,1) 56%)",
+      "linear-gradient(105deg, rgba(102,37,37,1) 25%, rgba(44,44,44,1) 56%)",
+      "linear-gradient(105deg, rgba(127,22,7,1) 25%, rgba(44,44,44,1) 56%)",
+      " linear-gradient(105deg, rgba(52,54,81,1) 25%, rgba(44,44,44,1) 56%)",
+      "linear-gradient(105deg, rgba(60,81,52,1) 25%, rgba(44,44,44,1) 56%)",
+      "linear-gradient(105deg, rgba(81,52,79,1) 25%, rgba(44,44,44,1) 56%)",
+      "linear-gradient(105deg, rgba(81,52,80,1) 25%, rgba(44,44,44,1) 56%)"
     ];
     this.countryCodes = countryCodes;
   }
@@ -164,6 +165,18 @@ class App extends Component {
           />
         );
         break;
+      case "New Releases":
+        rightTabView = (
+          <NewReleases
+            getNewReleases={this.state.getNewReleases}
+            playerState={this.state.playerState}
+            APIrequest={this.playerRequest}
+            PolandTop={this.state.PolandTop}
+            getCategory={this.state.getCategory}
+            currentlyPlaying={this.state.currentlyPlaying}
+          />
+        );
+        break;
       default:
         rightTabView = (
           <HomeScreen
@@ -223,6 +236,7 @@ class App extends Component {
           handleDeviceTabClick={this.handleDeviceTabClick}
           isDeviceTabOn={this.state.deviceTabOn}
           player={this.player}
+          playerState={this.state.playerState}
           deviceId={this.state.deviceID}
           deviceName={this.state.deviceName}
           APIrequest={this.playerRequest}

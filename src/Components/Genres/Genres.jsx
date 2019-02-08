@@ -32,7 +32,9 @@ class Genres extends React.Component {
     return (
       <div style={{ color: "#ffffff" }} className="genres home-screen">
         <h2 className="app__fetch-title">{"Genres & Moods"}</h2>
-        <div className="app__fetch-container">{this.categoriesList}</div>
+        <div className="app__fetch-container">
+          {this.categoriesList || <GenAlbumContainer />}
+        </div>
       </div>
     );
   }

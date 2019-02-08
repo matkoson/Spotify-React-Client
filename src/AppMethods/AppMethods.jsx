@@ -20,6 +20,12 @@ export function makeApropriateFetch(chosenView) {
     }
   } else if (chosenView === "Genres") {
     this.playerRequest("getCategories");
+  } else if (chosenView === "New Releases") {
+    this.playerRequest("getNewReleases");
+  } else if (chosenView === "Discover") {
+    let idList = this.state.topRelatedArtists.map(e => e.id);
+    // console.log(idList.join(","));
+    this.playerRequest("getMultipleArtists", { ids: idList });
   }
 }
 
@@ -35,12 +41,22 @@ export function handleNavClick(ele, navType) {
     chosenView = ele.target.id;
     this.makeApropriateFetch(chosenView);
     //depending on the chosen view, make the right API request
-    this.setState({
-      rightTabView: chosenView,
-      currGrad: this.gradientArr[
-        Math.round(Math.random() * this.gradientArr.length)
-      ]
-    });
+    const randomNum = Math.round(Math.random() * this.gradientArr.length - 1);
+    if (ele.target.className === "right-tab__right-nav__element") {
+      this.setState(state => {
+        return {
+          rightTabView: chosenView,
+          currGrad:
+            this.gradientArr[randomNum] ||
+            "linear - gradient(to right bottom, #4d0b96, #3b2195, #292c91, #19348c, #0c3985)" ===
+              state.currGrad
+              ? this.gradientArr[randomNum + 1] ||
+                this.gradientArr[randomNum - 1]
+              : this.gradientArr[randomNum] ||
+                "linear - gradient(to right bottom, #4d0b96, #3b2195, #292c91, #19348c, #0c3985)"
+        };
+      });
+    }
   } else if (navType === "left") {
     strategy = "offsetTop";
     basicClass = "left-tab__app-nav__search left-tab__app-nav__icon-text";
@@ -108,7 +124,7 @@ export function handleMainRightViewChange(e) {
   this.setState({
     mainRightView: category,
     currGrad:
-      "linear-gradient(to right bottom, #000000, #000000, #000000, #202020, #282828)"
+      "linear-gradient(to right bottom, #000000, #000000,  #202020, #282828, #282828)"
   });
 }
 

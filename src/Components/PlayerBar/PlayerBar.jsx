@@ -46,6 +46,7 @@ class PlayerBar extends PureComponent {
     this.playbackSDKinterval = this.playbackSDKinterval.bind(this);
   }
   componentDidUpdate() {
+    if (!this.player && this.props.player) this.player = this.props.player;
     //at first viable update, while SDK is still not acitve, display the info from the last played track
     if (!this.props.player && this.props.recent) {
       const lastTrack = this.props.recent.track;
@@ -66,10 +67,9 @@ class PlayerBar extends PureComponent {
         volumePercentage: 100, //7
         paused: false
       });
-    } else if (this.props.player && !this.player) {
+    } else if (this.props.playerState.bitrate) {
+      // console.log("BITRATE");
       //if I have the player ready
-      this.player = this.props.player;
-    } else if (this.props.player) {
       if (!this.playbackSDK) {
         this.playbackSDKinterval();
       }

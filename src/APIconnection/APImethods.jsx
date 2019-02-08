@@ -77,6 +77,13 @@ export function getTopArtist() {
     })
     .catch(err => console.error(err));
 }
+export function getContentFromMultiArtists(multiArtists) {
+  console.log("in again", multiArtists);
+  // , multiArtists.map(e => e.id));
+  multiArtists.artists
+    .map(e => e.id)
+    .forEach(e => this.playerRequest("getMultipleArtistAlbums", { id: e }));
+}
 
 export function playerRequest(type, additional) {
   // console.log("called with type", type);
@@ -101,6 +108,10 @@ export function playerRequest(type, additional) {
     previousTrack: {
       uri: "https://api.spotify.com/v1/me/player/previous",
       type: "POST"
+    },
+    getNewReleases: {
+      uri: "https://api.spotify.com/v1/browse/new-releases",
+      type: "GET"
     },
     getCategories: {
       uri: `https://api.spotify.com/v1/browse/categories`,
@@ -180,6 +191,15 @@ export function playerRequest(type, additional) {
       uri: `https://api.spotify.com/v1/me/player/shuffle?state=${additional &&
         additional.shuffle}`,
       type: "PUT"
+    },
+    getMultipleArtists: {
+      uri: `https://api.spotify.com/v1/artists?ids=${additional &&
+        additional.ids}`,
+      type: "GET"
+    },
+    getMultipleArtistAlbums: {
+      uri: `https://api.spotify.com/v1/artists/${additional &&
+        additional.id}/albums`
     }
   };
   //
@@ -238,16 +258,18 @@ export function playerRequest(type, additional) {
                 return this.setState({ PolandTop: res });
               return this.setState({ [type]: [...this.state[type], res] });
             }
+          } else if (type === "getMultipleArtists") {
+            console.log("in");
+            this.getContentFromMultiArtists(res);
+          } else if (type === "getMultipleArtistAlbums") {
+            this.setState(state => {
+              return {
+                getMultipleArtistAlbums: [...state.getMultipleArtistAlbums, res]
+              };
+            });
+          } else {
+            if (!res.error) return this.setState({ [type]: res });
           }
-          if (!res.error) return this.setState({ [type]: res });
-          const firstRes = res;
-          // console.log("FIRST", firstRes);
-          fetch(res.item.href, request)
-            .then(res => {
-              if (!res.error)
-                return this.setState({ [type]: firstRes, audio: res.url });
-            })
-            .catch(err => err.reason);
         })
         .catch(err => err.reason);
     })

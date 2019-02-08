@@ -72,15 +72,19 @@ class Podcasts extends Component {
           {"Featured Charts"}
         </h2>
         <div className="app__fetch-container home-screen__made-for-user__playlist-container">
-          {this.PolandTop}
+          {this.PolandTop || <GenAlbumContainer />}
         </div>
         {/*  */}
         {/*  */}
         {/*  */}
         <h2 className="app__fetch-title">{"Top 50 by Country"}</h2>
-        <div className="app__fetch-container ">{this.countryTop}</div>
+        <div className="app__fetch-container ">
+          {this.countryTop || <GenAlbumContainer />}
+        </div>
         <h2 className="app__fetch-title">{"Viral 50 by Country"}</h2>
-        <div className="app__fetch-container ">{this.countryViral}</div>
+        <div className="app__fetch-container ">
+          {this.countryViral || <GenAlbumContainer />}
+        </div>
       </div>
     );
   }
