@@ -199,7 +199,8 @@ export function playerRequest(type, additional) {
     },
     getMultipleArtistAlbums: {
       uri: `https://api.spotify.com/v1/artists/${additional &&
-        additional.id}/albums`
+        additional.id}/albums`,
+      type: "GET"
     }
   };
   //
@@ -225,7 +226,7 @@ export function playerRequest(type, additional) {
     console.log(request, chosen.uri);
   return fetch(chosen.uri, request)
     .then(res => {
-      // console.log(res.body);
+      console.log("first", res.body);
       const reader = res.body.getReader();
       //refactor for handling readableStream in order to avoid JSON's 'unexpected end of input' error
       const stream = new ReadableStream({
@@ -250,7 +251,7 @@ export function playerRequest(type, additional) {
       })
         .json()
         .then(res => {
-          console.log(type);
+          // console.log(type);
           if (type === "getCategoryPlaylists") {
             if (!res.error) {
               console.log("resPlaylist", res, this.state[type]);
@@ -259,7 +260,7 @@ export function playerRequest(type, additional) {
               return this.setState({ [type]: [...this.state[type], res] });
             }
           } else if (type === "getMultipleArtists") {
-            console.log("in");
+            // console.log("in");
             this.getContentFromMultiArtists(res);
           } else if (type === "getMultipleArtistAlbums") {
             this.setState(state => {

@@ -2,10 +2,10 @@ import React from "react";
 import GenAlbumContainer from "../GenAlbumContainer/GenAlbumContainer";
 
 class Genres extends React.Component {
-  componentDidMount() {
-    console.log("mount", this.props);
-    this.renderContainer();
-  }
+  // componentDidMount() {
+  //   console.log("mount", this.props);
+  //   this.renderContainer();
+  // }
   renderContainer() {
     console.log("render", this.props.getCategories || null);
     if (this.props.getCategories) {
@@ -22,12 +22,13 @@ class Genres extends React.Component {
       );
     }
   }
-  componentDidUpdate() {
-    console.log("update", this.props);
-    this.renderContainer();
-  }
+  // componentDidUpdate() {
+  //   console.log("update", this.props);
+  //   this.renderContainer();
+  // }
 
   render() {
+    this.renderContainer();
     if (!this.categoriesList) this.props.makeApropriateFetch("Genres");
     return (
       <div style={{ color: "#ffffff" }} className="genres home-screen">

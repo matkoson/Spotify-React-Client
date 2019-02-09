@@ -1,31 +1,48 @@
 export function makeApropriateFetch(chosenView) {
   if (chosenView === "Charts") {
-    this.playerRequest("getCategoryPlaylists", {
-      category: "toplists",
-      country: "PL"
-    });
-    console.log(this.countryCodes);
-    let visited = {},
-      index;
-    for (let i = 0; i < 20; i += 1) {
-      index = Math.round(Math.random() * (this.countryCodes.length - 1));
-      while (visited[this.countryCodes[index].isoCode])
-        index = Math.round(Math.random() * (this.countryCodes.length - 1)); //making sure to not fetch one country's playlists twice
-      visited[this.countryCodes[index].isoCode] = true;
-      console.log(visited, this.state.getCategoryPlaylists);
+    if (!this.state.PolandTop) {
       this.playerRequest("getCategoryPlaylists", {
         category: "toplists",
-        country: this.countryCodes[index].isoCode
+        country: "PL"
       });
     }
+    if (!this.state.getCategoryPlaylists.length) {
+      let visited = {},
+        index;
+      for (let i = 0; i < 20; i += 1) {
+        index = Math.round(Math.random() * (this.countryCodes.length - 1));
+        while (visited[this.countryCodes[index].isoCode])
+          index = Math.round(Math.random() * (this.countryCodes.length - 1)); //making sure to not fetch one country's playlists twice
+        visited[this.countryCodes[index].isoCode] = true;
+        console.log(visited, this.state.getCategoryPlaylists);
+        this.playerRequest("getCategoryPlaylists", {
+          category: "toplists",
+          country: this.countryCodes[index].isoCode
+        });
+      }
+    }
   } else if (chosenView === "Genres") {
-    this.playerRequest("getCategories");
+    if (!this.state.alreadyViewed.includes(chosenView)) {
+      this.playerRequest("getCategories");
+      this.setState(state => {
+        return { alreadyViewed: [...state.alreadyViewed, chosenView] };
+      });
+    }
   } else if (chosenView === "New Releases") {
-    this.playerRequest("getNewReleases");
-  } else if (chosenView === "Discover") {
+    if (!this.state.alreadyViewed.includes(chosenView)) {
+      this.playerRequest("getNewReleases");
+      this.setState(state => {
+        return { alreadyViewed: [...state.alreadyViewed, chosenView] };
+      });
+    }
+  } else if (chosenView === "Discover" && this.state.topRelatedArtists) {
     let idList = this.state.topRelatedArtists.map(e => e.id);
-    // console.log(idList.join(","));
-    this.playerRequest("getMultipleArtists", { ids: idList });
+    if (!this.state.alreadyViewed.includes(chosenView)) {
+      this.playerRequest("getMultipleArtists", { ids: idList });
+      this.setState(state => {
+        return { alreadyViewed: [...state.alreadyViewed, chosenView] };
+      });
+    }
   }
 }
 
@@ -128,6 +145,13 @@ export function handleMainRightViewChange(e) {
   });
 }
 
-export function handleReturnHome() {
-  this.setState({ mainRightView: "Home", rightTabView: "" });
+export function handleMainRightChange(mainRightView) {
+  mainRightView === "Search"
+    ? this.setState({
+        mainRightView,
+        rightTabView: "",
+        currGrad:
+          "linear-gradient(to right bottom, #000000, #000000,  #202020, #282828, #282828)"
+      })
+    : this.setState({ mainRightView, rightTabView: "" });
 }
