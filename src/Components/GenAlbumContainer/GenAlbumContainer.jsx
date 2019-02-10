@@ -11,11 +11,11 @@ let name,
   id,
   artistName;
 export default function GenAlbumContainer(props) {
-  const data = props.data,
-    special = props.special;
-  let type = props.type,
+  let data = props.data,
+    special = props.special,
+    type = props.type,
     artistName = null;
-  // console.log(props, "data", data, "type", type, special);
+  console.log(props, "data", data, "type", type, special);
   // if (type === "playlists") console.log(data, type);
   if (props && data) {
     return data.map((e, i) => {
@@ -34,8 +34,14 @@ export default function GenAlbumContainer(props) {
       } else if (type === "playlists" || type === "categories") {
         name = e.name;
         key = e.href || e.id;
-        if ((e.images && e.images[0]) || e.icons)
-          image = type === "playlists" ? e.images[0].url : e.icons[0].url;
+        if ((e.images && e.images[0]) || e.icons || e.album) {
+          console.log("IN");
+          image =
+            type === "playlists"
+              ? (e.images && e.images[0].url) || e.album.images[0].url
+              : e.icons[0].url;
+        }
+        console.log(image, e.images, e.album && e.album.images);
         dataType = e.type === "artist" ? e.type : type;
         cx = e.uri;
         if (e.type === "track") {

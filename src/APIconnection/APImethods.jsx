@@ -139,6 +139,18 @@ export function playerRequest(type, additional) {
       }`,
       type: "PUT"
     },
+    getUserPlaylists: {
+      uri: `https://api.spotify.com/v1/me/playlists`,
+      type: "GET"
+    },
+    getUserSavedAlbums: {
+      uri: `https://api.spotify.com/v1/me/albums`,
+      type: "GET"
+    },
+    getUserSavedTracks: {
+      uri: `https://api.spotify.com/v1/me/tracks`,
+      type: "GET"
+    },
     playSpecificPlayback: {
       uri: `https://api.spotify.com/v1/me/player/play?=device_id=${
         this.state.deviceID

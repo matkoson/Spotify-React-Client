@@ -55,6 +55,9 @@ class App extends Component {
       featured: "",
       topRelatedArtists: "",
       topArtist: "",
+      getUserPlaylists: "",
+      getUserSavedAlbums: "",
+      getUserSavedTracks: "",
       currentlyPlaying: "",
       audio: "",
       tokenSDK: "",
@@ -224,7 +227,16 @@ class App extends Component {
 
         break;
       case "Library":
-        rightOverride = <Library />;
+        rightOverride = (
+          <Library
+            APIrequest={this.playerRequest}
+            getUserPlaylists={this.state.getUserPlaylists}
+            playerState={this.state.playerState}
+            currentlyPlaying={this.state.currentlyPlaying}
+            getUserSavedAlbums={this.state.getUserSavedAlbums}
+            getUserSavedTracks={this.state.getUserSavedTracks}
+          />
+        );
         break;
       default:
         rightOverride = (
