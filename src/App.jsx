@@ -46,6 +46,7 @@ class App extends Component {
     this.state = {
       alreadyViewed: [],
       mainRightView: "Home",
+      searchQuery: "",
       rightTabView: "",
       auth: "",
       recentlyPlayed: "",
@@ -210,7 +211,14 @@ class App extends Component {
 
     switch (this.state.mainRightView) {
       case "Search":
-        rightOverride = <Search />;
+        rightOverride = (
+          <Search
+            playerState={this.state.playerState}
+            APIrequest={this.playerRequest}
+            searchQuery={this.state.searchQuery}
+            currentlyPlaying={this.state.currentlyPlaying}
+          />
+        );
 
         break;
       default:
@@ -225,7 +233,7 @@ class App extends Component {
           />
         );
     }
-    console.log(rightOverride, "OVERRIDE");
+    // console.log(rightOverride, "OVERRIDE");
     return (
       <main
         className="app"

@@ -201,6 +201,11 @@ export function playerRequest(type, additional) {
       uri: `https://api.spotify.com/v1/artists/${additional &&
         additional.id}/albums`,
       type: "GET"
+    },
+    searchQuery: {
+      uri: `https://api.spotify.com/v1/search?q=${additional &&
+        encodeURIComponent(additional.query)}&type=album,artist,playlist,track`,
+      type: "GET"
     }
   };
   //

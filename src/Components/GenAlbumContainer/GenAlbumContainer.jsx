@@ -15,11 +15,11 @@ export default function GenAlbumContainer(props) {
     type = props.type,
     special = props.special;
   artistName = null;
-  console.log(props, "data", data, "type", type);
+  console.log(props, "data", data, "type", type, special);
   // if (type === "playlists") console.log(data, type);
   if (props && data) {
     return data.map((e, i) => {
-      // console.log(e);
+      if (special) console.log("special", e);
       if (type === "recent") {
         name = e.track.name;
         artistName = e.track.artists[0].name;
@@ -33,7 +33,8 @@ export default function GenAlbumContainer(props) {
       } else if (type === "playlists" || type === "categories") {
         name = e.name;
         key = e.href || e.id;
-        image = type === "playlists" ? e.images[0].url : e.icons[0].url;
+        if (e.images[0])
+          image = type === "playlists" ? e.images[0].url : e.icons[0].url;
         dataType = type;
         cx = e.uri;
         id = e.id;
@@ -167,15 +168,5 @@ export default function GenAlbumContainer(props) {
     ));
     // console.log(placeholder, "placeholder");
     return placeholder;
-
-    // (
-    //   <div className="home-screen__made-for-user__playlist-element">
-    //     <div
-    //       style={{ backgroundColor: "#282828" }}
-    //       className="home-screen__made-for-user__playlist-element__img"
-    //     />
-    //     {}
-    //   </div>
-    // );
   }
 }
