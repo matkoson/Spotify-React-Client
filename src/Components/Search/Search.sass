@@ -5,21 +5,31 @@
 	font-family: "SpaceGrotesk-SemiBold"
 
 
-.search__input
+.search__input-row
 	padding-left: 25px
-	color: #ffffff
-	font-family: "Anodina-ExtraLight"
-	background-color: transparent
-	border: none
 	width: 100%
 	height: 100px
 	position: absolute
 	top: 0
+	overflow: hidden
+	display: flex
+
+.search__input
+	width: 90%
+	color: #ffffff
+	outline: none
+	caret-color: #1ed760
+	background-color: transparent
+	border: none
 	font-size: 70px
 	font-weigth: 800
-	overflow: hidden
-	caret-color: #1ed760
-	outline: none
+	font-family: "Anodina-ExtraLight"
+
+.fa-search
+	opacity: 0.3
+	font-size: 50px
+	align-self: center
+
 
 .search__response
  padding-left: 25px

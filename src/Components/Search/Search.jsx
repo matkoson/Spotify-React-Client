@@ -63,15 +63,18 @@ class Search extends React.Component {
     ));
     return (
       <div className="search home-screen">
-        <input
-          autoFocus
-          placeholder={"Insert your query here..."}
-          value={this.state.searchInput}
-          onChange={this.handleInputChange}
-          type="text"
-          className="search__input"
-        />
-        {this.props.searchQuery && (
+        <div class="search__input-row">
+          <input
+            autoFocus
+            placeholder={"Insert your query here..."}
+            value={this.state.searchInput}
+            onChange={this.handleInputChange}
+            type="text"
+            className="search__input"
+          />
+          <i class="fas fa-search" />
+        </div>
+        {this.props.searchQuery && this.state.searchInput.length && (
           <div className="search__response">
             <ul className="search__response__nav">{searchNav}</ul>
             <h2 className="app__fetch-title">{"Top Result"}</h2>
