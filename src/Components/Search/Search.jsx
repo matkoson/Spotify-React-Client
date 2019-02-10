@@ -34,7 +34,6 @@ class Search extends React.Component {
         <GenAlbumContainer
           data={artists.items.slice(0, 2)}
           type={"playlists"}
-          special={true}
           playerState={this.props.playerState}
           APIrequest={this.props.APIrequest}
           currPlay={this.state.currentlyPlaying}
@@ -54,6 +53,7 @@ class Search extends React.Component {
         {this.props.searchQuery && (
           <div className="search__response">
             <ul className="search__response__nav">
+              <li className="search__response-nav__li">top result</li>
               <li className="search__response-nav__li">albums</li>
               <li className="search__response-nav__li">artists</li>
               <li className="search__response-nav__li">playlists</li>

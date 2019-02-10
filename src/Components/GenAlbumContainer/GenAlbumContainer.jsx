@@ -19,6 +19,7 @@ export default function GenAlbumContainer(props) {
   // if (type === "playlists") console.log(data, type);
   if (props && data) {
     return data.map((e, i) => {
+      console.log(e.type);
       if (special) console.log("special", e);
       if (type === "recent") {
         name = e.track.name;
@@ -35,7 +36,7 @@ export default function GenAlbumContainer(props) {
         key = e.href || e.id;
         if (e.images[0])
           image = type === "playlists" ? e.images[0].url : e.icons[0].url;
-        dataType = type;
+        dataType = e.type === "artist" ? e.type : type;
         cx = e.uri;
         id = e.id;
         // artistName =  e.track.artists[0].name;
@@ -60,7 +61,7 @@ export default function GenAlbumContainer(props) {
               if (e.currentTarget.dataset.data_type === "categories") {
                 props.handleMainRightViewChange(e);
               }
-              if (special) {
+              if (special || e.currentTarget.dataset.data_type === "artist") {
                 return props.APIrequest("playArtist", {
                   cx: e.currentTarget.dataset.cx
                 });
