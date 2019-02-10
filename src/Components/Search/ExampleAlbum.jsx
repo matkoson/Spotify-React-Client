@@ -27,7 +27,7 @@ export default function ExampleAlbum(props) {
       totalDuration = getMinsSecs(totalDuration);
       return (
         <li className="search-response__albums-example__tracks-li">
-          <div class="title-name-wrapper">
+          <div className="title-name-wrapper">
             <span className="search-response__albums-example__tracks-li__name">
               {e.name}
             </span>

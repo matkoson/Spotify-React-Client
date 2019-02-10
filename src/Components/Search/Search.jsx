@@ -5,8 +5,9 @@ import GenAlbumContainer from "../GenAlbumContainer/GenAlbumContainer";
 class Search extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { searchInput: "" };
+    this.state = { searchInput: "", chosenTab: "top result" };
     this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleHighlightChange = this.handleHighlightChange.bind(this);
   }
   handleInputChange(e) {
     const value = e.target.value;
@@ -15,6 +16,7 @@ class Search extends React.Component {
       this.props.APIrequest("searchQuery", { query: value });
     }, 700);
   }
+  handleHighlightChange(e) {}
 
   render() {
     const { albums, artists, playlists, tracks } = this.props.searchQuery;
@@ -40,6 +42,25 @@ class Search extends React.Component {
         />
       );
     }
+    const searchNav = [
+      "top result",
+      "albums",
+      "artists",
+      "playlists",
+      "tracks"
+    ].map(e => (
+      <li
+        id={e}
+        className={
+          this.state.chosenTab === e
+            ? "search-response__nav--clicked search__response-nav__li"
+            : "search__response-nav__li"
+        }
+        onClick={e => this.setState({ chosenTab: e.target.id })}
+      >
+        {e}
+      </li>
+    ));
     return (
       <div className="search home-screen">
         <input
@@ -52,13 +73,7 @@ class Search extends React.Component {
         />
         {this.props.searchQuery && (
           <div className="search__response">
-            <ul className="search__response__nav">
-              <li className="search__response-nav__li">top result</li>
-              <li className="search__response-nav__li">albums</li>
-              <li className="search__response-nav__li">artists</li>
-              <li className="search__response-nav__li">playlists</li>
-              <li className="search__response-nav__li">tracks</li>
-            </ul>
+            <ul className="search__response__nav">{searchNav}</ul>
             <h2 className="app__fetch-title">{"Top Result"}</h2>
             <ExampleAlbum
               playerState={this.state.playerState}

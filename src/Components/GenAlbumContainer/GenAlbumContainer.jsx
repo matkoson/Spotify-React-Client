@@ -34,7 +34,7 @@ export default function GenAlbumContainer(props) {
       } else if (type === "playlists" || type === "categories") {
         name = e.name;
         key = e.href || e.id;
-        if (e.images[0])
+        if ((e.images && e.images[0]) || e.icons)
           image = type === "playlists" ? e.images[0].url : e.icons[0].url;
         dataType = e.type === "artist" ? e.type : type;
         cx = e.uri;
