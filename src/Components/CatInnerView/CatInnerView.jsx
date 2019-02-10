@@ -27,16 +27,18 @@ class CatInnerView extends React.Component {
     }
     return (
       <div className="cat-inner-view">
-        <div className="cat-inner-view__cat-icon">
-          <img
-            width="275px"
-            height="275px"
-            className="cat-inner-view__img"
-            src={categoryIcon}
-            alt="category icon"
-          />
+        <div className="cat-inner-view__cat-title">
+          <div className="cat-inner-view__img">
+            <img
+              className="cat-inner-view__img-file"
+              width="275px"
+              height="275px"
+              src={categoryIcon}
+              alt="category icon"
+            />
+          </div>
+          <div className="cat-inner-view__cat-name">{categoryName}</div>
         </div>
-        <div className="cat-inner-view__cat-name">{categoryName}</div>
 
         <h2 className="app__fetch-title">{"Popular Playlists"}</h2>
         <div className="app__fetch-container ">

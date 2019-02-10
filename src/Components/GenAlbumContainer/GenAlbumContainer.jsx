@@ -12,14 +12,15 @@ let name,
   artistName;
 export default function GenAlbumContainer(props) {
   const data = props.data,
-    type = props.type,
     special = props.special;
-  artistName = null;
-  console.log(props, "data", data, "type", type);
+  let type = props.type,
+    artistName = null;
+  // console.log(props, "data", data, "type", type, special);
   // if (type === "playlists") console.log(data, type);
   if (props && data) {
     return data.map((e, i) => {
-      // console.log(e);
+      // console.log(e.name);
+      // if (special) console.log("special", e);
       if (type === "recent") {
         name = e.track.name;
         artistName = e.track.artists[0].name;
@@ -33,13 +34,24 @@ export default function GenAlbumContainer(props) {
       } else if (type === "playlists" || type === "categories") {
         name = e.name;
         key = e.href || e.id;
-        image = type === "playlists" ? e.images[0].url : e.icons[0].url;
-        dataType = type;
+        if ((e.images && e.images[0]) || e.icons)
+          image = type === "playlists" ? e.images[0].url : e.icons[0].url;
+        dataType = e.type === "artist" ? e.type : type;
         cx = e.uri;
+        if (e.type === "track") {
+          cx = e.album.uri;
+          cx_pos = e.track_number;
+        }
         id = e.id;
         // artistName =  e.track.artists[0].name;
-        if (e.album_type === "single" || e.album_type === "album")
+        if (
+          e.album_type === "single" ||
+          e.album_type === "album" ||
+          e.type === "track"
+        )
           artistName = e.artists[0].name;
+        // if (e.type === "track") type = "track";
+        // console.log("DATA", name, image, artistName, cx);
       }
       return (
         <div key={key} className="home-screen__made-for-user__playlist-element">
@@ -59,7 +71,7 @@ export default function GenAlbumContainer(props) {
               if (e.currentTarget.dataset.data_type === "categories") {
                 props.handleMainRightViewChange(e);
               }
-              if (special) {
+              if (special || e.currentTarget.dataset.data_type === "artist") {
                 return props.APIrequest("playArtist", {
                   cx: e.currentTarget.dataset.cx
                 });
@@ -167,15 +179,5 @@ export default function GenAlbumContainer(props) {
     ));
     // console.log(placeholder, "placeholder");
     return placeholder;
-
-    // (
-    //   <div className="home-screen__made-for-user__playlist-element">
-    //     <div
-    //       style={{ backgroundColor: "#282828" }}
-    //       className="home-screen__made-for-user__playlist-element__img"
-    //     />
-    //     {}
-    //   </div>
-    // );
   }
 }

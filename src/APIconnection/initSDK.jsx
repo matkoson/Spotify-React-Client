@@ -1,3 +1,5 @@
+import { stat } from "fs";
+
 export default function initSDK(token) {
   const nameSDK = "React Spotify Web Client";
   this.player = new window.Spotify.Player({
@@ -26,8 +28,11 @@ export default function initSDK(token) {
 
   // Playback status updates
   this.player.addListener("player_state_changed", state => {
-    console.log(state);
-    this.setState({ playerState: state });
+    if (state.bitrate && !state.paused) {
+      this.setState({ playerState: state, deviceTabOn: true });
+    } else if (state.paused) {
+      this.setState({ playerState: state, deviceTabOn: false });
+    }
   });
 
   // Ready

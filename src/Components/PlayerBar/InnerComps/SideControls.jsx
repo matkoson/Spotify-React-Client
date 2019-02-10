@@ -6,7 +6,11 @@ export default function SideControls(props) {
       <div className="player-bar__right-tab__controls">
         <i className="fas fa-list-ol" />
         <i
-          style={{ color: "rgb(255, 255, 255)" }}
+          style={
+            props.isDeviceTabOn
+              ? { color: "#1db954" }
+              : { color: "rgb(255, 255, 255)" }
+          }
           onClick={props.handleDeviceTabClick}
           className="fas fa-tablet-alt"
         />

@@ -14,6 +14,8 @@ import Genres from "./Components/Genres/Genres";
 import NewReleases from "./Components/NewReleases/NewReleases";
 import Discover from "./Components/Discover/Discover";
 import Search from "./Components/Search/Search";
+import Library from "./Components/Library/Library";
+import "./Components/Library/Library.sass";
 import "./Components/Search/Search.sass";
 import CatInnerView from "./Components/CatInnerView/CatInnerView";
 import "./globalStyles.sass";
@@ -46,6 +48,7 @@ class App extends Component {
     this.state = {
       alreadyViewed: [],
       mainRightView: "Home",
+      searchQuery: "",
       rightTabView: "",
       auth: "",
       recentlyPlayed: "",
@@ -210,8 +213,18 @@ class App extends Component {
 
     switch (this.state.mainRightView) {
       case "Search":
-        rightOverride = <Search />;
+        rightOverride = (
+          <Search
+            playerState={this.state.playerState}
+            APIrequest={this.playerRequest}
+            searchQuery={this.state.searchQuery}
+            currentlyPlaying={this.state.currentlyPlaying}
+          />
+        );
 
+        break;
+      case "Library":
+        rightOverride = <Library />;
         break;
       default:
         rightOverride = (
@@ -225,7 +238,7 @@ class App extends Component {
           />
         );
     }
-    console.log(rightOverride, "OVERRIDE");
+    // console.log(rightOverride, "OVERRIDE");
     return (
       <main
         className="app"
