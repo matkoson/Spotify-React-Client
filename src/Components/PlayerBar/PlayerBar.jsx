@@ -221,6 +221,7 @@ class PlayerBar extends PureComponent {
           totalTime={totalTime}
         />
         <SideControls
+        isDeviceTabOn={this.props.isDeviceTabOn}
           handleDeviceTabClick={this.props.handleDeviceTabClick}
           handleRangeChange={this.handleRangeChange}
           volumePercentage={volumePercentage}
