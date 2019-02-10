@@ -14,6 +14,8 @@ import Genres from "./Components/Genres/Genres";
 import NewReleases from "./Components/NewReleases/NewReleases";
 import Discover from "./Components/Discover/Discover";
 import Search from "./Components/Search/Search";
+import Library from "./Components/Library/Library";
+import "./Components/Library/Library.sass";
 import "./Components/Search/Search.sass";
 import CatInnerView from "./Components/CatInnerView/CatInnerView";
 import "./globalStyles.sass";
@@ -220,6 +222,9 @@ class App extends Component {
           />
         );
 
+        break;
+      case "Library":
+        rightOverride = <Library />;
         break;
       default:
         rightOverride = (
