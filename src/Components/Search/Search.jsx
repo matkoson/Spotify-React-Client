@@ -20,6 +20,86 @@ class Search extends React.Component {
 
   render() {
     const { albums, artists, playlists, tracks } = this.props.searchQuery;
+    let resultRender;
+    switch (this.state.chosenTab) {
+      case "albums":
+        resultRender = (
+          <React.Fragment>
+            <h2 className="app__fetch-title">{"Matching Albums"}</h2>
+            <div className="app__fetch-container ">
+              {this.albums || <GenAlbumContainer />}
+            </div>
+          </React.Fragment>
+        );
+        break;
+      case "artists":
+        resultRender = (
+          <React.Fragment>
+            <h2 className="app__fetch-title">{"Matching Artists"}</h2>
+            <div className="app__fetch-container ">
+              {(
+                <GenAlbumContainer
+                  data={artists.items.slice(0, 10)}
+                  type={"playlists"}
+                  playerState={this.props.playerState}
+                  APIrequest={this.props.APIrequest}
+                  currPlay={this.state.currentlyPlaying}
+                />
+              ) || <GenAlbumContainer />}
+            </div>
+          </React.Fragment>
+        );
+        break;
+      case "tracks":
+        resultRender = (
+          <React.Fragment>
+            <h2 className="app__fetch-title">{"Matching Tracks"}</h2>
+            <div className="app__fetch-container ">
+              {(
+                <GenAlbumContainer
+                  data={tracks.items.slice(0, 100)}
+                  type={"playlists"}
+                  playerState={this.props.playerState}
+                  APIrequest={this.props.APIrequest}
+                  currPlay={this.state.currentlyPlaying}
+                />
+              ) || <GenAlbumContainer />}
+            </div>
+          </React.Fragment>
+        );
+        break;
+      case "playlists":
+        resultRender = (
+          <React.Fragment>
+            <h2 className="app__fetch-title">{"Matching Artists"}</h2>
+            <div className="app__fetch-container ">
+              {this.playlists || <GenAlbumContainer />}
+            </div>
+          </React.Fragment>
+        );
+        break;
+      default:
+        resultRender = (
+          <React.Fragment>
+            <h2 className="app__fetch-title">{"Top Result"}</h2>
+            <ExampleAlbum
+              playerState={this.state.playerState}
+              currentlyPlaying={this.state.currentlyPlaying}
+              albums={albums}
+              tracks={tracks}
+              APIrequest={this.props.APIrequest}
+            />
+            <h2 className="app__fetch-title">{"Matching Artists"}</h2>
+            <div className="app__fetch-container ">
+              {this.artists || <GenAlbumContainer />}
+            </div>
+            <h2 className="app__fetch-title">{"Matching Playlists"}</h2>
+            <div className="app__fetch-container ">
+              {this.playlists || <GenAlbumContainer />}
+            </div>
+          </React.Fragment>
+        );
+    }
     if (playlists) {
       this.playlists = (
         <GenAlbumContainer
@@ -35,6 +115,17 @@ class Search extends React.Component {
       this.artists = (
         <GenAlbumContainer
           data={artists.items.slice(0, 2)}
+          type={"playlists"}
+          playerState={this.props.playerState}
+          APIrequest={this.props.APIrequest}
+          currPlay={this.state.currentlyPlaying}
+        />
+      );
+    }
+    if (albums) {
+      this.albums = (
+        <GenAlbumContainer
+          data={albums.items.slice(0, 50)}
           type={"playlists"}
           playerState={this.props.playerState}
           APIrequest={this.props.APIrequest}
@@ -66,7 +157,7 @@ class Search extends React.Component {
         <div class="search__input-row">
           <input
             autoFocus
-            placeholder={"Insert your query here..."}
+            placeholder={"Insert your query..."}
             value={this.state.searchInput}
             onChange={this.handleInputChange}
             type="text"
@@ -74,28 +165,13 @@ class Search extends React.Component {
           />
           <i class="fas fa-search" />
         </div>
-        {this.props.searchQuery && this.state.searchInput.length && (
-          <div className="search__response">
-            <ul className="search__response__nav">{searchNav}</ul>
-            <h2 className="app__fetch-title">{"Top Result"}</h2>
-            <ExampleAlbum
-              playerState={this.state.playerState}
-              currentlyPlaying={this.state.currentlyPlaying}
-              albums={albums}
-              tracks={tracks}
-              APIrequest={this.props.APIrequest}
-            />
-            <h2 className="app__fetch-title">{"Matching Artists"}</h2>
-            <div className="app__fetch-container ">
-              {this.artists || <GenAlbumContainer />}
+        {this.props.searchQuery &&
+          (this.state.searchInput && (
+            <div className="search__response">
+              <ul className="search__response__nav">{searchNav}</ul>
+              {resultRender}
             </div>
-            <h2 className="app__fetch-title">{"Matching Playlists"}</h2>
-            <div className="app__fetch-container ">
-              {this.playlists || <GenAlbumContainer />}
-            </div>
-          </div>
-        )}
-        {/* {JSON.stringify(this.props)} */}
+          ))}
       </div>
     );
   }

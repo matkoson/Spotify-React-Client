@@ -67,7 +67,7 @@ class PlayerBar extends PureComponent {
         volumePercentage: 100, //7
         paused: false
       });
-    } else if (this.props.playerState.bitrate) {
+    } else if (this.props.playerState && this.props.playerState.bitrate) {
       // console.log("BITRATE");
       //if I have the player ready
       if (!this.playbackSDK) {

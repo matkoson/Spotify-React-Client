@@ -1,5 +1,6 @@
 .search
 	margin-left: 240px
+	max-width: 750px
 	position: relative
 	color: #ffffff
 	font-family: "SpaceGrotesk-SemiBold"
@@ -13,6 +14,7 @@
 	top: 0
 	overflow: hidden
 	display: flex
+	padding-right: 25px
 
 .search__input
 	width: 90%
@@ -22,8 +24,8 @@
 	background-color: transparent
 	border: none
 	font-size: 70px
-	font-weigth: 800
 	font-family: "Anodina-ExtraLight"
+	margin-right: 15px
 
 .fa-search
 	opacity: 0.3
@@ -33,7 +35,7 @@
 
 .search__response
  padding-left: 25px
- padding-right: 10px
+ padding-right: 25px
  margin-top: 150px
  width: 100%
  height: calc(100%)
@@ -47,8 +49,9 @@
 	font-weight: 300
 	display: flex
 	justify-content: space-between
-	width: 50%
-	margin: 0 auto
+	align-self: flex-start
+	width: 70%
+	// margin: 0 auto
 	padding-bottom: 40px
 
 .search__response-nav__li
@@ -113,6 +116,7 @@
 
 .search__response__album-example__tracks-ul
 	list-style: none
+	max-width: 500px
 	display: flex
 	flex-direction: column
 	font-size: 12px
@@ -121,7 +125,7 @@
 	height: 100%
 	justify-content: space-around
 	padding-left: 15px
-	padding-right: 15px
+	padding-right: 0
 	.search-response__albums-example__tracks-li__name
 		font-size: 14px
 	.search-response__albums-example__tracks-li__artist

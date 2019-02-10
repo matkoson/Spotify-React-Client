@@ -12,15 +12,15 @@ let name,
   artistName;
 export default function GenAlbumContainer(props) {
   const data = props.data,
-    type = props.type,
     special = props.special;
-  artistName = null;
-  console.log(props, "data", data, "type", type, special);
+  let type = props.type,
+    artistName = null;
+  // console.log(props, "data", data, "type", type, special);
   // if (type === "playlists") console.log(data, type);
   if (props && data) {
     return data.map((e, i) => {
-      console.log(e.type);
-      if (special) console.log("special", e);
+      // console.log(e.name);
+      // if (special) console.log("special", e);
       if (type === "recent") {
         name = e.track.name;
         artistName = e.track.artists[0].name;
@@ -38,10 +38,20 @@ export default function GenAlbumContainer(props) {
           image = type === "playlists" ? e.images[0].url : e.icons[0].url;
         dataType = e.type === "artist" ? e.type : type;
         cx = e.uri;
+        if (e.type === "track") {
+          cx = e.album.uri;
+          cx_pos = e.track_number;
+        }
         id = e.id;
         // artistName =  e.track.artists[0].name;
-        if (e.album_type === "single" || e.album_type === "album")
+        if (
+          e.album_type === "single" ||
+          e.album_type === "album" ||
+          e.type === "track"
+        )
           artistName = e.artists[0].name;
+        // if (e.type === "track") type = "track";
+        // console.log("DATA", name, image, artistName, cx);
       }
       return (
         <div key={key} className="home-screen__made-for-user__playlist-element">

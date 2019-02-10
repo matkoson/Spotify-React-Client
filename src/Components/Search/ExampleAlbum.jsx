@@ -11,7 +11,7 @@ const getMinsSecs = (ms = 0) => {
 };
 export default function ExampleAlbum(props) {
   let name, artist, albumsExmp, albums, cx, top5Tracks, totalDuration;
-  if (props.albums.items) {
+  if (props.albums && props.albums.items) {
     albums = props.albums;
     albumsExmp = albums.items[0];
     if (albumsExmp) {
