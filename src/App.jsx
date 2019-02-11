@@ -257,6 +257,7 @@ class App extends Component {
             APIrequest={this.playerRequest}
             chosenAlbum={this.state.chosenAlbum}
             getAlbum={this.state.getAlbum}
+            playerState={this.state.playerState}
           />
         );
         break;
