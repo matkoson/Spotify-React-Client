@@ -13,11 +13,14 @@ export default function LeftTab(props) {
           props.handleMainRightChange("Home");
         }}
       >
-        <img
+        {/* <img
           className="left-tab__logo__logo"
           src={logo}
           alt="spotify-logo+text"
-        />
+        /> */}
+        <i class="fab fa-react left-tab__main-logo" />
+        <div className="left-tab__logo__title"> Spotify</div>
+        <div className="left-tab__logo__title-react">React</div>
       </div>
       <div
         onClick={e => props.handleNavClick(e, "left")}
