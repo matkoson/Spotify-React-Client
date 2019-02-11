@@ -101,6 +101,13 @@ export function handleNavClick(ele, navType) {
     }
   });
 }
+export function hanldeAlbumRightOverride(e) {
+  console.log("HANDLING ALBUM OVERRIDE");
+  this.setState({
+    mainRightView: "Album",
+    chosenAlbum: e.target.dataset.album
+  });
+}
 
 export function handleDeviceTabClick(e) {
   e.target.style.color === "rgb(255, 255, 255)"

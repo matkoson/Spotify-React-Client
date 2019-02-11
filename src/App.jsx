@@ -17,6 +17,8 @@ import Search from "./Components/Search/Search";
 import Library from "./Components/Library/Library";
 import "./Components/Library/Library.sass";
 import "./Components/Search/Search.sass";
+import Album from "./Components/Album/Album";
+import "./Components/Album/Album.sass";
 import CatInnerView from "./Components/CatInnerView/CatInnerView";
 import "./globalStyles.sass";
 import "./Components/CatInnerView/CatInnerView.sass";
@@ -30,7 +32,8 @@ import {
   handleResize,
   gradientCarousel,
   handleMainRightViewChange,
-  handleMainRightChange
+  handleMainRightChange,
+  hanldeAlbumRightOverride
 } from "./AppMethods/AppMethods";
 import {
   setToken,
@@ -55,6 +58,8 @@ class App extends Component {
       featured: "",
       topRelatedArtists: "",
       topArtist: "",
+      chosenAlbum: "",
+      getAlbum: "",
       getUserPlaylists: "",
       getUserSavedAlbums: "",
       getUserSavedTracks: "",
@@ -86,6 +91,7 @@ class App extends Component {
     this.playerRequest = playerRequest.bind(this);
     this.handleNavClick = handleNavClick.bind(this);
     this.gradientCarousel = gradientCarousel.bind(this);
+    this.hanldeAlbumRightOverride = hanldeAlbumRightOverride.bind(this);
     this.handleMainRightChange = handleMainRightChange.bind(this);
     this.makeApropriateFetch = makeApropriateFetch.bind(this);
     this.handleDeviceTabClick = handleDeviceTabClick.bind(this);
@@ -156,6 +162,7 @@ class App extends Component {
       case "Charts":
         rightTabView = (
           <Charts
+            hanldeAlbumRightOverride={this.hanldeAlbumRightOverride}
             APIrequest={this.playerRequest}
             getCategories={this.state.getCategories}
             getCategoryPlaylists={this.state.getCategoryPlaylists}
@@ -168,6 +175,7 @@ class App extends Component {
       case "Genres":
         rightTabView = (
           <Genres
+            hanldeAlbumRightOverride={this.hanldeAlbumRightOverride}
             makeApropriateFetch={this.makeApropriateFetch}
             getCategories={this.state.getCategories}
             currentlyPlaying={this.state.currentlyPlaying}
@@ -180,6 +188,7 @@ class App extends Component {
       case "New Releases":
         rightTabView = (
           <NewReleases
+            hanldeAlbumRightOverride={this.hanldeAlbumRightOverride}
             getNewReleases={this.state.getNewReleases}
             playerState={this.state.playerState}
             APIrequest={this.playerRequest}
@@ -192,6 +201,7 @@ class App extends Component {
       case "Discover":
         rightTabView = (
           <Discover
+            hanldeAlbumRightOverride={this.hanldeAlbumRightOverride}
             getMultipleArtistAlbums={this.state.getMultipleArtistAlbums}
             playerState={this.state.playerState}
             APIrequest={this.playerRequest}
@@ -202,6 +212,7 @@ class App extends Component {
       default:
         rightTabView = (
           <HomeScreen
+            hanldeAlbumRightOverride={this.hanldeAlbumRightOverride}
             playerState={this.state.playerState}
             featured={this.state.featured}
             recent={this.state.recentlyPlayed}
@@ -218,6 +229,7 @@ class App extends Component {
       case "Search":
         rightOverride = (
           <Search
+            hanldeAlbumRightOverride={this.hanldeAlbumRightOverride}
             playerState={this.state.playerState}
             APIrequest={this.playerRequest}
             searchQuery={this.state.searchQuery}
@@ -229,12 +241,22 @@ class App extends Component {
       case "Library":
         rightOverride = (
           <Library
+            hanldeAlbumRightOverride={this.hanldeAlbumRightOverride}
             APIrequest={this.playerRequest}
             getUserPlaylists={this.state.getUserPlaylists}
             playerState={this.state.playerState}
             currentlyPlaying={this.state.currentlyPlaying}
             getUserSavedAlbums={this.state.getUserSavedAlbums}
             getUserSavedTracks={this.state.getUserSavedTracks}
+          />
+        );
+        break;
+      case "Album":
+        rightOverride = (
+          <Album
+            APIrequest={this.playerRequest}
+            chosenAlbum={this.state.chosenAlbum}
+            getAlbum={this.state.getAlbum}
           />
         );
         break;

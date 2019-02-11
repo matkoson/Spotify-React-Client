@@ -191,6 +191,10 @@ export function playerRequest(type, additional) {
         additional.mode}`,
       type: "PUT"
     },
+    getAlbum: {
+      uri: `https://api.spotify.com/v1/albums/${additional && additional.uri}`,
+      type: "GET"
+    },
     getDevices: {
       uri: "https://api.spotify.com/v1/me/player/devices",
       type: "GET"

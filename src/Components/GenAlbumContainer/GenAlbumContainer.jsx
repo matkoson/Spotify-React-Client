@@ -9,7 +9,7 @@ let name,
   recentTracks,
   recentTracksPos,
   id,
-  artistName;
+  idS;
 export default function GenAlbumContainer(props) {
   let data = props.data,
     special = props.special,
@@ -28,6 +28,7 @@ export default function GenAlbumContainer(props) {
         key = e.played_at;
         dataType = e.track.type;
         cx = e.track.uri;
+        idS = e.track.id;
         cx_pos = e.track.track_number;
         recentTracksPos = i;
         if (!recentTracks) recentTracks = data.map(e => e.track.uri);
@@ -35,15 +36,16 @@ export default function GenAlbumContainer(props) {
         name = e.name;
         key = e.href || e.id;
         if ((e.images && e.images[0]) || e.icons || e.album) {
-          console.log("IN");
+          // console.log("IN");
           image =
             type === "playlists"
               ? (e.images && e.images[0].url) || e.album.images[0].url
               : e.icons[0].url;
         }
-        console.log(image, e.images, e.album && e.album.images);
+        // console.log(image, e.images, e.album && e.album.images);
         dataType = e.type === "artist" ? e.type : type;
         cx = e.uri;
+        idS = e.id;
         if (e.type === "track") {
           cx = e.album.uri;
           cx_pos = e.track_number;
@@ -160,7 +162,11 @@ export default function GenAlbumContainer(props) {
           {/*  */}
           {/*  */}
           {/*  */}
-          <div className="home-screen__made-for-user__playlist-element__title">
+          <div
+            data-album={idS}
+            onClick={props.hanldeAlbumRightOverride}
+            className="home-screen__made-for-user__playlist-element__title"
+          >
             {name}
           </div>
           <div className="home-screen__made-for-user__playlist-element__artists">

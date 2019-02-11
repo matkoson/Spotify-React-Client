@@ -39,6 +39,7 @@ class Search extends React.Component {
             <div className="app__fetch-container ">
               {(
                 <GenAlbumContainer
+                  hanldeAlbumRightOverride={this.props.hanldeAlbumRightOverride}
                   data={artists.items.slice(0, 10)}
                   type={"playlists"}
                   playerState={this.props.playerState}
@@ -57,6 +58,7 @@ class Search extends React.Component {
             <div className="app__fetch-container ">
               {(
                 <GenAlbumContainer
+                  hanldeAlbumRightOverride={this.props.hanldeAlbumRightOverride}
                   data={tracks.items.slice(0, 100)}
                   type={"playlists"}
                   playerState={this.props.playerState}
@@ -103,6 +105,7 @@ class Search extends React.Component {
     if (playlists) {
       this.playlists = (
         <GenAlbumContainer
+          hanldeAlbumRightOverride={this.props.hanldeAlbumRightOverride}
           data={playlists.items.slice(0, 5)}
           type={"playlists"}
           playerState={this.props.playerState}
@@ -114,6 +117,7 @@ class Search extends React.Component {
     if (artists) {
       this.artists = (
         <GenAlbumContainer
+          hanldeAlbumRightOverride={this.props.hanldeAlbumRightOverride}
           data={artists.items.slice(0, 2)}
           type={"playlists"}
           playerState={this.props.playerState}
@@ -125,6 +129,7 @@ class Search extends React.Component {
     if (albums) {
       this.albums = (
         <GenAlbumContainer
+          hanldeAlbumRightOverride={this.props.hanldeAlbumRightOverride}
           data={albums.items.slice(0, 50)}
           type={"playlists"}
           playerState={this.props.playerState}

@@ -48,7 +48,13 @@ class PlayerBar extends PureComponent {
   componentDidUpdate() {
     if (!this.player && this.props.player) this.player = this.props.player;
     //at first viable update, while SDK is still not acitve, display the info from the last played track
-    if (!this.props.player && this.props.recent) {
+    if (this.props.playerState && this.props.playerState.bitrate) {
+      // console.log("BITRATE");
+      //if I have the player ready
+      if (!this.playbackSDK) {
+        this.playbackSDKinterval();
+      }
+    } else if (!this.props.player && this.props.recent) {
       const lastTrack = this.props.recent.track;
       // console.log(lastTrack, lastTrack.name);
 
@@ -67,12 +73,6 @@ class PlayerBar extends PureComponent {
         volumePercentage: 100, //7
         paused: false
       });
-    } else if (this.props.playerState && this.props.playerState.bitrate) {
-      // console.log("BITRATE");
-      //if I have the player ready
-      if (!this.playbackSDK) {
-        this.playbackSDKinterval();
-      }
     }
   }
 
@@ -221,7 +221,7 @@ class PlayerBar extends PureComponent {
           totalTime={totalTime}
         />
         <SideControls
-        isDeviceTabOn={this.props.isDeviceTabOn}
+          isDeviceTabOn={this.props.isDeviceTabOn}
           handleDeviceTabClick={this.props.handleDeviceTabClick}
           handleRangeChange={this.handleRangeChange}
           volumePercentage={volumePercentage}
