@@ -1,6 +1,7 @@
 import React from "react";
 import ExampleAlbum from "./ExampleAlbum";
 import GenAlbumContainer from "../GenAlbumContainer/GenAlbumContainer";
+import { Context } from "../../Context/Context";
 
 class Search extends React.Component {
   constructor(props) {
@@ -13,7 +14,7 @@ class Search extends React.Component {
     const value = e.target.value;
     this.setState({ searchInput: value });
     setTimeout(() => {
-      this.props.APIrequest("searchQuery", { query: value });
+      this.context.APIrequest("searchQuery", { query: value });
     }, 700);
   }
   handleHighlightChange(e) {}
@@ -39,12 +40,8 @@ class Search extends React.Component {
             <div className="app__fetch-container ">
               {(
                 <GenAlbumContainer
-                  hanldeAlbumRightOverride={this.props.hanldeAlbumRightOverride}
                   data={artists.items.slice(0, 10)}
                   type={"playlists"}
-                  playerState={this.props.playerState}
-                  APIrequest={this.props.APIrequest}
-                  currPlay={this.state.currentlyPlaying}
                 />
               ) || <GenAlbumContainer />}
             </div>
@@ -58,12 +55,8 @@ class Search extends React.Component {
             <div className="app__fetch-container ">
               {(
                 <GenAlbumContainer
-                  hanldeAlbumRightOverride={this.props.hanldeAlbumRightOverride}
                   data={tracks.items.slice(0, 100)}
                   type={"playlists"}
-                  playerState={this.props.playerState}
-                  APIrequest={this.props.APIrequest}
-                  currPlay={this.state.currentlyPlaying}
                 />
               ) || <GenAlbumContainer />}
             </div>
@@ -85,11 +78,12 @@ class Search extends React.Component {
           <React.Fragment>
             <h2 className="app__fetch-title">{"Top Result"}</h2>
             <ExampleAlbum
-              playerState={this.state.playerState}
-              currentlyPlaying={this.state.currentlyPlaying}
+              playerState={this.context.playerState}
+              currentlyPlaying={this.context.currentlyPlaying}
               albums={albums}
+              getMinsSecs={this.context.getMinsSecs}
               tracks={tracks}
-              APIrequest={this.props.APIrequest}
+              APIrequest={this.context.APIrequest}
             />
             <h2 className="app__fetch-title">{"Matching Artists"}</h2>
             <div className="app__fetch-container ">
@@ -105,36 +99,24 @@ class Search extends React.Component {
     if (playlists) {
       this.playlists = (
         <GenAlbumContainer
-          hanldeAlbumRightOverride={this.props.hanldeAlbumRightOverride}
           data={playlists.items.slice(0, 5)}
           type={"playlists"}
-          playerState={this.props.playerState}
-          APIrequest={this.props.APIrequest}
-          currPlay={this.state.currentlyPlaying}
         />
       );
     }
     if (artists) {
       this.artists = (
         <GenAlbumContainer
-          hanldeAlbumRightOverride={this.props.hanldeAlbumRightOverride}
           data={artists.items.slice(0, 2)}
           type={"playlists"}
-          playerState={this.props.playerState}
-          APIrequest={this.props.APIrequest}
-          currPlay={this.state.currentlyPlaying}
         />
       );
     }
     if (albums) {
       this.albums = (
         <GenAlbumContainer
-          hanldeAlbumRightOverride={this.props.hanldeAlbumRightOverride}
           data={albums.items.slice(0, 50)}
           type={"playlists"}
-          playerState={this.props.playerState}
-          APIrequest={this.props.APIrequest}
-          currPlay={this.state.currentlyPlaying}
         />
       );
     }
@@ -181,5 +163,6 @@ class Search extends React.Component {
     );
   }
 }
+Search.contextType = Context;
 
 export default Search;

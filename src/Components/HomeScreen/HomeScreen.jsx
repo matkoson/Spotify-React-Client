@@ -1,48 +1,33 @@
-import React, { Component } from "react";
+import React from "react";
 import GenAlbumContainer from "../GenAlbumContainer/GenAlbumContainer";
-class HomeScreen extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { playerState: "" };
-  }
 
-  render() {
+  function HomeScreen(props) {
     let ftrdMssg, albumPics, ftrdProp, recentProp, processedProp, relatedTop;
-    if (this.props.recent) {
-      recentProp = this.props.recent.items.slice(0, 6);
-      // console.log(this.props.recent, "recent");
+    if (props.recent) {
+      recentProp = props.recent.items.slice(0, 6);
       processedProp = (
         <GenAlbumContainer
-          playerState={this.props.playerState}
-          APIrequest={this.props.APIrequest}
           data={recentProp}
           type={"recent"}
-          currPlay={this.props.currentlyPlaying}
         />
       );
     }
-    if (this.props.featured) {
-      ftrdProp = this.props.featured;
+    if (props.featured) {
+      ftrdProp = props.featured;
       ftrdMssg = ftrdProp.message;
       albumPics = (
         <GenAlbumContainer
-          playerState={this.props.playerState}
-          APIrequest={this.props.APIrequest}
           data={ftrdProp.playlists.items.slice(0, 6)}
           type={"playlists"}
-          currPlay={this.props.currentlyPlaying}
         />
       );
     }
-    if (this.props.relatedTop) {
+    if (props.relatedTop) {
       relatedTop = (
         <GenAlbumContainer
-          playerState={this.props.playerState}
-          APIrequest={this.props.APIrequest}
-          data={this.props.relatedTop}
+          data={props.relatedTop}
           type={"playlists"}
           special={true}
-          currPlay={this.props.currentlyPlaying}
         />
       );
     }
@@ -64,14 +49,13 @@ class HomeScreen extends Component {
           {processedProp || <GenAlbumContainer />}
         </div>
         <h2 className="app__fetch-title home-screen__recommendation">
-          More like {this.props.topArtist}
+          More like {props.topArtist}
         </h2>
         <div className="app__fetch-container home-screen__made-for-user__playlist-container">
           {relatedTop || <GenAlbumContainer />}
         </div>
       </div>
     );
-  }
 }
 
 export default HomeScreen;

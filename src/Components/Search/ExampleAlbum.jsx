@@ -1,14 +1,5 @@
 import React from "react";
-const getMinsSecs = (ms = 0) => {
-  console.log(ms);
-  ms = (ms - (ms % 1000)) / 1000;
-  return {
-    min: String(
-      Math.floor(ms / 60) < 10 ? `0${Math.floor(ms / 60)}` : Math.floor(ms / 60)
-    ),
-    sec: String(ms % 60 < 10 ? `0${ms % 60}` : ms % 60)
-  };
-};
+
 export default function ExampleAlbum(props) {
   let name, artist, albumsExmp, albums, cx, top5Tracks, totalDuration;
   if (props.albums && props.albums.items) {
@@ -24,7 +15,7 @@ export default function ExampleAlbum(props) {
   if (props.tracks && props.tracks.items) {
     top5Tracks = props.tracks.items.slice(0, 5).map(e => {
       totalDuration = e.duration_ms;
-      totalDuration = getMinsSecs(totalDuration);
+      totalDuration = props.getMinsSecs(totalDuration);
       return (
         <li className="search-response__albums-example__tracks-li">
           <div className="title-name-wrapper">

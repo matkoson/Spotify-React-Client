@@ -101,12 +101,13 @@ export function handleNavClick(ele, navType) {
     }
   });
 }
-export function hanldeAlbumRightOverride(e) {
+export function handleAlbumRightOverride(e) {
   console.log("HANDLING ALBUM OVERRIDE");
   this.setState({
-    mainRightView: "Album",
-    chosenAlbum: e.target.dataset.album
+    mainRightView: "Album"
   });
+  this.playerRequest("getPlaylistTracks", { uri: e.target.dataset.album });
+  this.playerRequest("getAlbum", { uri: e.target.dataset.album });
 }
 
 export function handleDeviceTabClick(e) {

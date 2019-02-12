@@ -1,4 +1,5 @@
 import React from "react";
+import { Consumer } from "../../Context/Context";
 // import { playerRequest } from "././APImethods";
 let name,
   image,
@@ -10,11 +11,12 @@ let name,
   recentTracksPos,
   id,
   idS;
-export default function GenAlbumContainer(props) {
+function GenAlbumContainer(props) {
   let data = props.data,
     special = props.special,
     type = props.type,
-    artistName = null;
+    artistName = null,
+    context = props.context;
   console.log(props, "data", data, "type", type, special);
   // if (type === "playlists") console.log(data, type);
   if (props && data) {
@@ -22,15 +24,17 @@ export default function GenAlbumContainer(props) {
       // console.log(e.name);
       // if (special) console.log("special", e);
       if (type === "recent") {
-        name = e.track.name;
-        artistName = e.track.artists[0].name;
-        image = e.track.album.images[0].url;
-        key = e.played_at;
-        dataType = e.track.type;
-        cx = e.track.uri;
-        idS = e.track.id;
-        cx_pos = e.track.track_number;
-        recentTracksPos = i;
+        if (e.track) {
+          name = e.track.name;
+          artistName = e.track.artists[0].name;
+          image = e.track.album.images[0].url;
+          key = e.played_at;
+          dataType = e.track.type;
+          cx = e.track.uri;
+          idS = e.track.id;
+          cx_pos = e.track.track_number;
+          recentTracksPos = i;
+        }
         if (!recentTracks) recentTracks = data.map(e => e.track.uri);
       } else if (type === "playlists" || type === "categories") {
         name = e.name;
@@ -77,26 +81,26 @@ export default function GenAlbumContainer(props) {
             data-category_type={dataType === "categories" ? id : null}
             onClick={e => {
               if (e.currentTarget.dataset.data_type === "categories") {
-                props.handleMainRightViewChange(e);
+                context.handleMainRightViewChange(e);
               }
               if (special || e.currentTarget.dataset.data_type === "artist") {
-                return props.APIrequest("playArtist", {
+                return context.APIrequest("playArtist", {
                   cx: e.currentTarget.dataset.cx
                 });
               }
               if (e.currentTarget.dataset.data_type === "playlists") {
-                props.APIrequest("playSpecificPlayback", {
+                context.APIrequest("playSpecificPlayback", {
                   cx: e.currentTarget.dataset.cx,
                   cx_pos: e.currentTarget.dataset.cx_pos
                 });
               }
               if (e.currentTarget.dataset.data_type === "track") {
-                props.APIrequest("playRecentTracks", {
+                context.APIrequest("playRecentTracks", {
                   cx: recentTracks,
                   cx_pos: e.currentTarget.dataset.recent_pos
                 });
               }
-              props.APIrequest("currentlyPlaying");
+              context.APIrequest("currentlyPlaying");
             }}
             onMouseOver={e => {
               e.currentTarget.className =
@@ -126,17 +130,18 @@ export default function GenAlbumContainer(props) {
                   (e.currentTarget.className = "app__play-hover")
                 }
               >
-                {props.playerState &&
-                !props.playerState.paused &&
+                {context.playerState &&
+                !context.playerState.paused &&
                 ((dataType === "track" &&
-                  props.currPlay.item &&
-                  cx === props.currPlay.item.uri) ||
+                  context.currentlyPlaying.item &&
+                  cx === context.currentlyPlaying.item.uri) ||
                   (dataType === "artist" &&
-                    props.currPlay &&
-                    props.currPlay.item.artists[0].name === e.name) ||
+                    context.currentlyPlaying &&
+                    context.currentlyPlaying.item &&
+                    context.currentlyPlaying.item.artists[0].name === e.name) ||
                   (dataType === "playlist" &&
-                    props.currPlay.context &&
-                    cx === props.currPlay.context.uri)) ? (
+                    context.currentlyPlaying.context &&
+                    cx === context.currentlyPlaying.context.uri)) ? (
                   <i
                     id="pause"
                     className="fas fa-pause app__pause-visible__icon"
@@ -164,7 +169,7 @@ export default function GenAlbumContainer(props) {
           {/*  */}
           <div
             data-album={idS}
-            onClick={props.hanldeAlbumRightOverride}
+            onClick={context.handleAlbumRightOverride}
             className="home-screen__made-for-user__playlist-element__title"
           >
             {name}
@@ -192,4 +197,19 @@ export default function GenAlbumContainer(props) {
     // console.log(placeholder, "placeholder");
     return placeholder;
   }
+}
+
+export default function GenAlbumContainerWithCx(props) {
+  return (
+    <Consumer>
+      {context => (
+        <GenAlbumContainer
+          data={props.data}
+          type={props.type}
+          context={context}
+          special={props.special}
+        />
+      )}
+    </Consumer>
+  );
 }

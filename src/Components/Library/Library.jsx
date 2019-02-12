@@ -1,5 +1,6 @@
 import React from "react";
 import GenAlbumContainer from "../GenAlbumContainer/GenAlbumContainer";
+import { Context } from "../../Context/Context";
 
 class Library extends React.Component {
   constructor(props) {
@@ -7,9 +8,9 @@ class Library extends React.Component {
     this.state = { chosenTab: "PLAYLISTS" };
   }
   componentDidMount() {
-    this.props.APIrequest("getUserPlaylists");
-    this.props.APIrequest("getUserSavedAlbums");
-    this.props.APIrequest("getUserSavedTracks");
+    this.context.APIrequest("getUserPlaylists");
+    this.context.APIrequest("getUserSavedAlbums");
+    this.context.APIrequest("getUserSavedTracks");
   }
   render() {
     console.log("PROPS", this.props);
@@ -23,9 +24,6 @@ class Library extends React.Component {
               <GenAlbumContainer
                 data={this.props.getUserPlaylists.items}
                 type={"playlists"}
-                playerState={this.props.playerState}
-                APIrequest={this.props.APIrequest}
-                currPlay={this.props.currentlyPlaying}
               />
             ) || <GenAlbumContainer />}
           </div>
@@ -41,9 +39,6 @@ class Library extends React.Component {
               <GenAlbumContainer
                 data={this.props.getUserSavedAlbums.items.map(e => e.album)}
                 type={"playlists"}
-                playerState={this.props.playerState}
-                APIrequest={this.props.APIrequest}
-                currPlay={this.props.currentlyPlaying}
               />
             ) || <GenAlbumContainer />}
           </div>
@@ -59,9 +54,6 @@ class Library extends React.Component {
               <GenAlbumContainer
                 data={this.props.getUserSavedTracks.items.map(e => e.track)}
                 type={"playlists"}
-                playerState={this.props.playerState}
-                APIrequest={this.props.APIrequest}
-                currPlay={this.props.currentlyPlaying}
               />
             ) || <GenAlbumContainer />}
           </div>
@@ -100,5 +92,6 @@ class Library extends React.Component {
     );
   }
 }
+Library.contextType = Context;
 
 export default Library;

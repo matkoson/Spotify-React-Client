@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import "./App.sass";
+import GenAlbumContainer from "./Components/GenAlbumContainer/GenAlbumContainer";
 import LeftTab from "./Components/LeftTab/LeftTab";
 import RightTab from "./Components/RightTab/RightTab";
 import "./assets/fonts/Rubik-Light.woff";
@@ -33,7 +34,7 @@ import {
   gradientCarousel,
   handleMainRightViewChange,
   handleMainRightChange,
-  hanldeAlbumRightOverride
+  handleAlbumRightOverride
 } from "./AppMethods/AppMethods";
 import {
   setToken,
@@ -44,39 +45,11 @@ import {
   playerRequest,
   getContentFromMultiArtists
 } from "./APIconnection/APImethods";
+import { Provider } from "./Context/Context";
 
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      alreadyViewed: [],
-      mainRightView: "Home",
-      searchQuery: "",
-      rightTabView: "",
-      auth: "",
-      recentlyPlayed: "",
-      featured: "",
-      topRelatedArtists: "",
-      topArtist: "",
-      chosenAlbum: "",
-      getAlbum: "",
-      getUserPlaylists: "",
-      getUserSavedAlbums: "",
-      getUserSavedTracks: "",
-      currentlyPlaying: "",
-      audio: "",
-      tokenSDK: "",
-      playerState: "",
-      shuffle: false,
-      deviceName: "",
-      deviceTabOn: false,
-      getCategories: "",
-      getCategory: "",
-      getCategoryPlaylists: [],
-      getMultipleArtistAlbums: [],
-      PolandTop: "",
-      currGrad: "linear-gradient(105deg, rgba(112,45,58,1) 25%, #282828 56%)"
-    };
     //
     //
     //
@@ -88,10 +61,11 @@ class App extends Component {
     this.getFtrdPlay = getFtrdPlay.bind(this);
     this.getTopArtist = getTopArtist.bind(this);
     this.handleResize = handleResize.bind(this);
+    this.getMinsSecs = this.getMinsSecs.bind(this);
     this.playerRequest = playerRequest.bind(this);
     this.handleNavClick = handleNavClick.bind(this);
     this.gradientCarousel = gradientCarousel.bind(this);
-    this.hanldeAlbumRightOverride = hanldeAlbumRightOverride.bind(this);
+    this.handleAlbumRightOverride = handleAlbumRightOverride.bind(this);
     this.handleMainRightChange = handleMainRightChange.bind(this);
     this.makeApropriateFetch = makeApropriateFetch.bind(this);
     this.handleDeviceTabClick = handleDeviceTabClick.bind(this);
@@ -109,6 +83,42 @@ class App extends Component {
       "linear-gradient(105deg, rgba(107,13,20,1) 25%, #282828 56%)"
     ];
     this.countryCodes = countryCodes;
+    this.state = {
+      alreadyViewed: [],
+      mainRightView: "Home",
+      searchQuery: "",
+      rightTabView: "",
+      auth: "",
+      recentlyPlayed: "",
+      featured: "",
+      topRelatedArtists: "",
+      topArtist: "",
+      getAlbum: "",
+      getUserPlaylists: "",
+      getUserSavedAlbums: "",
+      getUserSavedTracks: "",
+      currentlyPlaying: "",
+      audio: "",
+      tokenSDK: "",
+      playerState: "",
+      shuffle: false,
+      deviceName: "",
+      deviceTabOn: false,
+      getCategories: "",
+      getCategory: "",
+      getCategoryPlaylists: [],
+      getMultipleArtistAlbums: [],
+      PolandTop: "",
+      currGrad: "linear-gradient(105deg, rgba(112,45,58,1) 25%, #282828 56%)",
+      valueContext: {
+        playerState: "",
+        APIrequest: this.playerRequest,
+        handleAlbumRightOverride: this.handleAlbumRightOverride,
+        currentlyPlaying: "",
+        getMinsSecs: this.getMinsSecs,
+        handleMainRightViewChange: this.handleMainRightViewChange
+      }
+    };
   }
   componentDidMount() {
     // this.gradientCarousel();
@@ -154,6 +164,18 @@ class App extends Component {
       if (!this.state.topRelatedArtists) this.getTopArtist();
     }
   }
+  getMinsSecs = (ms = 0) => {
+    console.log(ms);
+    ms = (ms - (ms % 1000)) / 1000;
+    return {
+      min: String(
+        Math.floor(ms / 60) < 10
+          ? `0${Math.floor(ms / 60)}`
+          : Math.floor(ms / 60)
+      ),
+      sec: String(ms % 60 < 10 ? `0${ms % 60}` : ms % 60)
+    };
+  };
 
   render() {
     let rightTabView;
@@ -161,66 +183,55 @@ class App extends Component {
     switch (this.state.rightTabView) {
       case "Charts":
         rightTabView = (
-          <Charts
-            hanldeAlbumRightOverride={this.hanldeAlbumRightOverride}
-            APIrequest={this.playerRequest}
+          <Charts //refactored
             getCategories={this.state.getCategories}
             getCategoryPlaylists={this.state.getCategoryPlaylists}
-            currentlyPlaying={this.state.currentlyPlaying}
-            playerState={this.state.playerState}
             PolandTop={this.state.PolandTop}
+            //
+            handleAlbumRightOverride={this.handleAlbumRightOverride}
           />
         );
         break;
       case "Genres":
         rightTabView = (
-          <Genres
-            hanldeAlbumRightOverride={this.hanldeAlbumRightOverride}
+          <Genres //refactored
             makeApropriateFetch={this.makeApropriateFetch}
             getCategories={this.state.getCategories}
-            currentlyPlaying={this.state.currentlyPlaying}
-            playerState={this.state.playerState}
-            APIrequest={this.playerRequest}
-            handleMainRightViewChange={this.handleMainRightViewChange}
+            //
           />
         );
         break;
       case "New Releases":
         rightTabView = (
-          <NewReleases
-            hanldeAlbumRightOverride={this.hanldeAlbumRightOverride}
+          <NewReleases //refactored
             getNewReleases={this.state.getNewReleases}
-            playerState={this.state.playerState}
-            APIrequest={this.playerRequest}
             PolandTop={this.state.PolandTop}
             getCategory={this.state.getCategory}
+            //
+            playerState={this.state.playerState}
+            APIrequest={this.playerRequest}
             currentlyPlaying={this.state.currentlyPlaying}
+            handleAlbumRightOverride={this.handleAlbumRightOverride}
           />
         );
         break;
       case "Discover":
         rightTabView = (
-          <Discover
-            hanldeAlbumRightOverride={this.hanldeAlbumRightOverride}
+          <Discover //refactored
             getMultipleArtistAlbums={this.state.getMultipleArtistAlbums}
-            playerState={this.state.playerState}
-            APIrequest={this.playerRequest}
-            currentlyPlaying={this.state.currentlyPlaying}
+            //
           />
         );
         break;
       default:
         rightTabView = (
-          <HomeScreen
-            hanldeAlbumRightOverride={this.hanldeAlbumRightOverride}
-            playerState={this.state.playerState}
+          <HomeScreen //refactored
             featured={this.state.featured}
             recent={this.state.recentlyPlayed}
             relatedTop={this.state.topRelatedArtists}
             topArtist={this.state.topArtist}
-            APIrequest={this.playerRequest}
-            currentlyPlaying={this.state.currentlyPlaying}
             player={this.player}
+            //
           />
         );
     }
@@ -229,47 +240,43 @@ class App extends Component {
       case "Search":
         rightOverride = (
           <Search
-            hanldeAlbumRightOverride={this.hanldeAlbumRightOverride}
-            playerState={this.state.playerState}
-            APIrequest={this.playerRequest}
             searchQuery={this.state.searchQuery}
-            currentlyPlaying={this.state.currentlyPlaying}
+            //
           />
         );
 
         break;
       case "Library":
         rightOverride = (
-          <Library
-            hanldeAlbumRightOverride={this.hanldeAlbumRightOverride}
-            APIrequest={this.playerRequest}
+          <Library //refactored
             getUserPlaylists={this.state.getUserPlaylists}
-            playerState={this.state.playerState}
-            currentlyPlaying={this.state.currentlyPlaying}
             getUserSavedAlbums={this.state.getUserSavedAlbums}
             getUserSavedTracks={this.state.getUserSavedTracks}
+            //
           />
         );
         break;
       case "Album":
         rightOverride = (
           <Album
-            APIrequest={this.playerRequest}
-            chosenAlbum={this.state.chosenAlbum}
             getAlbum={this.state.getAlbum}
-            playerState={this.state.playerState}
+            getPlaylistTracks={this.state.getPlaylistTracks}
+            //
+            // APIrequest={this.playerRequest}
+            // playerState={this.state.playerState}
           />
         );
         break;
       default:
         rightOverride = (
           <CatInnerView
-            APIrequest={this.playerRequest}
             PolandTop={this.state.PolandTop}
             getCategory={this.state.getCategory}
-            currentlyPlaying={this.state.currentlyPlaying}
             getCategoryPlaylists={this.state.getCategoryPlaylists}
+            //
+            currentlyPlaying={this.state.currentlyPlaying}
             playerState={this.state.playerState}
+            APIrequest={this.playerRequest}
           />
         );
     }
@@ -286,38 +293,39 @@ class App extends Component {
         }
         //click anywhere in the app to make deviceTab disappear
       >
-        <LeftTab
-          handleNavClick={this.handleNavClick}
-          handleMainRightChange={this.handleMainRightChange}
-        >
-          <RecentlyPlayed
+        <Provider value={this.state.valueContext}>
+          <LeftTab
             handleNavClick={this.handleNavClick}
-            rawRecPlayed={this.state.recentlyPlayed}
+            handleMainRightChange={this.handleMainRightChange}
+          >
+            <RecentlyPlayed
+              handleNavClick={this.handleNavClick}
+              rawRecPlayed={this.state.recentlyPlayed}
+              player={this.player}
+              //
+              APIrequest={this.playerRequest}
+            />
+          </LeftTab>
+          {this.state.mainRightView === "Home" ? (
+            <RightTab handleNavClick={this.handleNavClick}>
+              {rightTabView}
+            </RightTab>
+          ) : (
+            <React.Fragment> {rightOverride}</React.Fragment>
+          )}
+          <PlayerBar //refactored
+            recent={
+              this.state.recentlyPlayed && this.state.recentlyPlayed.items[0]
+            }
+            handleDeviceTabClick={this.handleDeviceTabClick}
+            isDeviceTabOn={this.state.deviceTabOn}
             player={this.player}
-            APIrequest={this.playerRequest}
+            deviceId={this.state.deviceID}
+            deviceName={this.state.deviceName}
+            currentPlayback={this.state.currentPlayback}
+            // + context
           />
-        </LeftTab>
-        {this.state.mainRightView === "Home" ? (
-          <RightTab handleNavClick={this.handleNavClick}>
-            {rightTabView}
-          </RightTab>
-        ) : (
-          <React.Fragment> {rightOverride}</React.Fragment>
-        )}
-        <PlayerBar
-          recent={
-            this.state.recentlyPlayed && this.state.recentlyPlayed.items[0]
-          }
-          handleDeviceTabClick={this.handleDeviceTabClick}
-          isDeviceTabOn={this.state.deviceTabOn}
-          player={this.player}
-          playerState={this.state.playerState}
-          deviceId={this.state.deviceID}
-          deviceName={this.state.deviceName}
-          APIrequest={this.playerRequest}
-          currentlyPlaying={this.state.currentlyPlaying}
-          currentPlayback={this.state.currentPlayback}
-        />
+        </Provider>
       </main>
     );
   }
