@@ -66,6 +66,7 @@ class PlayerBar extends PureComponent {
         this.playbackSDKinterval();
       }
     } else if (!this.props.player && this.props.recent) {
+      console.log("PLAYER-BAR, PROCESSING RECENT");
       this.processRecent();
     }
   }
@@ -82,8 +83,9 @@ class PlayerBar extends PureComponent {
               : trackPlaying.name;
           return this.setState(prevState => {
             // console.log("state", state, "prevState", prevState);
-            if (prevState.songTitle !== trackPlaying.name)
+            if (prevState.songTitle !== trackPlaying.name) {
               this.context.APIrequest("currentlyPlaying");
+            }
             return {
               albumImage: trackPlaying.album.images[0].url, //1
               songTitle, //2
@@ -118,6 +120,7 @@ class PlayerBar extends PureComponent {
         if (this.state.paused) {
           this.player.resume().then(() => {
             this.setState({ paused: false });
+
             this.context.APIrequest("currentlyPlaying");
           });
         } else {
@@ -232,76 +235,3 @@ class PlayerBar extends PureComponent {
 PlayerBar.contextType = Context;
 
 export default PlayerBar;
-
-// if (this.props.player) {
-//   this.player = this.props.player;
-//   this.player.getCurrentState().then(state => {
-//     if (state) {
-//       console.log("player-bar updated, SDK state:", state);
-//     } else {
-//       return console.log("User is not playing music through player.");
-//     }
-//   });
-// }
-// let currPlay, playback;
-// if (this.props.playbackSDK) {
-//   currPlay = this.props.playbackSDK;
-// } else if (this.props.currentlyPlaying && this.props.currentPlayback) {
-//   currPlay = this.props.currentlyPlaying;
-//   playback = this.props.currentPlayback;
-// }
-// if (currPlay) {
-//   this.handleAPIpayload(currPlay, playback);
-//   if (currPlay.is_playing) {
-//     if (!this.playbackSDK) {
-//       this.playbackSDK = setInterval(() => {
-//         this.context.APIrequest("currentlyPlaying");
-//         this.context.APIrequest("currentPlayback");
-//       }, 800);
-//     }
-//   }
-// }
-
-// handleAPIpayload(playingPayload, playbackPayload) {
-//   if (this.props.playbackSDK) {
-//     const currTrack = playingPayload.track_window.current_track;
-//     //
-//     this.setState({
-//       rawTrackTime: currTrack.duration_ms,
-//       rawTrackProgress: this.props.playbackSDK,
-//       albumImage: currTrack.album.images[0].url,
-//       songTitle: currTrack.name,
-//       artistName: currTrack.artists[0].name
-//     });
-//     // rawTotal = currTrack.duration_ms;
-//     // rawProgress = this.props.playbackSDK;
-//     distanceProgress = this.context.getMinsSecs(rawProgress);
-//     distanceTotal = this.context.getMinsSecs(rawTotal);
-//     // albumImage = currTrack.album.images[0].url;
-//     // songTitle = currTrack.name;
-//     // artistName = currTrack.artists[0].name;
-//     if (!this.playbackSDK)
-//       this.playbackSDK = setInterval(() => this.forceUpdate(), 1000);
-//   } else if (this.props.currentlyPlaying) {
-//     if (playbackPayload && !playbackPayload.device)
-//       console.log("playbackPayload", playbackPayload);
-//     if (playingPayload) {
-//       if (!this.state.playing && playingPayload.is_playing) {
-//         this.setState({ playing: true });
-//       } else if (this.state.playing && !playingPayload.is_playing) {
-//         this.setState({ playing: false });
-//       }
-//       rawProgress = playingPayload.progress_ms;
-//       playingPayload = playingPayload.item;
-//       //
-//       albumImage = playingPayload.album.images[0].url;
-//       songTitle = playingPayload.name;
-//       artistName = playingPayload.artists[0].name;
-//       rawTotal = playingPayload.duration_ms;
-//       distanceProgress = this.context.getMinsSecs(rawProgress);
-//       distanceTotal = this.context.getMinsSecs(rawTotal);
-//       progressPercentage = getPerc(rawProgress, rawTotal);
-//     }
-//   }
-// }
-//

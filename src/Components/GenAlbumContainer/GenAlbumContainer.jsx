@@ -10,19 +10,21 @@ let name,
   recentTracks,
   recentTracksPos,
   id,
-  idS;
+  idS,
+  albumType;
 function GenAlbumContainer(props) {
   let data = props.data,
     special = props.special,
     type = props.type,
     artistName = null,
     context = props.context;
-  console.log(props, "data", data, "type", type, special);
+  // console.log(props, "data", data, "type", type, special);
   // if (type === "playlists") console.log(data, type);
   if (props && data) {
     return data.map((e, i) => {
       // console.log(e.name);
       // if (special) console.log("special", e);
+      albumType = "";
       if (type === "recent") {
         if (e.track) {
           name = e.track.name;
@@ -40,13 +42,11 @@ function GenAlbumContainer(props) {
         name = e.name;
         key = e.href || e.id;
         if ((e.images && e.images[0]) || e.icons || e.album) {
-          // console.log("IN");
           image =
             type === "playlists"
               ? (e.images && e.images[0].url) || e.album.images[0].url
               : e.icons[0].url;
         }
-        // console.log(image, e.images, e.album && e.album.images);
         dataType = e.type === "artist" ? e.type : type;
         cx = e.uri;
         idS = e.id;
@@ -60,9 +60,10 @@ function GenAlbumContainer(props) {
           e.album_type === "single" ||
           e.album_type === "album" ||
           e.type === "track"
-        )
+        ) {
           artistName = e.artists[0].name;
-        // if (e.type === "track") type = "track";
+          if (e.album_type) albumType = e.album_type;
+        } // if (e.type === "track") type = "track";
         // console.log("DATA", name, image, artistName, cx);
       }
       return (
@@ -100,6 +101,7 @@ function GenAlbumContainer(props) {
                   cx_pos: e.currentTarget.dataset.recent_pos
                 });
               }
+              console.log("TRIGGER");
               context.APIrequest("currentlyPlaying");
             }}
             onMouseOver={e => {
@@ -168,8 +170,9 @@ function GenAlbumContainer(props) {
           {/*  */}
           {/*  */}
           <div
+            data-identi={albumType}
             data-album={idS}
-            onClick={context.handleAlbumRightOverride}
+            onClick={e => context.handleAlbumRightOverride(e, albumType)}
             className="home-screen__made-for-user__playlist-element__title"
           >
             {name}

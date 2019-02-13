@@ -195,9 +195,19 @@ export function playerRequest(type, additional) {
       uri: `https://api.spotify.com/v1/albums/${additional && additional.uri}`,
       type: "GET"
     },
+    getPlaylist: {
+      uri: `https://api.spotify.com/v1/playlists/${additional &&
+        additional.uri}`,
+      type: "GET"
+    },
     getPlaylistTracks: {
       uri: `https://api.spotify.com/v1/playlists/${additional &&
         additional.uri}/tracks`,
+      type: "GET"
+    },
+    getPlaylistCover: {
+      uri: `https://api.spotify.com/v1/playlists/${additional &&
+        additional.uri}/images`,
       type: "GET"
     },
     getDevices: {

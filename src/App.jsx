@@ -1,6 +1,6 @@
 import React, { Component } from "react";
+import ReactDOM from "react-dom";
 import "./App.sass";
-import GenAlbumContainer from "./Components/GenAlbumContainer/GenAlbumContainer";
 import LeftTab from "./Components/LeftTab/LeftTab";
 import RightTab from "./Components/RightTab/RightTab";
 import "./assets/fonts/Rubik-Light.woff";
@@ -19,7 +19,7 @@ import Library from "./Components/Library/Library";
 import "./Components/Library/Library.sass";
 import "./Components/Search/Search.sass";
 import Album from "./Components/Album/Album";
-import "./Components/Album/Album.sass";
+import "./Components/Album/Album.scss";
 import CatInnerView from "./Components/CatInnerView/CatInnerView";
 import "./globalStyles.sass";
 import "./Components/CatInnerView/CatInnerView.sass";
@@ -97,17 +97,20 @@ class App extends Component {
       getUserPlaylists: "",
       getUserSavedAlbums: "",
       getUserSavedTracks: "",
-      currentlyPlaying: "",
       audio: "",
       tokenSDK: "",
       playerState: "",
       shuffle: false,
+      albumViewOption: "",
       deviceName: "",
       deviceTabOn: false,
       getCategories: "",
       getCategory: "",
       getCategoryPlaylists: [],
       getMultipleArtistAlbums: [],
+      getPlaylist: "",
+      getPlaylistTracks: "",
+      getPlaylistCover: "",
       PolandTop: "",
       currGrad: "linear-gradient(105deg, rgba(112,45,58,1) 25%, #282828 56%)",
       valueContext: {
@@ -119,6 +122,7 @@ class App extends Component {
         handleMainRightViewChange: this.handleMainRightViewChange
       }
     };
+    this.homeRef = React.createRef();
   }
   componentDidMount() {
     // this.gradientCarousel();
@@ -153,19 +157,17 @@ class App extends Component {
     }
   }
   componentDidUpdate() {
+    let app;
+    if (this.state.mainRightView === "Home")
+      app = ReactDOM.findDOMNode(this).scrollIntoView();
     if (this.state.auth) {
-      if (!this.state.currentlyPlaying) {
-        this.playerRequest("currentlyPlaying");
-      } else {
-        // console.log(this.state.currentlyPlaying);
-      }
       if (!this.state.recentlyPlayed) this.getRecent();
       if (!this.state.featured) this.getFtrdPlay();
       if (!this.state.topRelatedArtists) this.getTopArtist();
     }
   }
   getMinsSecs = (ms = 0) => {
-    console.log(ms);
+    // console.log(ms);
     ms = (ms - (ms % 1000)) / 1000;
     return {
       min: String(
@@ -259,8 +261,12 @@ class App extends Component {
       case "Album":
         rightOverride = (
           <Album
+            ref={this.albumRef}
             getAlbum={this.state.getAlbum}
+            getPlaylist={this.state.getPlaylist}
+            getPlaylistCover={this.state.getPlaylistCover}
             getPlaylistTracks={this.state.getPlaylistTracks}
+            albumViewOption={this.state.albumViewOption}
             //
             // APIrequest={this.playerRequest}
             // playerState={this.state.playerState}
@@ -307,7 +313,7 @@ class App extends Component {
             />
           </LeftTab>
           {this.state.mainRightView === "Home" ? (
-            <RightTab handleNavClick={this.handleNavClick}>
+            <RightTab ref={this.homeRef} handleNavClick={this.handleNavClick}>
               {rightTabView}
             </RightTab>
           ) : (

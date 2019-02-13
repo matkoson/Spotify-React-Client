@@ -1,0 +1,287 @@
+.album {
+  margin-left: 240px;
+
+  padding-right: 25px;
+
+  padding-left: 25px;
+
+  margin-bottom: 90px;
+
+  display: flex;
+
+  height: 100%;
+
+  overflow: auto;
+}
+
+.album__presentation {
+  display: flex;
+  flex-direction: column;
+  // width: 400px}
+}
+
+.album__presentation__img {
+  border-radius: 10px;
+  overflow: hidden;
+  margin-top: 50px;
+  opacity: 0.6;
+  position: relative;
+}
+
+.album__presentation__veneer {
+  height: 400px;
+  width: 400px;
+}
+
+.album__presentation__veneer::after {
+  background-image: linear-gradient(
+    to right bottom,
+    #000000,
+    rgba(0, 0, 0, 0.9),
+    rgba(32, 32, 32, 0.5),
+    rgba(0, 0, 0, 0),
+    rgba(0, 0, 0, 0)
+  );
+  display: block;
+  position: absolute;
+  top: 0;
+  content: "";
+  opacity: 1;
+  width: 100%;
+  height: 100%;
+}
+
+.album__presentation__img__file {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.album__presentation__img-title {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  width: 400px;
+  max-width: 100%;
+}
+
+.album__presentation__img__title {
+  font-size: 40px;
+}
+
+.album__presentation__img__artist {
+  font-size: 16px;
+  opacity: 0.6;
+}
+
+.album__presentation__play-btn {
+  width: 50%;
+  margin: 15px auto;
+  border-radius: 10px;
+  background-color: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0.6;
+  cursor: pointer;
+  display: flex;
+}
+// flex-direction: column
+
+.album__presentation__play-btn:hover {
+  opacity: 1;
+}
+
+.album__presentation__play-btn__icon {
+  color: #ffffff;
+  font-size: 80px;
+  padding: 20px;
+}
+.album__presentation__play-btn__caption {
+  font-family: "Horizon-Regular";
+  font-size: 100px;
+  line-height: 60px;
+  max-height: 100px;
+}
+
+.album__tracklist {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 400px;
+  margin-top: 50px;
+  margin-left: 15px;
+}
+
+.album__tracklist__title {
+  width: 100%;
+  text-align: center;
+  font-family: "Horizon-Regular";
+  // font-family: "Anodina Light"
+  // font-size: 42px
+  font-size: 100px;
+  font-weight: 200;
+  margin-bottom: 20px;
+}
+
+.album__tracklist__tracks {
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.album__tracklist__tracks:hover {
+  cursor: pointer;
+}
+
+.album__tracklist__tracks__track {
+  display: flex;
+  // font-family: 'DeValencia-Regular'
+
+  font-family: "Anodina-Light";
+  justify-content: space-between;
+  font-weight: 200;
+  padding-right: 10px;
+  padding-left: 10px;
+  max-width: 100%;
+  min-width: 300px;
+  font-weight: 200;
+  font-size: 20px;
+  margin-bottom: 20px;
+  opacity: 0.6;
+  font-size: 16px;
+  position: relative;
+}
+
+.album__tracklist__tracks__track--playing {
+  // font-size: 21px
+  // font-weight: 600
+  opacity: 1 !important;
+}
+// font-family: "Quicksand"}
+
+.album__tracklist__tracks__track__title {
+  max-width: 75%;
+}
+
+.album__tracklist__tracks__track:hover {
+  opacity: 1;
+}
+
+// $max: 100px
+
+//////////////////////////////////////////////////
+.equilizer {
+  margin-left: 15px;
+  height: 20px;
+  width: 20px;
+  transform: rotate(180deg);
+  position: relative;
+  top: 2px;
+}
+
+.bar {
+  fill: #1ed760;
+  width: 18px;
+  animation: equalize 5s 0s infinite;
+}
+
+.bar:nth-child(1) {
+  animation-delay: -1.9s;
+}
+
+.bar:nth-child(2) {
+  animation-delay: -2s;
+}
+
+.bar:nth-child(3) {
+  animation-delay: -2.3s;
+}
+
+.bar:nth-child(4) {
+  animation-delay: -2.4s;
+}
+
+.bar:nth-child(5) {
+  animation-delay: -2.1s;
+}
+
+@keyframes equalize {
+  0% {
+    height: 60px;
+  }
+  4% {
+    height: 50px;
+  }
+  8% {
+    height: 40px;
+  }
+  12% {
+    height: 30px;
+  }
+  16% {
+    height: 20px;
+  }
+  20% {
+    height: 30px;
+  }
+  24% {
+    height: 40px;
+  }
+  28% {
+    height: 10px;
+  }
+  32% {
+    height: 40px;
+  }
+  36% {
+    height: 60px;
+  }
+  40% {
+    height: 20px;
+  }
+  44% {
+    height: 40px;
+  }
+  48% {
+    height: 70px;
+  }
+  52% {
+    height: 30px;
+  }
+  56% {
+    height: 10px;
+  }
+  60% {
+    height: 30px;
+  }
+  64% {
+    height: 50px;
+  }
+  68% {
+    height: 60px;
+  }
+  72% {
+    height: 70px;
+  }
+  76% {
+    height: 80px;
+  }
+  80% {
+    height: 70px;
+  }
+  84% {
+    height: 60px;
+  }
+  88% {
+    height: 50px;
+  }
+  92% {
+    height: 60px;
+  }
+  96% {
+    height: 70px;
+  }
+  100% {
+    height: 80px;
+  }
+}
