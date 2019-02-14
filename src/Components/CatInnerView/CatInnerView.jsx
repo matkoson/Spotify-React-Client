@@ -1,5 +1,5 @@
 import React from "react";
-import GenAlbumContainer from "../GenAlbumContainer/GenAlbumContainer";
+import ContainerGenerator from "../ContainerGenerator/ContainerGenerator";
 
 class CatInnerView extends React.Component {
   constructor(props) {
@@ -16,7 +16,7 @@ class CatInnerView extends React.Component {
       categoryIcon = this.props.getCategory.icons[0].url;
       categoryName = this.props.getCategory.name;
       catRender = (
-        <GenAlbumContainer
+        <ContainerGenerator
           data={this.props.PolandTop.playlists.items}
           type={"playlists"}
           playerState={this.props.playerState}
@@ -42,7 +42,7 @@ class CatInnerView extends React.Component {
 
         <h2 className="app__fetch-title">{"Popular Playlists"}</h2>
         <div className="app__fetch-container ">
-          {catRender || <GenAlbumContainer />}
+          {catRender || <ContainerGenerator />}
         </div>
       </div>
     );

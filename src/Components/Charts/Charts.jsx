@@ -1,11 +1,11 @@
 import React from "react";
-import GenAlbumContainer from "../GenAlbumContainer/GenAlbumContainer";
+import ContainerGenerator from "../ContainerGenerator/ContainerGenerator";
 
 function renderCharts(props) {
   let countryTop, countryViral, PolandTop;
   if (props.PolandTop) {
     PolandTop = (
-      <GenAlbumContainer
+      <ContainerGenerator
         data={props.PolandTop.playlists.items}
         type={"playlists"}
       />
@@ -22,7 +22,7 @@ function renderCharts(props) {
           /^(?!.*(Global Top)).*50$/.test(e.name) && e.name.includes("Top")
         );
       });
-    countryTop = <GenAlbumContainer data={countryTop} type={"playlists"} />;
+    countryTop = <ContainerGenerator data={countryTop} type={"playlists"} />;
     const hash = {};
     countryViral = props.getCategoryPlaylists
       .map(e => {
@@ -34,7 +34,9 @@ function renderCharts(props) {
         // console.log("DUPL?", /^(?!.*(Global Viral)).*50$/.test(e.name));
         return /^(?!.*(Global Viral)).*50$/.test(e.name) && hash[e.name] < 2;
       });
-    countryViral = <GenAlbumContainer data={countryViral} type={"playlists"} />;
+    countryViral = (
+      <ContainerGenerator data={countryViral} type={"playlists"} />
+    );
   }
 
   return {
@@ -51,15 +53,15 @@ export default function Charts(props) {
         {"Featured Charts"}
       </h2>
       <div className="app__fetch-container home-screen__made-for-user__playlist-container">
-        {PolandTop || <GenAlbumContainer />}
+        {PolandTop || <ContainerGenerator />}
       </div>
       <h2 className="app__fetch-title">{"Top 50 by Country"}</h2>
       <div className="app__fetch-container ">
-        {countryTop || <GenAlbumContainer />}
+        {countryTop || <ContainerGenerator />}
       </div>
       <h2 className="app__fetch-title">{"Viral 50 by Country"}</h2>
       <div className="app__fetch-container ">
-        {countryViral || <GenAlbumContainer />}
+        {countryViral || <ContainerGenerator />}
       </div>
     </div>
   );

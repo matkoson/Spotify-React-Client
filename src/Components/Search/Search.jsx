@@ -1,6 +1,6 @@
 import React from "react";
 import ExampleAlbum from "./ExampleAlbum";
-import GenAlbumContainer from "../GenAlbumContainer/GenAlbumContainer";
+import ContainerGenerator from "../ContainerGenerator/ContainerGenerator";
 import { Context } from "../../Context/Context";
 
 class Search extends React.Component {
@@ -28,7 +28,7 @@ class Search extends React.Component {
           <React.Fragment>
             <h2 className="app__fetch-title">{"Matching Albums"}</h2>
             <div className="app__fetch-container ">
-              {this.albums || <GenAlbumContainer />}
+              {this.albums || <ContainerGenerator />}
             </div>
           </React.Fragment>
         );
@@ -39,11 +39,11 @@ class Search extends React.Component {
             <h2 className="app__fetch-title">{"Matching Artists"}</h2>
             <div className="app__fetch-container ">
               {(
-                <GenAlbumContainer
+                <ContainerGenerator
                   data={artists.items.slice(0, 10)}
                   type={"playlists"}
                 />
-              ) || <GenAlbumContainer />}
+              ) || <ContainerGenerator />}
             </div>
           </React.Fragment>
         );
@@ -54,11 +54,11 @@ class Search extends React.Component {
             <h2 className="app__fetch-title">{"Matching Tracks"}</h2>
             <div className="app__fetch-container ">
               {(
-                <GenAlbumContainer
+                <ContainerGenerator
                   data={tracks.items.slice(0, 100)}
                   type={"playlists"}
                 />
-              ) || <GenAlbumContainer />}
+              ) || <ContainerGenerator />}
             </div>
           </React.Fragment>
         );
@@ -68,7 +68,7 @@ class Search extends React.Component {
           <React.Fragment>
             <h2 className="app__fetch-title">{"Matching Artists"}</h2>
             <div className="app__fetch-container ">
-              {this.playlists || <GenAlbumContainer />}
+              {this.playlists || <ContainerGenerator />}
             </div>
           </React.Fragment>
         );
@@ -87,18 +87,18 @@ class Search extends React.Component {
             />
             <h2 className="app__fetch-title">{"Matching Artists"}</h2>
             <div className="app__fetch-container ">
-              {this.artists || <GenAlbumContainer />}
+              {this.artists || <ContainerGenerator />}
             </div>
             <h2 className="app__fetch-title">{"Matching Playlists"}</h2>
             <div className="app__fetch-container ">
-              {this.playlists || <GenAlbumContainer />}
+              {this.playlists || <ContainerGenerator />}
             </div>
           </React.Fragment>
         );
     }
     if (playlists) {
       this.playlists = (
-        <GenAlbumContainer
+        <ContainerGenerator
           data={playlists.items.slice(0, 5)}
           type={"playlists"}
         />
@@ -106,7 +106,7 @@ class Search extends React.Component {
     }
     if (artists) {
       this.artists = (
-        <GenAlbumContainer
+        <ContainerGenerator
           data={artists.items.slice(0, 2)}
           type={"playlists"}
         />
@@ -114,7 +114,7 @@ class Search extends React.Component {
     }
     if (albums) {
       this.albums = (
-        <GenAlbumContainer
+        <ContainerGenerator
           data={albums.items.slice(0, 50)}
           type={"playlists"}
         />

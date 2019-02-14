@@ -1,5 +1,5 @@
 import React from "react";
-import GenAlbumContainer from "../GenAlbumContainer/GenAlbumContainer";
+import ContainerGenerator from "../ContainerGenerator/ContainerGenerator";
 
 function renderContainer(props) {
   let categoriesList;
@@ -7,7 +7,7 @@ function renderContainer(props) {
   if (props.getCategories) {
     console.log("render called");
     categoriesList = (
-      <GenAlbumContainer
+      <ContainerGenerator
         data={props.getCategories.categories.items.slice(1)}
         type={"categories"}
         //+context
@@ -24,7 +24,7 @@ function Genres(props) {
     <div style={{ color: "#ffffff" }} className="genres home-screen">
       <h2 className="app__fetch-title">{"Genres & Moods"}</h2>
       <div className="app__fetch-container">
-        {categoriesList || <GenAlbumContainer />}
+        {categoriesList || <ContainerGenerator />}
       </div>
     </div>
   );

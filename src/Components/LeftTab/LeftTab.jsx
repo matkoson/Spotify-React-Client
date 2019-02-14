@@ -18,7 +18,7 @@ export default function LeftTab(props) {
           src={logo}
           alt="spotify-logo+text"
         /> */}
-        <i class="fab fa-react left-tab__main-logo" />
+        <i class="fab fa-react left-tab__logo__main" />
         <div className="left-tab__logo__title"> Spotify</div>
         <div className="left-tab__logo__title-react">React</div>
       </div>

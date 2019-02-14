@@ -1,0 +1,33 @@
+.app__fetch-title {
+  width: 100%;
+  text-align: left;
+  margin-bottom: 2%; }
+
+.app__fetch-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  max-width: 100%;
+  margin-bottom: 5%; }
+
+.app__play-hover {
+  width: 60px;
+  height: 60px;
+  position: absolute;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.8rem; }
+
+.app__play-hover--hover {
+  transform: scale(1.2);
+  filter: brightness(400%);
+  border-radius: 50%;
+  border: 1px solid white; }
+
+.app__rounded-album {
+  border-radius: 50%;
+  overflow: hidden; }
+
+/*# sourceMappingURL=globalStyles.scss.map */

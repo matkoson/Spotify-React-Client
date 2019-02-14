@@ -1,5 +1,5 @@
 import React from "react";
-import GenAlbumContainer from "../GenAlbumContainer/GenAlbumContainer";
+import ContainerGenerator from "../ContainerGenerator/ContainerGenerator";
 import { Context } from "../../Context/Context";
 
 class Library extends React.Component {
@@ -21,11 +21,11 @@ class Library extends React.Component {
           <h2 className="app__fetch-title">{"Your Saved Playlists"}</h2>
           <div className="app__fetch-container ">
             {(
-              <GenAlbumContainer
+              <ContainerGenerator
                 data={this.props.getUserPlaylists.items}
                 type={"playlists"}
               />
-            ) || <GenAlbumContainer />}
+            ) || <ContainerGenerator />}
           </div>
         </React.Fragment>
       );
@@ -36,11 +36,11 @@ class Library extends React.Component {
           <h2 className="app__fetch-title">{"Your Saved Albums"}</h2>
           <div className="app__fetch-container ">
             {(
-              <GenAlbumContainer
+              <ContainerGenerator
                 data={this.props.getUserSavedAlbums.items.map(e => e.album)}
                 type={"playlists"}
               />
-            ) || <GenAlbumContainer />}
+            ) || <ContainerGenerator />}
           </div>
         </React.Fragment>
       );
@@ -51,11 +51,11 @@ class Library extends React.Component {
           <h2 className="app__fetch-title">{"Your Saved Tracks"}</h2>
           <div className="app__fetch-container ">
             {(
-              <GenAlbumContainer
+              <ContainerGenerator
                 data={this.props.getUserSavedTracks.items.map(e => e.track)}
                 type={"playlists"}
               />
-            ) || <GenAlbumContainer />}
+            ) || <ContainerGenerator />}
           </div>
         </React.Fragment>
       );

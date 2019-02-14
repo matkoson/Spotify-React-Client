@@ -1,0 +1,138 @@
+.search {
+  margin-left: 240px;
+  max-width: 750px;
+  position: relative;
+  color: #ffffff;
+  font-family: "SpaceGrotesk-SemiBold"; }
+
+.search__input-row {
+  padding-left: 25px;
+  width: 100%;
+  height: 100px;
+  position: absolute;
+  top: 0;
+  overflow: hidden;
+  display: flex;
+  padding-right: 25px; }
+
+.search__input {
+  width: 90%;
+  color: #ffffff;
+  outline: none;
+  caret-color: #1ed760;
+  background-color: transparent;
+  border: none;
+  font-size: 70px;
+  font-family: "Anodina-ExtraLight";
+  margin-right: 15px; }
+
+.fa-search {
+  opacity: 0.3;
+  font-size: 50px;
+  align-self: center; }
+
+.search__response {
+  padding-left: 25px;
+  padding-right: 25px;
+  margin-top: 150px;
+  width: 100%;
+  height: calc(100%);
+  display: flex;
+  flex-direction: column; }
+
+.search__response__nav {
+  list-style: none;
+  font-family: "Anodina-ExtraLight";
+  font-weight: 300;
+  display: flex;
+  justify-content: space-between;
+  align-self: flex-start;
+  width: 70%;
+  padding-bottom: 40px; }
+
+.search__response-nav__li {
+  position: relative;
+  opacity: 0.6; }
+
+.search__response-nav__li:hover {
+  cursor: pointer;
+  opacity: 1; }
+
+.search-response__nav--clicked {
+  opacity: 1 !important; }
+
+.search-response__nav--clicked:before {
+  margin-left: -15px;
+  opacity: 1;
+  content: "";
+  height: 2px;
+  background-color: #1db954;
+  width: 30px;
+  position: absolute;
+  display: block;
+  bottom: -4px;
+  left: 50%; }
+
+.search__response__album-example__element {
+  max-width: 250px; }
+
+.search__response__album-example__element__img {
+  height: 250px;
+  width: 250px;
+  position: relative;
+  display: block;
+  border-radius: 10px;
+  overflow: hidden; }
+  .search__response__album-example__element__img .app__play-hover {
+    position: absolute;
+    left: calc(50% - 30px);
+    top: calc(50% - 30px); }
+
+.search__response__album-example {
+  display: flex;
+  width: 100%; }
+
+.search__response__album-example__element__img::after {
+  background-image: linear-gradient(to right bottom, #000000, rgba(0, 0, 0, 0.9), rgba(32, 32, 32, 0.5), transparent, transparent);
+  display: block;
+  position: absolute;
+  top: 0;
+  content: "";
+  opacity: 1;
+  width: 100%;
+  height: 100%; }
+
+.search__response__album-example__img-file {
+  opacity: 1; }
+
+.search__response__album-example__album-tracks {
+  height: 250px;
+  width: calc(100% - 250px); }
+
+.search__response__album-example__tracks-ul {
+  list-style: none;
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  font-size: 12px;
+  font-family: "Anodina-ExtraLight";
+  opacity: 0.9;
+  height: 100%;
+  justify-content: space-around;
+  padding-left: 15px;
+  padding-right: 0; }
+  .search__response__album-example__tracks-ul .search-response__albums-example__tracks-li__name {
+    font-size: 14px; }
+  .search__response__album-example__tracks-ul .search-response__albums-example__tracks-li__artist {
+    opacity: 0.6; }
+
+.title-name-wrapper {
+  display: flex;
+  flex-direction: column; }
+
+.search-response__albums-example__tracks-li {
+  width: 100%;
+  display: flex;
+  justify-content: space-between; }
+
+/*# sourceMappingURL=_Search.scss.map */

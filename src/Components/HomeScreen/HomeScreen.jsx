@@ -1,12 +1,12 @@
 import React from "react";
-import GenAlbumContainer from "../GenAlbumContainer/GenAlbumContainer";
+import ContainerGenerator from "../ContainerGenerator/ContainerGenerator";
 
   function HomeScreen(props) {
     let ftrdMssg, albumPics, ftrdProp, recentProp, processedProp, relatedTop;
     if (props.recent) {
       recentProp = props.recent.items.slice(0, 6);
       processedProp = (
-        <GenAlbumContainer
+        <ContainerGenerator
           data={recentProp}
           type={"recent"}
         />
@@ -16,7 +16,7 @@ import GenAlbumContainer from "../GenAlbumContainer/GenAlbumContainer";
       ftrdProp = props.featured;
       ftrdMssg = ftrdProp.message;
       albumPics = (
-        <GenAlbumContainer
+        <ContainerGenerator
           data={ftrdProp.playlists.items.slice(0, 6)}
           type={"playlists"}
         />
@@ -24,7 +24,7 @@ import GenAlbumContainer from "../GenAlbumContainer/GenAlbumContainer";
     }
     if (props.relatedTop) {
       relatedTop = (
-        <GenAlbumContainer
+        <ContainerGenerator
           data={props.relatedTop}
           type={"playlists"}
           special={true}
@@ -37,7 +37,7 @@ import GenAlbumContainer from "../GenAlbumContainer/GenAlbumContainer";
           {ftrdMssg ? ftrdMssg : null}
         </h2>
         <div className="app__fetch-container home-screen__made-for-user__playlist-container">
-          {albumPics || <GenAlbumContainer />}
+          {albumPics || <ContainerGenerator />}
         </div>
         {/*  */}
         {/*  */}
@@ -46,13 +46,13 @@ import GenAlbumContainer from "../GenAlbumContainer/GenAlbumContainer";
           Recently played
         </h2>
         <div className="app__fetch-container home-screen__made-for-user__playlist-container">
-          {processedProp || <GenAlbumContainer />}
+          {processedProp || <ContainerGenerator />}
         </div>
         <h2 className="app__fetch-title home-screen__recommendation">
           More like {props.topArtist}
         </h2>
         <div className="app__fetch-container home-screen__made-for-user__playlist-container">
-          {relatedTop || <GenAlbumContainer />}
+          {relatedTop || <ContainerGenerator />}
         </div>
       </div>
     );

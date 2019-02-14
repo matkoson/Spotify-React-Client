@@ -1,5 +1,5 @@
 import React from "react";
-import GenAlbumContainer from "../GenAlbumContainer/GenAlbumContainer";
+import ContainerGenerator from "../ContainerGenerator/ContainerGenerator";
 
 function Discover(props) {
   let discoverRender;
@@ -8,7 +8,7 @@ function Discover(props) {
       .map(e => e.items.slice(0, 5))
       .reduce((acc, cur) => (acc = [...acc, ...cur]), []);
     discoverRender = (
-      <GenAlbumContainer data={discoverRender} type={"playlists"} />
+      <ContainerGenerator data={discoverRender} type={"playlists"} />
     );
   }
 
@@ -18,7 +18,7 @@ function Discover(props) {
         {"Recommended Albums & Singles"}
       </h2>
       <div className="app__fetch-container">
-        {discoverRender || <GenAlbumContainer />}
+        {discoverRender || <ContainerGenerator />}
       </div>
     </div>
   );

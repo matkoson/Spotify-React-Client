@@ -12,7 +12,7 @@ let name,
   id,
   idS,
   albumType;
-function GenAlbumContainer(props) {
+function ContainerGenerator(props) {
   let data = props.data,
     special = props.special,
     type = props.type,
@@ -202,11 +202,11 @@ function GenAlbumContainer(props) {
   }
 }
 
-export default function GenAlbumContainerWithCx(props) {
+export default function ContainerGeneratorWithCx(props) {
   return (
     <Consumer>
       {context => (
-        <GenAlbumContainer
+        <ContainerGenerator
           data={props.data}
           type={props.type}
           context={context}

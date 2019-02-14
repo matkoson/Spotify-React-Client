@@ -1,11 +1,11 @@
 import React from "react";
-import GenAlbumContainer from "../GenAlbumContainer/GenAlbumContainer";
+import ContainerGenerator from "../ContainerGenerator/ContainerGenerator";
 
 function NewReleases(props) {
   let newReleases;
   if (props.getNewReleases)
     newReleases = (
-      <GenAlbumContainer
+      <ContainerGenerator
         data={props.getNewReleases.albums.items}
         type={"playlists"}
       />
@@ -14,7 +14,7 @@ function NewReleases(props) {
     <div className="new-releases home-screen">
       <h2 className="app__fetch-title">{"New albums & singles"}</h2>
       <div className="app__fetch-container">
-        {newReleases || <GenAlbumContainer />}
+        {newReleases || <ContainerGenerator />}
       </div>
     </div>
   );
