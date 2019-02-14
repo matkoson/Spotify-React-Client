@@ -111,89 +111,6 @@
   }
 }
 
-.left-tab {
-  background-color: rgba(0, 0, 0, 0.9);
-  height: 100%;
-  flex-basis: 25%;
-  width: 240px;
-  padding-left: 2%;
-  padding-right: 10px;
-  padding-top: 1%;
-  padding-bottom: 1%;
-  color: #ffffff;
-  font-size: 14px;
-  position: fixed;
-  z-index: 1;
-}
-
-.left-tab__app-nav {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  &__icon-text {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 10%;
-    cursor: pointer;
-    opacity: 0.6;
-    position: relative;
-  }
-  &__icon-text--clicked:before {
-    content: "";
-    display: block;
-    position: absolute;
-    top: 0;
-    left: -15px;
-    bottom: 0;
-    width: 4px;
-    height: 100%;
-    opacity: 1;
-    background-color: #1ed760;
-  }
-  &__icon-text--clicked--recent:after {
-    content: "";
-    display: block;
-    position: absolute;
-    top: 0;
-    left: -15px;
-    bottom: 0;
-    width: 4px;
-    height: 100%;
-    opacity: 1;
-    background-color: #1ed760;
-  }
-
-  &__text {
-    text-align: left;
-    width: 77%;
-    display: flex;
-    align-items: center;
-  }
-
-  &__icon-text:hover {
-    opacity: 1;
-    transition-duration: 500ms;
-  }
-  &__logo {
-    cursor: pointer;
-    opacity: 0.6;
-  }
-}
-
-.left-tab__logo {
-  padding-top: 20px;
-  padding-bottom: 20px;
-  margin-bottom: 5%;
-  min-width: 140px;
-  display: flex;
-  justify-content: flex-start;
-  &__logo {
-    max-height: 40px;
-    min-width: 70px;
-    width: 141px;
-  }
-}
-
 .right-tab {
   overflow-y: scroll;
   overflow-x: hidden;
@@ -237,7 +154,7 @@
   &__element--clicked:before {
     content: "";
     height: 2px;
-    background-color: #1db954;
+    background-color: $mainGreen;
     width: 30px;
     position: absolute;
     display: block;

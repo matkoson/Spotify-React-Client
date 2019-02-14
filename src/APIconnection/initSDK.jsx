@@ -26,13 +26,15 @@ export default function initSDK(token) {
 
   // Playback status updates
   this.player.addListener("player_state_changed", state => {
-    if (state.bitrate && !state.paused) {
-      this.setState({
-        valueContext: { ...this.state.valueContext, playerState: state },
-        deviceTabOn: true
-      });
-    } else if (state.paused) {
-      this.setState({ playerState: state, deviceTabOn: false });
+    if (state) {
+      if (state.bitrate && !state.paused) {
+        this.setState({
+          valueContext: { ...this.state.valueContext, playerState: state },
+          deviceTabOn: true
+        });
+      } else if (state.paused) {
+        this.setState({ playerState: state, deviceTabOn: false });
+      }
     }
   });
 

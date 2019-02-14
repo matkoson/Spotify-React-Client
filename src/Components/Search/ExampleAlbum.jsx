@@ -17,16 +17,16 @@ export default function ExampleAlbum(props) {
       totalDuration = e.duration_ms;
       totalDuration = props.getMinsSecs(totalDuration);
       return (
-        <li className="search-response__albums-example__tracks-li">
+        <li className="search__response__album-example__tracks-li">
           <div className="title-name-wrapper">
-            <span className="search-response__albums-example__tracks-li__name">
+            <span className="search__response__album-example__tracks-li__name">
               {e.name}
             </span>
-            <span className="search-response__albums-example__tracks-li__artist">
+            <span className="search__response__album-example__tracks-li__artist">
               {e.artists[0].name}
             </span>
           </div>
-          <div className="search-response__albums-example__tracks-li__duration">
+          <div className="search__response__album-example__tracks-li__duration">
             {`${totalDuration.min}:${totalDuration.sec}`}
           </div>
         </li>

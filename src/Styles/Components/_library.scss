@@ -1,0 +1,44 @@
+.library {
+  margin-left: 240px;
+  padding-right: 25px;
+  padding-left: 25px;
+  position: relative;
+
+  &__nav {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    line-height: 16px;
+    letter-spacing: 0.15rem;
+    opacity: 0.6;
+    width: 90%;
+    font-size: 12px;
+    margin: 42px auto;
+    list-style: none;
+    top: 0;
+    font-family: "Anodina-Light";
+    &__li {
+      cursor: pointer;
+      position: relative;
+    }
+
+    &--clicked {
+      opacity: 1 !important;
+    }
+
+    &--clicked:before {
+      margin-left: -15px;
+      opacity: 1;
+      content: "";
+      height: 2px;
+      background-color: $mainGreen;
+      width: 30px;
+      position: absolute;
+      display: block;
+      bottom: -4px;
+      left: 50%;
+    }
+  }
+}
+
+/*# sourceMappingURL=_Library.scss.map */

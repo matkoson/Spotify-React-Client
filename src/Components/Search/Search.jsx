@@ -131,8 +131,8 @@ class Search extends React.Component {
         id={e}
         className={
           this.state.chosenTab === e
-            ? "search-response__nav--clicked search__response-nav__li"
-            : "search__response-nav__li"
+            ? "search__response__nav--clicked search__response__nav__li"
+            : "search__response__nav__li"
         }
         onClick={e => this.setState({ chosenTab: e.target.id })}
       >
