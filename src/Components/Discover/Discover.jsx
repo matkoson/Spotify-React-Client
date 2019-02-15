@@ -13,8 +13,8 @@ function Discover(props) {
   }
 
   return (
-    <div className="home-screen discover">
-      <h2 className="app__fetch-title home-screen__made-for-user__title">
+    <div className="generator discover">
+      <h2 className="app__fetch-title generator__title">
         {"Recommended Albums & Singles"}
       </h2>
       <div className="app__fetch-container">

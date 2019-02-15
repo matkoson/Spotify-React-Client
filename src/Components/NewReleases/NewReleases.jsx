@@ -11,7 +11,7 @@ function NewReleases(props) {
       />
     );
   return (
-    <div className="new-releases home-screen">
+    <div className="generator new-releases">
       <h2 className="app__fetch-title">{"New albums & singles"}</h2>
       <div className="app__fetch-container">
         {newReleases || <ContainerGenerator />}

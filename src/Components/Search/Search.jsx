@@ -15,7 +15,7 @@ class Search extends React.Component {
     this.setState({ searchInput: value });
     setTimeout(() => {
       this.context.APIrequest("searchQuery", { query: value });
-    }, 700);
+    }, 200);
   }
   handleHighlightChange(e) {}
 
@@ -67,7 +67,7 @@ class Search extends React.Component {
         resultRender = (
           <React.Fragment>
             <h2 className="app__fetch-title">{"Matching Artists"}</h2>
-            <div className="app__fetch-container ">
+            <div className="app__fetch-container generator--exception">
               {this.playlists || <ContainerGenerator />}
             </div>
           </React.Fragment>
@@ -86,7 +86,7 @@ class Search extends React.Component {
               APIrequest={this.context.APIrequest}
             />
             <h2 className="app__fetch-title">{"Matching Artists"}</h2>
-            <div className="app__fetch-container ">
+            <div className="app__fetch-container generator--exception">
               {this.artists || <ContainerGenerator />}
             </div>
             <h2 className="app__fetch-title">{"Matching Playlists"}</h2>
@@ -140,15 +140,15 @@ class Search extends React.Component {
       </li>
     ));
     return (
-      <div className="search home-screen">
-        <div class="search__input-row">
+      <div className="search generator">
+        <div class="search__input">
           <input
             autoFocus
             placeholder={"Insert your query..."}
             value={this.state.searchInput}
             onChange={this.handleInputChange}
             type="text"
-            className="search__input"
+            className="search__input__area"
           />
           <i class="fas fa-search" />
         </div>

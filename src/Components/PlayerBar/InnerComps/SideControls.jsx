@@ -4,7 +4,7 @@ export default function SideControls(props) {
   return (
     <div className="player-bar__tab player-bar__right-tab player-bar__perip-tab--end">
       <div className="player-bar__right-tab__controls">
-        <i className="fas fa-list-ol" />
+        {/* <i className="fas fa-list-ol" /> */}
         <i
           style={
             props.isDeviceTabOn

@@ -13,7 +13,7 @@ class Library extends React.Component {
     this.context.APIrequest("getUserSavedTracks");
   }
   render() {
-    console.log("PROPS", this.props);
+    // console.log("PROPS", this.props);
     if (this.props.getUserPlaylists) {
       //   console.log("PROPS IN");
       this.userPlaylists = (
@@ -85,9 +85,11 @@ class Library extends React.Component {
       </li>
     ));
     return (
-      <div className="library">
-        <ul className="library__nav">{libNav}</ul>
-        <div className="home-screen">{renderLib}</div>
+      <div className="library app__right-container-generic__outer">
+        <ul className="app__right-container-generic__outer__right-nav library__nav">
+          {libNav}
+        </ul>
+        <div className="generator">{renderLib}</div>
       </div>
     );
   }

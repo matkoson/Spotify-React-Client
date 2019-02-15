@@ -1,12 +1,13 @@
 @import "Base/variables";
+@import "Base/mixins";
 @import "Base/app.scss";
-@import "Base/globalStyles";
 @import "Components/album";
 @import "Components/cat-inner-view";
-@import "Components/home-screen";
+@import "Components/generator";
 @import "Components/library";
 @import "Components/recently-played";
 @import "Components/search";
 @import "Components/player-bar";
 @import "Components/left-tab";
+@import "Components/right-tab";
 @import "Components/devices-tab";

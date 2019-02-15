@@ -2,10 +2,10 @@ import React from "react";
 
 export default function RightTab(props) {
   return (
-    <div className="right-tab">
+    <div className="right-tab app__right-container-generic__outer">
       <ul
         onClick={e => props.handleNavClick(e, "right")}
-        className="right-tab__right-nav"
+        className="app__right-container-generic__outer__right-nav right-tab__right-nav"
       >
         <li className="right-tab__right-nav__element right-tab__right-nav__element--clicked">
           FEATURED

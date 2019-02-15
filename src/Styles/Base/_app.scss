@@ -76,92 +76,87 @@
   overflow-x: hidden;
   transition: background-image 1.5s ease;
   color: #ffffff;
-}
 
-.left-tab__logo {
-  &__main {
-    font-size: 50px;
-    animation: App-logo-spin infinite 20s linear;
-    pointer-events: none;
-    position: relative;
-    right: 10px;
+  &__fetch {
+    &-title {
+      width: 100%;
+      text-align: left;
+      margin-bottom: 2%;
+      font-size: 42px;
+      font-family: "SpaceGrotesk-Bold";
+      @include atXLarge {
+        font-size: 35px;
+      }
+      @include atLarge {
+        text-align: center;
+      }
+    }
+    &-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+      width: 100%;
+      margin-bottom: 5%;
+      @include atLarge {
+        justify-content: center;
+      }
+    }
   }
-  &__title {
-    font-size: 22px;
-    font-weight: 600;
-    font-family: "Anodina-ExtraLight";
-    max-width: 125px;
+  &__right-container-generic__outer {
+    overflow-y: scroll;
+    overflow-x: hidden;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    margin-left: 240px;
+    margin-right: 0;
+    margin-bottom: 90px;
+    padding-right: 0;
+    @include atMedium {
+      margin-left: 5px;
+    }
+    &__right-nav {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      margin: 42px auto;
+      width: 90%;
+      font-size: 12px;
+      font-weight: 700;
+      color: white;
+      list-style: none;
+      line-height: 16px;
+      letter-spacing: 0.15rem;
+      @include atMedium {
+        width: 75%;
+      }
+    }
   }
-  &__title-react {
-    font-family: "Horizon-Regular";
-    font-size: 90px;
+
+  &__play-hover {
+    width: 60px;
+    height: 60px;
     position: absolute;
-    left: 110px;
-    top: 30px;
-    transform: rotate(15deg);
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.8rem;
+    &--hover {
+      transform: scale(1.2);
+      filter: brightness(500%);
+      border-radius: 50%;
+      border: 1px solid white;
+    }
+  }
+
+  &__rounded-album {
+    border-radius: 50%;
+    overflow: hidden;
   }
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.right-tab {
-  overflow-y: scroll;
-  overflow-x: hidden;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-content: center;
-  margin-left: 240px;
-  margin-right: 0;
-  margin-bottom: 90px;
-  padding-right: 0;
-}
-
-.right-tab__right-nav {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-  margin: 42px auto;
-  width: 90%;
-  font-size: 12px;
-  font-weight: 700;
-  color: white;
-  list-style: none;
-  line-height: 16px;
-  letter-spacing: 0.15rem;
-  &__element {
-    flex-basis: 10%;
-    min-width: 150px;
-    margin-bottom: 3%;
-    position: relative;
-    text-align: center;
-    opacity: 0.6;
-    transition-duration: 500ms;
-  }
-
-  &__element:hover {
-    opacity: 1;
-    cursor: pointer;
-  }
-
-  &__element--clicked:before {
-    content: "";
-    height: 2px;
-    background-color: $mainGreen;
-    width: 30px;
-    position: absolute;
-    display: block;
-    bottom: -4px;
-    left: 50%;
-    margin-left: -15px;
-  }
-}
+//
 
 /*# sourceMappingURL=App.scss.map */

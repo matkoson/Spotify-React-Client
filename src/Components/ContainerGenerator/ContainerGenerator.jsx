@@ -1,6 +1,5 @@
 import React from "react";
 import { Consumer } from "../../Context/Context";
-// import { playerRequest } from "././APImethods";
 let name,
   image,
   key,
@@ -18,12 +17,9 @@ function ContainerGenerator(props) {
     type = props.type,
     artistName = null,
     context = props.context;
-  // console.log(props, "data", data, "type", type, special);
-  // if (type === "playlists") console.log(data, type);
+
   if (props && data) {
     return data.map((e, i) => {
-      // console.log(e.name);
-      // if (special) console.log("special", e);
       albumType = "";
       if (type === "recent") {
         if (e.track) {
@@ -55,7 +51,6 @@ function ContainerGenerator(props) {
           cx_pos = e.track_number;
         }
         id = e.id;
-        // artistName =  e.track.artists[0].name;
         if (
           e.album_type === "single" ||
           e.album_type === "album" ||
@@ -63,16 +58,15 @@ function ContainerGenerator(props) {
         ) {
           artistName = e.artists[0].name;
           if (e.album_type) albumType = e.album_type;
-        } // if (e.type === "track") type = "track";
-        // console.log("DATA", name, image, artistName, cx);
+        }
       }
       return (
-        <div key={key} className="home-screen__made-for-user__playlist-element">
+        <div key={key} className="generator__playlist-element">
           {/*  */}
           {/*  */}
           {/*  */}
           <div
-            className="home-screen__made-for-user__playlist-element__img"
+            className="generator__playlist-element__img"
             data-cx={cx}
             data-cx_pos={
               cx_pos ? (dataType !== "track" ? cx_pos : recentTracksPos) : null
@@ -101,24 +95,22 @@ function ContainerGenerator(props) {
                   cx_pos: e.currentTarget.dataset.recent_pos
                 });
               }
-              console.log("TRIGGER");
               context.APIrequest("currentlyPlaying");
             }}
             onMouseOver={e => {
               e.currentTarget.className =
-                "home-screen__made-for-user__playlist-element__img--hover";
+                "generator__playlist-element__img--hover";
             }}
             onMouseLeave={e =>
-              (e.currentTarget.className =
-                "home-screen__made-for-user__playlist-element__img")
+              (e.currentTarget.className = "generator__playlist-element__img")
             }
             onMouseDown={e =>
               (e.currentTarget.className =
-                "home-screen__made-for-user__playlist-element__img--hover home-screen__made-for-user__playlist-element__img--click")
+                "generator__playlist-element__img--hover generator__playlist-element__img--click")
             }
             onMouseUp={e =>
               (e.currentTarget.className =
-                "home-screen__made-for-user__playlist-element__img--hover")
+                "generator__playlist-element__img--hover")
             }
           >
             {props.type !== "categories" && (
@@ -157,8 +149,8 @@ function ContainerGenerator(props) {
             <img
               className={
                 !special
-                  ? "home-screen__made-for-user__playlist-element__img-pic"
-                  : "app__rounded-album home-screen__made-for-user__playlist-element__img-pic"
+                  ? "generator__playlist-element__img__pic"
+                  : "app__rounded-album generator__playlist-element__img__pic"
               }
               height="300px"
               width="300px"
@@ -173,11 +165,11 @@ function ContainerGenerator(props) {
             data-identi={albumType}
             data-album={idS}
             onClick={e => context.handleAlbumRightOverride(e, albumType)}
-            className="home-screen__made-for-user__playlist-element__title"
+            className="generator__playlist-element__title"
           >
             {name}
           </div>
-          <div className="home-screen__made-for-user__playlist-element__artists">
+          <div className="generator__playlist-element__artists">
             {artistName ? artistName : null}
           </div>
         </div>
@@ -188,16 +180,15 @@ function ContainerGenerator(props) {
     placeholder = placeholder.map((e, i) => (
       <div
         key={`${i}${Math.random * 100000}`}
-        className="home-screen__made-for-user__playlist-element"
+        className="generator__playlist-element"
       >
         <div
           style={{ backgroundColor: "#282828" }}
-          className="home-screen__made-for-user__playlist-element__img--fake"
+          className="generator__playlist-element__img--fake"
         />
         {}
       </div>
     ));
-    // console.log(placeholder, "placeholder");
     return placeholder;
   }
 }

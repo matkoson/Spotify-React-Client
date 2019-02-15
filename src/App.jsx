@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import ReactDOM from "react-dom";
 import "./Styles/Styles.scss";
 import LeftTab from "./Components/LeftTab/LeftTab";
 import RightTab from "./Components/RightTab/RightTab";
@@ -118,6 +117,8 @@ class App extends Component {
     this.homeRef = React.createRef();
   }
   componentDidMount() {
+    if (this.state.mainRightView === "Home")
+      this.homeRef.current.scrollIntoView();
     // this.gradientCarousel();
     window.addEventListener("resize", this.handleResize);
     //Initiate Spotify SDK Player through cdn script
@@ -150,9 +151,6 @@ class App extends Component {
     }
   }
   componentDidUpdate() {
-    let app;
-    if (this.state.mainRightView === "Home")
-      app = ReactDOM.findDOMNode(this).scrollIntoView();
     if (this.state.auth) {
       if (!this.state.recentlyPlayed) this.getRecent();
       if (!this.state.featured) this.getFtrdPlay();
@@ -282,6 +280,7 @@ class App extends Component {
     // console.log(rightOverride, "OVERRIDE");
     return (
       <main
+        ref={this.homeRef}
         className="app"
         style={{
           backgroundImage: this.state.currGrad,
@@ -293,6 +292,9 @@ class App extends Component {
         //click anywhere in the app to make deviceTab disappear
       >
         <Provider value={this.state.valueContext}>
+          <div className="mobile" style={{ cursor: "pointer" }}>
+            <i class="fab fa-react mobile__logo" />
+          </div>
           <LeftTab
             handleNavClick={this.handleNavClick}
             handleMainRightChange={this.handleMainRightChange}
@@ -306,7 +308,7 @@ class App extends Component {
             />
           </LeftTab>
           {this.state.mainRightView === "Home" ? (
-            <RightTab ref={this.homeRef} handleNavClick={this.handleNavClick}>
+            <RightTab handleNavClick={this.handleNavClick}>
               {rightTabView}
             </RightTab>
           ) : (

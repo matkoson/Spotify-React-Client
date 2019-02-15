@@ -1,0 +1,101 @@
+.generator {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: 0 15px;
+  justify-content: center;
+  align-items: center;
+  font-weight: 800;
+  color: #fff;
+  @include atLarge {
+    margin: 0 15px;
+    width: 95%;
+  }
+  &--exception {
+    .generator__playlist-element__img__pic {
+      width: 100%;
+      height: 100%;
+    }
+  }
+  &__playlist-element {
+    display: flex;
+    flex-direction: column;
+    margin-right: 1%;
+    margin-bottom: 1%;
+    width: 300px;
+    @include atXLarge {
+      width: 250px;
+    }
+    &__img {
+      @include atXLarge {
+        // width: 100%;
+        width: 250px;
+        height: 250px;
+      }
+      width: 300px;
+      height: 300px;
+      margin-bottom: 3%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 10px;
+      overflow: hidden;
+      & .app__play-hover .fa-play {
+        display: none;
+      }
+
+      &__pic {
+        width: 100%;
+        height: 300px;
+        @include atXLarge {
+          // width: 100%;
+          width: 250px;
+          height: 250px;
+        }
+      }
+      &--click {
+        transform: scale(0.8);
+        transition-duration: 0.5s;
+      }
+      &--hover {
+        max-width: 300px;
+        max-height: 300px;
+        margin-bottom: 3%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        filter: brightness(70%);
+        cursor: pointer;
+        transition-duration: 0.5s;
+        border-radius: 10px;
+        overflow: hidden;
+      }
+      &--fake {
+        width: 300px;
+        height: 300px;
+        margin-bottom: 3%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 10px;
+        overflow: hidden;
+        opacity: 0.7;
+      }
+    }
+
+    &__title {
+      max-width: 100%;
+      font-size: 12px;
+      text-align: center;
+    }
+
+    &__artists {
+      max-width: 100%;
+      font-size: 11px;
+      text-align: center;
+      opacity: 0.6;
+    }
+  }
+}
+
+/*# sourceMappingURL=_HomeScreen.scss.map */

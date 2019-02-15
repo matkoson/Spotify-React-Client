@@ -29,6 +29,10 @@
     width: 40%;
     max-width: 722px;
     flex-direction: column;
+    @include atLarge {
+      position: relative;
+      left: 90px;
+    }
   }
 
   &__player-controls {
@@ -87,11 +91,21 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    @include atLarge {
+      width: 310px;
+      margin: 0 auto;
+      position: relative;
+      right: 10px;
+    }
   }
 
   &__progress-bar {
     height: 4px;
     border-radius: 2px;
+    @include atLarge {
+      margin-right: 5px;
+      margin-left: 5px;
+    }
     &--static {
       background-color: gray;
       position: relative;

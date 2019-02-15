@@ -48,11 +48,11 @@ function renderCharts(props) {
 export default function Charts(props) {
   const { countryTop, countryViral, PolandTop } = renderCharts(props);
   return (
-    <div className="home-screen">
-      <h2 className="app__fetch-title home-screen__made-for-user__title">
+    <div className="generator">
+      <h2 className="app__fetch-title generator__title">
         {"Featured Charts"}
       </h2>
-      <div className="app__fetch-container home-screen__made-for-user__playlist-container">
+      <div className="app__fetch-container generator__playlist-container">
         {PolandTop || <ContainerGenerator />}
       </div>
       <h2 className="app__fetch-title">{"Top 50 by Country"}</h2>

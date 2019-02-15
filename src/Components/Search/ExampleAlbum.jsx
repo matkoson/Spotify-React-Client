@@ -48,19 +48,19 @@ export default function ExampleAlbum(props) {
           }}
           onMouseOver={e => {
             e.currentTarget.className =
-              "search__response__album-example__element__img home-screen__made-for-user__playlist-element__img--hover";
+              "search__response__album-example__element__img generator__playlist-element__img--hover";
           }}
           onMouseLeave={e =>
             (e.currentTarget.className =
-              "search__response__album-example__element__img home-screen__made-for-user__playlist-element__img")
+              "search__response__album-example__element__img generator__playlist-element__img")
           }
           onMouseDown={e =>
             (e.currentTarget.className =
-              "search__response__album-example__element__img home-screen__made-for-user__playlist-element__img--hover home-screen__made-for-user__playlist-element__img--click")
+              "search__response__album-example__element__img generator__playlist-element__img--hover generator__playlist-element__img--click")
           }
           onMouseUp={e =>
             (e.currentTarget.className =
-              "search__response__album-example__element__img home-screen__made-for-user__playlist-element__img--hover")
+              "search__response__album-example__element__img generator__playlist-element__img--hover")
           }
         >
           {props.type !== "categories" && (
@@ -91,22 +91,21 @@ export default function ExampleAlbum(props) {
             </div>
           )}
           <img
-            height="200px"
-            width="200px"
+            height="250px"
+            width="250px"
             src={albumsExmp && albums.items[0].images[0].url}
             alt=""
-            className="search__response__album-example__img-file home-screen__made-for-user__playlist-element__img-pic"
+            className="search__response__album-example__img-file generator__playlist-element__img-pic"
           />
         </div>
-        <div className="search__response__album-example__element__title home-screen__made-for-user__playlist-element__title">
+        <div className="search__response__album-example__element__title generator__playlist-element__title">
           {name}
         </div>
-        <div className="search__response__album-example__element__artist home-screen__made-for-user__playlist-element__artists">
+        <div className="search__response__album-example__element__artist generator__playlist-element__artists">
           {artist}
         </div>
       </div>
       <div className="search__response__album-example__album-tracks">
-        {/* {tracksList} */}
         <ul className="search__response__album-example__tracks-ul">
           {top5Tracks}
         </ul>
