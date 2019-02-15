@@ -11,6 +11,11 @@
     width: 700px;
     flex-direction: column;
   }
+  @include atMedium {
+    width: 700px;
+    flex-direction: column;
+    margin-left: 0;
+  }
 
   &__presentation {
     display: flex;
@@ -19,6 +24,9 @@
       flex-direction: row;
       width: 100% !important;
     }
+    @include atMedium {
+      flex-direction: column;
+    }
     // width: 400px}
     &__img {
       border-radius: 10px;
@@ -26,6 +34,7 @@
       margin-top: 50px;
       opacity: 0.6;
       position: relative;
+      margin: 0 auto;
     }
 
     &__veneer {
@@ -71,6 +80,14 @@
         font-size: 25px;
         text-align: left;
       }
+      @include atMedium {
+        width: 80%;
+        margin: 0 auto;
+        text-align: center;
+        position: relative;
+        top: 0;
+        left: 0;
+      }
     }
 
     // &__img__title {
@@ -93,6 +110,9 @@
       opacity: 0.6;
       cursor: pointer;
       display: flex;
+      @include atMedium {
+        display: none;
+      }
     }
     // flex-direction: column
 

@@ -140,6 +140,9 @@ export function handleDeviceTabClick(e) {
 }
 
 export function handleResize() {
+  if (window.innerWidth > 800 && this.state.mobile) {
+    this.setState({ mobile: false });
+  }
   if (!this.state.windowWidth) {
     this.setState({ windowWidth: window.innerWidth });
   } else {

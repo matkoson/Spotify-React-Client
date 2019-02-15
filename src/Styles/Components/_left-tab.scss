@@ -4,6 +4,7 @@
   }
   .mobile {
     &__nav {
+      z-index: 1;
       width: 100%;
       position: fixed;
       top: 0;
@@ -28,15 +29,7 @@
       padding-right: 1px;
       align-items: flex-start;
       justify-content: flex-end;
-      // background: linear-gradient(
-      //   225deg,
-      //   rgba(0, 0, 0, 1) 25%,
-      //   rgba(0, 0, 0, 0.7) 30%,
-      //   rgba(0, 0, 0, 0.6) 35%,
-      //   rgba(0, 0, 0, 0.3) 40%,
-      //   rgba(0, 0, 0, 0.1) 45%,
-      //   rgba(0, 0, 0, 0) 56%
-      // );
+      z-index: 1;
       &__pic {
         display: block;
         font-size: 50px;

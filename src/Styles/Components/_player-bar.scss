@@ -20,6 +20,10 @@
     width: 30%;
     min-width: 180px;
     max-width: 261px;
+    @include atMedium {
+      width: 15%;
+      min-width: 0;
+    }
     &--end {
       width: 180px;
     }
@@ -33,6 +37,10 @@
       position: relative;
       left: 90px;
     }
+    @include atMedium {
+      left: 0;
+      width: 100%;
+    }
   }
 
   &__player-controls {
@@ -44,19 +52,29 @@
     margin: 0 auto;
     margin-bottom: 4px;
     margin-top: 12px;
+    @include atMedium {
+      width: 100%;
+    }
   }
 
   &__album-img {
     max-width: 56px;
     max-height: 56px;
+    @include atMedium {
+      display: none;
+    }
   }
 
   &__left-tab {
     display: flex;
     justify-content: center;
     align-items: center;
+    @include atMedium {
+      width: 15%;
+      margin-left: 0;
+    }
+
     &__perip {
-      flex-basis: 20%;
       height: 100%;
       justify-content: center;
       align-items: center;
@@ -74,6 +92,10 @@
       text-align: left;
       margin-left: 14px;
       margin-right: 14px;
+      @include atMedium {
+        margin-left: 0;
+        width: 100%;
+      }
       &-title-artist__artist {
         font-size: 12px;
         opacity: 0.6;
@@ -96,6 +118,10 @@
       margin: 0 auto;
       position: relative;
       right: 10px;
+    }
+    @include atMedium {
+      width: 100%;
+      right: 0;
     }
   }
 
@@ -144,10 +170,24 @@
     justify-content: flex-end;
     position: relative;
     margin-right: 0;
+    @include atMedium {
+      display: none;
+    }
     &__controls {
       justify-content: center;
       align-items: center;
       display: flex;
+
+      & .fa-volume-up {
+        position: relative;
+        top: 35px;
+        right: 15px;
+      }
+      & .fa-tablet-alt {
+        position: relative;
+        left: 14px;
+        bottom: 15px;
+      }
     }
     &_volume-bar {
       width: 100%;
@@ -175,6 +215,10 @@
   align-items: center;
   font-size: 12px;
   opacity: 0.6;
+  @include atMedium {
+    font-size: 20px;
+    // display: block !important;
+  }
 }
 
 .player-bar .fas:hover {
@@ -186,12 +230,22 @@
   left: 9px;
   width: 50%;
   height: 50%;
+  @include atMedium {
+    position: static;
+    width: 100%;
+    height: 100%;
+  }
 }
 .player-bar .fa-pause:before {
   position: absolute;
   left: 8px;
   width: 50%;
   height: 50%;
+  @include atMedium {
+    position: static;
+    width: 100%;
+    height: 100%;
+  }
 }
 
 .player__play-pause {
@@ -204,6 +258,13 @@
   justify-content: center;
   align-items: center;
   font-size: 8px !important;
+  @include atMedium {
+    font-size: 25px !important;
+    border: none;
+    padding: 0;
+    display: block;
+  }
+
   position: relative;
 }
 
