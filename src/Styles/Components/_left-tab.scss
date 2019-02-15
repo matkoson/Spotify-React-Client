@@ -3,29 +3,48 @@
     display: none;
   }
   .mobile {
-    width: 110px;
-    height: 110px;
-    position: fixed;
-    right: 0;
-    display: flex;
-    padding-top: 1px;
-    padding-right: 1px;
-    align-items: flex-start;
-    justify-content: flex-end;
-    background: linear-gradient(
-      225deg,
-      rgba(0, 0, 0, 1) 25%,
-      rgba(0, 0, 0, 0.7) 30%,
-      rgba(0, 0, 0, 0.6) 35%,
-      rgba(0, 0, 0, 0.3) 40%,
-      rgba(0, 0, 0, 0.1) 45%,
-      rgba(0, 0, 0, 0) 56%
-    );
-
+    &__nav {
+      width: 100%;
+      position: fixed;
+      top: 0;
+      height: 400px;
+      background: linear-gradient(180deg, #282828 25%, rgba(0, 0, 0, 0) 56%);
+      &__ul {
+        padding-top: 40px;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        width: 75%;
+        margin: 0 auto;
+      }
+    }
     &__logo {
-      display: block;
-      font-size: 50px;
-      animation: App-logo-spin infinite 20s linear;
+      width: 140px;
+      height: 140px;
+      position: fixed;
+      right: 0;
+      display: flex;
+      padding-top: 1px;
+      padding-right: 1px;
+      align-items: flex-start;
+      justify-content: flex-end;
+      // background: linear-gradient(
+      //   225deg,
+      //   rgba(0, 0, 0, 1) 25%,
+      //   rgba(0, 0, 0, 0.7) 30%,
+      //   rgba(0, 0, 0, 0.6) 35%,
+      //   rgba(0, 0, 0, 0.3) 40%,
+      //   rgba(0, 0, 0, 0.1) 45%,
+      //   rgba(0, 0, 0, 0) 56%
+      // );
+      &__pic {
+        display: block;
+        font-size: 50px;
+        animation: App-logo-spin infinite 20s linear;
+      }
+      &__pic:hover {
+        cursor: pointer;
+      }
     }
   }
 }

@@ -1,5 +1,4 @@
 import React from "react";
-import logo from "../../assets/svg/logo.svg";
 import search from "../../assets/svg/search.svg";
 import home from "../../assets/svg/home.svg";
 import lib from "../../assets/svg/lib.svg";

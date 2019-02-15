@@ -17,6 +17,7 @@ function ContainerGenerator(props) {
     type = props.type,
     artistName = null,
     context = props.context;
+  let imgMeasurements = { width: "300px", height: "300px" };
 
   if (props && data) {
     return data.map((e, i) => {
@@ -152,8 +153,8 @@ function ContainerGenerator(props) {
                   ? "generator__playlist-element__img__pic"
                   : "app__rounded-album generator__playlist-element__img__pic"
               }
-              height="300px"
-              width="300px"
+              height={imgMeasurements.height}
+              width={imgMeasurements.width}
               src={image}
               alt=""
             />

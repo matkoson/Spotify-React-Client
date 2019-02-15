@@ -14,7 +14,7 @@ import Search from "./Components/Search/Search";
 import Library from "./Components/Library/Library";
 import Album from "./Components/Album/Album";
 import CatInnerView from "./Components/CatInnerView/CatInnerView";
-// import "./globalStyles.scss";
+import Mobile from "./Components/Mobile/Mobile";
 import cdnLoader from "./loadScript";
 import initSDK from "./APIconnection/initSDK";
 import { countryCodes } from "./assets/countries";
@@ -26,7 +26,8 @@ import {
   gradientCarousel,
   handleMainRightViewChange,
   handleMainRightChange,
-  handleAlbumRightOverride
+  handleAlbumRightOverride,
+  handleMobileNavToggle
 } from "./AppMethods/AppMethods";
 import {
   setToken,
@@ -57,6 +58,7 @@ class App extends Component {
     this.playerRequest = playerRequest.bind(this);
     this.handleNavClick = handleNavClick.bind(this);
     this.gradientCarousel = gradientCarousel.bind(this);
+    this.handleMobileNavToggle = handleMobileNavToggle.bind(this);
     this.handleAlbumRightOverride = handleAlbumRightOverride.bind(this);
     this.handleMainRightChange = handleMainRightChange.bind(this);
     this.makeApropriateFetch = makeApropriateFetch.bind(this);
@@ -77,6 +79,7 @@ class App extends Component {
     this.countryCodes = countryCodes;
     this.state = {
       alreadyViewed: [],
+      mobile: false,
       mainRightView: "Home",
       searchQuery: "",
       rightTabView: "",
@@ -292,9 +295,10 @@ class App extends Component {
         //click anywhere in the app to make deviceTab disappear
       >
         <Provider value={this.state.valueContext}>
-          <div className="mobile" style={{ cursor: "pointer" }}>
-            <i class="fab fa-react mobile__logo" />
-          </div>
+          <Mobile
+            handleMobileNavToggle={this.handleMobileNavToggle}
+            mobile={this.state.mobile}
+          />
           <LeftTab
             handleNavClick={this.handleNavClick}
             handleMainRightChange={this.handleMainRightChange}
@@ -308,7 +312,10 @@ class App extends Component {
             />
           </LeftTab>
           {this.state.mainRightView === "Home" ? (
-            <RightTab handleNavClick={this.handleNavClick}>
+            <RightTab
+              mobile={this.state.mobile}
+              handleNavClick={this.handleNavClick}
+            >
               {rightTabView}
             </RightTab>
           ) : (

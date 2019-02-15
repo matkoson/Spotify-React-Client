@@ -150,6 +150,9 @@ export function handleResize() {
       this.setState({ windowWidth: window.innerWidth });
   }
 }
+export function handleMobileNavToggle() {
+  this.setState({ mobile: !this.state.mobile });
+}
 
 export function gradientCarousel() {
   this.gradientChange = setInterval(() => {
