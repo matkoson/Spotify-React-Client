@@ -1,7 +1,7 @@
 .player-bar {
   width: 100%;
   background-color: $mainPlayerBarGray;
-  height: 90px;
+  height: 100px;
   padding: 0 16px;
   position: fixed;
   bottom: 0;
@@ -10,19 +10,26 @@
   color: #fff;
   display: flex;
   justify-content: space-between;
+  @include abvMedium {
+    height: 90px;
+  }
   &__tab {
     height: 100%;
     display: flex;
-    margin-right: 2%;
+    margin-right: 0;
+    @include abvMedium {
+      margin-right: 2%;
+    }
   }
 
   &__perip-tab {
-    width: 30%;
-    min-width: 180px;
+    width: 15%;
+    min-width: 0;
+
     max-width: 261px;
-    @include atMedium {
-      width: 15%;
-      min-width: 0;
+    @include abvMedium {
+      width: 30%;
+      min-width: 180px;
     }
     &--end {
       width: 180px;
@@ -30,48 +37,60 @@
   }
 
   &__center-tab {
-    width: 40%;
+    left: 0;
+    width: 100%;
+    position: relative;
+    right: 100px;
     max-width: 722px;
     flex-direction: column;
-    @include atLarge {
+    justify-content: flex-end;
+    padding-bottom: 5px;
+    @include abvLarge {
       position: relative;
-      left: 90px;
+      left: 70px;
     }
-    @include atMedium {
-      left: 0;
-      width: 100%;
+    @include abvMedium {
+      width: 40%;
+      right: 0;
     }
   }
 
   &__player-controls {
     display: flex;
     height: 50%;
-    width: 224px;
+    width: 80%;
     justify-content: space-between;
     align-items: center;
     margin: 0 auto;
     margin-bottom: 4px;
     margin-top: 12px;
-    @include atMedium {
-      width: 100%;
+    @include abvMedium {
+      width: 224px;
     }
   }
 
   &__album-img {
-    max-width: 56px;
-    max-height: 56px;
-    @include atMedium {
-      display: none;
+    display: none;
+    @include abvMedium {
+      display: block;
+      max-width: 56px;
+      max-height: 56px;
     }
   }
 
   &__left-tab {
+    position: absolute;
+    width: 100%;
+    max-width: 100%;
+    margin-left: 0;
     display: flex;
     justify-content: center;
     align-items: center;
-    @include atMedium {
-      width: 15%;
-      margin-left: 0;
+    @include abvMedium {
+      width: inherit;
+      max-width: inherit;
+      margin-left: inherit;
+      position: static;
     }
 
     &__perip {
@@ -83,22 +102,34 @@
     }
     &__center {
       height: 100%;
-      flex-basis: 50%;
       font-size: 14px;
       display: flex;
-      flex-direction: column;
       justify-content: center;
       align-items: flex-start;
       text-align: left;
-      margin-left: 14px;
-      margin-right: 14px;
-      @include atMedium {
+      margin-left: 0;
+      margin-right: 10px;
+      width: 100%;
+
+      @include abvMedium {
+        margin-left: 14px;
+        flex-direction: column;
+        width: inherit;
         margin-left: 0;
-        width: 100%;
+        margin-right: 14px;
+      }
+      &-title-artist__title {
+        width: 50%;
+        font-size: 15px;
+        opacity: 0.6;
+        order: 1;
+        text-align: center;
       }
       &-title-artist__artist {
-        font-size: 12px;
+        font-size: 15px;
         opacity: 0.6;
+        width: 50%;
+        text-align: center;
       }
     }
   }
@@ -113,14 +144,15 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    width: 100%;
     @include atLarge {
       width: 310px;
       margin: 0 auto;
       position: relative;
       right: 10px;
     }
-    @include atMedium {
-      width: 100%;
+    @include abvMedium {
+      width: inherit;
       right: 0;
     }
   }
@@ -167,27 +199,22 @@
   &__right-tab {
     display: flex;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: flex-start;
     position: relative;
     margin-right: 0;
-    @include atMedium {
-      display: none;
+    display: none;
+
+    @include atLarge {
+      justify-content: flex-end;
+    }
+
+    @include abvMedium {
+      display: block;
     }
     &__controls {
-      justify-content: center;
+      justify-content: flex-start;
       align-items: center;
       display: flex;
-
-      & .fa-volume-up {
-        position: relative;
-        top: 35px;
-        right: 15px;
-      }
-      & .fa-tablet-alt {
-        position: relative;
-        left: 14px;
-        bottom: 15px;
-      }
     }
     &_volume-bar {
       width: 100%;
@@ -195,11 +222,15 @@
   }
 
   &__volume-wrapper {
-    width: 30%;
     height: 12px;
     display: flex;
     align-items: center;
     transition-duration: 1s;
+    width: 60%;
+
+    @include atLarge {
+      width: 40%;
+    }
   }
 
   &__redo-icon--repeat-cx {
@@ -213,10 +244,13 @@
   display: flex !important;
   justify-content: center;
   align-items: center;
-  font-size: 12px;
+  font-size: 20px;
+
   opacity: 0.6;
-  @include atMedium {
+  @include abvMedium {
     font-size: 20px;
+    font-size: 12px;
+
     // display: block !important;
   }
 }
@@ -226,45 +260,39 @@
   transform: scale(1.2);
 }
 .player-bar .fa-play:before {
-  position: absolute;
-  left: 9px;
-  width: 50%;
-  height: 50%;
-  @include atMedium {
-    position: static;
-    width: 100%;
-    height: 100%;
+  width: 100%;
+  height: 100%;
+  @include abvMedium {
+    width: 50%;
+    height: 50%;
+    position: absolute;
+    left: 9px;
   }
 }
 .player-bar .fa-pause:before {
-  position: absolute;
-  left: 8px;
-  width: 50%;
-  height: 50%;
-  @include atMedium {
-    position: static;
-    width: 100%;
-    height: 100%;
+  width: 100%;
+  height: 100%;
+  @include abvMedium {
+    position: absolute;
+    left: 8px;
+    width: 50%;
+    height: 50%;
   }
 }
 
 .player__play-pause {
+  font-size: 25px !important;
   width: 100%;
   height: 100%;
-  border: 2px solid gray;
-  padding: 6px;
-  border-radius: 50%;
-  display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 8px !important;
-  @include atMedium {
-    font-size: 25px !important;
-    border: none;
-    padding: 0;
-    display: block;
+  @include abvMedium {
+    font-size: 8px !important;
+    border: 2px solid gray;
+    display: flex;
+    padding: 6px;
+    border-radius: 50%;
   }
-
   position: relative;
 }
 

@@ -26,7 +26,6 @@ class PlayerBar extends PureComponent {
       paused: false,
       shuffled: false
     };
-    this.audio = React.createRef();
     this.repeatMode = ["off", "context", "track"];
 
     //
@@ -65,7 +64,7 @@ class PlayerBar extends PureComponent {
       if (!this.playbackSDK) {
         this.playbackSDKinterval();
       }
-    } else if (!this.props.player && this.props.recent) {
+    } else if (this.props.recent) {
       console.log("PLAYER-BAR, PROCESSING RECENT");
       this.processRecent();
     }
