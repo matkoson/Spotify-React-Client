@@ -36,6 +36,9 @@
       @include atLarge {
         font-size: 50px;
       }
+      @include atMedium {
+        font-size: 40px;
+      }
     }
   }
 
@@ -57,9 +60,17 @@
       align-self: flex-start;
       width: 70%;
       padding-bottom: 40px;
+      @include atSmall {
+        flex-wrap: wrap;
+        align-self: center;
+        width: 95%;
+      }
       &__li {
         position: relative;
         opacity: 0.6;
+        @include atSmall {
+          margin-bottom: 8px;
+        }
       }
 
       &__li:hover {
@@ -88,6 +99,9 @@
     &__album-example {
       display: flex;
       width: 100%;
+      @include atSmall {
+        flex-direction: column;
+      }
       &__element {
         max-width: 250px;
         &__img {
@@ -129,6 +143,9 @@
       &__album-tracks {
         height: 250px;
         width: calc(100% - 250px);
+        @include atSmall {
+          width: 95%;
+        }
       }
 
       &__tracks {
@@ -153,6 +170,10 @@
           &__name {
             font-size: 14px;
           }
+          &__name:hover {
+            cursor: pointer;
+          }
+
           &__artist {
             opacity: 0.6;
           }

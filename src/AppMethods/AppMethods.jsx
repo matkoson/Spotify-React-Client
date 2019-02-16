@@ -101,8 +101,9 @@ export function handleNavClick(ele, navType) {
     }
   });
 }
-export function handleAlbumRightOverride(e, albumType) {
+export function handleAlbumRightOverride(e) {
   window.scrollY = 0;
+  let albumType = e.target.dataset.identi;
   console.log("HANDLING ALBUM OVERRIDE", albumType, e.target.dataset);
   let that = this;
   console.log(this.albumRef);
@@ -114,7 +115,8 @@ export function handleAlbumRightOverride(e, albumType) {
         mainRightView: "Album",
         albumViewOption: renderOption,
         currGrad:
-          "linear-gradient(to right bottom, #000000, #000000,  #202020, #282828, #282828)"
+          "linear-gradient(to right bottom, #000000, #000000,  #202020, #282828, #282828)",
+        mobile: false
       },
       resolve(makeAPIcall(), console.log(that.state))
     );

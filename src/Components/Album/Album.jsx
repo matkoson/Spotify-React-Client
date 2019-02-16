@@ -12,6 +12,7 @@ class Album extends React.Component {
   }
   render() {
     const context = this.context;
+    var trackNumber;
     if (
       this.props.getAlbum ||
       (this.props.getPlaylistTracks &&
@@ -19,7 +20,14 @@ class Album extends React.Component {
         this.props.getPlaylistCover)
     ) {
       if (this.props.albumViewOption && this.props.getAlbum) {
-        var { artists, images, name, tracks, uri } = this.props.getAlbum;
+        var {
+          artists,
+          images,
+          name,
+          tracks,
+          uri,
+          track_number
+        } = this.props.getAlbum;
         tracks = tracks.items;
         var width = "400px",
           height = "400px";
@@ -38,25 +46,19 @@ class Album extends React.Component {
       }
 
       if (tracks)
-        tracks = tracks.map(e => {
+        tracks = tracks.map((e, i) => {
           const totalDuration = context.getMinsSecs(e.duration_ms);
 
           const isPlaying =
             context.playerState &&
             e.id === context.playerState.track_window.current_track.id;
-          if (context.playerState) {
-            // console.log(
-            //   isPlaying,
-            //   "ID BATTLE",
-            //   e.id,
-            //   context.playerState.track_window.current_track.id
-            // );
-          }
+          console.log("ALBUM GEN", e);
+
           return (
             <div
               key={e.uri}
               data-album={uri}
-              data-track_number={e.track_number}
+              data-track_number={track_number || i + 1}
               onClick={e => {
                 // console.log(e.currentTarget.dataset);
                 e = e.currentTarget.dataset;
@@ -104,6 +106,7 @@ class Album extends React.Component {
           <div className="album__presentation__img">
             <div style={{ width, height }} class="album__presentation__veneer">
               <img
+                ref={this.initRef}
                 className="album__presentation__img__file"
                 src={images && images[0].url}
                 alt=""
@@ -132,7 +135,7 @@ class Album extends React.Component {
             </div>
           </div>
         </div>
-        <div ref={this.initRef} className="album__tracklist">
+        <div className="album__tracklist">
           <h2 className="album__tracklist__title">{"Tracklist"}</h2>
           <div className="album__tracklist__tracks">{tracks}</div>
         </div>

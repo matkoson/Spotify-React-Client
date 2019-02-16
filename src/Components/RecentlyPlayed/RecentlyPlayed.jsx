@@ -29,7 +29,6 @@ class RecentlyPlayed extends Component {
               if (this.props.player) {
                 this.props.APIrequest("playRecentTracks", {
                   cx: e.track.uri
-                  // cx_pos: e.currentTarget.dataset.recent_pos
                 });
               }
             }}

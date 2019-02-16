@@ -78,12 +78,14 @@ class Search extends React.Component {
           <React.Fragment>
             <h2 className="app__fetch-title">{"Top Result"}</h2>
             <ExampleAlbum
+              handleAlbumRightOverride={this.context.handleAlbumRightOverride}
               playerState={this.context.playerState}
               currentlyPlaying={this.context.currentlyPlaying}
               albums={albums}
               getMinsSecs={this.context.getMinsSecs}
               tracks={tracks}
               APIrequest={this.context.APIrequest}
+              player={this.props.player}
             />
             <h2 className="app__fetch-title">{"Matching Artists"}</h2>
             <div className="app__fetch-container generator--exception">

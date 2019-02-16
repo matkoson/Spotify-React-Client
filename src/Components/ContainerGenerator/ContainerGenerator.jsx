@@ -10,7 +10,8 @@ let name,
   recentTracksPos,
   id,
   idS,
-  albumType;
+  albumType,
+  albumTrack;
 function ContainerGenerator(props) {
   let data = props.data,
     special = props.special,
@@ -18,12 +19,15 @@ function ContainerGenerator(props) {
     artistName = null,
     context = props.context;
   let imgMeasurements = { width: "300px", height: "300px" };
-
+  console.log(type, data);
   if (props && data) {
     return data.map((e, i) => {
       albumType = "";
       if (type === "recent") {
         if (e.track) {
+          albumTrack = e.track.album.id;
+          albumType = "album";
+          console.log(e);
           name = e.track.name;
           artistName = e.track.artists[0].name;
           image = e.track.album.images;
@@ -34,7 +38,7 @@ function ContainerGenerator(props) {
           key = e.played_at;
           dataType = e.track.type;
           cx = e.track.uri;
-          idS = e.track.id;
+          idS = e.track.album.id;
           cx_pos = e.track.track_number;
           recentTracksPos = i;
         }
@@ -56,10 +60,6 @@ function ContainerGenerator(props) {
               }
             }
           }
-          //
-          // type === "image =playlists"?
-          // (e.images && e.images[0].url) || e.album.images[0].url
-          //   : e.icons[0].url;
         }
         dataType = e.type === "artist" ? e.type : type;
         cx = e.uri;
@@ -75,9 +75,11 @@ function ContainerGenerator(props) {
           e.type === "track"
         ) {
           artistName = e.artists[0].name;
-          if (e.album_type) albumType = e.album_type;
+          if (e.album_type)
+            albumType = e.album_type || e.track.album.album_type;
         }
       }
+      console.log(type, "SECOND", albumType, albumTrack);
       return (
         <div key={key} className="generator__playlist-element">
           {/*  */}
@@ -182,7 +184,10 @@ function ContainerGenerator(props) {
           <div
             data-identi={albumType}
             data-album={idS}
-            onClick={e => context.handleAlbumRightOverride(e, albumType)}
+            onClick={e => {
+              console.log(this, albumType, albumTrack);
+              return context.handleAlbumRightOverride(e, albumType);
+            }}
             className="generator__playlist-element__title"
           >
             {name}
@@ -201,6 +206,8 @@ function ContainerGenerator(props) {
         className="generator__playlist-element"
       >
         <div
+          height={imgMeasurements.height}
+          width={imgMeasurements.width}
           style={{ backgroundColor: "#282828" }}
           className="generator__playlist-element__img--fake"
         />

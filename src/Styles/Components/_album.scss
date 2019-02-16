@@ -7,6 +7,7 @@
   height: 100%;
   overflow: auto;
   width: 765px;
+  position: relative;
   @include atLarge {
     width: 700px;
     flex-direction: column;
@@ -15,6 +16,9 @@
     width: 700px;
     flex-direction: column;
     margin-left: 0;
+  }
+  @include atSmall {
+    max-width: 100%;
   }
 
   &__presentation {
@@ -34,7 +38,11 @@
       margin-top: 50px;
       opacity: 0.6;
       position: relative;
-      margin: 0 auto;
+      margin-right: 5px;
+      margin-left: 0;
+      @include atSmall {
+        max-width: 100%;
+      }
     }
 
     &__veneer {
@@ -75,10 +83,11 @@
       font-size: 40px;
       @include atLarge {
         position: absolute;
-        top: 350px;
-        left: 265px;
+        top: 300px;
+        left: 25px;
         font-size: 25px;
         text-align: left;
+        width: 50%;
       }
       @include atMedium {
         width: 80%;
@@ -143,7 +152,15 @@
     @include atLarge {
       width: 400px;
       margin: 0 auto;
+      margin-top: 100px;
     }
+    @include atMedium {
+      margin-top: 0;
+    }
+    @include atSmall {
+      max-width: 100%;
+    }
+
     &__title {
       width: 100%;
       text-align: center;
@@ -156,6 +173,7 @@
     &__tracks {
       padding-left: 5px;
       padding-right: 5px;
+      width: 100%;
     }
 
     &__tracks:hover {

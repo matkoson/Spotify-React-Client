@@ -1,7 +1,7 @@
 import React from "react";
 
 export default function ExampleAlbum(props) {
-  let name, artist, albumsExmp, albums, cx, top5Tracks, totalDuration;
+  let name, artist, albumsExmp, albums, cx, top5Tracks, totalDuration, idS;
   if (props.albums && props.albums.items) {
     albums = props.albums;
     albumsExmp = albums.items[0];
@@ -10,6 +10,7 @@ export default function ExampleAlbum(props) {
       name = name.length > 26 ? `${name.slice(0, 26)}...` : name;
       artist = albumsExmp.artists[0].name;
       cx = albumsExmp.uri;
+      idS = albumsExmp.id;
     }
   }
   if (props.tracks && props.tracks.items) {
@@ -18,7 +19,14 @@ export default function ExampleAlbum(props) {
       totalDuration = props.getMinsSecs(totalDuration);
       return (
         <li className="search__response__album-example__tracks-li">
-          <div className="title-name-wrapper">
+          <div
+            className="title-name-wrapper"
+            onClick={() => {
+              if (props.player) {
+                props.APIrequest("playRecentTracks", { cx: e.uri });
+              }
+            }}
+          >
             <span className="search__response__album-example__tracks-li__name">
               {e.name}
             </span>
@@ -98,7 +106,12 @@ export default function ExampleAlbum(props) {
             className="search__response__album-example__img-file generator__playlist-element__img-pic"
           />
         </div>
-        <div className="search__response__album-example__element__title generator__playlist-element__title">
+        <div
+          data-album={idS}
+          data-identi={"album"}
+          onClick={e => props.handleAlbumRightOverride(e, "album")}
+          className="search__response__album-example__element__title generator__playlist-element__title"
+        >
           {name}
         </div>
         <div className="search__response__album-example__element__artist generator__playlist-element__artists">

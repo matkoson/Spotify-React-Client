@@ -236,6 +236,7 @@ class App extends Component {
         rightOverride = (
           <Search
             searchQuery={this.state.searchQuery}
+            player={this.player}
             //
           />
         );

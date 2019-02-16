@@ -74,6 +74,7 @@
 
   &__album-img {
     display: none;
+    margin-right: 8px;
     @include abvMedium {
       display: block;
       max-width: 56px;
@@ -206,6 +207,8 @@
       width: 100%;
       display: flex;
       align-items: center;
+      margin-right: 10px;
+      margin-left: 10px;
     }
 
     &__time {
@@ -254,10 +257,10 @@
     transition-duration: 1s;
     width: 60%;
     @include atLarge {
-      width: 50%;
+      width: 80px;
     }
     @include abvLarge {
-      max-width: 200px;
+      width: 200px;
     }
   }
 
