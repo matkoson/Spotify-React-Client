@@ -24,16 +24,18 @@ class PlayerBar extends PureComponent {
       progressPercentage: "", //8
       distanceTotal: "",
       paused: false,
-      shuffled: false
+      shuffled: false,
+      muted: false
     };
     this.repeatMode = ["off", "context", "track"];
 
     //
+    this.handleMute = this.handleMute.bind(this);
+    this.processRecent = this.processRecent.bind(this);
     this.handlePausePlay = this.handlePausePlay.bind(this);
     this.handleRangeChange = this.handleRangeChange.bind(this);
-    this.handleRepeatModeChange = this.handleRepeatModeChange.bind(this);
     this.playbackSDKinterval = this.playbackSDKinterval.bind(this);
-    this.processRecent = this.processRecent.bind(this);
+    this.handleRepeatModeChange = this.handleRepeatModeChange.bind(this);
   }
   componentDidMount() {
     if (this.props.recent) this.processRecent();
@@ -106,6 +108,10 @@ class PlayerBar extends PureComponent {
         }
       });
     }, 1000);
+  }
+
+  handleMute() {
+    this.setState({ muted: !this.state.muted });
   }
 
   handlePausePlay(e) {
@@ -196,6 +202,7 @@ class PlayerBar extends PureComponent {
     progressTime = processedProgress || initVal;
     totalTime = this.context.getMinsSecs(rawTrackTime) || initVal;
     progressPercentage = getPerc(rawTrackProgress, rawTrackTime) || 100;
+    volumePercentage = this.state.muted ? 0 : volumePercentage;
     //
     return (
       <div className="player-bar">
@@ -222,6 +229,8 @@ class PlayerBar extends PureComponent {
           handleDeviceTabClick={this.props.handleDeviceTabClick}
           handleRangeChange={this.handleRangeChange}
           volumePercentage={volumePercentage}
+          handleMute={this.handleMute}
+          muted={this.state.muted}
         >
           {this.props.isDeviceTabOn && (
             <DeviceTab deviceName={this.props.deviceName} />

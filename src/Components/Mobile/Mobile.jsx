@@ -1,8 +1,23 @@
 import React from "react";
+import search from "../../assets/svg/search.svg";
+import home from "../../assets/svg/home.svg";
+import lib from "../../assets/svg/lib.svg";
 
 export default function Mobile(props) {
-  const mobileNav = ["Search", "Home", "Library"].map(e => (
-    <div className="mobile__nav__li">{e}</div>
+  const mobileNav = [
+    { name: "Search", src: search },
+    { name: "Home", src: home },
+    { name: "Library", src: lib }
+  ].map(e => (
+    <div
+      className="mobile__nav__ul__li"
+      onClick={() => {
+        props.handleMainRightChange(e.name);
+      }}
+    >
+      {e.name}
+      <img src={e.src} alt="" className="mobile__nav__ul__li__img" />
+    </div>
   ));
   return (
     <div class="mobile">

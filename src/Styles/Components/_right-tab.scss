@@ -8,6 +8,10 @@
       text-align: center;
       opacity: 0.6;
       transition-duration: 500ms;
+      @include atMedium {
+        margin-bottom: 20px;
+        font-size: 15px;
+      }
       &:hover {
         opacity: 1;
         cursor: pointer;
@@ -21,6 +25,7 @@
         display: block;
         bottom: -4px;
         left: 50%;
+
         margin-left: -15px;
       }
     }

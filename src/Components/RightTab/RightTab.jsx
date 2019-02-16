@@ -25,7 +25,10 @@ export default function RightTab(props) {
           </li>
         </ul>
       )}
-      <div class="wrapper" style={props.mobile ? { marginTop: "160px" } : null}>
+      <div
+        class="wrapper"
+        style={props.mobile ? { marginTop: "203.922px" } : null}
+      >
         {props.children}
       </div>
     </div>

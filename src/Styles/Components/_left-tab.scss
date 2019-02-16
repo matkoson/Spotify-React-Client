@@ -17,6 +17,13 @@
         align-items: center;
         width: 75%;
         margin: 0 auto;
+        &__li {
+          display: flex;
+          flex-direction: column;
+        }
+        &__li:hover {
+          cursor: pointer;
+        }
       }
     }
     &__logo {

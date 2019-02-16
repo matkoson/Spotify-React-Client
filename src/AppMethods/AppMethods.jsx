@@ -143,15 +143,6 @@ export function handleResize() {
   if (window.innerWidth > 800 && this.state.mobile) {
     this.setState({ mobile: false });
   }
-  if (!this.state.windowWidth) {
-    this.setState({ windowWidth: window.innerWidth });
-  } else {
-    if (this.state.windowWidth > 1000 && window.innerWidth < 1000) {
-      this.setState({ windowWidth: window.innerWidth });
-    }
-    if (this.state.windowWidth < 1000 && window.innerWidth > 1000)
-      this.setState({ windowWidth: window.innerWidth });
-  }
 }
 export function handleMobileNavToggle() {
   this.setState({ mobile: !this.state.mobile });
@@ -187,7 +178,8 @@ export function handleMainRightChange(mainRightView) {
         mainRightView,
         rightTabView: "",
         currGrad:
-          "linear-gradient(to right bottom, #000000, #000000,  #202020, #282828, #282828)"
+          "linear-gradient(to right bottom, #000000, #000000,  #202020, #282828, #282828)",
+        mobile: false
       })
     : this.setState({ mainRightView, rightTabView: "" });
 }

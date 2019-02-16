@@ -26,7 +26,11 @@ function ContainerGenerator(props) {
         if (e.track) {
           name = e.track.name;
           artistName = e.track.artists[0].name;
-          image = e.track.album.images[0].url;
+          image = e.track.album.images;
+          image =
+            window.innerWidth < 820
+              ? (image[1] && image[1].url) || image[0].url
+              : image[0].url;
           key = e.played_at;
           dataType = e.track.type;
           cx = e.track.uri;
@@ -39,10 +43,23 @@ function ContainerGenerator(props) {
         name = e.name;
         key = e.href || e.id;
         if ((e.images && e.images[0]) || e.icons || e.album) {
-          image =
-            type === "playlists"
-              ? (e.images && e.images[0].url) || e.album.images[0].url
-              : e.icons[0].url;
+          if (e.icons) {
+            image = e.icons[0].url;
+          } else if (type === "playlists") {
+            if (e.album) {
+              image = e.album.images[0].url;
+            } else {
+              if (window.innerWidth < 820 && e.images && e.images[1]) {
+                image = e.images[1].url;
+              } else {
+                image = e.images && e.images[0].url;
+              }
+            }
+          }
+          //
+          // type === "image =playlists"?
+          // (e.images && e.images[0].url) || e.album.images[0].url
+          //   : e.icons[0].url;
         }
         dataType = e.type === "artist" ? e.type : type;
         cx = e.uri;

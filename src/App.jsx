@@ -161,7 +161,6 @@ class App extends Component {
     }
   }
   getMinsSecs = (ms = 0) => {
-    // console.log(ms);
     ms = (ms - (ms % 1000)) / 1000;
     return {
       min: String(
@@ -261,9 +260,6 @@ class App extends Component {
             getPlaylistCover={this.state.getPlaylistCover}
             getPlaylistTracks={this.state.getPlaylistTracks}
             albumViewOption={this.state.albumViewOption}
-            //
-            // APIrequest={this.playerRequest}
-            // playerState={this.state.playerState}
           />
         );
         break;
@@ -280,7 +276,6 @@ class App extends Component {
           />
         );
     }
-    // console.log(rightOverride, "OVERRIDE");
     return (
       <main
         ref={this.homeRef}
@@ -296,6 +291,7 @@ class App extends Component {
       >
         <Provider value={this.state.valueContext}>
           <Mobile
+            handleMainRightChange={this.handleMainRightChange}
             handleMobileNavToggle={this.handleMobileNavToggle}
             mobile={this.state.mobile}
           />

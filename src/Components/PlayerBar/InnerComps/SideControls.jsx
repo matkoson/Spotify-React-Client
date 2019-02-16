@@ -14,7 +14,13 @@ export default function SideControls(props) {
           onClick={props.handleDeviceTabClick}
           className="fas fa-tablet-alt"
         />
-        <i className="fas fa-volume-up" />
+        <div class="player-bar__right-tab__volume" onClick={props.handleMute}>
+          {props.muted ? (
+            <i className="fas fa-volume-mute" />
+          ) : (
+            <i className="fas fa-volume-up" />
+          )}
+        </div>
       </div>
       <div
         id="volume-bar"
@@ -29,7 +35,6 @@ export default function SideControls(props) {
         </div>
       </div>
       {props.children}
-      {/* <i className="fas fa-volume-mute"></i> */}
     </div>
   );
 }
