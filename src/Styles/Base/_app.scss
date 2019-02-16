@@ -1,0 +1,162 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+@font-face {
+  font-family: "Rubik";
+  src: local("Rubik"), url("../assets/fonts/Rubik-Light.woff") format("woff");
+}
+@font-face {
+  font-family: "DeValencia-Regular";
+  src: local("DeValencia-Regular"), url("../assets/fonts/DeValencia-Regular.woff") format("woff");
+}
+@font-face {
+  font-family: "Horizon-Regular";
+  src: local("Horizon-Regular"), url("../assets/fonts/Horizon-Regular.woff") format("woff");
+}
+@font-face {
+  font-family: "Rubik-Medium";
+  src: local("Rubik-Medium"), url("../assets/fonts/Rubik-Medium.woff") format("woff");
+}
+@font-face {
+  font-family: "Anodina-Light";
+  src: local("Anodina-Light"), url("../assets/fonts/Anodina-Light.woff") format("woff");
+}
+@font-face {
+  font-family: "Anodina-ExtraLight";
+  src: local("Anodina-ExtraLight"), url("../assets/fonts/Anodina-ExtraLight.woff") format("woff");
+}
+@font-face {
+  font-family: "Anodina-Regular";
+  src: local("Anodina-Regular"), url("../assets/fonts/Anodina-Regular.woff") format("woff");
+}
+@font-face {
+  font-family: "Anodina-Bold";
+  src: local("Anodina-Bold"), url("../assets/fonts/Anodina-Bold.woff") format("woff");
+}
+@font-face {
+  font-family: "Anodina-ExtraBold";
+  src: local("Anodina-ExtraBold"), url("../assets/fonts/Anodina-ExtraBold.woff") format("woff");
+}
+@font-face {
+  font-family: "SpaceGrotesk-Light";
+  src: local("SpaceGrotesk-Light"), url("../assets/fonts/SpaceGrotesk-Light.woff") format("woff");
+}
+@font-face {
+  font-family: "SpaceGrotesk-SemiBold";
+  src: local("SpaceGrotesk-SemiBold"), url("../assets/fonts/SpaceGrotesk-SemiBold.woff") format("woff");
+}
+@font-face {
+  font-family: "SpaceGrotesk-Medium";
+  src: local("SpaceGrotesk-Medium"), url("../assets/fonts/SpaceGrotesk-Medium.woff") format("woff");
+}
+@font-face {
+  font-family: "SpaceGrotesk-Bold";
+  src: local("SpaceGrotesk-Bold"), url("../assets/fonts/SpaceGrotesk-Bold.woff") format("woff");
+}
+@font-face {
+  font-family: "Quicksand-Bold";
+  src: local("Quicksand-Bold"), url("../assets/fonts/Quicksand-Bold.woff") format("woff");
+}
+@font-face {
+  font-family: "Quicksand-BoldItalic";
+  src: local("Quicksand-BoldItalic"), url("../assets/fonts/Quicksand-BoldItalic.woff") format("woff");
+}
+#root {
+  overflow-x: hidden;
+}
+
+.app {
+  width: 100vw;
+  min-height: 100vh;
+  display: flex;
+  font-family: "Anodina-Light";
+  overflow-x: hidden;
+  transition: background-image 1.5s ease;
+  color: #ffffff;
+
+  &__fetch {
+    &-title {
+      width: 100%;
+      text-align: left;
+      margin-bottom: 2%;
+      font-size: 42px;
+      font-family: "SpaceGrotesk-Bold";
+      @include atXLarge {
+        font-size: 35px;
+      }
+      @include atLarge {
+        text-align: center;
+      }
+    }
+    &-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+      width: 100%;
+      margin-bottom: 5%;
+      @include atLarge {
+        justify-content: center;
+      }
+    }
+  }
+  &__right-container-generic__outer {
+    overflow-y: scroll;
+    overflow-x: hidden;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    margin-left: 240px;
+    margin-right: 0;
+    margin-bottom: 90px;
+    padding-right: 0;
+    @include atMedium {
+      margin-left: 5px;
+    }
+    &__right-nav {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      margin: 42px auto;
+      width: 90%;
+      font-size: 12px;
+      font-weight: 700;
+      color: white;
+      list-style: none;
+      line-height: 16px;
+      letter-spacing: 0.15rem;
+      @include atMedium {
+        width: 75%;
+      }
+    }
+  }
+
+  &__play-hover {
+    width: 60px;
+    height: 60px;
+    position: absolute;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.8rem;
+    &--hover {
+      transform: scale(1.2);
+      filter: brightness(500%);
+      border-radius: 50%;
+      border: 1px solid white;
+    }
+  }
+
+  &__rounded-album {
+    border-radius: 50%;
+    overflow: hidden;
+  }
+}
+
+//
+
+/*# sourceMappingURL=App.scss.map */

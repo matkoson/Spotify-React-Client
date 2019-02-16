@@ -1,5 +1,5 @@
 import React from "react";
-// import { playerRequest } from "././APImethods";
+import { Consumer } from "../../Context/Context";
 let name,
   image,
   key,
@@ -9,63 +9,84 @@ let name,
   recentTracks,
   recentTracksPos,
   id,
-  artistName;
-export default function GenAlbumContainer(props) {
+  idS,
+  albumType,
+  albumTrack;
+function ContainerGenerator(props) {
   let data = props.data,
     special = props.special,
     type = props.type,
-    artistName = null;
-  console.log(props, "data", data, "type", type, special);
-  // if (type === "playlists") console.log(data, type);
+    artistName = null,
+    context = props.context;
+  let imgMeasurements = { width: "300px", height: "300px" };
+  console.log(type, data);
   if (props && data) {
     return data.map((e, i) => {
-      // console.log(e.name);
-      // if (special) console.log("special", e);
+      albumType = "";
       if (type === "recent") {
-        name = e.track.name;
-        artistName = e.track.artists[0].name;
-        image = e.track.album.images[0].url;
-        key = e.played_at;
-        dataType = e.track.type;
-        cx = e.track.uri;
-        cx_pos = e.track.track_number;
-        recentTracksPos = i;
+        if (e.track) {
+          albumTrack = e.track.album.id;
+          albumType = "album";
+          console.log(e);
+          name = e.track.name;
+          artistName = e.track.artists[0].name;
+          image = e.track.album.images;
+          image =
+            window.innerWidth < 820
+              ? (image[1] && image[1].url) || image[0].url
+              : image[0].url;
+          key = e.played_at;
+          dataType = e.track.type;
+          cx = e.track.uri;
+          idS = e.track.album.id;
+          cx_pos = e.track.track_number;
+          recentTracksPos = i;
+        }
         if (!recentTracks) recentTracks = data.map(e => e.track.uri);
       } else if (type === "playlists" || type === "categories") {
         name = e.name;
         key = e.href || e.id;
         if ((e.images && e.images[0]) || e.icons || e.album) {
-          console.log("IN");
-          image =
-            type === "playlists"
-              ? (e.images && e.images[0].url) || e.album.images[0].url
-              : e.icons[0].url;
+          if (e.icons) {
+            image = e.icons[0].url;
+          } else if (type === "playlists") {
+            if (e.album) {
+              image = e.album.images[0].url;
+            } else {
+              if (window.innerWidth < 820 && e.images && e.images[1]) {
+                image = e.images[1].url;
+              } else {
+                image = e.images && e.images[0].url;
+              }
+            }
+          }
         }
-        console.log(image, e.images, e.album && e.album.images);
         dataType = e.type === "artist" ? e.type : type;
         cx = e.uri;
+        idS = e.id;
         if (e.type === "track") {
           cx = e.album.uri;
           cx_pos = e.track_number;
         }
         id = e.id;
-        // artistName =  e.track.artists[0].name;
         if (
           e.album_type === "single" ||
           e.album_type === "album" ||
           e.type === "track"
-        )
+        ) {
           artistName = e.artists[0].name;
-        // if (e.type === "track") type = "track";
-        // console.log("DATA", name, image, artistName, cx);
+          if (e.album_type)
+            albumType = e.album_type || e.track.album.album_type;
+        }
       }
+      console.log(type, "SECOND", albumType, albumTrack);
       return (
-        <div key={key} className="home-screen__made-for-user__playlist-element">
+        <div key={key} className="generator__playlist-element">
           {/*  */}
           {/*  */}
           {/*  */}
           <div
-            className="home-screen__made-for-user__playlist-element__img"
+            className="generator__playlist-element__img"
             data-cx={cx}
             data-cx_pos={
               cx_pos ? (dataType !== "track" ? cx_pos : recentTracksPos) : null
@@ -75,42 +96,41 @@ export default function GenAlbumContainer(props) {
             data-category_type={dataType === "categories" ? id : null}
             onClick={e => {
               if (e.currentTarget.dataset.data_type === "categories") {
-                props.handleMainRightViewChange(e);
+                context.handleMainRightViewChange(e);
               }
               if (special || e.currentTarget.dataset.data_type === "artist") {
-                return props.APIrequest("playArtist", {
+                return context.APIrequest("playArtist", {
                   cx: e.currentTarget.dataset.cx
                 });
               }
               if (e.currentTarget.dataset.data_type === "playlists") {
-                props.APIrequest("playSpecificPlayback", {
+                context.APIrequest("playSpecificPlayback", {
                   cx: e.currentTarget.dataset.cx,
                   cx_pos: e.currentTarget.dataset.cx_pos
                 });
               }
               if (e.currentTarget.dataset.data_type === "track") {
-                props.APIrequest("playRecentTracks", {
+                context.APIrequest("playRecentTracks", {
                   cx: recentTracks,
                   cx_pos: e.currentTarget.dataset.recent_pos
                 });
               }
-              props.APIrequest("currentlyPlaying");
+              context.APIrequest("currentlyPlaying");
             }}
             onMouseOver={e => {
               e.currentTarget.className =
-                "home-screen__made-for-user__playlist-element__img--hover";
+                "generator__playlist-element__img--hover";
             }}
             onMouseLeave={e =>
-              (e.currentTarget.className =
-                "home-screen__made-for-user__playlist-element__img")
+              (e.currentTarget.className = "generator__playlist-element__img")
             }
             onMouseDown={e =>
               (e.currentTarget.className =
-                "home-screen__made-for-user__playlist-element__img--hover home-screen__made-for-user__playlist-element__img--click")
+                "generator__playlist-element__img--hover generator__playlist-element__img--click")
             }
             onMouseUp={e =>
               (e.currentTarget.className =
-                "home-screen__made-for-user__playlist-element__img--hover")
+                "generator__playlist-element__img--hover")
             }
           >
             {props.type !== "categories" && (
@@ -124,17 +144,18 @@ export default function GenAlbumContainer(props) {
                   (e.currentTarget.className = "app__play-hover")
                 }
               >
-                {props.playerState &&
-                !props.playerState.paused &&
+                {context.playerState &&
+                !context.playerState.paused &&
                 ((dataType === "track" &&
-                  props.currPlay.item &&
-                  cx === props.currPlay.item.uri) ||
+                  context.currentlyPlaying.item &&
+                  cx === context.currentlyPlaying.item.uri) ||
                   (dataType === "artist" &&
-                    props.currPlay &&
-                    props.currPlay.item.artists[0].name === e.name) ||
+                    context.currentlyPlaying &&
+                    context.currentlyPlaying.item &&
+                    context.currentlyPlaying.item.artists[0].name === e.name) ||
                   (dataType === "playlist" &&
-                    props.currPlay.context &&
-                    cx === props.currPlay.context.uri)) ? (
+                    context.currentlyPlaying.context &&
+                    cx === context.currentlyPlaying.context.uri)) ? (
                   <i
                     id="pause"
                     className="fas fa-pause app__pause-visible__icon"
@@ -148,11 +169,11 @@ export default function GenAlbumContainer(props) {
             <img
               className={
                 !special
-                  ? "home-screen__made-for-user__playlist-element__img-pic"
-                  : "app__rounded-album home-screen__made-for-user__playlist-element__img-pic"
+                  ? "generator__playlist-element__img__pic"
+                  : "app__rounded-album generator__playlist-element__img__pic"
               }
-              height="300px"
-              width="300px"
+              height={imgMeasurements.height}
+              width={imgMeasurements.width}
               src={image}
               alt=""
             />
@@ -160,10 +181,18 @@ export default function GenAlbumContainer(props) {
           {/*  */}
           {/*  */}
           {/*  */}
-          <div className="home-screen__made-for-user__playlist-element__title">
+          <div
+            data-identi={albumType}
+            data-album={idS}
+            onClick={e => {
+              console.log(this, albumType, albumTrack);
+              return context.handleAlbumRightOverride(e, albumType);
+            }}
+            className="generator__playlist-element__title"
+          >
             {name}
           </div>
-          <div className="home-screen__made-for-user__playlist-element__artists">
+          <div className="generator__playlist-element__artists">
             {artistName ? artistName : null}
           </div>
         </div>
@@ -174,16 +203,32 @@ export default function GenAlbumContainer(props) {
     placeholder = placeholder.map((e, i) => (
       <div
         key={`${i}${Math.random * 100000}`}
-        className="home-screen__made-for-user__playlist-element"
+        className="generator__playlist-element"
       >
         <div
+          height={imgMeasurements.height}
+          width={imgMeasurements.width}
           style={{ backgroundColor: "#282828" }}
-          className="home-screen__made-for-user__playlist-element__img--fake"
+          className="generator__playlist-element__img--fake"
         />
         {}
       </div>
     ));
-    // console.log(placeholder, "placeholder");
     return placeholder;
   }
+}
+
+export default function ContainerGeneratorWithCx(props) {
+  return (
+    <Consumer>
+      {context => (
+        <ContainerGenerator
+          data={props.data}
+          type={props.type}
+          context={context}
+          special={props.special}
+        />
+      )}
+    </Consumer>
+  );
 }

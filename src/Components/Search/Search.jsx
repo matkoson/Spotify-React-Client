@@ -1,6 +1,7 @@
 import React from "react";
 import ExampleAlbum from "./ExampleAlbum";
-import GenAlbumContainer from "../GenAlbumContainer/GenAlbumContainer";
+import ContainerGenerator from "../ContainerGenerator/ContainerGenerator";
+import { Context } from "../../Context/Context";
 
 class Search extends React.Component {
   constructor(props) {
@@ -13,8 +14,8 @@ class Search extends React.Component {
     const value = e.target.value;
     this.setState({ searchInput: value });
     setTimeout(() => {
-      this.props.APIrequest("searchQuery", { query: value });
-    }, 700);
+      this.context.APIrequest("searchQuery", { query: value });
+    }, 200);
   }
   handleHighlightChange(e) {}
 
@@ -27,7 +28,7 @@ class Search extends React.Component {
           <React.Fragment>
             <h2 className="app__fetch-title">{"Matching Albums"}</h2>
             <div className="app__fetch-container ">
-              {this.albums || <GenAlbumContainer />}
+              {this.albums || <ContainerGenerator />}
             </div>
           </React.Fragment>
         );
@@ -38,14 +39,11 @@ class Search extends React.Component {
             <h2 className="app__fetch-title">{"Matching Artists"}</h2>
             <div className="app__fetch-container ">
               {(
-                <GenAlbumContainer
+                <ContainerGenerator
                   data={artists.items.slice(0, 10)}
                   type={"playlists"}
-                  playerState={this.props.playerState}
-                  APIrequest={this.props.APIrequest}
-                  currPlay={this.state.currentlyPlaying}
                 />
-              ) || <GenAlbumContainer />}
+              ) || <ContainerGenerator />}
             </div>
           </React.Fragment>
         );
@@ -56,14 +54,11 @@ class Search extends React.Component {
             <h2 className="app__fetch-title">{"Matching Tracks"}</h2>
             <div className="app__fetch-container ">
               {(
-                <GenAlbumContainer
+                <ContainerGenerator
                   data={tracks.items.slice(0, 100)}
                   type={"playlists"}
-                  playerState={this.props.playerState}
-                  APIrequest={this.props.APIrequest}
-                  currPlay={this.state.currentlyPlaying}
                 />
-              ) || <GenAlbumContainer />}
+              ) || <ContainerGenerator />}
             </div>
           </React.Fragment>
         );
@@ -72,8 +67,8 @@ class Search extends React.Component {
         resultRender = (
           <React.Fragment>
             <h2 className="app__fetch-title">{"Matching Artists"}</h2>
-            <div className="app__fetch-container ">
-              {this.playlists || <GenAlbumContainer />}
+            <div className="app__fetch-container generator--exception">
+              {this.playlists || <ContainerGenerator />}
             </div>
           </React.Fragment>
         );
@@ -83,53 +78,47 @@ class Search extends React.Component {
           <React.Fragment>
             <h2 className="app__fetch-title">{"Top Result"}</h2>
             <ExampleAlbum
-              playerState={this.state.playerState}
-              currentlyPlaying={this.state.currentlyPlaying}
+              handleAlbumRightOverride={this.context.handleAlbumRightOverride}
+              playerState={this.context.playerState}
+              currentlyPlaying={this.context.currentlyPlaying}
               albums={albums}
+              getMinsSecs={this.context.getMinsSecs}
               tracks={tracks}
-              APIrequest={this.props.APIrequest}
+              APIrequest={this.context.APIrequest}
+              player={this.props.player}
             />
             <h2 className="app__fetch-title">{"Matching Artists"}</h2>
-            <div className="app__fetch-container ">
-              {this.artists || <GenAlbumContainer />}
+            <div className="app__fetch-container generator--exception">
+              {this.artists || <ContainerGenerator />}
             </div>
             <h2 className="app__fetch-title">{"Matching Playlists"}</h2>
             <div className="app__fetch-container ">
-              {this.playlists || <GenAlbumContainer />}
+              {this.playlists || <ContainerGenerator />}
             </div>
           </React.Fragment>
         );
     }
     if (playlists) {
       this.playlists = (
-        <GenAlbumContainer
+        <ContainerGenerator
           data={playlists.items.slice(0, 5)}
           type={"playlists"}
-          playerState={this.props.playerState}
-          APIrequest={this.props.APIrequest}
-          currPlay={this.state.currentlyPlaying}
         />
       );
     }
     if (artists) {
       this.artists = (
-        <GenAlbumContainer
+        <ContainerGenerator
           data={artists.items.slice(0, 2)}
           type={"playlists"}
-          playerState={this.props.playerState}
-          APIrequest={this.props.APIrequest}
-          currPlay={this.state.currentlyPlaying}
         />
       );
     }
     if (albums) {
       this.albums = (
-        <GenAlbumContainer
+        <ContainerGenerator
           data={albums.items.slice(0, 50)}
           type={"playlists"}
-          playerState={this.props.playerState}
-          APIrequest={this.props.APIrequest}
-          currPlay={this.state.currentlyPlaying}
         />
       );
     }
@@ -144,8 +133,8 @@ class Search extends React.Component {
         id={e}
         className={
           this.state.chosenTab === e
-            ? "search-response__nav--clicked search__response-nav__li"
-            : "search__response-nav__li"
+            ? "search__response__nav--clicked search__response__nav__li"
+            : "search__response__nav__li"
         }
         onClick={e => this.setState({ chosenTab: e.target.id })}
       >
@@ -153,15 +142,15 @@ class Search extends React.Component {
       </li>
     ));
     return (
-      <div className="search home-screen">
-        <div class="search__input-row">
+      <div className="search generator">
+        <div class="search__input">
           <input
             autoFocus
             placeholder={"Insert your query..."}
             value={this.state.searchInput}
             onChange={this.handleInputChange}
             type="text"
-            className="search__input"
+            className="search__input__area"
           />
           <i class="fas fa-search" />
         </div>
@@ -176,5 +165,6 @@ class Search extends React.Component {
     );
   }
 }
+Search.contextType = Context;
 
 export default Search;

@@ -191,6 +191,25 @@ export function playerRequest(type, additional) {
         additional.mode}`,
       type: "PUT"
     },
+    getAlbum: {
+      uri: `https://api.spotify.com/v1/albums/${additional && additional.uri}`,
+      type: "GET"
+    },
+    getPlaylist: {
+      uri: `https://api.spotify.com/v1/playlists/${additional &&
+        additional.uri}`,
+      type: "GET"
+    },
+    getPlaylistTracks: {
+      uri: `https://api.spotify.com/v1/playlists/${additional &&
+        additional.uri}/tracks`,
+      type: "GET"
+    },
+    getPlaylistCover: {
+      uri: `https://api.spotify.com/v1/playlists/${additional &&
+        additional.uri}/images`,
+      type: "GET"
+    },
     getDevices: {
       uri: "https://api.spotify.com/v1/me/player/devices",
       type: "GET"
@@ -243,7 +262,7 @@ export function playerRequest(type, additional) {
     console.log(request, chosen.uri);
   return fetch(chosen.uri, request)
     .then(res => {
-      console.log("first", res.body);
+      // console.log("first", res.body);
       const reader = res.body.getReader();
       //refactor for handling readableStream in order to avoid JSON's 'unexpected end of input' error
       const stream = new ReadableStream({
@@ -271,9 +290,10 @@ export function playerRequest(type, additional) {
           // console.log(type);
           if (type === "getCategoryPlaylists") {
             if (!res.error) {
-              console.log("resPlaylist", res, this.state[type]);
+              // console.log("WARNING resPlaylist", res, this.state[type]);
               if (res.playlists.href.includes("country=PL"))
                 return this.setState({ PolandTop: res });
+              console.log("WARNING resPlaylist", res, this.state[type]);
               return this.setState({ [type]: [...this.state[type], res] });
             }
           } else if (type === "getMultipleArtists") {
@@ -284,6 +304,13 @@ export function playerRequest(type, additional) {
               return {
                 getMultipleArtistAlbums: [...state.getMultipleArtistAlbums, res]
               };
+            });
+          } else if (type === "currentlyPlaying") {
+            this.setState({
+              valueContext: {
+                ...this.state.valueContext,
+                currentlyPlaying: res
+              }
             });
           } else {
             if (!res.error) return this.setState({ [type]: res });

@@ -1,0 +1,33 @@
+.right-tab {
+  &__right-nav {
+    &__element {
+      flex-basis: 10%;
+      min-width: 150px;
+      margin-bottom: 3%;
+      position: relative;
+      text-align: center;
+      opacity: 0.6;
+      transition-duration: 500ms;
+      @include atMedium {
+        margin-bottom: 20px;
+        font-size: 15px;
+      }
+      &:hover {
+        opacity: 1;
+        cursor: pointer;
+      }
+      &--clicked:before {
+        content: "";
+        height: 2px;
+        background-color: $mainGreen;
+        width: 30px;
+        position: absolute;
+        display: block;
+        bottom: -4px;
+        left: 50%;
+
+        margin-left: -15px;
+      }
+    }
+  }
+}

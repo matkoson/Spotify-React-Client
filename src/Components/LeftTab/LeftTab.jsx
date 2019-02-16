@@ -1,5 +1,4 @@
 import React from "react";
-import logo from "../../assets/svg/logo.svg";
 import search from "../../assets/svg/search.svg";
 import home from "../../assets/svg/home.svg";
 import lib from "../../assets/svg/lib.svg";
@@ -13,11 +12,9 @@ export default function LeftTab(props) {
           props.handleMainRightChange("Home");
         }}
       >
-        <img
-          className="left-tab__logo__logo"
-          src={logo}
-          alt="spotify-logo+text"
-        />
+        <i class="fab fa-react left-tab__logo__main" />
+        <div className="left-tab__logo__title"> Spotify</div>
+        <div className="left-tab__logo__title-react">React</div>
       </div>
       <div
         onClick={e => props.handleNavClick(e, "left")}

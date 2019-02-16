@@ -1,25 +1,20 @@
 import React, { Component } from "react";
-import "./App.sass";
+import "./Styles/Styles.scss";
 import LeftTab from "./Components/LeftTab/LeftTab";
 import RightTab from "./Components/RightTab/RightTab";
 import "./assets/fonts/Rubik-Light.woff";
 import RecentlyPlayed from "./Components/RecentlyPlayed/RecentlyPlayed";
-import "./Components/RecentlyPlayed/RecentlyPlayed.sass";
 import HomeScreen from "./Components/HomeScreen/HomeScreen";
-import "./Components/HomeScreen/HomeScreen.sass";
 import PlayerBar from "./Components/PlayerBar/PlayerBar";
-import "./Components/PlayerBar/PlayerBar.sass";
 import Charts from "./Components/Charts/Charts";
 import Genres from "./Components/Genres/Genres";
 import NewReleases from "./Components/NewReleases/NewReleases";
 import Discover from "./Components/Discover/Discover";
 import Search from "./Components/Search/Search";
 import Library from "./Components/Library/Library";
-import "./Components/Library/Library.sass";
-import "./Components/Search/Search.sass";
+import Album from "./Components/Album/Album";
 import CatInnerView from "./Components/CatInnerView/CatInnerView";
-import "./globalStyles.sass";
-import "./Components/CatInnerView/CatInnerView.sass";
+import Mobile from "./Components/Mobile/Mobile";
 import cdnLoader from "./loadScript";
 import initSDK from "./APIconnection/initSDK";
 import { countryCodes } from "./assets/countries";
@@ -30,7 +25,9 @@ import {
   handleResize,
   gradientCarousel,
   handleMainRightViewChange,
-  handleMainRightChange
+  handleMainRightChange,
+  handleAlbumRightOverride,
+  handleMobileNavToggle
 } from "./AppMethods/AppMethods";
 import {
   setToken,
@@ -41,37 +38,11 @@ import {
   playerRequest,
   getContentFromMultiArtists
 } from "./APIconnection/APImethods";
+import { Provider } from "./Context/Context";
 
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      alreadyViewed: [],
-      mainRightView: "Home",
-      searchQuery: "",
-      rightTabView: "",
-      auth: "",
-      recentlyPlayed: "",
-      featured: "",
-      topRelatedArtists: "",
-      topArtist: "",
-      getUserPlaylists: "",
-      getUserSavedAlbums: "",
-      getUserSavedTracks: "",
-      currentlyPlaying: "",
-      audio: "",
-      tokenSDK: "",
-      playerState: "",
-      shuffle: false,
-      deviceName: "",
-      deviceTabOn: false,
-      getCategories: "",
-      getCategory: "",
-      getCategoryPlaylists: [],
-      getMultipleArtistAlbums: [],
-      PolandTop: "",
-      currGrad: "linear-gradient(105deg, rgba(112,45,58,1) 25%, #282828 56%)"
-    };
     //
     //
     //
@@ -83,9 +54,12 @@ class App extends Component {
     this.getFtrdPlay = getFtrdPlay.bind(this);
     this.getTopArtist = getTopArtist.bind(this);
     this.handleResize = handleResize.bind(this);
+    this.getMinsSecs = this.getMinsSecs.bind(this);
     this.playerRequest = playerRequest.bind(this);
     this.handleNavClick = handleNavClick.bind(this);
     this.gradientCarousel = gradientCarousel.bind(this);
+    this.handleMobileNavToggle = handleMobileNavToggle.bind(this);
+    this.handleAlbumRightOverride = handleAlbumRightOverride.bind(this);
     this.handleMainRightChange = handleMainRightChange.bind(this);
     this.makeApropriateFetch = makeApropriateFetch.bind(this);
     this.handleDeviceTabClick = handleDeviceTabClick.bind(this);
@@ -103,8 +77,51 @@ class App extends Component {
       "linear-gradient(105deg, rgba(107,13,20,1) 25%, #282828 56%)"
     ];
     this.countryCodes = countryCodes;
+    this.state = {
+      alreadyViewed: [],
+      mobile: false,
+      mainRightView: "Home",
+      searchQuery: "",
+      rightTabView: "",
+      auth: "",
+      recentlyPlayed: "",
+      featured: "",
+      topRelatedArtists: "",
+      topArtist: "",
+      getAlbum: "",
+      getUserPlaylists: "",
+      getUserSavedAlbums: "",
+      getUserSavedTracks: "",
+      audio: "",
+      tokenSDK: "",
+      playerState: "",
+      shuffle: false,
+      albumViewOption: "",
+      deviceName: "",
+      deviceTabOn: false,
+      getCategories: "",
+      getCategory: "",
+      getCategoryPlaylists: [],
+      getMultipleArtistAlbums: [],
+      getPlaylist: "",
+      getPlaylistTracks: "",
+      getPlaylistCover: "",
+      PolandTop: "",
+      currGrad: "linear-gradient(105deg, rgba(112,45,58,1) 25%, #282828 56%)",
+      valueContext: {
+        playerState: "",
+        APIrequest: this.playerRequest,
+        handleAlbumRightOverride: this.handleAlbumRightOverride,
+        currentlyPlaying: "",
+        getMinsSecs: this.getMinsSecs,
+        handleMainRightViewChange: this.handleMainRightViewChange
+      }
+    };
+    this.homeRef = React.createRef();
   }
   componentDidMount() {
+    if (this.state.mainRightView === "Home")
+      this.homeRef.current.scrollIntoView();
     // this.gradientCarousel();
     window.addEventListener("resize", this.handleResize);
     //Initiate Spotify SDK Player through cdn script
@@ -138,16 +155,22 @@ class App extends Component {
   }
   componentDidUpdate() {
     if (this.state.auth) {
-      if (!this.state.currentlyPlaying) {
-        this.playerRequest("currentlyPlaying");
-      } else {
-        // console.log(this.state.currentlyPlaying);
-      }
       if (!this.state.recentlyPlayed) this.getRecent();
       if (!this.state.featured) this.getFtrdPlay();
       if (!this.state.topRelatedArtists) this.getTopArtist();
     }
   }
+  getMinsSecs = (ms = 0) => {
+    ms = (ms - (ms % 1000)) / 1000;
+    return {
+      min: String(
+        Math.floor(ms / 60) < 10
+          ? `0${Math.floor(ms / 60)}`
+          : Math.floor(ms / 60)
+      ),
+      sec: String(ms % 60 < 10 ? `0${ms % 60}` : ms % 60)
+    };
+  };
 
   render() {
     let rightTabView;
@@ -155,61 +178,55 @@ class App extends Component {
     switch (this.state.rightTabView) {
       case "Charts":
         rightTabView = (
-          <Charts
-            APIrequest={this.playerRequest}
+          <Charts //refactored
             getCategories={this.state.getCategories}
             getCategoryPlaylists={this.state.getCategoryPlaylists}
-            currentlyPlaying={this.state.currentlyPlaying}
-            playerState={this.state.playerState}
             PolandTop={this.state.PolandTop}
+            //
+            handleAlbumRightOverride={this.handleAlbumRightOverride}
           />
         );
         break;
       case "Genres":
         rightTabView = (
-          <Genres
+          <Genres //refactored
             makeApropriateFetch={this.makeApropriateFetch}
             getCategories={this.state.getCategories}
-            currentlyPlaying={this.state.currentlyPlaying}
-            playerState={this.state.playerState}
-            APIrequest={this.playerRequest}
-            handleMainRightViewChange={this.handleMainRightViewChange}
+            //
           />
         );
         break;
       case "New Releases":
         rightTabView = (
-          <NewReleases
+          <NewReleases //refactored
             getNewReleases={this.state.getNewReleases}
-            playerState={this.state.playerState}
-            APIrequest={this.playerRequest}
             PolandTop={this.state.PolandTop}
             getCategory={this.state.getCategory}
+            //
+            playerState={this.state.playerState}
+            APIrequest={this.playerRequest}
             currentlyPlaying={this.state.currentlyPlaying}
+            handleAlbumRightOverride={this.handleAlbumRightOverride}
           />
         );
         break;
       case "Discover":
         rightTabView = (
-          <Discover
+          <Discover //refactored
             getMultipleArtistAlbums={this.state.getMultipleArtistAlbums}
-            playerState={this.state.playerState}
-            APIrequest={this.playerRequest}
-            currentlyPlaying={this.state.currentlyPlaying}
+            //
           />
         );
         break;
       default:
         rightTabView = (
-          <HomeScreen
-            playerState={this.state.playerState}
+          <HomeScreen //refactored
             featured={this.state.featured}
             recent={this.state.recentlyPlayed}
             relatedTop={this.state.topRelatedArtists}
             topArtist={this.state.topArtist}
-            APIrequest={this.playerRequest}
-            currentlyPlaying={this.state.currentlyPlaying}
             player={this.player}
+            //
           />
         );
     }
@@ -218,41 +235,51 @@ class App extends Component {
       case "Search":
         rightOverride = (
           <Search
-            playerState={this.state.playerState}
-            APIrequest={this.playerRequest}
             searchQuery={this.state.searchQuery}
-            currentlyPlaying={this.state.currentlyPlaying}
+            player={this.player}
+            //
           />
         );
 
         break;
       case "Library":
         rightOverride = (
-          <Library
-            APIrequest={this.playerRequest}
+          <Library //refactored
             getUserPlaylists={this.state.getUserPlaylists}
-            playerState={this.state.playerState}
-            currentlyPlaying={this.state.currentlyPlaying}
             getUserSavedAlbums={this.state.getUserSavedAlbums}
             getUserSavedTracks={this.state.getUserSavedTracks}
+            //
+          />
+        );
+        break;
+      case "Album":
+        rightOverride = (
+          <Album
+            ref={this.albumRef}
+            getAlbum={this.state.getAlbum}
+            getPlaylist={this.state.getPlaylist}
+            getPlaylistCover={this.state.getPlaylistCover}
+            getPlaylistTracks={this.state.getPlaylistTracks}
+            albumViewOption={this.state.albumViewOption}
           />
         );
         break;
       default:
         rightOverride = (
           <CatInnerView
-            APIrequest={this.playerRequest}
             PolandTop={this.state.PolandTop}
             getCategory={this.state.getCategory}
-            currentlyPlaying={this.state.currentlyPlaying}
             getCategoryPlaylists={this.state.getCategoryPlaylists}
+            //
+            currentlyPlaying={this.state.currentlyPlaying}
             playerState={this.state.playerState}
+            APIrequest={this.playerRequest}
           />
         );
     }
-    // console.log(rightOverride, "OVERRIDE");
     return (
       <main
+        ref={this.homeRef}
         className="app"
         style={{
           backgroundImage: this.state.currGrad,
@@ -263,38 +290,47 @@ class App extends Component {
         }
         //click anywhere in the app to make deviceTab disappear
       >
-        <LeftTab
-          handleNavClick={this.handleNavClick}
-          handleMainRightChange={this.handleMainRightChange}
-        >
-          <RecentlyPlayed
-            handleNavClick={this.handleNavClick}
-            rawRecPlayed={this.state.recentlyPlayed}
-            player={this.player}
-            APIrequest={this.playerRequest}
+        <Provider value={this.state.valueContext}>
+          <Mobile
+            handleMainRightChange={this.handleMainRightChange}
+            handleMobileNavToggle={this.handleMobileNavToggle}
+            mobile={this.state.mobile}
           />
-        </LeftTab>
-        {this.state.mainRightView === "Home" ? (
-          <RightTab handleNavClick={this.handleNavClick}>
-            {rightTabView}
-          </RightTab>
-        ) : (
-          <React.Fragment> {rightOverride}</React.Fragment>
-        )}
-        <PlayerBar
-          recent={
-            this.state.recentlyPlayed && this.state.recentlyPlayed.items[0]
-          }
-          handleDeviceTabClick={this.handleDeviceTabClick}
-          isDeviceTabOn={this.state.deviceTabOn}
-          player={this.player}
-          playerState={this.state.playerState}
-          deviceId={this.state.deviceID}
-          deviceName={this.state.deviceName}
-          APIrequest={this.playerRequest}
-          currentlyPlaying={this.state.currentlyPlaying}
-          currentPlayback={this.state.currentPlayback}
-        />
+          <LeftTab
+            handleNavClick={this.handleNavClick}
+            handleMainRightChange={this.handleMainRightChange}
+          >
+            <RecentlyPlayed
+              handleNavClick={this.handleNavClick}
+              rawRecPlayed={this.state.recentlyPlayed}
+              player={this.player}
+              //
+              APIrequest={this.playerRequest}
+            />
+          </LeftTab>
+          {this.state.mainRightView === "Home" ? (
+            <RightTab
+              mobile={this.state.mobile}
+              handleNavClick={this.handleNavClick}
+            >
+              {rightTabView}
+            </RightTab>
+          ) : (
+            <React.Fragment> {rightOverride}</React.Fragment>
+          )}
+          <PlayerBar //refactored
+            recent={
+              this.state.recentlyPlayed && this.state.recentlyPlayed.items[0]
+            }
+            handleDeviceTabClick={this.handleDeviceTabClick}
+            isDeviceTabOn={this.state.deviceTabOn}
+            player={this.player}
+            deviceId={this.state.deviceID}
+            deviceName={this.state.deviceName}
+            currentPlayback={this.state.currentPlayback}
+            // + context
+          />
+        </Provider>
       </main>
     );
   }

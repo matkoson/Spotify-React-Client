@@ -1,5 +1,6 @@
 import React from "react";
-import GenAlbumContainer from "../GenAlbumContainer/GenAlbumContainer";
+import ContainerGenerator from "../ContainerGenerator/ContainerGenerator";
+import { Context } from "../../Context/Context";
 
 class Library extends React.Component {
   constructor(props) {
@@ -7,12 +8,12 @@ class Library extends React.Component {
     this.state = { chosenTab: "PLAYLISTS" };
   }
   componentDidMount() {
-    this.props.APIrequest("getUserPlaylists");
-    this.props.APIrequest("getUserSavedAlbums");
-    this.props.APIrequest("getUserSavedTracks");
+    this.context.APIrequest("getUserPlaylists");
+    this.context.APIrequest("getUserSavedAlbums");
+    this.context.APIrequest("getUserSavedTracks");
   }
   render() {
-    console.log("PROPS", this.props);
+    // console.log("PROPS", this.props);
     if (this.props.getUserPlaylists) {
       //   console.log("PROPS IN");
       this.userPlaylists = (
@@ -20,14 +21,11 @@ class Library extends React.Component {
           <h2 className="app__fetch-title">{"Your Saved Playlists"}</h2>
           <div className="app__fetch-container ">
             {(
-              <GenAlbumContainer
+              <ContainerGenerator
                 data={this.props.getUserPlaylists.items}
                 type={"playlists"}
-                playerState={this.props.playerState}
-                APIrequest={this.props.APIrequest}
-                currPlay={this.props.currentlyPlaying}
               />
-            ) || <GenAlbumContainer />}
+            ) || <ContainerGenerator />}
           </div>
         </React.Fragment>
       );
@@ -38,14 +36,11 @@ class Library extends React.Component {
           <h2 className="app__fetch-title">{"Your Saved Albums"}</h2>
           <div className="app__fetch-container ">
             {(
-              <GenAlbumContainer
+              <ContainerGenerator
                 data={this.props.getUserSavedAlbums.items.map(e => e.album)}
                 type={"playlists"}
-                playerState={this.props.playerState}
-                APIrequest={this.props.APIrequest}
-                currPlay={this.props.currentlyPlaying}
               />
-            ) || <GenAlbumContainer />}
+            ) || <ContainerGenerator />}
           </div>
         </React.Fragment>
       );
@@ -56,14 +51,11 @@ class Library extends React.Component {
           <h2 className="app__fetch-title">{"Your Saved Tracks"}</h2>
           <div className="app__fetch-container ">
             {(
-              <GenAlbumContainer
+              <ContainerGenerator
                 data={this.props.getUserSavedTracks.items.map(e => e.track)}
                 type={"playlists"}
-                playerState={this.props.playerState}
-                APIrequest={this.props.APIrequest}
-                currPlay={this.props.currentlyPlaying}
               />
-            ) || <GenAlbumContainer />}
+            ) || <ContainerGenerator />}
           </div>
         </React.Fragment>
       );
@@ -93,12 +85,15 @@ class Library extends React.Component {
       </li>
     ));
     return (
-      <div className="library">
-        <ul className="library__nav">{libNav}</ul>
-        <div className="home-screen">{renderLib}</div>
+      <div className="library app__right-container-generic__outer">
+        <ul className="app__right-container-generic__outer__right-nav library__nav">
+          {libNav}
+        </ul>
+        <div className="generator">{renderLib}</div>
       </div>
     );
   }
 }
+Library.contextType = Context;
 
 export default Library;

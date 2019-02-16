@@ -1,0 +1,36 @@
+@mixin atSmall {
+  @media (max-width: 545px) {
+    @content;
+  }
+}
+
+@mixin atMedium {
+  @media (max-width: 820px) {
+    @content;
+  }
+}
+@mixin abvMedium {
+  @media (min-width: 820px) {
+    @content;
+  }
+}
+@mixin atLarge {
+  @media (max-width: 1070px) {
+    @content;
+  }
+}
+@mixin abvLarge {
+  @media (min-width: 1070px) {
+    @content;
+  }
+}
+@mixin atXLarge {
+  @media (max-width: 1235px) {
+    @content;
+  }
+}
+@mixin abvXLarge {
+  @media (min-width: 1235px) {
+    @content;
+  }
+}

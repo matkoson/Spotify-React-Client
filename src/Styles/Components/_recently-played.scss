@@ -1,0 +1,40 @@
+.recently-played {
+  display: flex;
+  flex-direction: column;
+  font-size: 13px;
+  opacity: 0.6;
+  justify-content: center;
+  &__h2 {
+    margin-top: 5%;
+    margin-bottom: 5%;
+    font-size: 13px;
+    font-weight: 100;
+    letter-spacing: 0.15rem;
+  }
+
+  &__element {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    opacity: 0.6;
+    position: relative;
+    margin-top: 5%;
+    &--modified {
+      opacity: 1;
+    }
+
+    &__type {
+      letter-spacing: 0.15rem;
+    }
+
+    &__title:hover {
+      cursor: pointer;
+    }
+
+    &__type:hover {
+      cursor: pointer;
+    }
+  }
+}
+
+/*# sourceMappingURL=_RecentlyPlayed.scss.map */

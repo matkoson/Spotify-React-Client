@@ -1,0 +1,330 @@
+.player-bar {
+  width: 100%;
+  background-color: $mainPlayerBarGray;
+  height: 100px;
+  padding: 0 16px;
+  position: fixed;
+  bottom: 0;
+  z-index: 1;
+  border-top: 1px solid black;
+  color: #fff;
+  display: flex;
+  justify-content: space-around;
+  @include abvMedium {
+    height: 90px;
+  }
+  &__tab {
+    height: 100%;
+    display: flex;
+    margin-right: 0;
+    @include abvMedium {
+      margin-right: 2%;
+    }
+  }
+
+  &__perip-tab {
+    width: 15%;
+    min-width: 0;
+
+    max-width: 261px;
+    @include abvMedium {
+      width: 30%;
+      min-width: 180px;
+    }
+    &--end {
+      width: 180px;
+      @include abvLarge {
+        width: 30%;
+      }
+    }
+  }
+
+  &__center-tab {
+    left: 0;
+    width: 100%;
+    position: relative;
+    right: 100px;
+    max-width: 722px;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding-bottom: 5px;
+    @include abvMedium {
+      width: 80%;
+      right: 0;
+    }
+  }
+
+  &__player-controls {
+    display: flex;
+    height: 50%;
+    width: 80%;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 auto;
+    margin-bottom: 4px;
+    margin-top: 12px;
+    @include abvMedium {
+      width: 310px;
+    }
+    @include abvLarge {
+      width: 500px;
+      right: 0;
+    }
+  }
+
+  &__album-img {
+    display: none;
+    margin-right: 8px;
+    @include abvMedium {
+      display: block;
+      max-width: 56px;
+      max-height: 56px;
+    }
+  }
+
+  &__left-tab {
+    position: absolute;
+    width: 100%;
+    max-width: 100%;
+    margin-left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    @include abvMedium {
+      width: 30%;
+      max-width: inherit;
+      margin-left: inherit;
+      position: static;
+      font-size: 12px;
+      justify-content: space-around;
+    }
+
+    &__perip {
+      height: 100%;
+      justify-content: center;
+      align-items: center;
+      width: 30px;
+      height: 30px;
+    }
+    &__center {
+      height: 100%;
+      font-size: 14px;
+      display: flex;
+      justify-content: center;
+      padding-top: 4px;
+      align-items: flex-start;
+      text-align: left;
+      margin-left: 0;
+      margin-right: 10px;
+      width: 100%;
+
+      @include abvMedium {
+        margin-left: 14px;
+        flex-direction: column;
+        width: 60%;
+        margin-left: 0;
+        margin-right: 14px;
+        font-size: 12px;
+        justify-content: center;
+        align-items: flex-start;
+      }
+      &-title-artist__title {
+        width: 50%;
+        font-size: 15px;
+        opacity: 0.6;
+        order: 1;
+        text-align: center;
+        @include abvMedium {
+          font-size: 18px;
+          opacity: 1;
+          width: 100%;
+          order: 0;
+          text-align: left;
+        }
+      }
+      &-title-artist__artist {
+        font-size: 15px;
+        opacity: 0.6;
+        width: 50%;
+        text-align: center;
+        @include abvMedium {
+          width: 100%;
+          text-align: left;
+        }
+      }
+    }
+  }
+
+  &__album-img {
+    width: 56px;
+    height: 56px;
+    background-color: gray;
+  }
+
+  &__player-progress {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    @include abvMedium {
+      width: 310px;
+      margin: 0 auto;
+      position: relative;
+    }
+    @include abvLarge {
+      width: 500px;
+      justify-content: space-between;
+    }
+  }
+
+  &__progress-bar {
+    height: 4px;
+    border-radius: 2px;
+    @include abvLarge {
+      margin-right: 5px;
+      margin-left: 5px;
+    }
+    &--static {
+      background-color: gray;
+      position: relative;
+      overflow: hidden;
+    }
+
+    &--dynamic {
+      background-color: #b3b3b3;
+      width: 100%;
+      position: relative;
+      margin-left: 0;
+    }
+  }
+
+  &__player-progress {
+    &__bar {
+      width: 100%;
+    }
+    &__wrapper {
+      height: 12px;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      margin-right: 10px;
+      margin-left: 10px;
+    }
+
+    &__time {
+      font-size: 12px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+  &__right-tab {
+    display: none;
+
+    @include atLarge {
+      justify-content: flex-end;
+    }
+
+    @include abvMedium {
+      display: block;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      position: relative;
+      margin-right: 0;
+    }
+    @include abvLarge {
+      justify-content: flex-end;
+    }
+    &__controls {
+      justify-content: flex-start;
+      align-items: center;
+      display: flex;
+    }
+    &_volume-bar {
+      width: 100%;
+      @include abvLarge {
+        // margin-right: 0;
+        // margin-left: 0;
+      }
+    }
+  }
+
+  &__volume-wrapper {
+    height: 12px;
+    display: flex;
+    align-items: center;
+    transition-duration: 1s;
+    width: 60%;
+    @include atLarge {
+      width: 80px;
+    }
+    @include abvLarge {
+      width: 200px;
+    }
+  }
+
+  &__redo-icon--repeat-cx {
+    color: $mainGreen;
+  }
+}
+
+.player-bar .fas {
+  width: 30px;
+  height: 30px;
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+  opacity: 0.6;
+  @include abvMedium {
+    // font-size: 20px;
+    font-size: 12px;
+  }
+  @include abvLarge {
+    // font-size: ;
+  }
+}
+
+.player-bar .fas:hover {
+  opacity: 1;
+  transform: scale(1.2);
+}
+.player-bar .fa-play:before {
+  width: 100%;
+  height: 100%;
+  @include abvMedium {
+    width: 50%;
+    height: 50%;
+    position: absolute;
+    left: 9px;
+  }
+}
+.player-bar .fa-pause:before {
+  width: 100%;
+  height: 100%;
+  @include abvMedium {
+    position: absolute;
+    left: 8px;
+    width: 50%;
+    height: 50%;
+  }
+}
+
+.player__play-pause {
+  font-size: 25px !important;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  @include abvMedium {
+    font-size: 8px !important;
+    border: 2px solid gray;
+    display: flex;
+    padding: 6px;
+    border-radius: 50%;
+  }
+  position: relative;
+}
+
+/*# sourceMappingURL=_PlayerBar.scss.map */

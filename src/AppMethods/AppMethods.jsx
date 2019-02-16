@@ -101,6 +101,38 @@ export function handleNavClick(ele, navType) {
     }
   });
 }
+export function handleAlbumRightOverride(e) {
+  window.scrollY = 0;
+  let albumType = e.target.dataset.identi;
+  console.log("HANDLING ALBUM OVERRIDE", albumType, e.target.dataset);
+  let that = this;
+  console.log(this.albumRef);
+  // that.refs.albumRef.scrollTop = 0;
+  let renderOption = albumType === "album" ? true : false;
+  return new Promise(resolve => {
+    return that.setState(
+      {
+        mainRightView: "Album",
+        albumViewOption: renderOption,
+        currGrad:
+          "linear-gradient(to right bottom, #000000, #000000,  #202020, #282828, #282828)",
+        mobile: false
+      },
+      resolve(makeAPIcall(), console.log(that.state))
+    );
+  });
+  function makeAPIcall() {
+    if (!albumType) {
+      that.playerRequest("getPlaylistTracks", {
+        uri: e.target.dataset.album
+      });
+      that.playerRequest("getPlaylistCover", { uri: e.target.dataset.album });
+      that.playerRequest("getPlaylist", { uri: e.target.dataset.album });
+    } else if (albumType === "album") {
+      that.playerRequest("getAlbum", { uri: e.target.dataset.album });
+    }
+  }
+}
 
 export function handleDeviceTabClick(e) {
   e.target.style.color === "rgb(255, 255, 255)"
@@ -110,15 +142,12 @@ export function handleDeviceTabClick(e) {
 }
 
 export function handleResize() {
-  if (!this.state.windowWidth) {
-    this.setState({ windowWidth: window.innerWidth });
-  } else {
-    if (this.state.windowWidth > 1000 && window.innerWidth < 1000) {
-      this.setState({ windowWidth: window.innerWidth });
-    }
-    if (this.state.windowWidth < 1000 && window.innerWidth > 1000)
-      this.setState({ windowWidth: window.innerWidth });
+  if (window.innerWidth > 800 && this.state.mobile) {
+    this.setState({ mobile: false });
   }
+}
+export function handleMobileNavToggle() {
+  this.setState({ mobile: !this.state.mobile });
 }
 
 export function gradientCarousel() {
@@ -151,7 +180,8 @@ export function handleMainRightChange(mainRightView) {
         mainRightView,
         rightTabView: "",
         currGrad:
-          "linear-gradient(to right bottom, #000000, #000000,  #202020, #282828, #282828)"
+          "linear-gradient(to right bottom, #000000, #000000,  #202020, #282828, #282828)",
+        mobile: false
       })
     : this.setState({ mainRightView, rightTabView: "" });
 }
