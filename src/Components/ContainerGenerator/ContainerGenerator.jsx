@@ -31,7 +31,7 @@ function ContainerGenerator(props) {
     context = props.context,
     animate = props.animate;
   let imgMeasurements = { width: "300px", height: "300px" };
-  if (type === "recent") console.log(type, data);
+  console.log(type, data);
   if (props && data) {
     return data.map((e, i) => {
       if (animate) {
@@ -68,7 +68,7 @@ function ContainerGenerator(props) {
         if (!recentTracks) recentTracks = data.map(e => e.track.uri);
       } else if (type === "playlists" || type === "categories") {
         name = e.name;
-        key = e.href || e.id;
+        key = e.id;
         if ((e.images && e.images[0]) || e.icons || e.album) {
           if (e.icons) {
             image = e.icons[0].url;
@@ -104,8 +104,9 @@ function ContainerGenerator(props) {
       }
       //
       const content = (
-        <React.Fragment>
+        <>
           <div
+            key={key || idS}
             style={
               !special
                 ? {
@@ -222,19 +223,20 @@ function ContainerGenerator(props) {
           <div className="generator__playlist-element__artists">
             {artistName ? artistName : null}
           </div>
-        </React.Fragment>
+        </>
       );
       // console.log("ANIMATE", animate);
       return (
-        <React.Fragment>
+        <>
           {animate ? (
             transitions.map(({ props }) => (
               <animated.div
+                key={key || idS}
                 className="generator__animation-wrapper"
                 style={props}
               >
                 <animated.div
-                  key={key}
+                  key={key || idS}
                   className="generator__playlist-element"
                   onMouseMove={({ clientX: x, clientY: y }) =>
                     set({ xys: calc(x, y) })
@@ -247,9 +249,11 @@ function ContainerGenerator(props) {
               </animated.div>
             ))
           ) : (
-            <div className="generator__playlist-element">{content}</div>
+            <div key={key || idS} className="generator__playlist-element">
+              {content}
+            </div>
           )}
-        </React.Fragment>
+        </>
       );
     });
   } else {
@@ -265,7 +269,6 @@ function ContainerGenerator(props) {
           style={{ backgroundColor: "#282828" }}
           className="generator__playlist-element__img--fake"
         />
-        {}
       </div>
     ));
     return placeholder;

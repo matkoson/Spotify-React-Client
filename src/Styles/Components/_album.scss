@@ -48,6 +48,13 @@
     &__veneer {
       height: 400px;
       width: 400px;
+      @include atMedium {
+        position: relative;
+        left: 50px;
+        border-radius: 10px;
+        overflow: hidden;
+        bottom: 15px;
+      }
     }
 
     &__veneer::after {

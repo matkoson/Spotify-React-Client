@@ -9,8 +9,8 @@ export default function HeadlineAnimator(props) {
     unique: true
   });
 
-  return props.map(e =>
-    transitions.map(({ props }, i) => (
+  return props.map((e, i) =>
+    transitions.map(({ props }) => (
       <animated.h2
         key={i}
         style={props}

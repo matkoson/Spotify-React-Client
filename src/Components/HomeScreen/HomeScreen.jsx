@@ -24,6 +24,7 @@ function HomeScreen(props) {
         return false;
       }
     });
+    //Getting rid of dupls
 
     processedProp = (
       <ContainerGenerator data={recentProp} type={"recent"} animate={true} />
