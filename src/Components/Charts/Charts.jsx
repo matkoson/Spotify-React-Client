@@ -8,6 +8,7 @@ function renderCharts(props) {
       <ContainerGenerator
         data={props.PolandTop.playlists.items}
         type={"playlists"}
+        animate={true}
       />
     );
   }
@@ -31,7 +32,6 @@ function renderCharts(props) {
         return e.playlists.items[e.playlists.items.length - 2];
       })
       .filter(e => {
-        // console.log("DUPL?", /^(?!.*(Global Viral)).*50$/.test(e.name));
         return /^(?!.*(Global Viral)).*50$/.test(e.name) && hash[e.name] < 2;
       });
     countryViral = (
@@ -49,9 +49,7 @@ export default function Charts(props) {
   const { countryTop, countryViral, PolandTop } = renderCharts(props);
   return (
     <div className="generator">
-      <h2 className="app__fetch-title generator__title">
-        {"Featured Charts"}
-      </h2>
+      <h2 className="app__fetch-title generator__title">{"Featured Charts"}</h2>
       <div className="app__fetch-container generator__playlist-container">
         {PolandTop || <ContainerGenerator />}
       </div>

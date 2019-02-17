@@ -5,7 +5,9 @@ function HomeScreen(props) {
   let ftrdMssg, albumPics, ftrdProp, recentProp, processedProp, relatedTop;
   if (props.recent) {
     recentProp = props.recent.items.slice(0, 6);
-    processedProp = <ContainerGenerator data={recentProp} type={"recent"} />;
+    processedProp = (
+      <ContainerGenerator data={recentProp} type={"recent"} animate={true} />
+    );
   }
   if (props.featured) {
     ftrdProp = props.featured;
@@ -14,6 +16,7 @@ function HomeScreen(props) {
       <ContainerGenerator
         data={ftrdProp.playlists.items.slice(0, 6)}
         type={"playlists"}
+        animate={true}
       />
     );
   }
@@ -23,6 +26,7 @@ function HomeScreen(props) {
         data={props.relatedTop}
         type={"playlists"}
         special={true}
+        animate={true}
       />
     );
   }

@@ -1,5 +1,7 @@
 import React from "react";
 import { Consumer } from "../../Context/Context";
+import { useSpring, animated } from "react-spring";
+
 let name,
   image,
   key,
@@ -12,16 +14,32 @@ let name,
   idS,
   albumType,
   albumTrack;
+
+const calc = (x, y) => [
+  -(y - window.innerHeight / 2) / 20,
+  (x - window.innerWidth / 2) / 20,
+  1.03
+];
+const trans = (x, y, s) =>
+  `perspective(2000px) rotateX(${x}deg) rotateY(${y}deg) scale(${s})`;
+
 function ContainerGenerator(props) {
   let data = props.data,
     special = props.special,
     type = props.type,
     artistName = null,
-    context = props.context;
+    context = props.context,
+    animate = props.animate;
   let imgMeasurements = { width: "300px", height: "300px" };
   console.log(type, data);
   if (props && data) {
     return data.map((e, i) => {
+      if (animate) {
+        var [propsAnimate, set] = useSpring(() => ({
+          xys: [0, 0, 1],
+          config: { mass: 20, tension: 200, friction: 50 }
+        }));
+      }
       albumType = "";
       if (type === "recent") {
         if (e.track) {
@@ -79,13 +97,17 @@ function ContainerGenerator(props) {
             albumType = e.album_type || e.track.album.album_type;
         }
       }
-      console.log(type, "SECOND", albumType, albumTrack);
-      return (
-        <div key={key} className="generator__playlist-element">
-          {/*  */}
-          {/*  */}
-          {/*  */}
+      //
+      const content = (
+        <React.Fragment>
           <div
+            style={
+              !special
+                ? {
+                    boxShadow: "0px 10px 30px -5px rgba(0, 0, 0, 0.9)"
+                  }
+                : null
+            }
             className="generator__playlist-element__img"
             data-cx={cx}
             data-cx_pos={
@@ -195,7 +217,27 @@ function ContainerGenerator(props) {
           <div className="generator__playlist-element__artists">
             {artistName ? artistName : null}
           </div>
-        </div>
+        </React.Fragment>
+      );
+      console.log("ANIMATE", animate);
+      return (
+        <React.Fragment>
+          {animate ? (
+            <animated.div
+              key={key}
+              className="generator__playlist-element"
+              onMouseMove={({ clientX: x, clientY: y }) =>
+                set({ xys: calc(x, y) })
+              }
+              onMouseLeave={() => set({ xys: [0, 0, 1] })}
+              style={{ transform: propsAnimate.xys.interpolate(trans) }}
+            >
+              {content}
+            </animated.div>
+          ) : (
+            <div className="generator__playlist-element">{content}</div>
+          )}
+        </React.Fragment>
       );
     });
   } else {
@@ -227,6 +269,7 @@ export default function ContainerGeneratorWithCx(props) {
           type={props.type}
           context={context}
           special={props.special}
+          animate={props.animate}
         />
       )}
     </Consumer>

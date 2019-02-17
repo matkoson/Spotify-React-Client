@@ -15,7 +15,7 @@ class Search extends React.Component {
     this.setState({ searchInput: value });
     setTimeout(() => {
       this.context.APIrequest("searchQuery", { query: value });
-    }, 200);
+    }, 1000);
   }
   handleHighlightChange(e) {}
 
