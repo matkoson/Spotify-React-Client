@@ -286,9 +286,11 @@ class App extends Component {
           transitionDuration: "1.5s"
         }}
         onClick={() =>
-          this.state.deviceTabOn ? this.setState({ deviceTabOn: false }) : null
+          this.state.deviceTabOn || this.state.mobile
+            ? this.setState({ deviceTabOn: false, mobile: false })
+            : null
         }
-        //click anywhere in the app to make deviceTab disappear
+        //click anywhere in the app to make deviceTab disappear + same thing with mobile-nav
       >
         <Provider value={this.state.valueContext}>
           <Mobile

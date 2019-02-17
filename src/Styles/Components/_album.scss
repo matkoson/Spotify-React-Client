@@ -53,7 +53,7 @@
         left: 50px;
         border-radius: 10px;
         overflow: hidden;
-        bottom: 15px;
+        margin-bottom: 15px;
       }
     }
 
@@ -76,7 +76,7 @@
     }
 
     &__img__file {
-      max-width: 100%;
+      width: 100%;
       max-height: 100%;
     }
 

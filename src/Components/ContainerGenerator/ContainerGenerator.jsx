@@ -104,7 +104,7 @@ function ContainerGenerator(props) {
       }
       //
       const content = (
-        <>
+        <React.Fragment key={key || idS}>
           <div
             key={key || idS}
             style={
@@ -223,11 +223,11 @@ function ContainerGenerator(props) {
           <div className="generator__playlist-element__artists">
             {artistName ? artistName : null}
           </div>
-        </>
+        </React.Fragment>
       );
       // console.log("ANIMATE", animate);
       return (
-        <>
+        <React.Fragment key={key || idS}>
           {animate ? (
             transitions.map(({ props }) => (
               <animated.div
@@ -253,7 +253,7 @@ function ContainerGenerator(props) {
               {content}
             </div>
           )}
-        </>
+        </React.Fragment>
       );
     });
   } else {
