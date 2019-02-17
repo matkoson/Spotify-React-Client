@@ -31,7 +31,7 @@ function ContainerGenerator(props) {
     context = props.context,
     animate = props.animate;
   let imgMeasurements = { width: "300px", height: "300px" };
-  // console.log(type, data);
+  if (type === "recent") console.log(type, data);
   if (props && data) {
     return data.map((e, i) => {
       if (animate) {

@@ -9,9 +9,22 @@ function HomeScreen(props) {
     recentProp,
     processedProp,
     relatedTop,
-    headlines;
+    headlines,
+    hash;
   if (props.recent) {
-    recentProp = props.recent.items.slice(0, 6);
+    hash = {};
+
+    recentProp = props.recent.items.slice(0, 10);
+    console.log("BEFORE", recentProp);
+    recentProp = recentProp.filter(e => {
+      if (!hash[e.track.id]) {
+        hash[e.track.id] = true;
+        return true;
+      } else if (hash[e.id]) {
+        return false;
+      }
+    });
+
     processedProp = (
       <ContainerGenerator data={recentProp} type={"recent"} animate={true} />
     );
@@ -43,8 +56,6 @@ function HomeScreen(props) {
       "Recently played",
       `More like ${props.topArtist}`
     ]);
-
-    console.log(headlines);
   }
   return (
     <div className="generator">

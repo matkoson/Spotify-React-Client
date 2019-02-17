@@ -20,10 +20,10 @@ export default function Mobile(props) {
     </div>
   ));
   return (
-    <div class="mobile">
+    <div className="mobile">
       {props.mobile && (
         <div className="mobile__nav">
-          <div class="mobile__nav__ul">{mobileNav}</div>
+          <div className="mobile__nav__ul">{mobileNav}</div>
         </div>
       )}
       <div
@@ -39,7 +39,7 @@ export default function Mobile(props) {
       >
         <i
           onClick={props.handleMobileNavToggle}
-          class="fab fa-react mobile__logo__pic"
+          className="fab fa-react mobile__logo__pic"
         />
       </div>
     </div>
