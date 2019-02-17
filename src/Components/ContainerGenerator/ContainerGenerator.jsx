@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { Consumer } from "../../Context/Context";
-import { useSpring, animated } from "react-spring";
+import { useSpring, animated, useTransition } from "react-spring";
 
 let name,
   image,
@@ -39,13 +39,18 @@ function ContainerGenerator(props) {
           xys: [0, 0, 1],
           config: { mass: 20, tension: 200, friction: 50 }
         }));
+        var [show] = useState();
+        var transitions = useTransition(show, null, {
+          from: { opacity: 0, transform: "translate3d(0,-40px,0)" },
+          enter: { opacity: 1, transform: "translate3d(0,0px,0)" },
+          unique: true
+        });
       }
       albumType = "";
       if (type === "recent") {
         if (e.track) {
           albumTrack = e.track.album.id;
           albumType = "album";
-          console.log(e);
           name = e.track.name;
           artistName = e.track.artists[0].name;
           image = e.track.album.images;
@@ -223,17 +228,24 @@ function ContainerGenerator(props) {
       return (
         <React.Fragment>
           {animate ? (
-            <animated.div
-              key={key}
-              className="generator__playlist-element"
-              onMouseMove={({ clientX: x, clientY: y }) =>
-                set({ xys: calc(x, y) })
-              }
-              onMouseLeave={() => set({ xys: [0, 0, 1] })}
-              style={{ transform: propsAnimate.xys.interpolate(trans) }}
-            >
-              {content}
-            </animated.div>
+            transitions.map(({ props }) => (
+              <animated.div
+                className="generator__animation-wrapper"
+                style={props}
+              >
+                <animated.div
+                  key={key}
+                  className="generator__playlist-element"
+                  onMouseMove={({ clientX: x, clientY: y }) =>
+                    set({ xys: calc(x, y) })
+                  }
+                  onMouseLeave={() => set({ xys: [0, 0, 1] })}
+                  style={{ transform: propsAnimate.xys.interpolate(trans) }}
+                >
+                  {content}
+                </animated.div>
+              </animated.div>
+            ))
           ) : (
             <div className="generator__playlist-element">{content}</div>
           )}
