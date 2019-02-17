@@ -31,7 +31,7 @@ function ContainerGenerator(props) {
     context = props.context,
     animate = props.animate;
   let imgMeasurements = { width: "300px", height: "300px" };
-  console.log(type, data);
+  // console.log(type, data);
   if (props && data) {
     return data.map((e, i) => {
       if (animate) {
@@ -224,7 +224,7 @@ function ContainerGenerator(props) {
           </div>
         </React.Fragment>
       );
-      console.log("ANIMATE", animate);
+      // console.log("ANIMATE", animate);
       return (
         <React.Fragment>
           {animate ? (

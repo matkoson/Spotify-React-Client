@@ -111,6 +111,7 @@ class Search extends React.Component {
         <ContainerGenerator
           data={artists.items.slice(0, 2)}
           type={"playlists"}
+          animate={true}
         />
       );
     }
@@ -119,6 +120,7 @@ class Search extends React.Component {
         <ContainerGenerator
           data={albums.items.slice(0, 50)}
           type={"playlists"}
+          animate={true}
         />
       );
     }

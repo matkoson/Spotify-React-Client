@@ -1,6 +1,8 @@
 import React from "react";
 import ContainerGenerator from "../ContainerGenerator/ContainerGenerator";
+import HeadlineAnimator from "../Helpers/HeadlineAnimator";
 
+let headlines;
 function renderCharts(props) {
   let countryTop, countryViral, PolandTop;
   if (props.PolandTop) {
@@ -38,6 +40,8 @@ function renderCharts(props) {
       <ContainerGenerator data={countryViral} type={"playlists"} />
     );
   }
+  headlines = ["Featured Charts", "Top 50 by Country", "Viral 50 by Country"];
+  headlines = HeadlineAnimator(headlines);
 
   return {
     countryTop,
@@ -49,15 +53,15 @@ export default function Charts(props) {
   const { countryTop, countryViral, PolandTop } = renderCharts(props);
   return (
     <div className="generator">
-      <h2 className="app__fetch-title generator__title">{"Featured Charts"}</h2>
+      {headlines[0]}
       <div className="app__fetch-container generator__playlist-container">
         {PolandTop || <ContainerGenerator />}
       </div>
-      <h2 className="app__fetch-title">{"Top 50 by Country"}</h2>
+      {headlines[1]}{" "}
       <div className="app__fetch-container ">
         {countryTop || <ContainerGenerator />}
       </div>
-      <h2 className="app__fetch-title">{"Viral 50 by Country"}</h2>
+      {headlines[2]}{" "}
       <div className="app__fetch-container ">
         {countryViral || <ContainerGenerator />}
       </div>
