@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { Consumer } from "../../Context/Context";
+import { useSpring, animated, useTransition } from "react-spring";
+
 let name,
   image,
   key,
@@ -12,22 +14,43 @@ let name,
   idS,
   albumType,
   albumTrack;
+
+const calc = (x, y) => [
+  -(y - window.innerHeight / 2) / 20,
+  (x - window.innerWidth / 2) / 20,
+  1.03
+];
+const trans = (x, y, s) =>
+  `perspective(2000px) rotateX(${x}deg) rotateY(${y}deg) scale(${s})`;
+
 function ContainerGenerator(props) {
   let data = props.data,
     special = props.special,
     type = props.type,
     artistName = null,
-    context = props.context;
+    context = props.context,
+    animate = props.animate;
   let imgMeasurements = { width: "300px", height: "300px" };
   console.log(type, data);
   if (props && data) {
     return data.map((e, i) => {
+      if (animate) {
+        var [propsAnimate, set] = useSpring(() => ({
+          xys: [0, 0, 1],
+          config: { mass: 20, tension: 200, friction: 50 }
+        }));
+        var [show] = useState();
+        var transitions = useTransition(show, null, {
+          from: { opacity: 0, transform: "translate3d(0,-40px,0)" },
+          enter: { opacity: 1, transform: "translate3d(0,0px,0)" },
+          unique: true
+        });
+      }
       albumType = "";
       if (type === "recent") {
         if (e.track) {
           albumTrack = e.track.album.id;
           albumType = "album";
-          console.log(e);
           name = e.track.name;
           artistName = e.track.artists[0].name;
           image = e.track.album.images;
@@ -45,7 +68,7 @@ function ContainerGenerator(props) {
         if (!recentTracks) recentTracks = data.map(e => e.track.uri);
       } else if (type === "playlists" || type === "categories") {
         name = e.name;
-        key = e.href || e.id;
+        key = e.id;
         if ((e.images && e.images[0]) || e.icons || e.album) {
           if (e.icons) {
             image = e.icons[0].url;
@@ -79,13 +102,18 @@ function ContainerGenerator(props) {
             albumType = e.album_type || e.track.album.album_type;
         }
       }
-      console.log(type, "SECOND", albumType, albumTrack);
-      return (
-        <div key={key} className="generator__playlist-element">
-          {/*  */}
-          {/*  */}
-          {/*  */}
+      //
+      const content = (
+        <React.Fragment key={key || idS}>
           <div
+            key={key || idS}
+            style={
+              !special
+                ? {
+                    boxShadow: "0px 10px 30px -5px rgba(0, 0, 0, 0.9)"
+                  }
+                : null
+            }
             className="generator__playlist-element__img"
             data-cx={cx}
             data-cx_pos={
@@ -195,7 +223,37 @@ function ContainerGenerator(props) {
           <div className="generator__playlist-element__artists">
             {artistName ? artistName : null}
           </div>
-        </div>
+        </React.Fragment>
+      );
+      // console.log("ANIMATE", animate);
+      return (
+        <React.Fragment key={key || idS}>
+          {animate ? (
+            transitions.map(({ props }) => (
+              <animated.div
+                key={key || idS}
+                className="generator__animation-wrapper"
+                style={props}
+              >
+                <animated.div
+                  key={key || idS}
+                  className="generator__playlist-element"
+                  onMouseMove={({ clientX: x, clientY: y }) =>
+                    set({ xys: calc(x, y) })
+                  }
+                  onMouseLeave={() => set({ xys: [0, 0, 1] })}
+                  style={{ transform: propsAnimate.xys.interpolate(trans) }}
+                >
+                  {content}
+                </animated.div>
+              </animated.div>
+            ))
+          ) : (
+            <div key={key || idS} className="generator__playlist-element">
+              {content}
+            </div>
+          )}
+        </React.Fragment>
       );
     });
   } else {
@@ -211,7 +269,6 @@ function ContainerGenerator(props) {
           style={{ backgroundColor: "#282828" }}
           className="generator__playlist-element__img--fake"
         />
-        {}
       </div>
     ));
     return placeholder;
@@ -227,6 +284,7 @@ export default function ContainerGeneratorWithCx(props) {
           type={props.type}
           context={context}
           special={props.special}
+          animate={props.animate}
         />
       )}
     </Consumer>

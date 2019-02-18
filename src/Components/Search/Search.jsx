@@ -15,7 +15,7 @@ class Search extends React.Component {
     this.setState({ searchInput: value });
     setTimeout(() => {
       this.context.APIrequest("searchQuery", { query: value });
-    }, 200);
+    }, 1000);
   }
   handleHighlightChange(e) {}
 
@@ -111,6 +111,7 @@ class Search extends React.Component {
         <ContainerGenerator
           data={artists.items.slice(0, 2)}
           type={"playlists"}
+          animate={true}
         />
       );
     }
@@ -119,6 +120,7 @@ class Search extends React.Component {
         <ContainerGenerator
           data={albums.items.slice(0, 50)}
           type={"playlists"}
+          animate={true}
         />
       );
     }

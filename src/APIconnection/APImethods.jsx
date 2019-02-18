@@ -293,7 +293,7 @@ export function playerRequest(type, additional) {
               // console.log("WARNING resPlaylist", res, this.state[type]);
               if (res.playlists.href.includes("country=PL"))
                 return this.setState({ PolandTop: res });
-              console.log("WARNING resPlaylist", res, this.state[type]);
+              // console.log("WARNING resPlaylist", res, this.state[type]);
               return this.setState({ [type]: [...this.state[type], res] });
             }
           } else if (type === "getMultipleArtists") {

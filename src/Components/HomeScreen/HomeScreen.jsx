@@ -1,11 +1,34 @@
 import React from "react";
 import ContainerGenerator from "../ContainerGenerator/ContainerGenerator";
+import HeadlineAnimator from "../Helpers/HeadlineAnimator";
 
 function HomeScreen(props) {
-  let ftrdMssg, albumPics, ftrdProp, recentProp, processedProp, relatedTop;
+  let ftrdMssg,
+    albumPics,
+    ftrdProp,
+    recentProp,
+    processedProp,
+    relatedTop,
+    headlines,
+    hash;
   if (props.recent) {
-    recentProp = props.recent.items.slice(0, 6);
-    processedProp = <ContainerGenerator data={recentProp} type={"recent"} />;
+    hash = {};
+
+    recentProp = props.recent.items.slice(0, 10);
+    console.log("BEFORE", recentProp);
+    recentProp = recentProp.filter(e => {
+      if (!hash[e.track.id]) {
+        hash[e.track.id] = true;
+        return true;
+      } else if (hash[e.id]) {
+        return false;
+      }
+    });
+    //Getting rid of dupls
+
+    processedProp = (
+      <ContainerGenerator data={recentProp} type={"recent"} animate={true} />
+    );
   }
   if (props.featured) {
     ftrdProp = props.featured;
@@ -14,6 +37,7 @@ function HomeScreen(props) {
       <ContainerGenerator
         data={ftrdProp.playlists.items.slice(0, 6)}
         type={"playlists"}
+        animate={true}
       />
     );
   }
@@ -23,25 +47,31 @@ function HomeScreen(props) {
         data={props.relatedTop}
         type={"playlists"}
         special={true}
+        animate={true}
       />
     );
   }
+  if (props.relatedTop && props.featured && props.recent) {
+    headlines = HeadlineAnimator([
+      ftrdMssg,
+      "Recently played",
+      `More like ${props.topArtist}`
+    ]);
+  }
   return (
     <div className="generator">
-      <h2 className="app__fetch-title generator__title">
-        {ftrdMssg ? ftrdMssg : null}
-      </h2>
+      {headlines && headlines[0]}
       <div className="app__fetch-container generator__playlist-container">
         {albumPics || <ContainerGenerator />}
       </div>
       {/*  */}
       {/*  */}
       {/*  */}
-      <h2 className="app__fetch-title">Recently played</h2>
+      {headlines && headlines[1]}
       <div className="app__fetch-container generator__playlist-container">
         {processedProp || <ContainerGenerator />}
       </div>
-      <h2 className="app__fetch-title">More like {props.topArtist}</h2>
+      {headlines && headlines[2]}
       <div className="app__fetch-container generator__playlist-container">
         {relatedTop || <ContainerGenerator />}
       </div>
