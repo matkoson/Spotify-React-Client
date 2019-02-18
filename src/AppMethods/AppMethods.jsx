@@ -1,51 +1,3 @@
-export function makeApropriateFetch(chosenView) {
-  if (chosenView === "Charts") {
-    if (!this.state.PolandTop) {
-      this.playerRequest("getCategoryPlaylists", {
-        category: "toplists",
-        country: "PL"
-      });
-    }
-    if (!this.state.getCategoryPlaylists.length) {
-      let visited = {},
-        index;
-      for (let i = 0; i < 20; i += 1) {
-        index = Math.round(Math.random() * (this.countryCodes.length - 1));
-        while (visited[this.countryCodes[index].isoCode])
-          index = Math.round(Math.random() * (this.countryCodes.length - 1)); //making sure to not fetch one country's playlists twice
-        visited[this.countryCodes[index].isoCode] = true;
-        console.log(visited, this.state.getCategoryPlaylists);
-        this.playerRequest("getCategoryPlaylists", {
-          category: "toplists",
-          country: this.countryCodes[index].isoCode
-        });
-      }
-    }
-  } else if (chosenView === "Genres") {
-    if (!this.state.alreadyViewed.includes(chosenView)) {
-      this.playerRequest("getCategories");
-      this.setState(state => {
-        return { alreadyViewed: [...state.alreadyViewed, chosenView] };
-      });
-    }
-  } else if (chosenView === "New Releases") {
-    if (!this.state.alreadyViewed.includes(chosenView)) {
-      this.playerRequest("getNewReleases");
-      this.setState(state => {
-        return { alreadyViewed: [...state.alreadyViewed, chosenView] };
-      });
-    }
-  } else if (chosenView === "Discover" && this.state.topRelatedArtists) {
-    let idList = this.state.topRelatedArtists.map(e => e.id);
-    if (!this.state.alreadyViewed.includes(chosenView)) {
-      this.playerRequest("getMultipleArtists", { ids: idList });
-      this.setState(state => {
-        return { alreadyViewed: [...state.alreadyViewed, chosenView] };
-      });
-    }
-  }
-}
-
 export function handleNavClick(ele, navType) {
   // eslint-disable-next-line
   let allNavElems = Array.from(ele.currentTarget.children);
@@ -56,7 +8,6 @@ export function handleNavClick(ele, navType) {
     basicClass = "right-tab__right-nav__element";
     clickedClass = "right-tab__right-nav__element--clicked";
     chosenView = ele.target.id;
-    this.makeApropriateFetch(chosenView);
     //depending on the chosen view, make the right API request
     const randomNum = Math.round(Math.random() * this.gradientArr.length - 1);
     if (ele.target.className === "right-tab__right-nav__element") {

@@ -1,8 +1,15 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import ContainerGenerator from "../ContainerGenerator/ContainerGenerator";
+import { Context } from "../../Context/Context";
 
 function NewReleases(props) {
+  const context = useContext(Context);
   let newReleases;
+  useEffect(() => {
+    if (context && !props.getNewReleases) {
+      context.APIrequest("getNewReleases");
+    }
+  });
   if (props.getNewReleases)
     newReleases = (
       <ContainerGenerator

@@ -1,11 +1,16 @@
-import React from "react";
+import React, { useEffect, useContext } from "react";
 import ContainerGenerator from "../ContainerGenerator/ContainerGenerator";
+import { Context } from "../../Context/Context";
 
-function renderContainer(props) {
+function Genres(props) {
   let categoriesList;
-  console.log("render", props.getCategories || null);
+  const context = useContext(Context);
+  useEffect(() => {
+    if (context && !props.getCategories) {
+      context.APIrequest("getCategories");
+    }
+  });
   if (props.getCategories) {
-    console.log("render called");
     categoriesList = (
       <ContainerGenerator
         data={props.getCategories.categories.items.slice(1)}
@@ -15,12 +20,6 @@ function renderContainer(props) {
       />
     );
   }
-  return categoriesList;
-}
-
-function Genres(props) {
-  const categoriesList = renderContainer(props);
-  if (!categoriesList) props.makeApropriateFetch("Genres");
   return (
     <div style={{ color: "#ffffff" }} className="generator genres">
       <h2 className="app__fetch-title">{"Genres & Moods"}</h2>

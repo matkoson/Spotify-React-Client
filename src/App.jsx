@@ -19,7 +19,6 @@ import cdnLoader from "./loadScript";
 import initSDK from "./APIconnection/initSDK";
 import { countryCodes } from "./assets/countries";
 import {
-  makeApropriateFetch,
   handleNavClick,
   handleDeviceTabClick,
   handleResize,
@@ -61,7 +60,6 @@ class App extends Component {
     this.handleMobileNavToggle = handleMobileNavToggle.bind(this);
     this.handleAlbumRightOverride = handleAlbumRightOverride.bind(this);
     this.handleMainRightChange = handleMainRightChange.bind(this);
-    this.makeApropriateFetch = makeApropriateFetch.bind(this);
     this.handleDeviceTabClick = handleDeviceTabClick.bind(this);
     this.getContentFromMultiArtists = getContentFromMultiArtists.bind(this);
     this.handleMainRightViewChange = handleMainRightViewChange.bind(this);
@@ -182,15 +180,14 @@ class App extends Component {
             getCategories={this.state.getCategories}
             getCategoryPlaylists={this.state.getCategoryPlaylists}
             PolandTop={this.state.PolandTop}
+            countryCodes={this.countryCodes}
             //
-            handleAlbumRightOverride={this.handleAlbumRightOverride}
           />
         );
         break;
       case "Genres":
         rightTabView = (
           <Genres //refactored
-            makeApropriateFetch={this.makeApropriateFetch}
             getCategories={this.state.getCategories}
             //
           />
@@ -200,13 +197,6 @@ class App extends Component {
         rightTabView = (
           <NewReleases //refactored
             getNewReleases={this.state.getNewReleases}
-            PolandTop={this.state.PolandTop}
-            getCategory={this.state.getCategory}
-            //
-            playerState={this.state.playerState}
-            APIrequest={this.playerRequest}
-            currentlyPlaying={this.state.currentlyPlaying}
-            handleAlbumRightOverride={this.handleAlbumRightOverride}
           />
         );
         break;
@@ -214,6 +204,7 @@ class App extends Component {
         rightTabView = (
           <Discover //refactored
             getMultipleArtistAlbums={this.state.getMultipleArtistAlbums}
+            idList={this.state.topRelatedArtists.map(e => e.id)}
             //
           />
         );

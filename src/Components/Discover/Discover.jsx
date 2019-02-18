@@ -1,9 +1,16 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import ContainerGenerator from "../ContainerGenerator/ContainerGenerator";
+import { Context } from "../../Context/Context";
 
 function Discover(props) {
+  const context = useContext(Context);
+  useEffect(() => {
+    if (context && !props.getMultipleArtistAlbums.length) {
+      context.APIrequest("getMultipleArtists", { ids: props.idList });
+    }
+  });
   let discoverRender;
-  if (props.getMultipleArtistAlbums && !discoverRender) {
+  if (props.getMultipleArtistAlbums.length) {
     discoverRender = props.getMultipleArtistAlbums
       .map(e => e.items.slice(0, 5))
       .reduce((acc, cur) => (acc = [...acc, ...cur]), []);

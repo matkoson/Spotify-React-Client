@@ -1,9 +1,36 @@
-import React from "react";
+import React, { useEffect, useContext } from "react";
 import ContainerGenerator from "../ContainerGenerator/ContainerGenerator";
 import HeadlineAnimator from "../Helpers/HeadlineAnimator";
+import { Context } from "../../Context/Context";
 
 let headlines;
 function renderCharts(props) {
+  const context = useContext(Context);
+
+  useEffect(() => {
+    if (context) {
+      if (!props.PolandTop) {
+        context.APIrequest("getCategoryPlaylists", {
+          category: "toplists",
+          country: "PL"
+        });
+      }
+      if (!props.getCategoryPlaylists.length) {
+        const visited = {};
+        let index;
+        for (let i = 0; i < 20; i += 1) {
+          index = Math.round(Math.random() * (props.countryCodes.length - 1));
+          while (visited[props.countryCodes[index].isoCode])
+            index = Math.round(Math.random() * (props.countryCodes.length - 1)); //making sure to not fetch one country's playlists twice
+          visited[props.countryCodes[index].isoCode] = true;
+          context.APIrequest("getCategoryPlaylists", {
+            category: "toplists",
+            country: props.countryCodes[index].isoCode
+          });
+        }
+      }
+    }
+  });
   let countryTop, countryViral, PolandTop;
   if (props.PolandTop) {
     PolandTop = (
