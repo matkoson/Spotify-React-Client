@@ -73,9 +73,13 @@ a {
 }
 .wrapper {
   width: calc(100vw - 240px);
+  @include atMedium {
+    width: 95vw;
+  }
 }
 .app {
   width: 100vw;
+  height: 100vh;
   min-height: 100vh;
   max-width: 100%;
   display: flex;
@@ -83,6 +87,7 @@ a {
   overflow-x: hidden;
   transition: background-image 1.5s ease;
   color: #ffffff;
+  position: relative;
   &__fetch {
     &__link {
       display: flex;

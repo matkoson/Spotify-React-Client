@@ -32,7 +32,7 @@ function ContainerGenerator(props) {
     context = props.context,
     animate = props.animate;
   let imgMeasurements = { width: "300px", height: "300px" };
-  // console.log(type, data);
+  console.log(type, data);
   if (props && data) {
     return data.map((e, i) => {
       if (animate) {
@@ -59,6 +59,11 @@ function ContainerGenerator(props) {
             window.innerWidth < 820
               ? (image[1] && image[1].url) || image[0].url
               : image[0].url;
+          image =
+            window.innerWidth < 500
+              ? (e.track.album.images[2] && e.track.album.images[2].url) ||
+                image
+              : image;
           key = e.played_at;
           dataType = e.track.type;
           cx = e.track.uri;

@@ -1,21 +1,12 @@
-import React, { Component } from "react";
+import React, { Component, Suspense, lazy } from "react";
 import "./Styles/Styles.scss";
 import { Router, navigate } from "@reach/router";
-import LeftTab from "./Components/LeftTab/LeftTab";
+import Desktop from "./Components/Desktop/Desktop";
 import RightTab from "./Components/RightTab/RightTab";
 import "./assets/fonts/Rubik-Light.woff";
-import RecentlyPlayed from "./Components/RecentlyPlayed/RecentlyPlayed";
 import HomeScreen from "./Components/HomeScreen/HomeScreen";
 import PlayerBar from "./Components/PlayerBar/PlayerBar";
-import Charts from "./Components/Charts/Charts";
-import Genres from "./Components/Genres/Genres";
-import NewReleases from "./Components/NewReleases/NewReleases";
-import Discover from "./Components/Discover/Discover";
-import Search from "./Components/Search/Search";
 import Library from "./Components/Library/Library";
-import Album from "./Components/Album/Album";
-import CatInnerView from "./Components/CatInnerView/CatInnerView";
-import Mobile from "./Components/Mobile/Mobile";
 import cdnLoader from "./loadScript";
 import initSDK from "./APIconnection/initSDK";
 import { countryCodes } from "./assets/countries";
@@ -39,6 +30,29 @@ import {
   getContentFromMultiArtists
 } from "./APIconnection/APImethods";
 import { Provider } from "./Context/Context";
+
+// import Mobile from "./Components/Mobile/Mobile";
+const Mobile = lazy(() => import("./Components/Mobile/Mobile"));
+// import Charts from "./Components/Charts/Charts";
+const Charts = lazy(() => import("./Components/Charts/Charts"));
+// import Album from "./Components/Album/Album";
+const Album = lazy(() => import("./Components/Album/Album"));
+// import Genres from "./Components/Genres/Genres";
+const Genres = lazy(() => import("./Components/Genres/Genres"));
+// import NewReleases from "./Components/NewReleases/NewReleases";
+const NewReleases = lazy(() => import("./Components/NewReleases/NewReleases"));
+// import Discover from "./Components/Discover/Discover";
+const Discover = lazy(() => import("./Components/Discover/Discover"));
+// import Search from "./Components/Search/Search";
+const Search = lazy(() => import("./Components/Search/Search"));
+// import CatInnerView from "./Components/CatInnerView/CatInnerView";
+const CatInnerView = lazy(() =>
+  import("./Components/CatInnerView/CatInnerView")
+);
+// import RecentlyPlayed from "./Components/RecentlyPlayed/RecentlyPlayed";
+const RecentlyPlayed = lazy(() =>
+  import("./Components/RecentlyPlayed/RecentlyPlayed")
+);
 
 export default class App extends Component {
   constructor(props) {
@@ -190,125 +204,128 @@ export default class App extends Component {
         //click anywhere in the app to make deviceTab disappear + same thing with mobile-nav
       >
         <Provider value={this.state.valueContext}>
-          <Mobile
-            path="/*"
-            handleMainRightChange={this.handleMainRightChange}
-            handleMobileNavToggle={this.handleMobileNavToggle}
-            mobile={this.state.mobile}
-          />
-          <LeftTab
-            path="/*"
-            handleNavClick={this.handleNavClick}
-            handleMainRightChange={this.handleMainRightChange}
-          >
-            <RecentlyPlayed
-              path="/*"
-              handleNavClick={this.handleNavClick}
-              rawRecPlayed={this.state.recentlyPlayed}
-              player={this.player}
-              //
-              APIrequest={this.playerRequest}
-            />
-          </LeftTab>
-          {/*  */}
-          {/*  */}
-          {/*  */}
+          <Suspense fallback={<div>Loading...</div>}>
+            <div path="/*" class="left-tab">
+              <Mobile
+                path="/*"
+                handleMainRightChange={this.handleMainRightChange}
+                handleMobileNavToggle={this.handleMobileNavToggle}
+                mobile={this.state.mobile}
+              />
+              <Desktop
+                path="/*"
+                handleNavClick={this.handleNavClick}
+                handleMainRightChange={this.handleMainRightChange}
+              >
+                <RecentlyPlayed
+                  path="/*"
+                  handleNavClick={this.handleNavClick}
+                  rawRecPlayed={this.state.recentlyPlayed}
+                  player={this.player}
+                  //
+                  APIrequest={this.playerRequest}
+                />
+              </Desktop>
+            </div>
+            {/*  */}
+            {/*  */}
+            {/*  */}
 
-          <Router primary={false}>
-            <RightTab
-              path="home"
-              mobile={this.state.mobile}
-              handleNavClick={this.handleNavClick}
-            >
-              <HomeScreen //refactored
-                path="/"
-                featured={this.state.featured}
-                recent={this.state.recentlyPlayed}
-                relatedTop={this.state.topRelatedArtists}
-                topArtist={this.state.topArtist}
+            <Router primary={false}>
+              <RightTab
+                path="home"
+                mobile={this.state.mobile}
+                handleNavClick={this.handleNavClick}
+              >
+                <HomeScreen //refactored
+                  path="/"
+                  featured={this.state.featured}
+                  recent={this.state.recentlyPlayed}
+                  relatedTop={this.state.topRelatedArtists}
+                  topArtist={this.state.topArtist}
+                  player={this.player}
+                  //
+                />
+                <Charts //refactored
+                  path="charts"
+                  getCategories={this.state.getCategories}
+                  getCategoryPlaylists={this.state.getCategoryPlaylists}
+                  PolandTop={this.state.PolandTop}
+                  countryCodes={this.countryCodes}
+                  //
+                />
+                <Genres //refactored
+                  path="genres-moods"
+                  getCategories={this.state.getCategories}
+                  //
+                />
+                <NewReleases //refactored
+                  path="new-releases"
+                  getNewReleases={this.state.getNewReleases}
+                />
+                <Discover //refactored
+                  path="discover"
+                  getMultipleArtistAlbums={this.state.getMultipleArtistAlbums}
+                  idList={
+                    this.state.topRelatedArtists &&
+                    this.state.topRelatedArtists.map(e => e.id)
+                  }
+                />
+              </RightTab>
+
+              {/*  */}
+              {/*  */}
+              {/*  */}
+              <Search
+                path="search"
+                searchQuery={this.state.searchQuery}
                 player={this.player}
                 //
               />
-              <Charts //refactored
-                path="charts"
-                getCategories={this.state.getCategories}
-                getCategoryPlaylists={this.state.getCategoryPlaylists}
+              <Library
+                path="library" //refactored
+                getUserPlaylists={this.state.getUserPlaylists}
+                getUserSavedAlbums={this.state.getUserSavedAlbums}
+                getUserSavedTracks={this.state.getUserSavedTracks}
+                //
+              />
+              <Album
+                path="album"
+                ref={this.albumRef}
+                getAlbum={this.state.getAlbum}
+                getPlaylist={this.state.getPlaylist}
+                getPlaylistCover={this.state.getPlaylistCover}
+                getPlaylistTracks={this.state.getPlaylistTracks}
+                albumViewOption={this.state.albumViewOption}
+              />
+              <CatInnerView
+                path="category"
                 PolandTop={this.state.PolandTop}
-                countryCodes={this.countryCodes}
+                getCategory={this.state.getCategory}
+                getCategoryPlaylists={this.state.getCategoryPlaylists}
                 //
+                currentlyPlaying={this.state.currentlyPlaying}
+                playerState={this.state.playerState}
+                APIrequest={this.playerRequest}
               />
-              <Genres //refactored
-                path="genres-moods"
-                getCategories={this.state.getCategories}
-                //
-              />
-              <NewReleases //refactored
-                path="new-releases"
-                getNewReleases={this.state.getNewReleases}
-              />
-              <Discover //refactored
-                path="discover"
-                getMultipleArtistAlbums={this.state.getMultipleArtistAlbums}
-                idList={
-                  this.state.topRelatedArtists &&
-                  this.state.topRelatedArtists.map(e => e.id)
-                }
-              />
-              {/* </Redirect> */}
-            </RightTab>
-
-            {/*  */}
-            {/*  */}
-            {/*  */}
-            <Search
-              path="search"
-              searchQuery={this.state.searchQuery}
+              {/*  */}
+              {/*  */}
+              {/*  */}
+            </Router>
+            <PlayerBar
+              path="/*" //refactored
+              recent={
+                this.state.recentlyPlayed && this.state.recentlyPlayed.items[0]
+              }
+              handleDeviceTabClick={this.handleDeviceTabClick}
+              isDeviceTabOn={this.state.deviceTabOn}
               player={this.player}
-              //
+              deviceId={this.state.deviceID}
+              deviceName={this.state.deviceName}
+              currentPlayback={this.state.currentPlayback}
+              // + context
             />
-            <Library
-              path="library" //refactored
-              getUserPlaylists={this.state.getUserPlaylists}
-              getUserSavedAlbums={this.state.getUserSavedAlbums}
-              getUserSavedTracks={this.state.getUserSavedTracks}
-              //
-            />
-            <Album
-              path="album"
-              ref={this.albumRef}
-              getAlbum={this.state.getAlbum}
-              getPlaylist={this.state.getPlaylist}
-              getPlaylistCover={this.state.getPlaylistCover}
-              getPlaylistTracks={this.state.getPlaylistTracks}
-              albumViewOption={this.state.albumViewOption}
-            />
-            <CatInnerView
-              path="category"
-              PolandTop={this.state.PolandTop}
-              getCategory={this.state.getCategory}
-              getCategoryPlaylists={this.state.getCategoryPlaylists}
-              //
-              currentlyPlaying={this.state.currentlyPlaying}
-              playerState={this.state.playerState}
-              APIrequest={this.playerRequest}
-            />
-            {/*  */}
-            {/*  */}
-            {/*  */}
-          </Router>
-          <PlayerBar
-            path="/*" //refactored
-            recent={
-              this.state.recentlyPlayed && this.state.recentlyPlayed.items[0]
-            }
-            handleDeviceTabClick={this.handleDeviceTabClick}
-            isDeviceTabOn={this.state.deviceTabOn}
-            player={this.player}
-            deviceId={this.state.deviceID}
-            deviceName={this.state.deviceName}
-            currentPlayback={this.state.currentPlayback}
-            // + context
-          />
+          </Suspense>
         </Provider>
       </main>
     );

@@ -1,159 +1,167 @@
-@include atMedium {
-  .left-tab {
-    display: none;
-  }
-  .mobile {
-    &__nav {
-      z-index: 1;
-      width: 100%;
+.left-tab {
+  @include atMedium {
+    .desktop {
+      display: none;
+      // visibility: hidden;
+      margin-left: 0;
+    }
+    .mobile {
       position: fixed;
-      top: 0;
-      height: 400px;
-      background: linear-gradient(180deg, #282828 25%, rgba(0, 0, 0, 0) 56%);
-      &__ul {
-        padding-top: 40px;
-        display: flex;
-        justify-content: space-around;
-        align-items: center;
-        width: 75%;
-        margin: 0 auto;
-        &__li {
+      width: 100vw;
+      // height: 100vh;
+      &__nav {
+        z-index: 1;
+        width: 100%;
+        position: fixed;
+        top: 0;
+        height: 400px;
+        background: linear-gradient(180deg, #282828 25%, rgba(0, 0, 0, 0) 56%);
+        &__ul {
+          padding-top: 40px;
           display: flex;
-          flex-direction: column;
+          justify-content: space-around;
+          align-items: center;
+          width: 75%;
+          margin: 0 auto;
+          &__li {
+            display: flex;
+            flex-direction: column;
+          }
+          &__li:hover {
+            cursor: pointer;
+          }
         }
-        &__li:hover {
+      }
+      &__logo {
+        width: 140px;
+        height: 140px;
+        position: fixed;
+        right: 0;
+        display: flex;
+        padding-top: 1px;
+        padding-right: 1px;
+        align-items: flex-start;
+        justify-content: flex-end;
+        z-index: 1;
+        &__pic {
+          display: block;
+          font-size: 50px;
+          animation: App-logo-spin infinite 20s linear;
+        }
+        &__pic:hover {
           cursor: pointer;
         }
       }
     }
-    &__logo {
-      width: 140px;
-      height: 140px;
+  }
+
+  @include abvMedium {
+    .mobile {
+      display: none;
+    }
+    .desktop {
+      height: 100vh;
+      display: block;
+      background-color: $mainSidebarBlack;
+      height: 100%;
+      flex-basis: 25%;
+      width: 240px;
+      padding-left: 2%;
+      padding-right: 10px;
+      padding-top: 1%;
+      padding-bottom: 1%;
+      color: #ffffff;
+      font-size: 14px;
       position: fixed;
-      right: 0;
-      display: flex;
-      padding-top: 1px;
-      padding-right: 1px;
-      align-items: flex-start;
-      justify-content: flex-end;
       z-index: 1;
-      &__pic {
-        display: block;
-        font-size: 50px;
-        animation: App-logo-spin infinite 20s linear;
-      }
-      &__pic:hover {
-        cursor: pointer;
-      }
-    }
-  }
-}
-
-@include abvMedium {
-  .mobile {
-    display: none;
-  }
-  .left-tab {
-    display: block;
-    background-color: $mainSidebarBlack;
-    height: 100%;
-    flex-basis: 25%;
-    width: 240px;
-    padding-left: 2%;
-    padding-right: 10px;
-    padding-top: 1%;
-    padding-bottom: 1%;
-    color: #ffffff;
-    font-size: 14px;
-    position: fixed;
-    z-index: 1;
-    &__logo {
-      padding-top: 20px;
-      padding-bottom: 20px;
-      margin-bottom: 5%;
-      min-width: 140px;
-      display: flex;
-      justify-content: flex-start;
-      &__main {
-        font-size: 50px;
-        animation: App-logo-spin infinite 20s linear;
-        pointer-events: none;
-        position: relative;
-        right: 10px;
-      }
-      &__title {
-        font-size: 22px;
-        font-weight: 600;
-        font-family: "Anodina-ExtraLight";
-        max-width: 125px;
-      }
-      &__title-react {
-        font-family: "Horizon-Regular";
-        font-size: 90px;
-        position: absolute;
-        left: 110px;
-        top: 30px;
-        transform: rotate(15deg);
-      }
       &__logo {
-        max-height: 40px;
-        min-width: 70px;
-        width: 141px;
-      }
-    }
-    // }
-
-    &__app-nav {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      &__icon-text {
+        padding-top: 20px;
+        padding-bottom: 20px;
+        margin-bottom: 5%;
+        min-width: 140px;
         display: flex;
-        justify-content: space-between;
-        margin-bottom: 10%;
-        cursor: pointer;
-        opacity: 0.6;
-        position: relative;
+        justify-content: flex-start;
+        &__main {
+          font-size: 50px;
+          animation: App-logo-spin infinite 20s linear;
+          pointer-events: none;
+          position: relative;
+          right: 10px;
+        }
+        &__title {
+          font-size: 22px;
+          font-weight: 600;
+          font-family: "Anodina-ExtraLight";
+          max-width: 125px;
+        }
+        &__title-react {
+          font-family: "Horizon-Regular";
+          font-size: 90px;
+          position: absolute;
+          left: 110px;
+          top: 30px;
+          transform: rotate(15deg);
+        }
+        &__logo {
+          max-height: 40px;
+          min-width: 70px;
+          width: 141px;
+        }
       }
-      &__icon-text--clicked:before {
-        content: "";
-        display: block;
-        position: absolute;
-        top: 0;
-        left: -15px;
-        bottom: 0;
-        width: 4px;
-        height: 100%;
-        opacity: 1;
-        background-color: #1ed760;
-      }
-      &__icon-text--clicked--recent:after {
-        content: "";
-        display: block;
-        position: absolute;
-        top: 0;
-        left: -15px;
-        bottom: 0;
-        width: 4px;
-        height: 100%;
-        opacity: 1;
-        background-color: #1ed760;
-      }
+      // }
 
-      &__text {
-        text-align: left;
-        width: 77%;
+      &__app-nav {
         display: flex;
-        align-items: center;
-      }
+        flex-direction: column;
+        justify-content: center;
+        &__icon-text {
+          display: flex;
+          justify-content: space-between;
+          margin-bottom: 10%;
+          cursor: pointer;
+          opacity: 0.6;
+          position: relative;
+        }
+        &__icon-text--clicked:before {
+          content: "";
+          display: block;
+          position: absolute;
+          top: 0;
+          left: -15px;
+          bottom: 0;
+          width: 4px;
+          height: 100%;
+          opacity: 1;
+          background-color: #1ed760;
+        }
+        &__icon-text--clicked--recent:after {
+          content: "";
+          display: block;
+          position: absolute;
+          top: 0;
+          left: -15px;
+          bottom: 0;
+          width: 4px;
+          height: 100%;
+          opacity: 1;
+          background-color: #1ed760;
+        }
 
-      &__icon-text:hover {
-        opacity: 1;
-        transition-duration: 500ms;
-      }
-      &__logo {
-        cursor: pointer;
-        opacity: 0.6;
+        &__text {
+          text-align: left;
+          width: 77%;
+          display: flex;
+          align-items: center;
+        }
+
+        &__icon-text:hover {
+          opacity: 1;
+          transition-duration: 500ms;
+        }
+        &__logo {
+          cursor: pointer;
+          opacity: 0.6;
+        }
       }
     }
   }

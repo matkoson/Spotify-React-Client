@@ -3,64 +3,64 @@ import search from "../../assets/svg/search.svg";
 import home from "../../assets/svg/home.svg";
 import lib from "../../assets/svg/lib.svg";
 import { Link } from "@reach/router";
-export default function LeftTab(props) {
+export default function Desktop(props) {
   return (
-    <div className="left-tab">
+    <div className="desktop">
       <div
-        className="left-tab__logo"
+        className="desktop__logo"
         style={{ cursor: "pointer" }}
         onClick={() => {
           props.handleMainRightChange("Home");
         }}
       >
-        <i className="fab fa-react left-tab__logo__main" />
-        <div className="left-tab__logo__title"> Spotify</div>
-        <div className="left-tab__logo__title-react">React</div>
+        <i className="fab fa-react desktop__logo__main" />
+        <div className="desktop__logo__title"> Spotify</div>
+        <div className="desktop__logo__title-react">React</div>
       </div>
       <div
         onClick={e => props.handleNavClick(e, "left")}
-        className="left-tab__app-nav"
+        className="desktop__app-nav"
       >
         {/*  */}
         <Link
           to="search"
-          className="left-tab__app-nav__search left-tab__app-nav__icon-text"
+          className="desktop__app-nav__search desktop__app-nav__icon-text"
           onClick={() => {
             props.handleMainRightChange("Search");
           }}
         >
           <img
-            className="left-tab__app-nav__logo"
+            className="desktop__app-nav__logo"
             src={search}
             alt="search icon"
           />
-          <span className="left-tab__app-nav__search__text left-tab__app-nav__text">
+          <span className="desktop__app-nav__search__text desktop__app-nav__text">
             {"Search"}
           </span>
         </Link>
         {/*  */}
         <Link
           to="home"
-          className="left-tab__app-nav__home left-tab__app-nav__icon-text left-tab__app-nav__icon-text--clicked"
+          className="desktop__app-nav__home desktop__app-nav__icon-text desktop__app-nav__icon-text--clicked"
           onClick={() => {
             props.handleMainRightChange("Home");
           }}
         >
-          <img className="left-tab__app-nav__logo" src={home} alt="home icon" />
-          <span className="left-tab__app-nav__home__text left-tab__app-nav__text">
+          <img className="desktop__app-nav__logo" src={home} alt="home icon" />
+          <span className="desktop__app-nav__home__text desktop__app-nav__text">
             {"Home"}
           </span>
         </Link>
         {/*  */}
         <Link
           to="library"
-          className="left-tab__app-nav__library left-tab__app-nav__icon-text"
+          className="desktop__app-nav__library desktop__app-nav__icon-text"
           onClick={() => {
             props.handleMainRightChange("Library");
           }}
         >
-          <img className="left-tab__app-nav__logo" src={lib} alt="lib icon" />
-          <span className="left-tab__app-nav__library__text left-tab__app-nav__text">
+          <img className="desktop__app-nav__logo" src={lib} alt="lib icon" />
+          <span className="desktop__app-nav__library__text desktop__app-nav__text">
             {"Your Library"}
           </span>
         </Link>
