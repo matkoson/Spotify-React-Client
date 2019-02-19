@@ -71,16 +71,22 @@ a {
   color: inherit;
   text-decoration: none;
 }
+.wrapper {
+  width: calc(100vw - 240px);
+}
 .app {
   width: 100vw;
   min-height: 100vh;
+  max-width: 100%;
   display: flex;
   font-family: "Anodina-Light";
   overflow-x: hidden;
   transition: background-image 1.5s ease;
   color: #ffffff;
-
   &__fetch {
+    &__link {
+      display: flex;
+    }
     &-title {
       width: 100%;
       text-align: left;
@@ -98,7 +104,6 @@ a {
       display: flex;
       flex-wrap: wrap;
       justify-content: flex-start;
-      width: 100%;
       margin-bottom: 5%;
       @include atLarge {
         justify-content: center;
@@ -108,8 +113,9 @@ a {
   &__right-container-generic__outer {
     overflow-y: scroll;
     overflow-x: hidden;
-    // width: 100%;
+    width: calc(100vw - 240px);
     display: flex;
+    height: 100vh;
     flex-direction: column;
     align-content: center;
     margin-left: 240px;

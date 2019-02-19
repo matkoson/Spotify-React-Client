@@ -145,7 +145,7 @@ class Search extends React.Component {
     ));
     return (
       <div className="search generator">
-        <div class="search__input">
+        <div className="search__input">
           <input
             autoFocus
             placeholder={"Insert your query..."}
@@ -154,7 +154,7 @@ class Search extends React.Component {
             type="text"
             className="search__input__area"
           />
-          <i class="fas fa-search" />
+          <i className="fas fa-search" />
         </div>
         {this.props.searchQuery &&
           (this.state.searchInput && (

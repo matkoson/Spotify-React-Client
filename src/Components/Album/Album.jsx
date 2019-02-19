@@ -52,7 +52,7 @@ class Album extends React.Component {
           const isPlaying =
             context.playerState &&
             e.id === context.playerState.track_window.current_track.id;
-          console.log("ALBUM GEN", e);
+          // console.log("ALBUM GEN", e);
 
           return (
             <div

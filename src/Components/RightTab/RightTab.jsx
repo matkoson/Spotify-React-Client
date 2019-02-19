@@ -16,7 +16,7 @@ export default function RightTab(props) {
           className="app__right-container-generic__outer__right-nav right-tab__right-nav"
         >
           <Link
-            to="featured"
+            to="./"
             className="right-tab__right-nav__element right-tab__right-nav__element--clicked"
           >
             FEATURED

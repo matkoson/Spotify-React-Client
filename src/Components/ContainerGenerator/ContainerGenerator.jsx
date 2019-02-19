@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Consumer } from "../../Context/Context";
 import { useSpring, animated, useTransition } from "react-spring";
+import { Link } from "@reach/router";
 
 let name,
   image,
@@ -31,7 +32,7 @@ function ContainerGenerator(props) {
     context = props.context,
     animate = props.animate;
   let imgMeasurements = { width: "300px", height: "300px" };
-  console.log(type, data);
+  // console.log(type, data);
   if (props && data) {
     return data.map((e, i) => {
       if (animate) {
@@ -209,24 +210,25 @@ function ContainerGenerator(props) {
           {/*  */}
           {/*  */}
           {/*  */}
-          <div
-            data-identi={albumType}
-            data-album={idS}
-            onClick={e => {
-              console.log(this, albumType, albumTrack);
-              return context.handleAlbumRightOverride(e, albumType);
-            }}
-            className="generator__playlist-element__title"
-          >
-            {name}
-          </div>
+          <Link to="../../album">
+            <div
+              data-identi={albumType}
+              data-album={idS}
+              onClick={e => {
+                // console.log(this, albumType, albumTrack);
+                return context.handleAlbumRightOverride(e, albumType);
+              }}
+              className="generator__playlist-element__title"
+            >
+              {name}
+            </div>
+          </Link>
           <div className="generator__playlist-element__artists">
             {artistName ? artistName : null}
           </div>
         </React.Fragment>
       );
-      // console.log("ANIMATE", animate);
-      return (
+      const contentNested = (
         <React.Fragment key={key || idS}>
           {animate ? (
             transitions.map(({ props }) => (
@@ -252,6 +254,16 @@ function ContainerGenerator(props) {
             <div key={key || idS} className="generator__playlist-element">
               {content}
             </div>
+          )}
+        </React.Fragment>
+      );
+      // console.log("ANIMATE", animate);
+      return (
+        <React.Fragment key={key || idS}>
+          {type === "categories" ? (
+            <Link to="../../category">{contentNested}</Link>
+          ) : (
+            <React.Fragment key={key || idS}>{contentNested}</React.Fragment>
           )}
         </React.Fragment>
       );

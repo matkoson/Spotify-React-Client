@@ -139,7 +139,7 @@ export default class App extends Component {
     const currAd = window.location.href;
     if (/callback/.test(currAd)) {
       this.setToken(currAd);
-      navigate("/");
+      navigate("home");
       if (this.state.SDK) {
         return this.checkSDK();
       } else {
@@ -214,21 +214,14 @@ export default class App extends Component {
           {/*  */}
           {/*  */}
 
-          <Router>
+          <Router primary={false}>
             <RightTab
               path="home"
-              default
               mobile={this.state.mobile}
               handleNavClick={this.handleNavClick}
             >
-              {/* <Router primary={false}> */}
-              {/*  */}
-              {/*  */}
-              {/*  */}
-              {/*  */}
               <HomeScreen //refactored
-                path="featured"
-                default
+                path="/"
                 featured={this.state.featured}
                 recent={this.state.recentlyPlayed}
                 relatedTop={this.state.topRelatedArtists}
@@ -260,13 +253,8 @@ export default class App extends Component {
                   this.state.topRelatedArtists &&
                   this.state.topRelatedArtists.map(e => e.id)
                 }
-                //
               />
-              {/*  */}
-              {/*  */}
-              {/*  */}
-              {/*  */}
-              {/* </Router> */}
+              {/* </Redirect> */}
             </RightTab>
 
             {/*  */}
@@ -326,13 +314,3 @@ export default class App extends Component {
     );
   }
 }
-
-// export default function AppRoute() {
-//   return (
-//     // <Router>
-//       {/* <App path="/*" /> */}
-//       <App></App>
-//       {/* App needs the default attr as at first I receive a spotify token in a callback */}
-//     // </Router>
-//   );
-// }

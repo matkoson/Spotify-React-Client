@@ -15,7 +15,7 @@ function HomeScreen(props) {
     hash = {};
 
     recentProp = props.recent.items.slice(0, 10);
-    console.log("BEFORE", recentProp);
+    // console.log("BEFORE", recentProp);
     recentProp = recentProp.filter(e => {
       if (!hash[e.track.id]) {
         hash[e.track.id] = true;
