@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import "./Styles/Styles.scss";
+import { Router, navigate } from "@reach/router";
 import LeftTab from "./Components/LeftTab/LeftTab";
 import RightTab from "./Components/RightTab/RightTab";
 import "./assets/fonts/Rubik-Light.woff";
@@ -39,7 +40,7 @@ import {
 } from "./APIconnection/APImethods";
 import { Provider } from "./Context/Context";
 
-class App extends Component {
+export default class App extends Component {
   constructor(props) {
     super(props);
     //
@@ -118,7 +119,7 @@ class App extends Component {
     this.homeRef = React.createRef();
   }
   componentDidMount() {
-    if (this.state.mainRightView === "Home")
+    if (this.state.mainRightView === "Home" && this.homeRef.current)
       this.homeRef.current.scrollIntoView();
     // this.gradientCarousel();
     window.addEventListener("resize", this.handleResize);
@@ -138,6 +139,7 @@ class App extends Component {
     const currAd = window.location.href;
     if (/callback/.test(currAd)) {
       this.setToken(currAd);
+      navigate("/");
       if (this.state.SDK) {
         return this.checkSDK();
       } else {
@@ -171,105 +173,9 @@ class App extends Component {
   };
 
   render() {
-    let rightTabView;
-    let rightOverride;
-    switch (this.state.rightTabView) {
-      case "Charts":
-        rightTabView = (
-          <Charts //refactored
-            getCategories={this.state.getCategories}
-            getCategoryPlaylists={this.state.getCategoryPlaylists}
-            PolandTop={this.state.PolandTop}
-            countryCodes={this.countryCodes}
-            //
-          />
-        );
-        break;
-      case "Genres":
-        rightTabView = (
-          <Genres //refactored
-            getCategories={this.state.getCategories}
-            //
-          />
-        );
-        break;
-      case "New Releases":
-        rightTabView = (
-          <NewReleases //refactored
-            getNewReleases={this.state.getNewReleases}
-          />
-        );
-        break;
-      case "Discover":
-        rightTabView = (
-          <Discover //refactored
-            getMultipleArtistAlbums={this.state.getMultipleArtistAlbums}
-            idList={this.state.topRelatedArtists.map(e => e.id)}
-            //
-          />
-        );
-        break;
-      default:
-        rightTabView = (
-          <HomeScreen //refactored
-            featured={this.state.featured}
-            recent={this.state.recentlyPlayed}
-            relatedTop={this.state.topRelatedArtists}
-            topArtist={this.state.topArtist}
-            player={this.player}
-            //
-          />
-        );
-    }
-
-    switch (this.state.mainRightView) {
-      case "Search":
-        rightOverride = (
-          <Search
-            searchQuery={this.state.searchQuery}
-            player={this.player}
-            //
-          />
-        );
-
-        break;
-      case "Library":
-        rightOverride = (
-          <Library //refactored
-            getUserPlaylists={this.state.getUserPlaylists}
-            getUserSavedAlbums={this.state.getUserSavedAlbums}
-            getUserSavedTracks={this.state.getUserSavedTracks}
-            //
-          />
-        );
-        break;
-      case "Album":
-        rightOverride = (
-          <Album
-            ref={this.albumRef}
-            getAlbum={this.state.getAlbum}
-            getPlaylist={this.state.getPlaylist}
-            getPlaylistCover={this.state.getPlaylistCover}
-            getPlaylistTracks={this.state.getPlaylistTracks}
-            albumViewOption={this.state.albumViewOption}
-          />
-        );
-        break;
-      default:
-        rightOverride = (
-          <CatInnerView
-            PolandTop={this.state.PolandTop}
-            getCategory={this.state.getCategory}
-            getCategoryPlaylists={this.state.getCategoryPlaylists}
-            //
-            currentlyPlaying={this.state.currentlyPlaying}
-            playerState={this.state.playerState}
-            APIrequest={this.playerRequest}
-          />
-        );
-    }
     return (
       <main
+        path="/"
         ref={this.homeRef}
         className="app"
         style={{
@@ -285,15 +191,18 @@ class App extends Component {
       >
         <Provider value={this.state.valueContext}>
           <Mobile
+            path="/*"
             handleMainRightChange={this.handleMainRightChange}
             handleMobileNavToggle={this.handleMobileNavToggle}
             mobile={this.state.mobile}
           />
           <LeftTab
+            path="/*"
             handleNavClick={this.handleNavClick}
             handleMainRightChange={this.handleMainRightChange}
           >
             <RecentlyPlayed
+              path="/*"
               handleNavClick={this.handleNavClick}
               rawRecPlayed={this.state.recentlyPlayed}
               player={this.player}
@@ -301,17 +210,106 @@ class App extends Component {
               APIrequest={this.playerRequest}
             />
           </LeftTab>
-          {this.state.mainRightView === "Home" ? (
+          {/*  */}
+          {/*  */}
+          {/*  */}
+
+          <Router>
             <RightTab
+              path="home"
+              default
               mobile={this.state.mobile}
               handleNavClick={this.handleNavClick}
             >
-              {rightTabView}
+              {/* <Router primary={false}> */}
+              {/*  */}
+              {/*  */}
+              {/*  */}
+              {/*  */}
+              <HomeScreen //refactored
+                path="featured"
+                default
+                featured={this.state.featured}
+                recent={this.state.recentlyPlayed}
+                relatedTop={this.state.topRelatedArtists}
+                topArtist={this.state.topArtist}
+                player={this.player}
+                //
+              />
+              <Charts //refactored
+                path="charts"
+                getCategories={this.state.getCategories}
+                getCategoryPlaylists={this.state.getCategoryPlaylists}
+                PolandTop={this.state.PolandTop}
+                countryCodes={this.countryCodes}
+                //
+              />
+              <Genres //refactored
+                path="genres-moods"
+                getCategories={this.state.getCategories}
+                //
+              />
+              <NewReleases //refactored
+                path="new-releases"
+                getNewReleases={this.state.getNewReleases}
+              />
+              <Discover //refactored
+                path="discover"
+                getMultipleArtistAlbums={this.state.getMultipleArtistAlbums}
+                idList={
+                  this.state.topRelatedArtists &&
+                  this.state.topRelatedArtists.map(e => e.id)
+                }
+                //
+              />
+              {/*  */}
+              {/*  */}
+              {/*  */}
+              {/*  */}
+              {/* </Router> */}
             </RightTab>
-          ) : (
-            <React.Fragment> {rightOverride}</React.Fragment>
-          )}
-          <PlayerBar //refactored
+
+            {/*  */}
+            {/*  */}
+            {/*  */}
+            <Search
+              path="search"
+              searchQuery={this.state.searchQuery}
+              player={this.player}
+              //
+            />
+            <Library
+              path="library" //refactored
+              getUserPlaylists={this.state.getUserPlaylists}
+              getUserSavedAlbums={this.state.getUserSavedAlbums}
+              getUserSavedTracks={this.state.getUserSavedTracks}
+              //
+            />
+            <Album
+              path="album"
+              ref={this.albumRef}
+              getAlbum={this.state.getAlbum}
+              getPlaylist={this.state.getPlaylist}
+              getPlaylistCover={this.state.getPlaylistCover}
+              getPlaylistTracks={this.state.getPlaylistTracks}
+              albumViewOption={this.state.albumViewOption}
+            />
+            <CatInnerView
+              path="category"
+              PolandTop={this.state.PolandTop}
+              getCategory={this.state.getCategory}
+              getCategoryPlaylists={this.state.getCategoryPlaylists}
+              //
+              currentlyPlaying={this.state.currentlyPlaying}
+              playerState={this.state.playerState}
+              APIrequest={this.playerRequest}
+            />
+            {/*  */}
+            {/*  */}
+            {/*  */}
+          </Router>
+          <PlayerBar
+            path="/*" //refactored
             recent={
               this.state.recentlyPlayed && this.state.recentlyPlayed.items[0]
             }
@@ -329,4 +327,12 @@ class App extends Component {
   }
 }
 
-export default App;
+// export default function AppRoute() {
+//   return (
+//     // <Router>
+//       {/* <App path="/*" /> */}
+//       <App></App>
+//       {/* App needs the default attr as at first I receive a spotify token in a callback */}
+//     // </Router>
+//   );
+// }

@@ -2,6 +2,7 @@ import React from "react";
 import search from "../../assets/svg/search.svg";
 import home from "../../assets/svg/home.svg";
 import lib from "../../assets/svg/lib.svg";
+import { Link } from "@reach/router";
 export default function LeftTab(props) {
   return (
     <div className="left-tab">
@@ -20,7 +21,9 @@ export default function LeftTab(props) {
         onClick={e => props.handleNavClick(e, "left")}
         className="left-tab__app-nav"
       >
-        <div
+        {/*  */}
+        <Link
+          to="search"
           className="left-tab__app-nav__search left-tab__app-nav__icon-text"
           onClick={() => {
             props.handleMainRightChange("Search");
@@ -34,9 +37,10 @@ export default function LeftTab(props) {
           <span className="left-tab__app-nav__search__text left-tab__app-nav__text">
             {"Search"}
           </span>
-        </div>
+        </Link>
         {/*  */}
-        <div
+        <Link
+          to="home"
           className="left-tab__app-nav__home left-tab__app-nav__icon-text left-tab__app-nav__icon-text--clicked"
           onClick={() => {
             props.handleMainRightChange("Home");
@@ -46,9 +50,10 @@ export default function LeftTab(props) {
           <span className="left-tab__app-nav__home__text left-tab__app-nav__text">
             {"Home"}
           </span>
-        </div>
+        </Link>
         {/*  */}
-        <div
+        <Link
+          to="library"
           className="left-tab__app-nav__library left-tab__app-nav__icon-text"
           onClick={() => {
             props.handleMainRightChange("Library");
@@ -58,7 +63,7 @@ export default function LeftTab(props) {
           <span className="left-tab__app-nav__library__text left-tab__app-nav__text">
             {"Your Library"}
           </span>
-        </div>
+        </Link>
         {/*  */}
       </div>
       {props.children}
