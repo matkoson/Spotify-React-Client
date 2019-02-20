@@ -67,17 +67,35 @@
 #root {
   overflow-x: hidden;
 }
-
+a {
+  color: inherit;
+  text-decoration: none;
+}
+.wrapper {
+  width: calc(100vw - 240px);
+  @include atMedium {
+    // margin-top: 208px;
+    width: 95%;
+    margin-right: auto;
+    margin-left: auto;
+  }
+}
 .app {
   width: 100vw;
+  // height: 100vh;
   min-height: 100vh;
+  max-width: 100%;
   display: flex;
-  font-family: "Anodina-Light";
+  font-family: "Anodina-Light", "Helvetica Neue", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", sans-serif;
   overflow-x: hidden;
   transition: background-image 1.5s ease;
   color: #ffffff;
-
+  position: relative;
   &__fetch {
+    &__link {
+      display: flex;
+    }
     &-title {
       width: 100%;
       text-align: left;
@@ -95,7 +113,6 @@
       display: flex;
       flex-wrap: wrap;
       justify-content: flex-start;
-      width: 100%;
       margin-bottom: 5%;
       @include atLarge {
         justify-content: center;
@@ -105,8 +122,9 @@
   &__right-container-generic__outer {
     overflow-y: scroll;
     overflow-x: hidden;
-    width: 100%;
+    width: calc(100vw - 240px);
     display: flex;
+    // height: 100vh;
     flex-direction: column;
     align-content: center;
     margin-left: 240px;
@@ -114,7 +132,7 @@
     margin-bottom: 90px;
     padding-right: 0;
     @include atMedium {
-      margin-left: 5px;
+      margin-left: 0;
     }
     &__right-nav {
       display: flex;
@@ -129,7 +147,8 @@
       line-height: 16px;
       letter-spacing: 0.15rem;
       @include atMedium {
-        width: 75%;
+        width: 90% !important;
+        height: 124px;
       }
     }
   }

@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { Consumer } from "../../Context/Context";
 import { useSpring, animated, useTransition } from "react-spring";
+import { Link } from "@reach/router";
+import LazyLoad from "react-lazyload";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 let name,
   image,
@@ -58,6 +61,11 @@ function ContainerGenerator(props) {
             window.innerWidth < 820
               ? (image[1] && image[1].url) || image[0].url
               : image[0].url;
+          image =
+            window.innerWidth < 500
+              ? (e.track.album.images[2] && e.track.album.images[2].url) ||
+                image
+              : image;
           key = e.played_at;
           dataType = e.track.type;
           cx = e.track.uri;
@@ -184,49 +192,61 @@ function ContainerGenerator(props) {
                   (dataType === "playlist" &&
                     context.currentlyPlaying.context &&
                     cx === context.currentlyPlaying.context.uri)) ? (
-                  <i
-                    id="pause"
-                    className="fas fa-pause app__pause-visible__icon"
+                  <FontAwesomeIcon
+                    icon="play"
+                    className=" app__pause-visible__icon"
                   />
                 ) : (
-                  <i id="play" className="fas fa-play app__play-hover__icon" />
+                  // <i
+                  //   id="pause"
+                  //   className="fas fa-pause app__pause-visible__icon"
+                  // />
+                  <FontAwesomeIcon
+                    icon="play"
+                    className="app__play-hover__icon"
+                  />
+
+                  // <i id="play" className="fas fa-play app__play-hover__icon" />
                 )}
                 {/* check whether the uri of the curr playing album/artist/track is same as the uri of the generated element */}
               </div>
             )}
-            <img
-              className={
-                !special
-                  ? "generator__playlist-element__img__pic"
-                  : "app__rounded-album generator__playlist-element__img__pic"
-              }
-              height={imgMeasurements.height}
-              width={imgMeasurements.width}
-              src={image}
-              alt=""
-            />
+            <LazyLoad height={imgMeasurements.height} once offset={50}>
+              <img
+                className={
+                  !special
+                    ? "generator__playlist-element__img__pic"
+                    : "app__rounded-album generator__playlist-element__img__pic"
+                }
+                height={imgMeasurements.height}
+                width={imgMeasurements.width}
+                src={image}
+                alt=""
+              />
+            </LazyLoad>
           </div>
           {/*  */}
           {/*  */}
           {/*  */}
-          <div
-            data-identi={albumType}
-            data-album={idS}
-            onClick={e => {
-              console.log(this, albumType, albumTrack);
-              return context.handleAlbumRightOverride(e, albumType);
-            }}
-            className="generator__playlist-element__title"
-          >
-            {name}
-          </div>
+          <Link to="../../album">
+            <div
+              data-identi={albumType}
+              data-album={idS}
+              onClick={e => {
+                // console.log(this, albumType, albumTrack);
+                return context.handleAlbumRightOverride(e, albumType);
+              }}
+              className="generator__playlist-element__title"
+            >
+              {name}
+            </div>
+          </Link>
           <div className="generator__playlist-element__artists">
             {artistName ? artistName : null}
           </div>
         </React.Fragment>
       );
-      // console.log("ANIMATE", animate);
-      return (
+      const contentNested = (
         <React.Fragment key={key || idS}>
           {animate ? (
             transitions.map(({ props }) => (
@@ -252,6 +272,16 @@ function ContainerGenerator(props) {
             <div key={key || idS} className="generator__playlist-element">
               {content}
             </div>
+          )}
+        </React.Fragment>
+      );
+      // console.log("ANIMATE", animate);
+      return (
+        <React.Fragment key={key || idS}>
+          {type === "categories" ? (
+            <Link to="../../category">{contentNested}</Link>
+          ) : (
+            <React.Fragment key={key || idS}>{contentNested}</React.Fragment>
           )}
         </React.Fragment>
       );

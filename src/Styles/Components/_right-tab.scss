@@ -1,4 +1,5 @@
 .right-tab {
+  width: 100vw;
   &__right-nav {
     &__element {
       flex-basis: 10%;
@@ -25,7 +26,6 @@
         display: block;
         bottom: -4px;
         left: 50%;
-
         margin-left: -15px;
       }
     }

@@ -13,7 +13,7 @@ export function handleNavClick(ele, navType) {
     if (ele.target.className === "right-tab__right-nav__element") {
       this.setState(state => {
         return {
-          rightTabView: chosenView,
+          // rightTabView: chosenView,
           currGrad:
             this.gradientArr[randomNum] ||
             "linear - gradient(to right bottom, #4d0b96, #3b2195, #292c91, #19348c, #0c3985)" ===
@@ -128,8 +128,8 @@ export function handleMainRightViewChange(e) {
 export function handleMainRightChange(mainRightView) {
   mainRightView === "Search"
     ? this.setState({
-        mainRightView,
-        rightTabView: "",
+        // mainRightView,
+        // rightTabView: "",
         currGrad:
           "linear-gradient(to right bottom, #000000, #000000,  #202020, #282828, #282828)",
         mobile: false
