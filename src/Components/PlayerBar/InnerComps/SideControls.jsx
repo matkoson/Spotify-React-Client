@@ -1,10 +1,21 @@
 import React from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default function SideControls(props) {
   return (
     <div className="player-bar__tab player-bar__right-tab player-bar__perip-tab--end">
       <div className="player-bar__right-tab__controls">
         {/* <i className="fas fa-list-ol" /> */}
+        <FontAwesomeIcon
+          icon="tablet"
+          style={
+            props.isDeviceTabOn
+              ? { color: "#1db954" }
+              : { color: "rgb(255, 255, 255)" }
+          }
+          onClick={props.handleDeviceTabClick}
+        />
+        {/* 
         <i
           style={
             props.isDeviceTabOn
@@ -13,15 +24,17 @@ export default function SideControls(props) {
           }
           onClick={props.handleDeviceTabClick}
           className="fas fa-tablet-alt"
-        />
+         /> */}
         <div
           className="player-bar__right-tab__volume"
           onClick={props.handleMute}
         >
           {props.muted ? (
-            <i className="fas fa-volume-mute" />
+            <FontAwesomeIcon icon="volume-mute" />
           ) : (
-            <i className="fas fa-volume-up" />
+            // <i className="fas fa-volume-mute" />
+            <FontAwesomeIcon icon="volume-up" />
+            // <i className="fas fa-volume-up" />
           )}
         </div>
       </div>

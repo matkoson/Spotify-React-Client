@@ -2,6 +2,7 @@ import React from "react";
 import ExampleAlbum from "./ExampleAlbum";
 import ContainerGenerator from "../ContainerGenerator/ContainerGenerator";
 import { Context } from "../../Context/Context";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 class Search extends React.Component {
   constructor(props) {
@@ -154,7 +155,9 @@ class Search extends React.Component {
             type="text"
             className="search__input__area"
           />
-          <i className="fas fa-search" />
+          <FontAwesomeIcon icon="search" />
+
+          {/* <i className="fas fa-search" /> */}
         </div>
         {this.props.searchQuery &&
           (this.state.searchInput && (

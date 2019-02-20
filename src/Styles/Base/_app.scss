@@ -86,7 +86,8 @@ a {
   min-height: 100vh;
   max-width: 100%;
   display: flex;
-  font-family: "Anodina-Light";
+  font-family: "Anodina-Light", "Helvetica Neue", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", sans-serif;
   overflow-x: hidden;
   transition: background-image 1.5s ease;
   color: #ffffff;

@@ -3,6 +3,8 @@ import search from "../../assets/svg/search.svg";
 import home from "../../assets/svg/home.svg";
 import lib from "../../assets/svg/lib.svg";
 import { Link } from "@reach/router";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 export default function Desktop(props) {
   return (
     <div className="desktop">
@@ -13,7 +15,10 @@ export default function Desktop(props) {
           props.handleMainRightChange("Home");
         }}
       >
-        <i className="fab fa-react desktop__logo__main" />
+        <FontAwesomeIcon
+          icon={["fab", "react"]}
+          className="desktop__logo__main"
+        />
         <div className="desktop__logo__title"> Spotify</div>
         <div className="desktop__logo__title-react">React</div>
       </div>

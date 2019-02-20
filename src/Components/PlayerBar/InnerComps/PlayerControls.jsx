@@ -1,44 +1,65 @@
 import React from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default function PlayerControls(props) {
   return (
     <div className="player-bar__tab player-bar__center-tab">
       <div className="player-bar__player-controls">
-        <i
+        <FontAwesomeIcon
+          icon="random"
           onClick={() =>
             this.props.APIrequest("toggleShuffle", {
               shuffle: !props.shuffled
             })
           }
           style={{ color: props.shuffled ? "#1db954" : "white" }}
-          className="fas fa-random"
         />
-        <i
+
+        {/* <i
+
+          className="fas fa-random"
+        /> */}
+        {/* <i
           onClick={() => props.player.previousTrack()}
           className="fas fa-step-backward"
-        />
+        /> */}
+        <FontAwesomeIcon icon="step-backward" />
+
         <div onClick={props.handlePausePlay} className="player-bar__play-pause">
           {props.paused || !props.playbackSDK ? (
-            <i className="fas fa-play player__play-pause" />
+            // <i className="fas fa-play player__play-pause" />
+            <FontAwesomeIcon icon="play" />
           ) : (
-            <i className="fas fa-pause player__play-pause" />
+            // <i className="fas fa-pause player__play-pause" />
+            <FontAwesomeIcon icon="pause" />
           )}
         </div>
         {/* */}
-        <i
-          onClick={() => props.player.nextTrack()}
+        {/* <i
           className="fas fa-step-forward"
+        /> */}
+        <FontAwesomeIcon
+          onClick={() => props.player.nextTrack()}
+          icon="step-forward"
         />
-        <i
+
+        {/* <i
           onClick={props.handleRepeatModeChange}
           className={
             props.repeatMode === "off"
               ? "fas fa-redo"
               : "fas fa-redo player-bar__redo-icon--repeat-cx"
           }
+        > */}
+        <FontAwesomeIcon
+          icon="redo"
+          onClick={props.handleRepeatModeChange}
+          className={
+            props.repeatMode === "off" ? "" : "player-bar__redo-icon--repeat-cx"
+          }
         >
           {props.repeatMode === "track" ? <span>1</span> : null}
-        </i>
+        </FontAwesomeIcon>
       </div>
       <div className="player-bar__player-progress">
         <div className="player-bar__player-progress__time">

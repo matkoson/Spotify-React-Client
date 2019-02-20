@@ -3,6 +3,7 @@ import search from "../../assets/svg/search.svg";
 import home from "../../assets/svg/home.svg";
 import lib from "../../assets/svg/lib.svg";
 import { useTransition, animated } from "react-spring";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default function Mobile(props) {
   const { mobile, handleMobileNavToggle, handleMainRightChange } = props;
@@ -47,10 +48,11 @@ export default function Mobile(props) {
         }
         className="mobile__logo"
       >
-        <i
+        <FontAwesomeIcon
+          icon={["fab", "react"]}
           onClick={handleMobileNavToggle}
-          className="fab fa-react mobile__logo__pic"
-        />
+          className="mobile__logo__pic"
+        />{" "}
       </div>
     </div>
   ));

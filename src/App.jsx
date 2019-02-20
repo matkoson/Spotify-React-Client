@@ -31,6 +31,31 @@ import {
 } from "./APIconnection/APImethods";
 import { Provider } from "./Context/Context";
 
+import { library } from "@fortawesome/fontawesome-svg-core";
+import {
+  faPlay,
+  faStepForward,
+  faStepBackward,
+  faRandom,
+  faTablet,
+  faVolumeUp,
+  faVolumeMute,
+  faRedo,
+  faSearch
+} from "@fortawesome/free-solid-svg-icons";
+import { faReact } from "@fortawesome/free-brands-svg-icons";
+library.add(
+  faPlay,
+  faStepForward,
+  faStepBackward,
+  faRandom,
+  faTablet,
+  faVolumeUp,
+  faVolumeMute,
+  faRedo,
+  faSearch,
+  faReact
+);
 // import Mobile from "./Components/Mobile/Mobile";
 const Mobile = lazy(() => import("./Components/Mobile/Mobile"));
 // import Charts from "./Components/Charts/Charts";
