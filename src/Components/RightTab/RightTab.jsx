@@ -11,9 +11,9 @@ export default function RightTab(props) {
       className="right-tab app__right-container-generic__outer"
     >
       {!props.mobile && (
-        <ul
+        <div
           onClick={e => props.handleNavClick(e, "right")}
-          className="app__right-container-generic__outer__right-nav right-tab__right-nav"
+          className="right-tab app__right-container-generic__outer__right-nav"
         >
           <Link
             to="./"
@@ -49,11 +49,11 @@ export default function RightTab(props) {
           >
             DISCOVER
           </Link>
-        </ul>
+        </div>
       )}
       <div
         className="wrapper"
-        style={props.mobile ? { marginTop: "203.922px" } : null}
+        style={props.mobile ? { marginTop: "208px" } : null}
       >
         {props.children}
       </div>
