@@ -1,3 +1,7 @@
+@import "../Base/_variables";
+@import "../Base/_mixins";
+@import "../Base/app.scss";
+
 .album {
   margin-left: 240px;
   padding-right: 25px;
@@ -213,6 +217,7 @@
 
     &__tracks__track--playing {
       opacity: 1 !important;
+      color: $mainGreen;
     }
 
     &__tracks__track__title {

@@ -1,3 +1,7 @@
+@import "../Base/_variables";
+@import "../Base/_mixins";
+@import "../Base/app.scss";
+
 .player-bar {
   width: 100%;
   background-color: $mainPlayerBarGray;
@@ -220,6 +224,11 @@
   }
   &__right-tab {
     display: none;
+    &__volume {
+      width: 37px;
+      display: flex;
+      justify-content: space-around;
+    }
 
     @include atLarge {
       justify-content: flex-end;
@@ -237,7 +246,7 @@
       justify-content: flex-end;
     }
     &__controls {
-      justify-content: flex-start;
+      justify-content: space-between;
       align-items: center;
       display: flex;
     }
@@ -270,8 +279,8 @@
 }
 
 .player-bar .fas {
-  width: 30px;
-  height: 30px;
+  width: 15px;
+  height: 15px;
   display: flex !important;
   justify-content: center;
   align-items: center;

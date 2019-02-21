@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import ContainerGenerator from "../ContainerGenerator/ContainerGenerator";
 import { Context } from "../../Context/Context";
+import "../../Styles/Base/app.scss";
 
 function Discover(props) {
   const context = useContext(Context);

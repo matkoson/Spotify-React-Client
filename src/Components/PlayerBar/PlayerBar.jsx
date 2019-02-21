@@ -4,6 +4,8 @@ import AlbumDetails from "./InnerComps/AlbumDetails";
 import PlayerControls from "./InnerComps/PlayerControls";
 import SideControls from "./InnerComps/SideControls";
 import { Context } from "../../Context/Context";
+import "../../Styles/Base/app.scss";
+import "../../Styles/Components/player-bar.scss";
 
 const getPerc = (progressTime, totalTime) =>
   100 - (progressTime / totalTime) * 100;

@@ -1,0 +1,17 @@
+@import "../Base/_variables";
+@import "../Base/_mixins";
+@import "../Base/app.scss";
+
+.left-tab {
+  @include atMedium {
+    .desktop {
+      display: none;
+      margin-left: 0;
+    }
+  }
+  @include abvMedium {
+    .mobile {
+      display: none;
+    }
+  }
+}

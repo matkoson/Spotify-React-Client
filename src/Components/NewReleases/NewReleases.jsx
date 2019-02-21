@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import ContainerGenerator from "../ContainerGenerator/ContainerGenerator";
 import { Context } from "../../Context/Context";
+import "../../Styles/Base/app.scss";
 
 function NewReleases(props) {
   const context = useContext(Context);
@@ -15,6 +16,7 @@ function NewReleases(props) {
       <ContainerGenerator
         data={props.getNewReleases.albums.items}
         type={"playlists"}
+        animate={true}
       />
     );
   return (

@@ -1,5 +1,6 @@
 import React from "react";
 import ContainerGenerator from "../ContainerGenerator/ContainerGenerator";
+import "../../Styles/Components/cat-inner-view.scss";
 
 class CatInnerView extends React.Component {
   constructor(props) {

@@ -1,6 +1,7 @@
 import React, { useEffect, useContext } from "react";
 import ContainerGenerator from "../ContainerGenerator/ContainerGenerator";
 import { Context } from "../../Context/Context";
+import "../../Styles/Base/app.scss";
 
 function Genres(props) {
   let categoriesList;

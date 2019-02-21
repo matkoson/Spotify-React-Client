@@ -204,20 +204,10 @@ function ContainerGenerator(props) {
                     className=" app__pause-visible__icon"
                   />
                 ) : (
-                  // <i
-                  //   id="pause"
-                  //   className="fas fa-pause app__pause-visible__icon"
-                  // />
                   <FontAwesomeIcon
                     icon="play"
                     className="app__play-hover__icon"
-                    // onMouseOver={e =>
-                    //   (e.currentTarget.parentNode.nextSibling.className =
-                    //     "generator__playlist-element__img__overlay--hover")
-                    // }
                   />
-
-                  // <i id="play" className="fas fa-play app__play-hover__icon" />
                 )}
                 {/* check whether the uri of the curr playing album/artist/track is same as the uri of the generated element */}
               </div>
@@ -233,7 +223,11 @@ function ContainerGenerator(props) {
                   "generator__playlist-element__img__overlay")
               }
             >
-              <LazyLoad height={imgMeasurements.height} once offset={100}>
+              <LazyLoad
+                height={imgMeasurements.height}
+                offset={100}
+                key={key || idS}
+              >
                 <img
                   className={
                     !special
@@ -249,6 +243,8 @@ function ContainerGenerator(props) {
                   width={imgMeasurements.width}
                   src={image}
                   alt=""
+                  once={key || idS}
+                  key={key || idS}
                 />
               </LazyLoad>
             </div>

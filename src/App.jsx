@@ -1,5 +1,6 @@
 import React, { Component, Suspense, lazy } from "react";
-import "./Styles/Styles.scss";
+import "./Styles/Base/app.scss";
+import "./Styles/Components/left-tab.scss";
 import { Router, navigate } from "@reach/router";
 import Desktop from "./Components/Desktop/Desktop";
 import RightTab from "./Components/RightTab/RightTab";
@@ -34,6 +35,7 @@ import { Provider } from "./Context/Context";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import {
   faPlay,
+  faPause,
   faStepForward,
   faStepBackward,
   faRandom,
@@ -47,6 +49,7 @@ import {
 import { faReact } from "@fortawesome/free-brands-svg-icons";
 library.add(
   faPlay,
+  faPause,
   faStepForward,
   faStepBackward,
   faRandom,
@@ -233,7 +236,7 @@ export default class App extends Component {
       >
         <Provider value={this.state.valueContext}>
           <Suspense fallback={<div>Loading...</div>}>
-            <div path="/*" class="left-tab">
+            <div path="/*" className="left-tab">
               <Mobile
                 path="/*"
                 handleMainRightChange={this.handleMainRightChange}
@@ -264,6 +267,7 @@ export default class App extends Component {
                 path="home"
                 mobile={this.state.mobile}
                 handleNavClick={this.handleNavClick}
+                className="right-tab"
               >
                 <HomeScreen //refactored
                   path="/"

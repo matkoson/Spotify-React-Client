@@ -1,6 +1,7 @@
 import React from "react";
 import ContainerGenerator from "../ContainerGenerator/ContainerGenerator";
 import HeadlineAnimator from "../Helpers/HeadlineAnimator";
+import { forceCheck } from "react-lazyload";
 
 function HomeScreen(props) {
   let ftrdMssg,
@@ -13,7 +14,6 @@ function HomeScreen(props) {
     hash;
   if (props.recent) {
     hash = {};
-
     recentProp = props.recent.items.slice(0, 10);
     // console.log("BEFORE", recentProp);
     recentProp = recentProp.filter(e => {
@@ -29,6 +29,7 @@ function HomeScreen(props) {
     processedProp = (
       <ContainerGenerator data={recentProp} type={"recent"} animate={true} />
     );
+    forceCheck();
   }
   if (props.featured) {
     ftrdProp = props.featured;
@@ -40,6 +41,7 @@ function HomeScreen(props) {
         animate={true}
       />
     );
+    forceCheck();
   }
   if (props.relatedTop) {
     relatedTop = (
@@ -50,6 +52,7 @@ function HomeScreen(props) {
         animate={true}
       />
     );
+    forceCheck();
   }
   if (props.relatedTop && props.featured && props.recent) {
     headlines = HeadlineAnimator([
@@ -57,6 +60,7 @@ function HomeScreen(props) {
       "Recently played",
       `More like ${props.topArtist}`
     ]);
+    forceCheck();
   }
   return (
     <div className="generator">

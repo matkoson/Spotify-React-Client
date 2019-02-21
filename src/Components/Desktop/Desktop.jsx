@@ -4,6 +4,7 @@ import home from "../../assets/svg/home.svg";
 import lib from "../../assets/svg/lib.svg";
 import { Link } from "@reach/router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import "../../Styles/Components/desktop.scss";
 
 export default function Desktop(props) {
   return (

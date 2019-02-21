@@ -1,6 +1,8 @@
 import React from "react";
 import ContainerGenerator from "../ContainerGenerator/ContainerGenerator";
 import { Context } from "../../Context/Context";
+import "../../Styles/Base/app.scss";
+import "../../Styles/Components/library.scss";
 
 class Library extends React.Component {
   constructor(props) {
@@ -24,6 +26,7 @@ class Library extends React.Component {
               <ContainerGenerator
                 data={this.props.getUserPlaylists.items}
                 type={"playlists"}
+                animate={true}
               />
             ) || <ContainerGenerator />}
           </div>
@@ -39,6 +42,7 @@ class Library extends React.Component {
               <ContainerGenerator
                 data={this.props.getUserSavedAlbums.items.map(e => e.album)}
                 type={"playlists"}
+                animate={true}
               />
             ) || <ContainerGenerator />}
           </div>
@@ -54,6 +58,7 @@ class Library extends React.Component {
               <ContainerGenerator
                 data={this.props.getUserSavedTracks.items.map(e => e.track)}
                 type={"playlists"}
+                animate={true}
               />
             ) || <ContainerGenerator />}
           </div>

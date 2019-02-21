@@ -27,14 +27,14 @@ export function handleNavClick(ele, navType) {
     }
   } else if (navType === "left") {
     strategy = "offsetTop";
-    basicClass = "left-tab__app-nav__search left-tab__app-nav__icon-text";
-    clickedClass = "left-tab__app-nav__icon-text--clicked";
+    basicClass = "desktop__app-nav__search desktop__app-nav__icon-text";
+    clickedClass = "desktop__app-nav__icon-text--clicked";
     chosenOne = chosenOne.offsetParent;
   } else if (navType === "recent") {
     strategy = "offsetTop";
     basicClass = "recently-played__element ";
     clickedClass =
-      "left-tab__app-nav__icon-text--clicked recently-played__element--modified";
+      "desktop__app-nav__icon-text--clicked recently-played__element--modified";
   }
 
   allNavElems = allNavElems.forEach(e => {

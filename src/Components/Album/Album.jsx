@@ -1,6 +1,7 @@
 import React from "react";
 import { Context } from "../../Context/Context";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import "../../Styles/Components/album.scss";
 
 // import ReactDOM from "react-dom";
 
@@ -149,20 +150,3 @@ class Album extends React.Component {
 Album.contextType = Context;
 
 export default Album;
-// export default function AlbumWithCx(props) {
-//   return (
-//     <Consumer>
-//       {context => (
-//         <Album
-//           ref={this.props.ref}
-//           getPlaylistTracks={this.props.getPlaylistTracks}
-//           getPlaylist={this.props.getPlaylist}
-//           getPlaylistCover={this.props.getPlaylistCover}
-//           getAlbum={this.props.getAlbum}
-//           albumViewOption={this.props.albumViewOption}
-//           context={context}
-//         />
-//       )}
-//     </Consumer>
-//   );
-// }

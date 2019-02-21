@@ -1,13 +1,14 @@
 import React, { useEffect, useRef } from "react";
 import { Link } from "@reach/router";
-
+import "../../Styles/Components/right-tab.scss";
+import "../../Styles/Base/app.scss";
 export default function RightTab(props) {
   // const rightTabRef = useRef(null);
   // console.log(rightTabRef.current);
   // useEffect(() => rightTabRef.current.scrollIntoView());
   return (
     <div
-      // ref={rightTabRef}
+      // style={{ width: "100vw" }}
       className="right-tab app__right-container-generic__outer"
     >
       {!props.mobile && (

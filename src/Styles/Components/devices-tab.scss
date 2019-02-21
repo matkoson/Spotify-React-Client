@@ -1,3 +1,7 @@
+@import "../Base/_variables";
+@import "../Base/_mixins";
+@import "../Base/app.scss";
+
 .devices-tab {
   max-width: 200px;
   min-width: 175px;

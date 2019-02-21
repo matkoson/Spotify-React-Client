@@ -7,6 +7,7 @@ export default function SideControls(props) {
       <div className="player-bar__right-tab__controls">
         {/* <i className="fas fa-list-ol" /> */}
         <FontAwesomeIcon
+          className="fas"
           icon="tablet"
           style={
             props.isDeviceTabOn
@@ -30,10 +31,10 @@ export default function SideControls(props) {
           onClick={props.handleMute}
         >
           {props.muted ? (
-            <FontAwesomeIcon icon="volume-mute" />
+            <FontAwesomeIcon icon="volume-mute" className="fas" />
           ) : (
             // <i className="fas fa-volume-mute" />
-            <FontAwesomeIcon icon="volume-up" />
+            <FontAwesomeIcon icon="volume-up" className="fas" />
             // <i className="fas fa-volume-up" />
           )}
         </div>

@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import "../../Styles/Base/app.scss";
+import "../../Styles/Components/recently-played.scss";
 
 class RecentlyPlayed extends Component {
   render() {

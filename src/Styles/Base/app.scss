@@ -1,3 +1,7 @@
+@import "./_variables.scss";
+@import "./_mixins.scss";
+@import "../Components/generator.scss";
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -6,30 +10,30 @@
 
 @font-face {
   font-family: "Horizon-Regular";
-  src: local("Horizon-Regular"), url("../assets/fonts/Horizon-Regular.woff") format("woff");
+  src: local("Horizon-Regular"), url("../../assets/fonts/Horizon-Regular.woff") format("woff");
   font-display: swap;
 }
 
 @font-face {
   font-family: "Anodina-Light";
-  src: local("Anodina-Light"), url("../assets/fonts/Anodina-Light.woff") format("woff");
+  src: local("Anodina-Light"), url("../../assets/fonts/Anodina-Light.woff") format("woff");
   font-display: swap;
 }
 @font-face {
   font-family: "Anodina-ExtraLight";
-  src: local("Anodina-ExtraLight"), url("../assets/fonts/Anodina-ExtraLight.woff") format("woff");
+  src: local("Anodina-ExtraLight"), url("../../assets/fonts/Anodina-ExtraLight.woff") format("woff");
   font-display: swap;
 }
 
 @font-face {
   font-family: "SpaceGrotesk-SemiBold";
-  src: local("SpaceGrotesk-SemiBold"), url("../assets/fonts/SpaceGrotesk-SemiBold.woff") format("woff");
+  src: local("SpaceGrotesk-SemiBold"), url("../../assets/fonts/SpaceGrotesk-SemiBold.woff") format("woff");
   font-display: swap;
 }
 
 @font-face {
   font-family: "SpaceGrotesk-Bold";
-  src: local("SpaceGrotesk-Bold"), url("../assets/fonts/SpaceGrotesk-Bold.woff") format("woff");
+  src: local("SpaceGrotesk-Bold"), url("../../assets/fonts/SpaceGrotesk-Bold.woff") format("woff");
   font-display: swap;
 }
 
@@ -94,6 +98,7 @@ body {
     }
   }
   &__right-container-generic__outer {
+    position: relative;
     overflow-y: scroll;
     overflow-x: hidden;
     width: calc(100vw - 240px);

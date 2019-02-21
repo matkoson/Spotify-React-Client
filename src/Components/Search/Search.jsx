@@ -3,6 +3,8 @@ import ExampleAlbum from "./ExampleAlbum";
 import ContainerGenerator from "../ContainerGenerator/ContainerGenerator";
 import { Context } from "../../Context/Context";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import "../../Styles/Base/app.scss";
+import "../../Styles/Components/search.scss";
 
 class Search extends React.Component {
   constructor(props) {
