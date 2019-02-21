@@ -1,5 +1,6 @@
 import React from "react";
 import devicePng from "../../../assets/devices.png";
+import("../../../Styles/Components/devices-tab.scss");
 export default function DeviceTab(props) {
   return props.deviceName ? (
     <div className="devices-tab">

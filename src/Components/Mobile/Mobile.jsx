@@ -2,9 +2,10 @@ import React from "react";
 import search from "../../assets/svg/search.svg";
 import home from "../../assets/svg/home.svg";
 import lib from "../../assets/svg/lib.svg";
+import { Link } from "@reach/router";
 import { useTransition, animated } from "react-spring";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import "../../Styles/Components/mobile.scss";
+import("../../Styles/Components/mobile.scss");
 
 export default function Mobile(props) {
   const { mobile, handleMobileNavToggle, handleMainRightChange } = props;
@@ -18,7 +19,8 @@ export default function Mobile(props) {
     { name: "Home", src: home },
     { name: "Library", src: lib }
   ].map(e => (
-    <div
+    <Link
+      to={e.name.toLocaleLowerCase()}
       className="mobile__nav__ul__li"
       onClick={() => {
         handleMainRightChange(e.name);
@@ -26,7 +28,7 @@ export default function Mobile(props) {
     >
       {e.name}
       <img src={e.src} alt="" className="mobile__nav__ul__li__img" />
-    </div>
+    </Link>
   ));
   return transitions.map(({ item, key, props }) => (
     <div className="mobile">

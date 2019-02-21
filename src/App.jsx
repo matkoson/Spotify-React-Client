@@ -1,15 +1,9 @@
 import React, { Component, Suspense, lazy } from "react";
-import "./Styles/Base/app.scss";
-import "./Styles/Components/left-tab.scss";
 import { Router, navigate } from "@reach/router";
 import RightTab from "./Components/RightTab/RightTab";
-import "./assets/fonts/Rubik-Light.woff";
-import HomeScreen from "./Components/HomeScreen/HomeScreen";
 import PlayerBar from "./Components/PlayerBar/PlayerBar";
 import cdnLoader from "./loadScript";
-import initSDK from "./APIconnection/initSDK";
 import { countryCodes } from "./assets/countries";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   handleNavClick,
   handleDeviceTabClick,
@@ -46,6 +40,10 @@ import {
   faSpinner
 } from "@fortawesome/free-solid-svg-icons";
 import { faReact } from "@fortawesome/free-brands-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import initSDK from "./APIconnection/initSDK";
+import HomeScreen from "./Components/HomeScreen/HomeScreen";
+
 library.add(
   faPlay,
   faPause,
@@ -60,6 +58,11 @@ library.add(
   faReact,
   faSpinner
 );
+import("./Styles/Components/left-tab.scss");
+import("./Styles/Base/app.scss");
+// const FontAwesomeIcon = import("@fortawesome/react-fontawesome");
+// const HomeScreen = import("./Components/HomeScreen/HomeScreen");
+
 const Desktop =
   window.innerView > 820
     ? import("./Components/Desktop/Desktop")
@@ -128,7 +131,7 @@ export default class App extends Component {
       "linear-gradient(105deg, rgba(81,52,79,1) 25%, #282828 56%)",
       "linear-gradient(105deg, rgba(107,13,20,1) 25%, #282828 56%)"
     ];
-    this.countryCodes = countryCodes;
+    // this.countryCodes = countryCodes;
     this.state = {
       alreadyViewed: [],
       mobile: false,
@@ -310,7 +313,7 @@ export default class App extends Component {
                   getCategories={this.state.getCategories}
                   getCategoryPlaylists={this.state.getCategoryPlaylists}
                   PolandTop={this.state.PolandTop}
-                  countryCodes={this.countryCodes}
+                  countryCodes={countryCodes}
                   //
                 />
                 <Genres //refactored
