@@ -14,7 +14,7 @@ export default function RightTab(props) {
       {!props.mobile && (
         <div
           onClick={e => props.handleNavClick(e, "right")}
-          className="right-tab app__right-container-generic__outer__right-nav"
+          className="app__right-container-generic__outer__right-nav"
         >
           <Link
             to="./"

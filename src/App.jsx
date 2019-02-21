@@ -9,6 +9,7 @@ import PlayerBar from "./Components/PlayerBar/PlayerBar";
 import cdnLoader from "./loadScript";
 import initSDK from "./APIconnection/initSDK";
 import { countryCodes } from "./assets/countries";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   handleNavClick,
   handleDeviceTabClick,
@@ -243,7 +244,21 @@ export default class App extends Component {
         //click anywhere in the app to make deviceTab disappear + same thing with mobile-nav
       >
         <Provider value={this.state.valueContext}>
-          <Suspense fallback={<div>Loading...</div>}>
+          <Suspense
+            fallback={
+              <FontAwesomeIcon
+                spin
+                icon="spinner"
+                style={{
+                  position: "absolute",
+                  top: `calc(50% - 100px)`,
+                  left: `calc(50% - 100px)`,
+                  height: "200px",
+                  width: "200px"
+                }}
+              />
+            }
+          >
             <div path="/*" className="left-tab">
               {window.innerWidth <= 820 && (
                 <Mobile

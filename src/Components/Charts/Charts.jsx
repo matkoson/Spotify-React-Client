@@ -3,7 +3,6 @@ import ContainerGenerator from "../ContainerGenerator/ContainerGenerator";
 import HeadlineAnimator from "../Helpers/HeadlineAnimator";
 import { Context } from "../../Context/Context";
 import LazyLoad from "react-lazyload";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "../../Styles/Base/app.scss";
 
 let headlines;
@@ -48,15 +47,30 @@ function renderCharts(props) {
   //
   //
   if (props.getCategoryPlaylists.length) {
+    let hash = {};
     countryTop = props.getCategoryPlaylists
-      .map(e => e.playlists.items[e.playlists.items.length - 5])
+      .map(e => {
+        const name = e.playlists.items[e.playlists.items.length - 5].name;
+        hash[name] ? (hash[name] += 1) : (hash[name] = 1);
+        return e.playlists.items[e.playlists.items.length - 5];
+      })
       .filter(e => {
         return (
-          /^(?!.*(Global Top)).*50$/.test(e.name) && e.name.includes("Top")
+          /^(?!.*(Global Top)).*50$/.test(e.name) &&
+          e.name.includes("Top") &&
+          hash[e.name] < 2
         );
       });
-    countryTop = <ContainerGenerator data={countryTop} type={"playlists"} />;
-    const hash = {};
+    countryTop = (
+      <LazyLoad throttle={1000}>
+        <ContainerGenerator
+          data={countryTop.slice(0, 5)}
+          type={"playlists"}
+          // animate={true}
+        />
+      </LazyLoad>
+    );
+    hash = {}; //clearing hash
     countryViral = props.getCategoryPlaylists
       .map(e => {
         const name = e.playlists.items[e.playlists.items.length - 2].name;
@@ -67,7 +81,13 @@ function renderCharts(props) {
         return /^(?!.*(Global Viral)).*50$/.test(e.name) && hash[e.name] < 2;
       });
     countryViral = (
-      <ContainerGenerator data={countryViral} type={"playlists"} />
+      <LazyLoad throttle={1500}>
+        <ContainerGenerator
+          data={countryViral.slice(0, 5)}
+          type={"playlists"}
+          // animate={true}
+        />
+      </LazyLoad>
     );
   }
   headlines = ["Featured Charts", "Top 50 by Country", "Viral 50 by Country"];
@@ -80,6 +100,7 @@ function renderCharts(props) {
   };
 }
 export default function Charts(props) {
+  // console.log("CHARTS", props);
   const { countryTop, countryViral, PolandTop } = renderCharts(props);
   return (
     <div className="generator">

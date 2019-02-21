@@ -1,7 +1,7 @@
 import React from "react";
 import ContainerGenerator from "../ContainerGenerator/ContainerGenerator";
 import HeadlineAnimator from "../Helpers/HeadlineAnimator";
-import { forceCheck } from "react-lazyload";
+import LazyLoad from "react-lazyload";
 
 function HomeScreen(props) {
   let ftrdMssg,
@@ -27,9 +27,10 @@ function HomeScreen(props) {
     //Getting rid of dupls
 
     processedProp = (
-      <ContainerGenerator data={recentProp} type={"recent"} animate={true} />
+      <LazyLoad throttle={1000}>
+        <ContainerGenerator data={recentProp} type={"recent"} animate={true} />
+      </LazyLoad>
     );
-    forceCheck();
   }
   if (props.featured) {
     ftrdProp = props.featured;
@@ -41,18 +42,18 @@ function HomeScreen(props) {
         animate={true}
       />
     );
-    forceCheck();
   }
   if (props.relatedTop) {
     relatedTop = (
-      <ContainerGenerator
-        data={props.relatedTop}
-        type={"playlists"}
-        special={true}
-        animate={true}
-      />
+      <LazyLoad throttle={1500}>
+        <ContainerGenerator
+          data={props.relatedTop}
+          type={"playlists"}
+          special={true}
+          animate={true}
+        />
+      </LazyLoad>
     );
-    forceCheck();
   }
   if (props.relatedTop && props.featured && props.recent) {
     headlines = HeadlineAnimator([
@@ -60,7 +61,6 @@ function HomeScreen(props) {
       "Recently played",
       `More like ${props.topArtist}`
     ]);
-    forceCheck();
   }
   return (
     <div className="generator">

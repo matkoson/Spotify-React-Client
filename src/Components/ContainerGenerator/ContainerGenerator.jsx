@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, Suspense } from "react";
 import { Consumer } from "../../Context/Context";
 import { useSpring, animated, useTransition } from "react-spring";
 import { Link } from "@reach/router";
@@ -32,7 +32,8 @@ function ContainerGenerator(props) {
     type = props.type,
     artistName = null,
     context = props.context,
-    animate = props.animate;
+    animate = props.animate,
+    hash = {};
   let imgMeasurements = { width: "300px", height: "300px" };
   // console.log(type, data);
   if (props && data) {
@@ -82,6 +83,13 @@ function ContainerGenerator(props) {
       } else if (type === "playlists" || type === "categories") {
         name = e.name;
         key = e.id;
+        // console.log("HASH", hash);
+        if (hash[key]) {
+          console.log("CORRUPTED DATA", data);
+          console.log(name, key);
+          return null;
+        }
+        hash[key] = true;
         if ((e.images && e.images[0]) || e.icons || e.album) {
           if (e.icons) {
             image = e.icons[0].url;
@@ -223,30 +231,46 @@ function ContainerGenerator(props) {
                   "generator__playlist-element__img__overlay")
               }
             >
-              <LazyLoad
-                height={imgMeasurements.height}
-                offset={100}
-                key={key || idS}
+              <Suspense
+                fallback={
+                  <FontAwesomeIcon
+                    spin
+                    icon="spinner"
+                    style={{
+                      position: "absolute",
+                      top: `calc(50% - 100px)`,
+                      left: `calc(50% - 100px)`,
+                      height: "200px",
+                      width: "200px"
+                    }}
+                  />
+                }
               >
-                <img
-                  className={
-                    !special
-                      ? "generator__playlist-element__img__pic"
-                      : "app__rounded-album generator__playlist-element__img__pic"
-                  }
-                  onMouseLeave={e =>
-                    (e.target.className = !special
-                      ? "generator__playlist-element__img__pic"
-                      : "app__rounded-album generator__playlist-element__img__pic")
-                  }
+                <LazyLoad
                   height={imgMeasurements.height}
-                  width={imgMeasurements.width}
-                  src={image}
-                  alt=""
-                  once={key || idS}
+                  offset={100}
                   key={key || idS}
-                />
-              </LazyLoad>
+                  once
+                >
+                  <img
+                    className={
+                      !special
+                        ? "generator__playlist-element__img__pic"
+                        : "app__rounded-album generator__playlist-element__img__pic"
+                    }
+                    onMouseLeave={e =>
+                      (e.target.className = !special
+                        ? "generator__playlist-element__img__pic"
+                        : "app__rounded-album generator__playlist-element__img__pic")
+                    }
+                    height={imgMeasurements.height}
+                    width={imgMeasurements.width}
+                    src={image}
+                    alt=""
+                    key={key || idS}
+                  />
+                </LazyLoad>
+              </Suspense>
             </div>
           </div>
           {/*  */}

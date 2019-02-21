@@ -13,10 +13,14 @@ function Discover(props) {
   let discoverRender;
   if (props.getMultipleArtistAlbums.length) {
     discoverRender = props.getMultipleArtistAlbums
-      .map(e => e.items.slice(0, 5))
+      .map(e => e.items)
       .reduce((acc, cur) => (acc = [...acc, ...cur]), []);
     discoverRender = (
-      <ContainerGenerator data={discoverRender} type={"playlists"} />
+      <ContainerGenerator
+        data={discoverRender.slice(0, 5)}
+        type={"playlists"}
+        animate={true}
+      />
     );
   }
 
