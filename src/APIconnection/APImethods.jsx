@@ -10,12 +10,16 @@ export function setToken(currAd) {
 export function getToken() {
   const scopes =
     "playlist-read-private playlist-modify-private playlist-modify-public playlist-read-collaborative user-modify-playback-state user-read-currently-playing user-read-playback-state user-top-read user-read-recently-played app-remote-control streaming user-read-birthdate user-read-email user-read-private user-follow-read user-follow-modify user-library-modify user-library-read";
+  const currentLocation = window.location.href;
+  const regex = RegExp(/^(https?.+)\//g);
   const accessReq = `https:accounts.spotify.com/authorize?client_id=${
     this.clientID
-  }&scope=${encodeURIComponent(
-    scopes
-  )}&response_type=token&redirect_uri=http://localhost:3000/callback`;
+  }&scope=${encodeURIComponent(scopes)}&response_type=token&redirect_uri=${
+    regex.exec(currentLocation)[1]
+  }/callback`;
+  console.log(accessReq);
   window.location.href = accessReq;
+  // http://localhost:3000
 }
 
 export function getFtrdPlay() {
