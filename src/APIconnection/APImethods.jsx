@@ -14,7 +14,7 @@ export function getToken() {
     this.clientID
   }&scope=${encodeURIComponent(
     scopes
-  )}&response_type=token&redirect_uri=http://localhost:4000/callback`;
+  )}&response_type=token&redirect_uri=http://localhost:3000/callback`;
   window.location.href = accessReq;
 }
 

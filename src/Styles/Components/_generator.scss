@@ -42,7 +42,6 @@
     }
     &__img {
       @include atXLarge {
-        // width: 100%;
         width: 250px;
         height: 250px;
       }
@@ -52,7 +51,6 @@
       }
       transition: box-shadow 0.5s;
       will-change: transform;
-      // box-shadow: 0px 10px 30px -5px rgba(0, 0, 0, 0.9);
       //
       width: 300px;
       height: 300px;
@@ -62,8 +60,23 @@
       align-items: center;
       border-radius: 10px;
       overflow: hidden;
+      position: relative;
       & .app__play-hover .fa-play {
         display: none;
+        opacity: 1;
+      }
+      &__overlay {
+        // display: block;
+        width: inherit;
+        height: inherit;
+      }
+      &__overlay--hover {
+        background-color: #0000;
+        filter: brightness(50%);
+        position: relative;
+        bottom: 0;
+        width: inherit;
+        height: inherit;
       }
 
       &__pic {
@@ -85,17 +98,18 @@
         transition-duration: 0.5s;
       }
       &--hover {
-        // max-width: 300px;
-        // max-height: 300px;
         margin-bottom: 3%;
         display: flex;
         justify-content: center;
         align-items: center;
-        filter: brightness(70%);
         cursor: pointer;
         transition-duration: 0.5s;
         border-radius: 10px;
         overflow: hidden;
+        @include atXLarge {
+          width: 250px;
+          height: 250px;
+        }
       }
       &--fake {
         // width: 300px;

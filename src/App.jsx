@@ -41,7 +41,8 @@ import {
   faVolumeUp,
   faVolumeMute,
   faRedo,
-  faSearch
+  faSearch,
+  faSpinner
 } from "@fortawesome/free-solid-svg-icons";
 import { faReact } from "@fortawesome/free-brands-svg-icons";
 library.add(
@@ -54,7 +55,8 @@ library.add(
   faVolumeMute,
   faRedo,
   faSearch,
-  faReact
+  faReact,
+  faSpinner
 );
 // import Mobile from "./Components/Mobile/Mobile";
 const Mobile = lazy(() => import("./Components/Mobile/Mobile"));
@@ -158,6 +160,7 @@ export default class App extends Component {
     this.homeRef = React.createRef();
   }
   componentDidMount() {
+    import("./fontBundle");
     if (this.state.mainRightView === "Home" && this.homeRef.current)
       this.homeRef.current.scrollIntoView();
     // this.gradientCarousel();

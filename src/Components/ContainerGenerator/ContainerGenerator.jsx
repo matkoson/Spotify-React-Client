@@ -48,7 +48,12 @@ function ContainerGenerator(props) {
           enter: { opacity: 1, transform: "translate3d(0,0px,0)" },
           unique: true
         });
+        var imgTransitions = useTransition(null, null, {
+          from: { opacity: 0 },
+          enter: { opacity: 1 }
+        });
       }
+
       albumType = "";
       if (type === "recent") {
         if (e.track) {
@@ -172,10 +177,12 @@ function ContainerGenerator(props) {
             {props.type !== "categories" && (
               <div
                 className="app__play-hover"
-                onMouseOver={e =>
+                onMouseOver={e => (
                   (e.currentTarget.className =
-                    "app__play-hover app__play-hover--hover")
-                }
+                    "app__play-hover app__play-hover--hover"),
+                  (e.currentTarget.nextSibling.className =
+                    "generator__playlist-element__img__overlay--hover")
+                )}
                 onMouseLeave={e =>
                   (e.currentTarget.className = "app__play-hover")
                 }
@@ -204,6 +211,10 @@ function ContainerGenerator(props) {
                   <FontAwesomeIcon
                     icon="play"
                     className="app__play-hover__icon"
+                    // onMouseOver={e =>
+                    //   (e.currentTarget.parentNode.nextSibling.className =
+                    //     "generator__playlist-element__img__overlay--hover")
+                    // }
                   />
 
                   // <i id="play" className="fas fa-play app__play-hover__icon" />
@@ -211,19 +222,36 @@ function ContainerGenerator(props) {
                 {/* check whether the uri of the curr playing album/artist/track is same as the uri of the generated element */}
               </div>
             )}
-            <LazyLoad height={imgMeasurements.height} once offset={50}>
-              <img
-                className={
-                  !special
-                    ? "generator__playlist-element__img__pic"
-                    : "app__rounded-album generator__playlist-element__img__pic"
-                }
-                height={imgMeasurements.height}
-                width={imgMeasurements.width}
-                src={image}
-                alt=""
-              />
-            </LazyLoad>
+            <div
+              className="generator__playlist-element__img__overlay"
+              onMouseOver={e =>
+                (e.currentTarget.className =
+                  "generator__playlist-element__img__overlay--hover")
+              }
+              onMouseLeave={e =>
+                (e.currentTarget.className =
+                  "generator__playlist-element__img__overlay")
+              }
+            >
+              <LazyLoad height={imgMeasurements.height} once offset={100}>
+                <img
+                  className={
+                    !special
+                      ? "generator__playlist-element__img__pic"
+                      : "app__rounded-album generator__playlist-element__img__pic"
+                  }
+                  onMouseLeave={e =>
+                    (e.target.className = !special
+                      ? "generator__playlist-element__img__pic"
+                      : "app__rounded-album generator__playlist-element__img__pic")
+                  }
+                  height={imgMeasurements.height}
+                  width={imgMeasurements.width}
+                  src={image}
+                  alt=""
+                />
+              </LazyLoad>
+            </div>
           </div>
           {/*  */}
           {/*  */}
@@ -275,7 +303,6 @@ function ContainerGenerator(props) {
           )}
         </React.Fragment>
       );
-      // console.log("ANIMATE", animate);
       return (
         <React.Fragment key={key || idS}>
           {type === "categories" ? (

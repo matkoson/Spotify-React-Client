@@ -8,6 +8,7 @@
     .mobile {
       position: fixed;
       width: 100vw;
+      z-index: 1;
       // height: 100vh;
       &__nav {
         z-index: 1;
