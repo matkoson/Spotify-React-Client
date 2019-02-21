@@ -8,7 +8,7 @@ class CatInnerView extends React.Component {
     this.generateInnerView = this.generateInnerView.bind(this);
   }
   componentDidMount() {
-    console.log("inner props", this.props);
+    // console.log("inner props", this.props);
   }
   generateInnerView() {}
   render() {

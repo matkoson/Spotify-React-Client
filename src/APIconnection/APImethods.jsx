@@ -14,7 +14,7 @@ export function getToken() {
     this.clientID
   }&scope=${encodeURIComponent(
     scopes
-  )}&response_type=token&redirect_uri=http://localhost:3000/callback`;
+  )}&response_type=token&redirect_uri=http://localhost:4000/callback`;
   window.location.href = accessReq;
 }
 
@@ -29,7 +29,7 @@ export function getFtrdPlay() {
         return this.setState({ featured: res });
       }
     })
-    .catch(e => console.log(e));
+    .catch(e => console.error(e));
 }
 export function getRecent() {
   fetch("https://api.spotify.com/v1/me/player/recently-played", {
@@ -78,7 +78,7 @@ export function getTopArtist() {
     .catch(err => console.error(err));
 }
 export function getContentFromMultiArtists(multiArtists) {
-  console.log("in again", multiArtists);
+  // console.log("in again", multiArtists);
   // , multiArtists.map(e => e.id));
   multiArtists.artists
     .map(e => e.id)
@@ -243,7 +243,7 @@ export function playerRequest(type, additional) {
   //
   //
   const chosen = types[type];
-  console.log("chosen", chosen, type, additional);
+  // console.log("chosen", chosen, type, additional);
   let request = {
     GET: {
       headers: { Authorization: this.state.auth },
@@ -259,66 +259,69 @@ export function playerRequest(type, additional) {
   };
   request = request[chosen.type];
   if (type === "playSpecificPlayback" || type === "playRecentTracks")
-    console.log(request, chosen.uri);
-  return fetch(chosen.uri, request)
-    .then(res => {
-      // console.log("first", res.body);
-      const reader = res.body.getReader();
-      //refactor for handling readableStream in order to avoid JSON's 'unexpected end of input' error
-      const stream = new ReadableStream({
-        start(controller) {
-          function push() {
-            reader.read().then(({ done, value }) => {
-              if (done) {
-                controller.close();
-                return;
-              }
-              controller.enqueue(value);
-              push();
-            });
-          }
-          push();
-        }
-      });
-      new Response(stream, {
-        headers: {
-          "Content-Type": "application/json"
-        }
-      })
-        .json()
-        .then(res => {
-          // console.log(type);
-          if (type === "getCategoryPlaylists") {
-            if (!res.error) {
-              // console.log("WARNING resPlaylist", res, this.state[type]);
-              if (res.playlists.href.includes("country=PL"))
-                return this.setState({ PolandTop: res });
-              // console.log("WARNING resPlaylist", res, this.state[type]);
-              return this.setState({ [type]: [...this.state[type], res] });
+    // console.log(request, chosen.uri);
+    return fetch(chosen.uri, request)
+      .then(res => {
+        // console.log("first", res.body);
+        const reader = res.body.getReader();
+        //refactor for handling readableStream in order to avoid JSON's 'unexpected end of input' error
+        const stream = new ReadableStream({
+          start(controller) {
+            function push() {
+              reader.read().then(({ done, value }) => {
+                if (done) {
+                  controller.close();
+                  return;
+                }
+                controller.enqueue(value);
+                push();
+              });
             }
-          } else if (type === "getMultipleArtists") {
-            // console.log("in");
-            this.getContentFromMultiArtists(res);
-          } else if (type === "getMultipleArtistAlbums") {
-            this.setState(state => {
-              return {
-                getMultipleArtistAlbums: [...state.getMultipleArtistAlbums, res]
-              };
-            });
-          } else if (type === "currentlyPlaying") {
-            this.setState({
-              valueContext: {
-                ...this.state.valueContext,
-                currentlyPlaying: res
-              }
-            });
-          } else {
-            if (!res.error) return this.setState({ [type]: res });
+            push();
+          }
+        });
+        new Response(stream, {
+          headers: {
+            "Content-Type": "application/json"
           }
         })
-        .catch(err => err.reason);
-    })
-    .catch(err => console.log(err));
+          .json()
+          .then(res => {
+            // console.log(type);
+            if (type === "getCategoryPlaylists") {
+              if (!res.error) {
+                // console.log("WARNING resPlaylist", res, this.state[type]);
+                if (res.playlists.href.includes("country=PL"))
+                  return this.setState({ PolandTop: res });
+                // console.log("WARNING resPlaylist", res, this.state[type]);
+                return this.setState({ [type]: [...this.state[type], res] });
+              }
+            } else if (type === "getMultipleArtists") {
+              // console.log("in");
+              this.getContentFromMultiArtists(res);
+            } else if (type === "getMultipleArtistAlbums") {
+              this.setState(state => {
+                return {
+                  getMultipleArtistAlbums: [
+                    ...state.getMultipleArtistAlbums,
+                    res
+                  ]
+                };
+              });
+            } else if (type === "currentlyPlaying") {
+              this.setState({
+                valueContext: {
+                  ...this.state.valueContext,
+                  currentlyPlaying: res
+                }
+              });
+            } else {
+              if (!res.error) return this.setState({ [type]: res });
+            }
+          })
+          .catch(err => err.reason);
+      })
+      .catch(err => console.error(err));
 }
 
 // fetch("https://api.spotify.com/v1/browse/featured-playlists", {

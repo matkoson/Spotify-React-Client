@@ -69,7 +69,7 @@ class PlayerBar extends PureComponent {
         this.playbackSDKinterval();
       }
     } else if (this.props.recent) {
-      console.log("PLAYER-BAR, PROCESSING RECENT");
+      // console.log("PLAYER-BAR, PROCESSING RECENT");
       this.processRecent();
     }
   }

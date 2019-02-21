@@ -27,7 +27,7 @@ class RecentlyPlayed extends Component {
             key={e.played_at}
             className="recently-played__element"
             onClick={() => {
-              console.log("ele", e);
+              // console.log("ele", e);
               if (this.props.player) {
                 this.props.APIrequest("playRecentTracks", {
                   cx: e.track.uri

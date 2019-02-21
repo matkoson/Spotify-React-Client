@@ -125,7 +125,7 @@ class Album extends React.Component {
           <div
             data-album_uri={uri}
             onClick={e => {
-              console.log(e.currentTarget.dataset.album_uri);
+              // console.log(e.currentTarget.dataset.album_uri);
               context.APIrequest("playSpecificPlayback", {
                 cx: e.currentTarget.dataset.album_uri
               });

@@ -2,12 +2,10 @@ import React, { Component, Suspense, lazy } from "react";
 import "./Styles/Base/app.scss";
 import "./Styles/Components/left-tab.scss";
 import { Router, navigate } from "@reach/router";
-import Desktop from "./Components/Desktop/Desktop";
 import RightTab from "./Components/RightTab/RightTab";
 import "./assets/fonts/Rubik-Light.woff";
 import HomeScreen from "./Components/HomeScreen/HomeScreen";
 import PlayerBar from "./Components/PlayerBar/PlayerBar";
-import Library from "./Components/Library/Library";
 import cdnLoader from "./loadScript";
 import initSDK from "./APIconnection/initSDK";
 import { countryCodes } from "./assets/countries";
@@ -61,9 +59,19 @@ library.add(
   faReact,
   faSpinner
 );
+const Desktop =
+  window.innerView > 820
+    ? import("./Components/Desktop/Desktop")
+    : lazy(() => import("./Components/Desktop/Desktop"));
+const Mobile =
+  window.innerView > 820
+    ? import("./Components/Mobile/Mobile")
+    : lazy(() => import("./Components/Mobile/Mobile"));
 // import Mobile from "./Components/Mobile/Mobile";
-const Mobile = lazy(() => import("./Components/Mobile/Mobile"));
+// const Mobile = lazy(() => import("./Components/Mobile/Mobile"));
 // import Charts from "./Components/Charts/Charts";
+// import Library from "./Components/Library/Library";
+const Library = lazy(() => import("./Components/Library/Library"));
 const Charts = lazy(() => import("./Components/Charts/Charts"));
 // import Album from "./Components/Album/Album";
 const Album = lazy(() => import("./Components/Album/Album"));
@@ -237,26 +245,30 @@ export default class App extends Component {
         <Provider value={this.state.valueContext}>
           <Suspense fallback={<div>Loading...</div>}>
             <div path="/*" className="left-tab">
-              <Mobile
-                path="/*"
-                handleMainRightChange={this.handleMainRightChange}
-                handleMobileNavToggle={this.handleMobileNavToggle}
-                mobile={this.state.mobile}
-              />
-              <Desktop
-                path="/*"
-                handleNavClick={this.handleNavClick}
-                handleMainRightChange={this.handleMainRightChange}
-              >
-                <RecentlyPlayed
+              {window.innerWidth <= 820 && (
+                <Mobile
+                  path="/*"
+                  handleMainRightChange={this.handleMainRightChange}
+                  handleMobileNavToggle={this.handleMobileNavToggle}
+                  mobile={this.state.mobile}
+                />
+              )}
+              {window.innerWidth > 820 && (
+                <Desktop
                   path="/*"
                   handleNavClick={this.handleNavClick}
-                  rawRecPlayed={this.state.recentlyPlayed}
-                  player={this.player}
-                  //
-                  APIrequest={this.playerRequest}
-                />
-              </Desktop>
+                  handleMainRightChange={this.handleMainRightChange}
+                >
+                  <RecentlyPlayed
+                    path="/*"
+                    handleNavClick={this.handleNavClick}
+                    rawRecPlayed={this.state.recentlyPlayed}
+                    player={this.player}
+                    //
+                    APIrequest={this.playerRequest}
+                  />
+                </Desktop>
+              )}
             </div>
             {/*  */}
             {/*  */}
