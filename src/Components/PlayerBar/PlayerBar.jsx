@@ -1,12 +1,14 @@
-import React, { PureComponent } from "react";
-import DeviceTab from "./InnerComps/DeviceTab";
-import AlbumDetails from "./InnerComps/AlbumDetails";
+import React, { PureComponent, lazy } from "react";
 import PlayerControls from "./InnerComps/PlayerControls";
 import SideControls from "./InnerComps/SideControls";
 import { Context } from "../../Context/Context";
-import "../../Styles/Base/app.scss";
+// import "../../Styles/Base/app.scss";
 import "../../Styles/Components/player-bar.scss";
 
+const DeviceTab = lazy(() => import("./InnerComps/DeviceTab"));
+// import DeviceTab from "./InnerComps/DeviceTab";
+const AlbumDetails = lazy(() => import("./InnerComps/AlbumDetails"));
+// import AlbumDetails from "./InnerComps/AlbumDetails";
 const getPerc = (progressTime, totalTime) =>
   100 - (progressTime / totalTime) * 100;
 let totalTime, progressTime;
@@ -32,15 +34,37 @@ class PlayerBar extends PureComponent {
     this.repeatMode = ["off", "context", "track"];
 
     //
-    this.handleMute = this.handleMute.bind(this);
+    // this.handleMute = this.handleMute.bind(this);
     this.processRecent = this.processRecent.bind(this);
-    this.handlePausePlay = this.handlePausePlay.bind(this);
-    this.handleRangeChange = this.handleRangeChange.bind(this);
-    this.playbackSDKinterval = this.playbackSDKinterval.bind(this);
-    this.handleRepeatModeChange = this.handleRepeatModeChange.bind(this);
+    // this.state.handlePausePlay = this.state.handlePausePlay.bind(this);
+    // this.state.handleRangeChange = this.state.handleRangeChange.bind(this);
+    // this.playbackSDKinterval = this.playbackSDKinterval.bind(this);
+    // this.state.handleRepeatModeChange = this.state.handleRepeatModeChange.bind(this);
   }
-  componentDidMount() {
+  async componentDidMount() {
     if (this.props.recent) this.processRecent();
+    const playbackSDKinterval = await import("./lazyMethods/lazyPlaybackSDKinterval").then(
+      res => res.default
+    );
+    const handleRangeChange = await import("./lazyMethods/lazyHandleRangeChange").then(
+      res => res.default
+    );
+    const handlePausePlay = await import("./lazyMethods/lazyHandlePausePlay").then(
+      res => res.default
+    );
+    const handleRepeatModeChange = await import("./lazyMethods/lazyHandleRepeatModeChange").then(
+      res => res.default
+    );
+    const handleMute = await import("./lazyMethods/lazyHandleMute").then(
+      res => res.default
+    );
+    this.setState({
+      playbackSDKinterval: playbackSDKinterval.bind(this),
+      handleRangeChange: handleRangeChange.bind(this),
+      handlePausePlay: handlePausePlay.bind(this),
+      handleRepeatModeChange: handleRepeatModeChange.bind(this),
+      handleMute: handleMute.bind(this)
+    });
   }
   processRecent() {
     const lastTrack = this.props.recent.track;
@@ -74,121 +98,7 @@ class PlayerBar extends PureComponent {
     }
   }
 
-  playbackSDKinterval() {
-    this.playbackSDK = setInterval(() => {
-      this.player.getCurrentState().then(state => {
-        if (state) {
-          console.log("SDK updated, state:", state);
-          const trackPlaying = state.track_window.current_track;
-          const songTitle =
-            trackPlaying.name.length >= 32
-              ? `${trackPlaying.name.slice(0, 29)}...`
-              : trackPlaying.name;
-          return this.setState(prevState => {
-            // console.log("state", state, "prevState", prevState);
-            if (prevState.songTitle !== trackPlaying.name) {
-              this.context.APIrequest("currentlyPlaying");
-            }
-            return {
-              albumImage: trackPlaying.album.images[0].url, //1
-              songTitle, //2
-              artistName: trackPlaying.artists[0].name, //3
-              repeatMode: this.repeatMode[state.repeat_mode], //4
-              rawTrackTime: trackPlaying.duration_ms, //5
-              rawTrackProgress: state.position, //6
-              processedProgress: this.context.getMinsSecs(
-                prevState && prevState.rawTrackProgress
-              ),
-              paused: state.paused,
-              shuffled: state.shuffle
-            };
-          });
-        } else {
-          console.log("No playback on SDK");
-          clearInterval(this.playbackSDK);
-          this.playbackSDK = null;
-        }
-      });
-    }, 1000);
-  }
-
-  handleMute() {
-    this.setState({ muted: !this.state.muted });
-  }
-
-  handlePausePlay(e) {
-    // console.log(this.playbackSDK, this.props.recent, "recent");
-    if (this.player) {
-      if (!this.playbackSDK) {
-        this.context.APIrequest("playRecentTracks", {
-          cx: this.props.recent.track.uri
-        });
-      } else {
-        if (this.state.paused) {
-          this.player.resume().then(() => {
-            this.setState({ paused: false });
-
-            this.context.APIrequest("currentlyPlaying");
-          });
-        } else {
-          this.player.pause().then(() => {
-            this.context.APIrequest("currentlyPlaying");
-            this.setState({ paused: true });
-          });
-        }
-      }
-    }
-  }
-
-  handleRangeChange(e) {
-    //handle onClick changes on progress/volume-bar
-    console.log(e.currentTarget.id);
-    const targetId = e.currentTarget.id;
-    const targetMeasure = e.target.getBoundingClientRect();
-    const beginning = targetMeasure.left;
-    const end = targetMeasure.left + targetMeasure.width;
-    const eventMeasure = e.clientX;
-    let desiredProg;
-    //
-    if (this.player) {
-      if (targetId === "progress-bar") {
-        desiredProg = ((eventMeasure - beginning) / (end - beginning)) * 100;
-        const desiredMs =
-          Math.round(desiredProg * this.state.rawTrackTime) / 100;
-        console.log(desiredProg);
-        this.player
-          .seek(desiredMs)
-          .then(() =>
-            this.player
-              .getCurrentState()
-              .then(state =>
-                this.setState({ rawTrackProgress: state && state.position })
-              )
-          );
-      } else if (targetId === "volume-bar") {
-        desiredProg =
-          Math.round(((eventMeasure - beginning) / (end - beginning)) * 100) /
-          100;
-        this.player.setVolume(desiredProg).then(() => {
-          return this.player.getVolume().then(vol => {
-            return this.setState({ volumePercentage: vol * 100 }); //7
-          });
-        });
-      }
-    }
-  }
-  handleRepeatModeChange(e) {
-    if (this.playbackSDK) {
-      const currentI = this.repeatMode.indexOf(this.state.repeatMode);
-      const current = this.repeatMode[(currentI + 1) % this.repeatMode.length];
-      console.log(current, this.state.repeatMode);
-      return this.context.APIrequest("setRepeat", { mode: current });
-    }
-  }
-
   render() {
-    // console.log("PLAYER CONTEXT", this.context);
-    //
     let {
       rawTrackProgress,
       rawTrackTime,
@@ -215,23 +125,23 @@ class PlayerBar extends PureComponent {
         />
         <PlayerControls
           shuffled={this.state.shuffled}
-          handlePausePlay={this.handlePausePlay}
+          handlePausePlay={this.state.handlePausePlay}
           paused={this.state.paused}
           playbackSDK={this.playbackSDK}
           player={this.player}
           repeatMode={repeatMode}
-          handleRepeatModeChange={this.handleRepeatModeChange}
+          handleRepeatModeChange={this.state.handleRepeatModeChange}
           progressTime={progressTime}
-          handleRangeChange={this.handleRangeChange}
+          handleRangeChange={this.state.handleRangeChange}
           progressPercentage={progressPercentage}
           totalTime={totalTime}
         />
         <SideControls
           isDeviceTabOn={this.props.isDeviceTabOn}
           handleDeviceTabClick={this.props.handleDeviceTabClick}
-          handleRangeChange={this.handleRangeChange}
+          handleRangeChange={this.state.handleRangeChange}
           volumePercentage={volumePercentage}
-          handleMute={this.handleMute}
+          // handleMute={this.state.handleMute}
           muted={this.state.muted}
         >
           {this.props.isDeviceTabOn && (
@@ -245,3 +155,103 @@ class PlayerBar extends PureComponent {
 PlayerBar.contextType = Context;
 
 export default PlayerBar;
+
+// playbackSDKinterval() {
+//   this.playbackSDK = setInterval(() => {
+//     this.player.getCurrentState().then(state => {
+//       if (state) {
+//         console.log("SDK updated, state:", state);
+//         const trackPlaying = state.track_window.current_track;
+//         const songTitle =
+//           trackPlaying.name.length >= 32
+//             ? `${trackPlaying.name.slice(0, 29)}...`
+//             : trackPlaying.name;
+//         return this.setState(prevState => {
+//           // console.log("state", state, "prevState", prevState);
+//           if (prevState.songTitle !== trackPlaying.name) {
+//             this.context.APIrequest("currentlyPlaying");
+//           }
+//           return {
+//             albumImage: trackPlaying.album.images[0].url, //1
+//             songTitle, //2
+//             artistName: trackPlaying.artists[0].name, //3
+//             repeatMode: this.repeatMode[state.repeat_mode], //4
+//             rawTrackTime: trackPlaying.duration_ms, //5
+//             rawTrackProgress: state.position, //6
+//             processedProgress: this.context.getMinsSecs(
+//               prevState && prevState.rawTrackProgress
+//             ),
+//             paused: state.paused,
+//             shuffled: state.shuffle
+//           };
+//         });
+//       } else {
+//         console.log("No playback on SDK");
+//         clearInterval(this.playbackSDK);
+//         this.playbackSDK = null;
+//       }
+//     });
+//   }, 1000);
+// }
+
+// handleRangeChange(e) {
+//   //handle onClick changes on progress/volume-bar
+//   console.log(e.currentTarget.id);
+//   const targetId = e.currentTarget.id;
+//   const targetMeasure = e.target.getBoundingClientRect();
+//   const beginning = targetMeasure.left;
+//   const end = targetMeasure.left + targetMeasure.width;
+//   const eventMeasure = e.clientX;
+//   let desiredProg;
+//   //
+//   if (this.player) {
+//     if (targetId === "progress-bar") {
+//       desiredProg = ((eventMeasure - beginning) / (end - beginning)) * 100;
+//       const desiredMs =
+//         Math.round(desiredProg * this.state.rawTrackTime) / 100;
+//       console.log(desiredProg);
+//       this.player
+//         .seek(desiredMs)
+//         .then(() =>
+//           this.player
+//             .getCurrentState()
+//             .then(state =>
+//               this.setState({ rawTrackProgress: state && state.position })
+//             )
+//         );
+//     } else if (targetId === "volume-bar") {
+//       desiredProg =
+//         Math.round(((eventMeasure - beginning) / (end - beginning)) * 100) /
+//         100;
+//       this.player.setVolume(desiredProg).then(() => {
+//         return this.player.getVolume().then(vol => {
+//           return this.setState({ volumePercentage: vol * 100 }); //7
+//         });
+//       });
+//     }
+//   }
+// }
+
+// handlePausePlay(e) {
+//   // console.log(this.playbackSDK, this.props.recent, "recent");
+//   if (this.player) {
+//     if (!this.playbackSDK) {
+//       this.context.APIrequest("playRecentTracks", {
+//         cx: this.props.recent.track.uri
+//       });
+//     } else {
+//       if (this.state.paused) {
+//         this.player.resume().then(() => {
+//           this.setState({ paused: false });
+
+//           this.context.APIrequest("currentlyPlaying");
+//         });
+//       } else {
+//         this.player.pause().then(() => {
+//           this.context.APIrequest("currentlyPlaying");
+//           this.setState({ paused: true });
+//         });
+//       }
+//     }
+//   }
+// }

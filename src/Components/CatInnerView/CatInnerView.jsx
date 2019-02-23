@@ -7,9 +7,6 @@ class CatInnerView extends React.Component {
     super(props);
     this.generateInnerView = this.generateInnerView.bind(this);
   }
-  componentDidMount() {
-    // console.log("inner props", this.props);
-  }
   generateInnerView() {}
   render() {
     let categoryIcon, categoryName, catRender;
@@ -20,9 +17,6 @@ class CatInnerView extends React.Component {
         <ContainerGenerator
           data={this.props.PolandTop.playlists.items}
           type={"playlists"}
-          playerState={this.props.playerState}
-          APIrequest={this.props.APIrequest}
-          currPlay={this.props.currentlyPlaying}
         />
       );
     }

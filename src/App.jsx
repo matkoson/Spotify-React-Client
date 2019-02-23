@@ -3,17 +3,6 @@ import { Router, navigate } from "@reach/router";
 import RightTab from "./Components/RightTab/RightTab";
 import PlayerBar from "./Components/PlayerBar/PlayerBar";
 import cdnLoader from "./loadScript";
-import { countryCodes } from "./assets/countries";
-import {
-  handleNavClick,
-  handleDeviceTabClick,
-  handleResize,
-  gradientCarousel,
-  handleMainRightViewChange,
-  handleMainRightChange,
-  handleAlbumRightOverride,
-  handleMobileNavToggle
-} from "./AppMethods/AppMethods";
 import {
   setToken,
   getToken,
@@ -24,7 +13,6 @@ import {
   getContentFromMultiArtists
 } from "./APIconnection/APImethods";
 import { Provider } from "./Context/Context";
-
 import { library } from "@fortawesome/fontawesome-svg-core";
 import {
   faPlay,
@@ -43,7 +31,6 @@ import { faReact } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import initSDK from "./APIconnection/initSDK";
 import HomeScreen from "./Components/HomeScreen/HomeScreen";
-
 library.add(
   faPlay,
   faPause,
@@ -60,9 +47,6 @@ library.add(
 );
 import("./Styles/Components/left-tab.scss");
 import("./Styles/Base/app.scss");
-// const FontAwesomeIcon = import("@fortawesome/react-fontawesome");
-// const HomeScreen = import("./Components/HomeScreen/HomeScreen");
-
 const Desktop =
   window.innerView > 820
     ? import("./Components/Desktop/Desktop")
@@ -71,37 +55,22 @@ const Mobile =
   window.innerView > 820
     ? import("./Components/Mobile/Mobile")
     : lazy(() => import("./Components/Mobile/Mobile"));
-// import Mobile from "./Components/Mobile/Mobile";
-// const Mobile = lazy(() => import("./Components/Mobile/Mobile"));
-// import Charts from "./Components/Charts/Charts";
-// import Library from "./Components/Library/Library";
-const Library = lazy(() => import("./Components/Library/Library"));
 const Charts = lazy(() => import("./Components/Charts/Charts"));
-// import Album from "./Components/Album/Album";
 const Album = lazy(() => import("./Components/Album/Album"));
-// import Genres from "./Components/Genres/Genres";
+const Library = lazy(() => import("./Components/Library/Library"));
 const Genres = lazy(() => import("./Components/Genres/Genres"));
-// import NewReleases from "./Components/NewReleases/NewReleases";
 const NewReleases = lazy(() => import("./Components/NewReleases/NewReleases"));
-// import Discover from "./Components/Discover/Discover";
 const Discover = lazy(() => import("./Components/Discover/Discover"));
-// import Search from "./Components/Search/Search";
 const Search = lazy(() => import("./Components/Search/Search"));
-// import CatInnerView from "./Components/CatInnerView/CatInnerView";
 const CatInnerView = lazy(() =>
   import("./Components/CatInnerView/CatInnerView")
 );
-// import RecentlyPlayed from "./Components/RecentlyPlayed/RecentlyPlayed";
 const RecentlyPlayed = lazy(() =>
   import("./Components/RecentlyPlayed/RecentlyPlayed")
 );
-
 export default class App extends Component {
   constructor(props) {
     super(props);
-    //
-    //
-    //
     this.clientID = "25be93ebc6a047cfbf6ed82187d766b4";
     this.initSDK = initSDK.bind(this);
     this.setToken = setToken.bind(this);
@@ -109,17 +78,9 @@ export default class App extends Component {
     this.getRecent = getRecent.bind(this);
     this.getFtrdPlay = getFtrdPlay.bind(this);
     this.getTopArtist = getTopArtist.bind(this);
-    this.handleResize = handleResize.bind(this);
     this.getMinsSecs = this.getMinsSecs.bind(this);
     this.playerRequest = playerRequest.bind(this);
-    this.handleNavClick = handleNavClick.bind(this);
-    this.gradientCarousel = gradientCarousel.bind(this);
-    this.handleMobileNavToggle = handleMobileNavToggle.bind(this);
-    this.handleAlbumRightOverride = handleAlbumRightOverride.bind(this);
-    this.handleMainRightChange = handleMainRightChange.bind(this);
-    this.handleDeviceTabClick = handleDeviceTabClick.bind(this);
     this.getContentFromMultiArtists = getContentFromMultiArtists.bind(this);
-    this.handleMainRightViewChange = handleMainRightViewChange.bind(this);
     this.gradientArr = [
       "linear-gradient(105deg, rgba(67,13,107,1) 25%, #282828 56%);",
       "linear-gradient(105deg, rgba(13,28,107,1) 25%, #282828 56%)",
@@ -131,7 +92,6 @@ export default class App extends Component {
       "linear-gradient(105deg, rgba(81,52,79,1) 25%, #282828 56%)",
       "linear-gradient(105deg, rgba(107,13,20,1) 25%, #282828 56%)"
     ];
-    // this.countryCodes = countryCodes;
     this.state = {
       alreadyViewed: [],
       mobile: false,
@@ -166,20 +126,55 @@ export default class App extends Component {
       valueContext: {
         playerState: "",
         APIrequest: this.playerRequest,
-        handleAlbumRightOverride: this.handleAlbumRightOverride,
         currentlyPlaying: "",
-        getMinsSecs: this.getMinsSecs,
-        handleMainRightViewChange: this.handleMainRightViewChange
+        getMinsSecs: this.getMinsSecs
       }
     };
     this.homeRef = React.createRef();
   }
-  componentDidMount() {
+  async componentDidMount() {
+    const handleNavClick = await import("./AppMethods/lazyHandleNavClick").then(
+      res => res.default.bind(this)
+    );
+    const handleMainRightChange = await import("./AppMethods/lazyHandleMainRightChange").then(
+      res => res.default.bind(this)
+    );
+    const handleAlbumRightOverride = await import("./AppMethods/lazyHandleAlbumRightOverride").then(
+      res => res.default.bind(this)
+    );
+    const handleMainRightViewChange = await import("./AppMethods/lazyHandleMainRightViewChange").then(
+      res => res.default.bind(this)
+    );
+    const countryCodes = await import("./assets/countries").then(res =>
+      res.default()
+    );
+    const handleDeviceTabClick = await import("./AppMethods/lazyHandleDeviceTabClick").then(
+      res => res.default.bind(this)
+    );
+    const handleResize = await import("./AppMethods/lazyHandleResize").then(
+      res => res.default.bind(this)
+    );
+    const handleMobileNavToggle = await import("./AppMethods/lazyHandleMobileNavToggle").then(
+      res => res.default.bind(this)
+    );
+    console.log(countryCodes);
+    this.setState({
+      handleNavClick,
+      countryCodes,
+      handleDeviceTabClick,
+      handleResize,
+      handleMobileNavToggle,
+      handleMainRightChange,
+      valueContext: {
+        ...this.state.valueContext,
+        handleAlbumRightOverride,
+        handleMainRightViewChange
+      }
+    });
     import("./fontBundle");
     if (this.state.mainRightView === "Home" && this.homeRef.current)
       this.homeRef.current.scrollIntoView();
-    // this.gradientCarousel();
-    window.addEventListener("resize", this.handleResize);
+    window.addEventListener("resize", this.state.handleResize);
     //Initiate Spotify SDK Player through cdn script
     cdnLoader({
       src: "https://sdk.scdn.co/spotify-player.js",
@@ -191,8 +186,6 @@ export default class App extends Component {
         });
       }
     });
-    //
-    //
     const currAd = window.location.href;
     if (/callback/.test(currAd)) {
       this.setToken(currAd);
@@ -266,66 +259,59 @@ export default class App extends Component {
               {window.innerWidth <= 820 && (
                 <Mobile
                   path="/*"
-                  handleMainRightChange={this.handleMainRightChange}
-                  handleMobileNavToggle={this.handleMobileNavToggle}
+                  handleMainRightChange={this.state.handleMainRightChange}
+                  handleMobileNavToggle={this.state.handleMobileNavToggle}
                   mobile={this.state.mobile}
                 />
               )}
               {window.innerWidth > 820 && (
                 <Desktop
                   path="/*"
-                  handleNavClick={this.handleNavClick}
-                  handleMainRightChange={this.handleMainRightChange}
+                  handleNavClick={this.state.handleNavClick}
+                  handleMainRightChange={this.state.handleMainRightChange}
                 >
                   <RecentlyPlayed
                     path="/*"
-                    handleNavClick={this.handleNavClick}
+                    handleNavClick={this.state.handleNavClick}
                     rawRecPlayed={this.state.recentlyPlayed}
                     player={this.player}
-                    //
                     APIrequest={this.playerRequest}
                   />
                 </Desktop>
               )}
             </div>
-            {/*  */}
-            {/*  */}
-            {/*  */}
-
             <Router primary={false}>
               <RightTab
                 path="home"
                 mobile={this.state.mobile}
-                handleNavClick={this.handleNavClick}
+                handleNavClick={this.state.handleNavClick}
                 className="right-tab"
               >
-                <HomeScreen //refactored
+                <HomeScreen
                   path="/"
                   featured={this.state.featured}
                   recent={this.state.recentlyPlayed}
                   relatedTop={this.state.topRelatedArtists}
                   topArtist={this.state.topArtist}
                   player={this.player}
-                  //
                 />
-                <Charts //refactored
+                <Charts
                   path="charts"
                   getCategories={this.state.getCategories}
                   getCategoryPlaylists={this.state.getCategoryPlaylists}
                   PolandTop={this.state.PolandTop}
-                  countryCodes={countryCodes}
-                  //
+                  countryCodes={this.state.countryCodes}
                 />
-                <Genres //refactored
+                <Genres
                   path="genres-moods"
                   getCategories={this.state.getCategories}
                   //
                 />
-                <NewReleases //refactored
+                <NewReleases
                   path="new-releases"
                   getNewReleases={this.state.getNewReleases}
                 />
-                <Discover //refactored
+                <Discover
                   path="discover"
                   getMultipleArtistAlbums={this.state.getMultipleArtistAlbums}
                   idList={
@@ -334,22 +320,16 @@ export default class App extends Component {
                   }
                 />
               </RightTab>
-
-              {/*  */}
-              {/*  */}
-              {/*  */}
               <Search
                 path="search"
                 searchQuery={this.state.searchQuery}
                 player={this.player}
-                //
               />
               <Library
-                path="library" //refactored
+                path="library"
                 getUserPlaylists={this.state.getUserPlaylists}
                 getUserSavedAlbums={this.state.getUserSavedAlbums}
                 getUserSavedTracks={this.state.getUserSavedTracks}
-                //
               />
               <Album
                 path="album"
@@ -365,27 +345,19 @@ export default class App extends Component {
                 PolandTop={this.state.PolandTop}
                 getCategory={this.state.getCategory}
                 getCategoryPlaylists={this.state.getCategoryPlaylists}
-                //
-                currentlyPlaying={this.state.currentlyPlaying}
-                playerState={this.state.playerState}
-                APIrequest={this.playerRequest}
               />
-              {/*  */}
-              {/*  */}
-              {/*  */}
             </Router>
             <PlayerBar
-              path="/*" //refactored
+              path="/*"
               recent={
                 this.state.recentlyPlayed && this.state.recentlyPlayed.items[0]
               }
-              handleDeviceTabClick={this.handleDeviceTabClick}
+              handleDeviceTabClick={this.state.handleDeviceTabClick}
               isDeviceTabOn={this.state.deviceTabOn}
               player={this.player}
               deviceId={this.state.deviceID}
               deviceName={this.state.deviceName}
               currentPlayback={this.state.currentPlayback}
-              // + context
             />
           </Suspense>
         </Provider>
