@@ -1,0 +1,48 @@
+@font-face {
+  font-family: "Horizon-Regular";
+  src: local("Horizon-Regular"), url("../../assets/fonts/Horizon-Regular.woff") format("woff");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Anodina-Light";
+  src: local("Anodina-Light"), url("../../assets/fonts/Anodina-Light.woff") format("woff");
+  font-display: swap;
+}
+@font-face {
+  font-family: "Anodina-ExtraLight";
+  src: local("Anodina-ExtraLight"), url("../../assets/fonts/Anodina-ExtraLight.woff") format("woff");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "SpaceGrotesk-SemiBold";
+  src: local("SpaceGrotesk-SemiBold"), url("../../assets/fonts/SpaceGrotesk-SemiBold.woff") format("woff");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "SpaceGrotesk-Bold";
+  src: local("SpaceGrotesk-Bold"), url("../../assets/fonts/SpaceGrotesk-Bold.woff") format("woff");
+  font-display: swap;
+}
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+.app {
+  &--hover {
+    transform: scale(1.2);
+    border-radius: 50%;
+    border: 1px solid white;
+    z-index: 1;
+  }
+  &__rounded-album {
+    border-radius: 50%;
+    overflow: hidden;
+  }
+}

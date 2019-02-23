@@ -20,7 +20,7 @@ export default function Mobile(props) {
     { name: "Library", src: lib }
   ].map(e => (
     <Link
-      to={e.name.toLocaleLowerCase()}
+      to={process.env.PUBLIC_URL + "/" + e.name.toLocaleLowerCase()}
       className="mobile__nav__ul__li"
       onClick={() => {
         handleMainRightChange(e.name);

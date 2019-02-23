@@ -1,0 +1,35 @@
+@import "../Base/_mixins";
+.generator {
+  &__playlist-element {
+    &__title:hover {
+      cursor: pointer;
+    }
+    &__img {
+      &--hover {
+        margin-bottom: 3%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        transition-duration: 0.5s;
+        border-radius: 10px;
+        overflow: hidden;
+        @include atXLarge {
+          width: 250px;
+          height: 250px;
+        }
+      }
+      &__overlay--hover {
+        background-color: #0000;
+        filter: brightness(50%);
+        width: inherit;
+        height: inherit;
+        max-height: 300px;
+      }
+      &--click {
+        transform: scale(0.8);
+        transition-duration: 0.5s;
+      }
+    }
+  }
+}

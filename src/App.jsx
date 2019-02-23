@@ -45,8 +45,9 @@ library.add(
   faReact,
   faSpinner
 );
-import("./Styles/Components/left-tab.scss");
-import("./Styles/Base/app.scss");
+lazy(import("./Styles/Components/left-tab.scss"));
+lazy(import("./Styles/Base/app.scss"));
+lazy(import("./Styles/Base/appLazy.scss"));
 const Desktop =
   window.innerView > 820
     ? import("./Components/Desktop/Desktop")
@@ -132,41 +133,45 @@ export default class App extends Component {
     };
     this.homeRef = React.createRef();
   }
-  async componentDidMount() {
+  componentDidMount() {
+    console.log(window.lcoation.href);
     let handleNavClick,
       handleMainRightChange,
       handleAlbumRightOverride,
       handleMainRightViewChange,
-      countryCodes,
       handleDeviceTabClick,
       handleResize,
       handleMobileNavToggle;
-    await import("./AppMethods").then(res => {
-      handleNavClick = res.handleNavClick.bind(this);
-      handleMainRightChange = res.handleMainRightChange.bind(this);
-      handleAlbumRightOverride = res.handleAlbumRightOverride.bind(this);
-      handleMainRightViewChange = res.handleMainRightViewChange.bind(this);
-      handleDeviceTabClick = res.handleDeviceTabClick.bind(this);
-      handleResize = res.handleResize.bind(this);
-      handleMobileNavToggle = res.handleMobileNavToggle.bind(this);
-    });
-    await import("./assets/countries").then(
-      res => (countryCodes = res.default())
+    lazy(
+      import("./AppMethods/AppMethods").then(res => {
+        console.log("PROMISED", res);
+        handleNavClick = res.handleNavClick.bind(this);
+        handleMainRightChange = res.handleMainRightChange.bind(this);
+        handleAlbumRightOverride = res.handleAlbumRightOverride.bind(this);
+        handleMainRightViewChange = res.handleMainRightViewChange.bind(this);
+        handleDeviceTabClick = res.handleDeviceTabClick.bind(this);
+        handleResize = res.handleResize.bind(this);
+        handleMobileNavToggle = res.handleMobileNavToggle.bind(this);
+        return this.setState({
+          handleNavClick,
+          handleDeviceTabClick,
+          handleResize,
+          handleMobileNavToggle,
+          handleMainRightChange,
+          valueContext: {
+            ...this.state.valueContext,
+            handleAlbumRightOverride,
+            handleMainRightViewChange
+          }
+        });
+      })
     );
-    this.setState({
-      handleNavClick,
-      countryCodes,
-      handleDeviceTabClick,
-      handleResize,
-      handleMobileNavToggle,
-      handleMainRightChange,
-      valueContext: {
-        ...this.state.valueContext,
-        handleAlbumRightOverride,
-        handleMainRightViewChange
-      }
-    });
-    import("./fontBundle");
+    lazy(
+      import("./assets/countries").then(res => {
+        return this.setState({ countryCodes: res.default() });
+      })
+    );
+    // lazy(import("./fontBundle"));
     if (this.state.mainRightView === "Home" && this.homeRef.current)
       this.homeRef.current.scrollIntoView();
     window.addEventListener("resize", this.state.handleResize);
@@ -182,7 +187,7 @@ export default class App extends Component {
       }
     });
     const currAd = window.location.href;
-    if (/callback/.test(currAd)) {
+    if (/access_token/.test(currAd)) {
       this.setToken(currAd);
       navigate("home");
       if (this.state.SDK) {
@@ -220,7 +225,7 @@ export default class App extends Component {
   render() {
     return (
       <main
-        path="/"
+        path={process.env.PUBLIC_URL + "/"}
         ref={this.homeRef}
         className="app"
         style={{
@@ -250,10 +255,10 @@ export default class App extends Component {
               />
             }
           >
-            <div path="/*" className="left-tab">
+            <div path={process.env.PUBLIC_URL + "/*"} className="left-tab">
               {window.innerWidth <= 820 && (
                 <Mobile
-                  path="/*"
+                  path={process.env.PUBLIC_URL + "/*"}
                   handleMainRightChange={this.state.handleMainRightChange}
                   handleMobileNavToggle={this.state.handleMobileNavToggle}
                   mobile={this.state.mobile}
@@ -261,12 +266,12 @@ export default class App extends Component {
               )}
               {window.innerWidth > 820 && (
                 <Desktop
-                  path="/*"
+                  path={process.env.PUBLIC_URL + "/*"}
                   handleNavClick={this.state.handleNavClick}
                   handleMainRightChange={this.state.handleMainRightChange}
                 >
                   <RecentlyPlayed
-                    path="/*"
+                    path={process.env.PUBLIC_URL + "/*"}
                     handleNavClick={this.state.handleNavClick}
                     rawRecPlayed={this.state.recentlyPlayed}
                     player={this.player}
@@ -277,13 +282,13 @@ export default class App extends Component {
             </div>
             <Router primary={false}>
               <RightTab
-                path="home"
+                path={process.env.PUBLIC_URL + "/home"}
                 mobile={this.state.mobile}
                 handleNavClick={this.state.handleNavClick}
                 className="right-tab"
               >
                 <HomeScreen
-                  path="/"
+                  path={process.env.PUBLIC_URL + "/"}
                   featured={this.state.featured}
                   recent={this.state.recentlyPlayed}
                   relatedTop={this.state.topRelatedArtists}
@@ -291,23 +296,23 @@ export default class App extends Component {
                   player={this.player}
                 />
                 <Charts
-                  path="charts"
+                  path={process.env.PUBLIC_URL + "charts"}
                   getCategories={this.state.getCategories}
                   getCategoryPlaylists={this.state.getCategoryPlaylists}
                   PolandTop={this.state.PolandTop}
                   countryCodes={this.state.countryCodes}
                 />
                 <Genres
-                  path="genres-moods"
+                  path={process.env.PUBLIC_URL + "genres-moods"}
                   getCategories={this.state.getCategories}
                   //
                 />
                 <NewReleases
-                  path="new-releases"
+                  path={process.env.PUBLIC_URL + "new-releases"}
                   getNewReleases={this.state.getNewReleases}
                 />
                 <Discover
-                  path="discover"
+                  path={process.env.PUBLIC_URL + "discover"}
                   getMultipleArtistAlbums={this.state.getMultipleArtistAlbums}
                   idList={
                     this.state.topRelatedArtists &&
@@ -316,18 +321,18 @@ export default class App extends Component {
                 />
               </RightTab>
               <Search
-                path="search"
+                path={process.env.PUBLIC_URL + "/search"}
                 searchQuery={this.state.searchQuery}
                 player={this.player}
               />
               <Library
-                path="library"
+                path={process.env.PUBLIC_URL + "/library"}
                 getUserPlaylists={this.state.getUserPlaylists}
                 getUserSavedAlbums={this.state.getUserSavedAlbums}
                 getUserSavedTracks={this.state.getUserSavedTracks}
               />
               <Album
-                path="album"
+                path={process.env.PUBLIC_URL + "/album"}
                 ref={this.albumRef}
                 getAlbum={this.state.getAlbum}
                 getPlaylist={this.state.getPlaylist}
@@ -336,14 +341,14 @@ export default class App extends Component {
                 albumViewOption={this.state.albumViewOption}
               />
               <CatInnerView
-                path="category"
+                path={process.env.PUBLIC_URL + "/category"}
                 PolandTop={this.state.PolandTop}
                 getCategory={this.state.getCategory}
                 getCategoryPlaylists={this.state.getCategoryPlaylists}
               />
             </Router>
             <PlayerBar
-              path="/*"
+              path={process.env.PUBLIC_URL + "/*"}
               recent={
                 this.state.recentlyPlayed && this.state.recentlyPlayed.items[0]
               }

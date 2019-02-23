@@ -1,9 +1,10 @@
 @import "../Base/_variables";
 @import "../Base/_mixins";
-@import "generator.scss";
 
 .right-tab {
-  width: 100vw !important;
+  @include atMedium {
+    width: 100vw !important;
+  }
   &__right-nav {
     &__element {
       margin-right: 15px;

@@ -1,35 +1,6 @@
 @import "./_variables.scss";
 @import "./_mixins.scss";
 
-@font-face {
-  font-family: "Horizon-Regular";
-  src: local("Horizon-Regular"), url("../../assets/fonts/Horizon-Regular.woff") format("woff");
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Anodina-Light";
-  src: local("Anodina-Light"), url("../../assets/fonts/Anodina-Light.woff") format("woff");
-  font-display: swap;
-}
-@font-face {
-  font-family: "Anodina-ExtraLight";
-  src: local("Anodina-ExtraLight"), url("../../assets/fonts/Anodina-ExtraLight.woff") format("woff");
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "SpaceGrotesk-SemiBold";
-  src: local("SpaceGrotesk-SemiBold"), url("../../assets/fonts/SpaceGrotesk-SemiBold.woff") format("woff");
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "SpaceGrotesk-Bold";
-  src: local("SpaceGrotesk-Bold"), url("../../assets/fonts/SpaceGrotesk-Bold.woff") format("woff");
-  font-display: swap;
-}
-
 .generator {
   display: flex;
   flex-direction: column;
@@ -47,7 +18,6 @@
 .wrapper {
   width: calc(100vw - 240px);
   @include atMedium {
-    // margin-top: 208px;
     width: 95%;
     margin-right: auto;
     margin-left: auto;
@@ -55,7 +25,6 @@
 }
 .app {
   width: 100vw;
-  // height: 100vh;
   min-height: 100vh;
   max-width: 100%;
   display: flex;
@@ -135,18 +104,6 @@
     align-items: center;
     font-size: 1.8rem;
     z-index: 1;
-
-    &--hover {
-      transform: scale(1.2);
-      border-radius: 50%;
-      border: 1px solid white;
-      z-index: 1;
-    }
-  }
-
-  &__rounded-album {
-    border-radius: 50%;
-    overflow: hidden;
   }
 }
 

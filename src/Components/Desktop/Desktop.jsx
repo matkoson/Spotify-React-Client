@@ -29,7 +29,7 @@ export default function Desktop(props) {
       >
         {/*  */}
         <Link
-          to="search"
+          to={process.env.PUBLIC_URL + "/search"}
           className="desktop__app-nav__search desktop__app-nav__icon-text"
           onClick={() => {
             props.handleMainRightChange("Search");
@@ -46,7 +46,7 @@ export default function Desktop(props) {
         </Link>
         {/*  */}
         <Link
-          to="home"
+          to={process.env.PUBLIC_URL + "/home"}
           className="desktop__app-nav__home desktop__app-nav__icon-text desktop__app-nav__icon-text--clicked"
           onClick={() => {
             props.handleMainRightChange("Home");
@@ -59,7 +59,7 @@ export default function Desktop(props) {
         </Link>
         {/*  */}
         <Link
-          to="library"
+          to={process.env.PUBLIC_URL + "/library"}
           className="desktop__app-nav__library desktop__app-nav__icon-text"
           onClick={() => {
             props.handleMainRightChange("Library");

@@ -73,18 +73,6 @@
         width: inherit;
         height: inherit;
       }
-      &__overlay--hover {
-        background-color: #0000;
-        filter: brightness(50%);
-        position: relative;
-        bottom: 0;
-        width: inherit;
-        height: inherit;
-        @include abvLarge {
-          width: 300px;
-          height: 300px;
-        }
-      }
 
       &__pic {
         width: 100%;
@@ -103,44 +91,20 @@
           height: 300px;
         }
       }
-      &--click {
-        transform: scale(0.8);
-        transition-duration: 0.5s;
-      }
-      &--hover {
-        margin-bottom: 3%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        cursor: pointer;
-        transition-duration: 0.5s;
-        border-radius: 10px;
-        overflow: hidden;
-        @include atXLarge {
-          width: 250px;
-          height: 250px;
-        }
-      }
-      &--fake {
-        // width: 300px;
-        // height: 300px;
-        margin-bottom: 3%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        border-radius: 10px;
-        overflow: hidden;
-        opacity: 0.7;
-      }
     }
-
+    &--fake {
+      margin-bottom: 3%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 10px;
+      overflow: hidden;
+      opacity: 0.7;
+    }
     &__title {
       max-width: 100%;
       font-size: 12px;
       text-align: center;
-    }
-    &__title:hover {
-      cursor: pointer;
     }
 
     &__artists {

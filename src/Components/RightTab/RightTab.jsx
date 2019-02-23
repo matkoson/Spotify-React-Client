@@ -1,16 +1,12 @@
-import React, { useEffect, useRef } from "react";
+import React, { lazy } from "react";
 import { Link } from "@reach/router";
 import "../../Styles/Components/right-tab.scss";
-import "../../Styles/Base/app.scss";
+lazy(import("../../Styles/Components/generator.scss"));
+lazy(import("../../Styles/Components/generatorLazy.scss"));
+
 export default function RightTab(props) {
-  // const rightTabRef = useRef(null);
-  // console.log(rightTabRef.current);
-  // useEffect(() => rightTabRef.current.scrollIntoView());
   return (
-    <div
-      // style={{ width: "100vw" }}
-      className="right-tab app__right-container-generic__outer"
-    >
+    <div className="right-tab app__right-container-generic__outer">
       {!props.mobile && (
         <div
           onClick={e => props.handleNavClick(e, "right")}

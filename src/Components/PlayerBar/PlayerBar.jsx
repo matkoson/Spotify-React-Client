@@ -2,13 +2,10 @@ import React, { PureComponent, lazy } from "react";
 import PlayerControls from "./InnerComps/PlayerControls";
 import SideControls from "./InnerComps/SideControls";
 import { Context } from "../../Context/Context";
-// import "../../Styles/Base/app.scss";
 import "../../Styles/Components/player-bar.scss";
 
 const DeviceTab = lazy(() => import("./InnerComps/DeviceTab"));
-// import DeviceTab from "./InnerComps/DeviceTab";
 const AlbumDetails = lazy(() => import("./InnerComps/AlbumDetails"));
-// import AlbumDetails from "./InnerComps/AlbumDetails";
 const getPerc = (progressTime, totalTime) =>
   100 - (progressTime / totalTime) * 100;
 let totalTime, progressTime;
@@ -32,48 +29,38 @@ class PlayerBar extends PureComponent {
       muted: false
     };
     this.repeatMode = ["off", "context", "track"];
-
-    //
-    // this.handleMute = this.handleMute.bind(this);
     this.processRecent = this.processRecent.bind(this);
-    // this.state.handlePausePlay = this.state.handlePausePlay.bind(this);
-    // this.state.handleRangeChange = this.state.handleRangeChange.bind(this);
-    // this.playbackSDKinterval = this.playbackSDKinterval.bind(this);
-    // this.state.handleRepeatModeChange = this.state.handleRepeatModeChange.bind(this);
   }
-  async componentDidMount() {
+  componentDidMount() {
+    let playbackSDKinterval,
+      handleRangeChange,
+      handlePausePlay,
+      handleRepeatModeChange,
+      handleMute;
     if (this.props.recent) this.processRecent();
-    const playbackSDKinterval = await import("./lazyMethods/lazyPlaybackSDKinterval").then(
-      res => res.default
+    lazy(
+      import("./PlayerBarMethods").then(res => {
+        playbackSDKinterval = res.playbackSDKinterval.bind(this);
+        handleRangeChange = res.handleRangeChange.bind(this);
+        handlePausePlay = res.handlePausePlay.bind(this);
+        handleRepeatModeChange = res.handleRepeatModeChange.bind(this);
+        handleMute = res.handleMute.bind(this);
+        return this.setState({
+          playbackSDKinterval,
+          handleRangeChange,
+          handlePausePlay,
+          handleRepeatModeChange,
+          handleMute
+        });
+      })
     );
-    const handleRangeChange = await import("./lazyMethods/lazyHandleRangeChange").then(
-      res => res.default
-    );
-    const handlePausePlay = await import("./lazyMethods/lazyHandlePausePlay").then(
-      res => res.default
-    );
-    const handleRepeatModeChange = await import("./lazyMethods/lazyHandleRepeatModeChange").then(
-      res => res.default
-    );
-    const handleMute = await import("./lazyMethods/lazyHandleMute").then(
-      res => res.default
-    );
-    this.setState({
-      playbackSDKinterval: playbackSDKinterval.bind(this),
-      handleRangeChange: handleRangeChange.bind(this),
-      handlePausePlay: handlePausePlay.bind(this),
-      handleRepeatModeChange: handleRepeatModeChange.bind(this),
-      handleMute: handleMute.bind(this)
-    });
   }
   processRecent() {
     const lastTrack = this.props.recent.track;
-    // console.log(lastTrack, lastTrack.name);
     const songTitle =
       lastTrack.name.length >= 32
         ? `${lastTrack.name.slice(0, 29)}...`
         : lastTrack.name;
-    // console.log(lastTrack.name.length);
     this.setState({
       albumImage: lastTrack.album.images[0].url, //1
       songTitle, //2
@@ -141,7 +128,7 @@ class PlayerBar extends PureComponent {
           handleDeviceTabClick={this.props.handleDeviceTabClick}
           handleRangeChange={this.state.handleRangeChange}
           volumePercentage={volumePercentage}
-          // handleMute={this.state.handleMute}
+          handleMute={this.state.handleMute}
           muted={this.state.muted}
         >
           {this.props.isDeviceTabOn && (
