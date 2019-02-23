@@ -133,31 +133,26 @@ export default class App extends Component {
     this.homeRef = React.createRef();
   }
   async componentDidMount() {
-    const handleNavClick = await import("./AppMethods/lazyHandleNavClick").then(
-      res => res.default.bind(this)
+    let handleNavClick,
+      handleMainRightChange,
+      handleAlbumRightOverride,
+      handleMainRightViewChange,
+      countryCodes,
+      handleDeviceTabClick,
+      handleResize,
+      handleMobileNavToggle;
+    await import("./AppMethods").then(res => {
+      handleNavClick = res.handleNavClick.bind(this);
+      handleMainRightChange = res.handleMainRightChange.bind(this);
+      handleAlbumRightOverride = res.handleAlbumRightOverride.bind(this);
+      handleMainRightViewChange = res.handleMainRightViewChange.bind(this);
+      handleDeviceTabClick = res.handleDeviceTabClick.bind(this);
+      handleResize = res.handleResize.bind(this);
+      handleMobileNavToggle = res.handleMobileNavToggle.bind(this);
+    });
+    await import("./assets/countries").then(
+      res => (countryCodes = res.default())
     );
-    const handleMainRightChange = await import("./AppMethods/lazyHandleMainRightChange").then(
-      res => res.default.bind(this)
-    );
-    const handleAlbumRightOverride = await import("./AppMethods/lazyHandleAlbumRightOverride").then(
-      res => res.default.bind(this)
-    );
-    const handleMainRightViewChange = await import("./AppMethods/lazyHandleMainRightViewChange").then(
-      res => res.default.bind(this)
-    );
-    const countryCodes = await import("./assets/countries").then(res =>
-      res.default()
-    );
-    const handleDeviceTabClick = await import("./AppMethods/lazyHandleDeviceTabClick").then(
-      res => res.default.bind(this)
-    );
-    const handleResize = await import("./AppMethods/lazyHandleResize").then(
-      res => res.default.bind(this)
-    );
-    const handleMobileNavToggle = await import("./AppMethods/lazyHandleMobileNavToggle").then(
-      res => res.default.bind(this)
-    );
-    console.log(countryCodes);
     this.setState({
       handleNavClick,
       countryCodes,
