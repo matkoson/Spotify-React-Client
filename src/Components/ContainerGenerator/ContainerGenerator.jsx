@@ -1,10 +1,9 @@
-import React, { useState, Suspense } from "react";
+import React, { useState } from "react";
 import { Consumer } from "../../Context/Context";
 import { useSpring, animated, useTransition } from "react-spring";
 import { Link } from "@reach/router";
-import LazyLoad from "react-lazyload";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
+import { SimpleImg } from "react-simple-img";
 let name,
   image,
   key,
@@ -231,46 +230,26 @@ function ContainerGenerator(props) {
                   "generator__playlist-element__img__overlay")
               }
             >
-              <Suspense
-                fallback={
-                  <FontAwesomeIcon
-                    spin
-                    icon="spinner"
-                    style={{
-                      position: "absolute",
-                      top: `calc(50% - 100px)`,
-                      left: `calc(50% - 100px)`,
-                      height: "200px",
-                      width: "200px"
-                    }}
-                  />
+              <SimpleImg
+                className={
+                  !special
+                    ? "generator__playlist-element__img__pic"
+                    : "app__rounded-album generator__playlist-element__img__pic"
                 }
-              >
-                <LazyLoad
-                  height={imgMeasurements.height}
-                  offset={100}
-                  key={key || idS}
-                  once
-                >
-                  <img
-                    className={
-                      !special
-                        ? "generator__playlist-element__img__pic"
-                        : "app__rounded-album generator__playlist-element__img__pic"
-                    }
-                    onMouseLeave={e =>
-                      (e.target.className = !special
-                        ? "generator__playlist-element__img__pic"
-                        : "app__rounded-album generator__playlist-element__img__pic")
-                    }
-                    height={imgMeasurements.height}
-                    width={imgMeasurements.width}
-                    src={image}
-                    alt=""
-                    key={key || idS}
-                  />
-                </LazyLoad>
-              </Suspense>
+                onMouseLeave={e =>
+                  (e.target.className = !special
+                    ? "generator__playlist-element__img__pic"
+                    : "app__rounded-album generator__playlist-element__img__pic")
+                }
+                placeholder="#282828"
+                height={imgMeasurements.height}
+                width={imgMeasurements.width}
+                style={{ height: "100%", width: "100%" }}
+                src={image}
+                animationDuration={1}
+                alt=""
+                key={key || idS}
+              />
             </div>
           </div>
           {/*  */}
@@ -362,6 +341,7 @@ export default function ContainerGeneratorWithCx(props) {
           context={context}
           special={props.special}
           animate={props.animate}
+          importance={props.importance}
         />
       )}
     </Consumer>

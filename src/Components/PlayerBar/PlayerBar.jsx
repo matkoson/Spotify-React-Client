@@ -77,7 +77,7 @@ class PlayerBar extends PureComponent {
     //at first viable update, while SDK is still not acitve, display the info from the last played track
     if (this.context.playerState && this.context.playerState.bitrate) {
       if (!this.playbackSDK) {
-        this.playbackSDKinterval();
+        if (this.playbackSDKinterval) this.playbackSDKinterval();
       }
     } else if (this.props.recent) {
       // console.log("PLAYER-BAR, PROCESSING RECENT");
@@ -113,7 +113,7 @@ class PlayerBar extends PureComponent {
         <PlayerControls
           shuffled={this.state.shuffled}
           handlePausePlay={this.state.handlePausePlay}
-          paused={this.state.paused}
+          paused={this.context.playerState.paused}
           playbackSDK={this.playbackSDK}
           player={this.player}
           repeatMode={repeatMode}

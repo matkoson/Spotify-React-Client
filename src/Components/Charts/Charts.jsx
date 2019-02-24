@@ -2,7 +2,6 @@ import React, { useEffect, useContext } from "react";
 import ContainerGenerator from "../ContainerGenerator/ContainerGenerator";
 import HeadlineAnimator from "../Helpers/HeadlineAnimator";
 import { Context } from "../../Context/Context";
-import LazyLoad from "react-lazyload";
 import "../../Styles/Base/app.scss";
 
 let headlines;
@@ -62,13 +61,11 @@ function renderCharts(props) {
         );
       });
     countryTop = (
-      <LazyLoad throttle={1000}>
-        <ContainerGenerator
-          data={countryTop.slice(0, 5)}
-          type={"playlists"}
-          // animate={true}
-        />
-      </LazyLoad>
+      <ContainerGenerator
+        data={countryTop.slice(0, 5)}
+        type={"playlists"}
+        // animate={true}
+      />
     );
     hash = {}; //clearing hash
     countryViral = props.getCategoryPlaylists
@@ -81,13 +78,11 @@ function renderCharts(props) {
         return /^(?!.*(Global Viral)).*50$/.test(e.name) && hash[e.name] < 2;
       });
     countryViral = (
-      <LazyLoad throttle={1500}>
-        <ContainerGenerator
-          data={countryViral.slice(0, 5)}
-          type={"playlists"}
-          // animate={true}
-        />
-      </LazyLoad>
+      <ContainerGenerator
+        data={countryViral.slice(0, 5)}
+        type={"playlists"}
+        // animate={true}
+      />
     );
   }
   headlines = ["Featured Charts", "Top 50 by Country", "Viral 50 by Country"];
@@ -104,31 +99,20 @@ export default function Charts(props) {
   const { countryTop, countryViral, PolandTop } = renderCharts(props);
   return (
     <div className="generator">
-      <LazyLoad
-      // throttle={1000}
-      // offset={100}
+      <div
+        className="app__fetch-container generator__playlist-container"
+        style={{ minHeight: "100vh" }}
       >
-        {headlines[0]}
-        <div
-          className="app__fetch-container generator__playlist-container"
-          style={{ minHeight: "100vh" }}
-        >
-          {PolandTop || <ContainerGenerator />}
-        </div>
-      </LazyLoad>
-
-      <LazyLoad throttle={1000} offset={100}>
-        {headlines[1]}{" "}
-        <div className="app__fetch-container ">
-          {countryTop || <ContainerGenerator />}
-        </div>
-      </LazyLoad>
-      <LazyLoad throttle={1000} offset={100}>
-        {headlines[2]}{" "}
-        <div className="app__fetch-container ">
-          {countryViral || <ContainerGenerator />}
-        </div>
-      </LazyLoad>
+        {PolandTop || <ContainerGenerator />}
+      </div>
+      {headlines[1]}{" "}
+      <div className="app__fetch-container ">
+        {countryTop || <ContainerGenerator />}
+      </div>
+      {headlines[2]}{" "}
+      <div className="app__fetch-container ">
+        {countryViral || <ContainerGenerator />}
+      </div>
     </div>
   );
 }

@@ -1,3 +1,4 @@
+import { lazy } from "react";
 export default function initSDK(token) {
   const nameSDK = "React Spotify Web Client";
   this.player = new window.Spotify.Player({
@@ -8,6 +9,7 @@ export default function initSDK(token) {
   });
 
   // Error handling
+  lazy(() => import("./lazyInitSDK").then(res => res.default.bind(this)()));
   this.player.addListener("initialization_error", ({ message }) => {
     console.error(message);
     this.setState({ SDKconnected: false });
@@ -27,6 +29,7 @@ export default function initSDK(token) {
   // Playback status updates
   this.player.addListener("player_state_changed", state => {
     if (state) {
+      console.log(state);
       if (state.bitrate && !state.paused) {
         this.setState({
           valueContext: { ...this.state.valueContext, playerState: state },
@@ -37,7 +40,6 @@ export default function initSDK(token) {
       }
     }
   });
-
   // Ready
   this.player.addListener("ready", ({ device_id }) => {
     // console.log("Ready with Device ID", device_id);

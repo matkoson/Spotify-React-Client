@@ -1,7 +1,6 @@
 import React from "react";
 import ContainerGenerator from "../ContainerGenerator/ContainerGenerator";
 import HeadlineAnimator from "../Helpers/HeadlineAnimator";
-import LazyLoad from "react-lazyload";
 
 function HomeScreen(props) {
   let ftrdMssg,
@@ -26,9 +25,12 @@ function HomeScreen(props) {
     //Getting rid of dupls
 
     processedProp = (
-      <LazyLoad throttle={1000}>
-        <ContainerGenerator data={recentProp} type={"recent"} animate={true} />
-      </LazyLoad>
+      <ContainerGenerator
+        data={recentProp}
+        type={"recent"}
+        animate={true}
+        importance={"high"}
+      />
     );
   }
   if (props.featured) {
@@ -39,19 +41,19 @@ function HomeScreen(props) {
         data={ftrdProp.playlists.items.slice(0, 6)}
         type={"playlists"}
         animate={true}
+        importance={"auto"}
       />
     );
   }
   if (props.relatedTop) {
     relatedTop = (
-      <LazyLoad throttle={1500}>
-        <ContainerGenerator
-          data={props.relatedTop}
-          type={"playlists"}
-          special={true}
-          animate={true}
-        />
-      </LazyLoad>
+      <ContainerGenerator
+        data={props.relatedTop}
+        type={"playlists"}
+        special={true}
+        animate={true}
+        importance={"low"}
+      />
     );
   }
   if (props.relatedTop && props.featured && props.recent) {
