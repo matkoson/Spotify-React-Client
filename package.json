@@ -2,7 +2,7 @@
   "name": "spotify-web-client",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://matkoson.github.io/React-Spotify-Client/",
+  "homepage": "https://react-spotify-client.firebaseapp.com/",
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.15",
     "@fortawesome/free-brands-svg-icons": "^5.7.2",

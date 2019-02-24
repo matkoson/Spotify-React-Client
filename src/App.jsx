@@ -134,7 +134,6 @@ export default class App extends Component {
     this.homeRef = React.createRef();
   }
   componentDidMount() {
-    console.log(window.lcoation.href);
     let handleNavClick,
       handleMainRightChange,
       handleAlbumRightOverride,
