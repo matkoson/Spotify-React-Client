@@ -4,7 +4,7 @@
 .search {
   position: relative;
   color: #ffffff;
-  font-family: "SpaceGrotesk-SemiBold";
+  font-family: "Anodina-Light";
   width: calc(100vw - 240px);
   margin-left: 240px;
   @include below820px {
@@ -35,7 +35,6 @@
       background-color: transparent;
       border: none;
       font-size: 70px;
-      font-family: "Anodina-ExtraLight";
       margin-right: 15px;
       @include below1070px {
         font-size: 50px;
@@ -57,7 +56,6 @@
 
     &__nav {
       list-style: none;
-      font-family: "Anodina-ExtraLight";
       font-weight: 300;
       display: flex;
       justify-content: space-between;
@@ -159,7 +157,6 @@
           display: flex;
           flex-direction: column;
           font-size: 12px;
-          font-family: "Anodina-ExtraLight";
           opacity: 0.9;
           height: 100%;
           justify-content: space-around;

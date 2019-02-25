@@ -73,6 +73,7 @@
       }
     }
     &-container {
+      padding-top: 25px;
       display: flex;
       flex-wrap: wrap;
       justify-content: flex-start;
@@ -102,7 +103,10 @@
       display: flex;
       flex-wrap: wrap;
       justify-content: space-around;
-      margin: 42px auto;
+      margin: 56px auto;
+      @include below420px {
+        margin-bottom: 90px;
+      }
       width: 90%;
       font-size: 12px;
       font-weight: 700;

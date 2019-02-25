@@ -3,10 +3,10 @@ import { Consumer } from "../../Context/Context";
 import { animated, useSpring, useTransition } from "react-spring";
 import { Link } from "@reach/router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { SimpleImg } from "react-simple-img";
-import playlistData from "./lazyPlaylistDeclaration";
+import { SimpleImg, initSimpleImg } from "react-simple-img";
 import recentData from "./lazyRecentDeclaration";
-
+import playlistData from "./lazyPlaylistDeclaration";
+initSimpleImg({ threshold: [0.6] });
 const calc = (x, y) => [
   -(y - window.innerHeight / 2) / 20,
   (x - window.innerWidth / 2) / 20,
@@ -65,9 +65,14 @@ function ContainerGenerator(props) {
             key={key || idS}
             style={
               !special
-                ? {
-                    boxShadow: "0px 10px 30px -5px rgba(0, 0, 0, 0.9)"
-                  }
+                ? window.innerWidth < 428 && e === 0 && type === "playlist"
+                  ? {
+                      marginBottom: "50px",
+                      boxShadow: "0px 10px 30px -5px rgba(0, 0, 0, 0.9)"
+                    }
+                  : {
+                      boxShadow: "0px 10px 30px -5px rgba(0, 0, 0, 0.9)"
+                    }
                 : null
             }
             className="generator__playlist-element__img"

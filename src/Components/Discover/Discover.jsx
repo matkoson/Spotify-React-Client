@@ -1,5 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import ContainerGenerator from "../ContainerGenerator/ContainerGenerator";
+import HeadlineAnimator from "../Helpers/HeadlineAnimator";
 import { Context } from "../../Context/Context";
 import "../../Styles/Base/app.scss";
 
@@ -23,12 +24,11 @@ function Discover(props) {
       />
     );
   }
-
+  let headlines = ["Recommended Albums & Singles"];
+  headlines = HeadlineAnimator(headlines);
   return (
     <div className="generator discover">
-      <h2 className="app__fetch-title generator__title">
-        {"Recommended Albums & Singles"}
-      </h2>
+      {headlines[0]}
       <div className="app__fetch-container">{discoverRender}</div>
     </div>
   );
