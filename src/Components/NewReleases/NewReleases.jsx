@@ -22,9 +22,7 @@ function NewReleases(props) {
   return (
     <div className="generator new-releases">
       <h2 className="app__fetch-title">{"New albums & singles"}</h2>
-      <div className="app__fetch-container">
-        {newReleases || <ContainerGenerator />}
-      </div>
+      <div className="app__fetch-container">{newReleases}</div>
     </div>
   );
 }

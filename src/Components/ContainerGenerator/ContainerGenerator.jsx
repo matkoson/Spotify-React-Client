@@ -1,21 +1,11 @@
-import React, { useState } from "react";
+import React, { lazy, useState } from "react";
 import { Consumer } from "../../Context/Context";
-import { useSpring, animated, useTransition } from "react-spring";
+import { animated, useSpring, useTransition } from "react-spring";
 import { Link } from "@reach/router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { SimpleImg } from "react-simple-img";
-let name,
-  image,
-  key,
-  dataType,
-  cx,
-  cx_pos,
-  recentTracks,
-  recentTracksPos,
-  id,
-  idS,
-  albumType,
-  albumTrack;
+import playlistData from "./lazyPlaylistDeclaration";
+import recentData from "./lazyRecentDeclaration";
 
 const calc = (x, y) => [
   -(y - window.innerHeight / 2) / 20,
@@ -32,95 +22,41 @@ function ContainerGenerator(props) {
     artistName = null,
     context = props.context,
     animate = props.animate,
-    hash = {};
+    dataDef; // hash = {};
   let imgMeasurements = { width: "300px", height: "300px" };
   // console.log(type, data);
   if (props && data) {
     return data.map((e, i) => {
+      if (type === "recent") {
+        dataDef = recentData(e, data, i, type);
+      } else if (type === "playlists" || type === "categories") {
+        dataDef = playlistData(e, data, type);
+      }
+      let {
+        name,
+        image,
+        key,
+        dataType,
+        cx,
+        cx_pos,
+        recentTracks,
+        recentTracksPos,
+        id,
+        idS,
+        albumType,
+        artistName
+      } = dataDef;
       if (animate) {
+        var [show] = useState();
         var [propsAnimate, set] = useSpring(() => ({
           xys: [0, 0, 1],
           config: { mass: 20, tension: 200, friction: 50 }
         }));
-        var [show] = useState();
         var transitions = useTransition(show, null, {
           from: { opacity: 0, transform: "translate3d(0,-40px,0)" },
           enter: { opacity: 1, transform: "translate3d(0,0px,0)" },
           unique: true
         });
-        var imgTransitions = useTransition(null, null, {
-          from: { opacity: 0 },
-          enter: { opacity: 1 }
-        });
-      }
-
-      albumType = "";
-      if (type === "recent") {
-        if (e.track) {
-          albumTrack = e.track.album.id;
-          albumType = "album";
-          name = e.track.name;
-          artistName = e.track.artists[0].name;
-          image = e.track.album.images;
-          image =
-            window.innerWidth < 820
-              ? (image[1] && image[1].url) || image[0].url
-              : image[0].url;
-          image =
-            window.innerWidth < 500
-              ? (e.track.album.images[2] && e.track.album.images[2].url) ||
-                image
-              : image;
-          key = e.played_at;
-          dataType = e.track.type;
-          cx = e.track.uri;
-          idS = e.track.album.id;
-          cx_pos = e.track.track_number;
-          recentTracksPos = i;
-        }
-        if (!recentTracks) recentTracks = data.map(e => e.track.uri);
-      } else if (type === "playlists" || type === "categories") {
-        name = e.name;
-        key = e.id;
-        // console.log("HASH", hash);
-        if (hash[key]) {
-          console.log("CORRUPTED DATA", data);
-          console.log(name, key);
-          return null;
-        }
-        hash[key] = true;
-        if ((e.images && e.images[0]) || e.icons || e.album) {
-          if (e.icons) {
-            image = e.icons[0].url;
-          } else if (type === "playlists") {
-            if (e.album) {
-              image = e.album.images[0].url;
-            } else {
-              if (window.innerWidth < 820 && e.images && e.images[1]) {
-                image = e.images[1].url;
-              } else {
-                image = e.images && e.images[0].url;
-              }
-            }
-          }
-        }
-        dataType = e.type === "artist" ? e.type : type;
-        cx = e.uri;
-        idS = e.id;
-        if (e.type === "track") {
-          cx = e.album.uri;
-          cx_pos = e.track_number;
-        }
-        id = e.id;
-        if (
-          e.album_type === "single" ||
-          e.album_type === "album" ||
-          e.type === "track"
-        ) {
-          artistName = e.artists[0].name;
-          if (e.album_type)
-            albumType = e.album_type || e.track.album.album_type;
-        }
       }
       //
       const content = (
@@ -260,7 +196,6 @@ function ContainerGenerator(props) {
               data-identi={albumType}
               data-album={idS}
               onClick={e => {
-                // console.log(this, albumType, albumTrack);
                 return context.handleAlbumRightOverride(e, albumType);
               }}
               className="generator__playlist-element__title"
@@ -312,22 +247,6 @@ function ContainerGenerator(props) {
         </React.Fragment>
       );
     });
-  } else {
-    let placeholder = new Array(10).fill(1);
-    placeholder = placeholder.map((e, i) => (
-      <div
-        key={`${i}${Math.random * 100000}`}
-        className="generator__playlist-element"
-      >
-        <div
-          height={imgMeasurements.height}
-          width={imgMeasurements.width}
-          style={{ backgroundColor: "#282828" }}
-          className="generator__playlist-element__img--fake"
-        />
-      </div>
-    ));
-    return placeholder;
   }
 }
 

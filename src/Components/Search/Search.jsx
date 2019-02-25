@@ -30,9 +30,7 @@ class Search extends React.Component {
         resultRender = (
           <React.Fragment>
             <h2 className="app__fetch-title">{"Matching Albums"}</h2>
-            <div className="app__fetch-container ">
-              {this.albums || <ContainerGenerator />}
-            </div>
+            <div className="app__fetch-container ">{this.albums}</div>
           </React.Fragment>
         );
         break;
@@ -41,12 +39,12 @@ class Search extends React.Component {
           <React.Fragment>
             <h2 className="app__fetch-title">{"Matching Artists"}</h2>
             <div className="app__fetch-container ">
-              {(
+              {
                 <ContainerGenerator
                   data={artists.items.slice(0, 10)}
                   type={"playlists"}
                 />
-              ) || <ContainerGenerator />}
+              }
             </div>
           </React.Fragment>
         );
@@ -56,12 +54,12 @@ class Search extends React.Component {
           <React.Fragment>
             <h2 className="app__fetch-title">{"Matching Tracks"}</h2>
             <div className="app__fetch-container ">
-              {(
+              {
                 <ContainerGenerator
                   data={tracks.items.slice(0, 100)}
                   type={"playlists"}
                 />
-              ) || <ContainerGenerator />}
+              }
             </div>
           </React.Fragment>
         );
@@ -71,7 +69,7 @@ class Search extends React.Component {
           <React.Fragment>
             <h2 className="app__fetch-title">{"Matching Artists"}</h2>
             <div className="app__fetch-container generator--exception">
-              {this.playlists || <ContainerGenerator />}
+              {this.playlists}
             </div>
           </React.Fragment>
         );
@@ -92,12 +90,10 @@ class Search extends React.Component {
             />
             <h2 className="app__fetch-title">{"Matching Artists"}</h2>
             <div className="app__fetch-container generator--exception">
-              {this.artists || <ContainerGenerator />}
+              {this.artists}
             </div>
             <h2 className="app__fetch-title">{"Matching Playlists"}</h2>
-            <div className="app__fetch-container ">
-              {this.playlists || <ContainerGenerator />}
-            </div>
+            <div className="app__fetch-container ">{this.playlists}</div>
           </React.Fragment>
         );
     }

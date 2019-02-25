@@ -67,18 +67,18 @@ function HomeScreen(props) {
     <div className="generator">
       {headlines && headlines[0]}
       <div className="app__fetch-container generator__playlist-container">
-        {albumPics || <ContainerGenerator />}
+        {albumPics}
       </div>
       {/*  */}
       {/*  */}
       {/*  */}
       {headlines && headlines[1]}
       <div className="app__fetch-container generator__playlist-container">
-        {processedProp || <ContainerGenerator />}
+        {processedProp}
       </div>
       {headlines && headlines[2]}
       <div className="app__fetch-container generator__playlist-container">
-        {relatedTop || <ContainerGenerator />}
+        {relatedTop}
       </div>
     </div>
   );

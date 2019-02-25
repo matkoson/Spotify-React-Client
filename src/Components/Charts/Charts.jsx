@@ -101,18 +101,14 @@ export default function Charts(props) {
     <div className="generator">
       <div
         className="app__fetch-container generator__playlist-container"
-        style={{ minHeight: "100vh" }}
+        //   style={{ minHeight: "100vh" }
+        // }
       >
-        {PolandTop || <ContainerGenerator />}
+        {headlines[0]}
+        {PolandTop}
       </div>
-      {headlines[1]}{" "}
-      <div className="app__fetch-container ">
-        {countryTop || <ContainerGenerator />}
-      </div>
-      {headlines[2]}{" "}
-      <div className="app__fetch-container ">
-        {countryViral || <ContainerGenerator />}
-      </div>
+      {headlines[1]} <div className="app__fetch-container ">{countryTop}</div>
+      {headlines[2]} <div className="app__fetch-container ">{countryViral}</div>
     </div>
   );
 }

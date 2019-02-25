@@ -29,9 +29,7 @@ function Discover(props) {
       <h2 className="app__fetch-title generator__title">
         {"Recommended Albums & Singles"}
       </h2>
-      <div className="app__fetch-container">
-        {discoverRender || <ContainerGenerator />}
-      </div>
+      <div className="app__fetch-container">{discoverRender}</div>
     </div>
   );
 }

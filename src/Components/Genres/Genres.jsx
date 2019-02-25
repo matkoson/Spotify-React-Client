@@ -24,9 +24,7 @@ function Genres(props) {
   return (
     <div style={{ color: "#ffffff" }} className="generator genres">
       <h2 className="app__fetch-title">{"Genres & Moods"}</h2>
-      <div className="app__fetch-container">
-        {categoriesList || <ContainerGenerator />}
-      </div>
+      <div className="app__fetch-container">{categoriesList}</div>
     </div>
   );
 }
