@@ -5,6 +5,7 @@ import lib from "../../assets/svg/lib.svg";
 import { Link } from "@reach/router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "../../Styles/Components/desktop.scss";
+// import "../../Styles/Components/PlayerBar/lazyPlayerBarAbv820px.scss";
 
 export default function Desktop(props) {
   return (

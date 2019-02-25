@@ -6,24 +6,24 @@ export const setToken = function(currAd) {
     tokenSDK: token
   });
 };
-// export const getToken = function() {
-//   const scopes =
-//     "playlist-read-private playlist-modify-private playlist-modify-public playlist-read-collaborative user-modify-playback-state user-read-currently-playing user-read-playback-state user-top-read user-read-recently-played app-remote-control streaming user-read-birthdate user-read-email user-read-private user-follow-read user-follow-modify user-library-modify user-library-read";
-//   const currentLocation = window.location.href;
-//   const regex = RegExp(/^(https?.+(\d+|\.\D+))\//g);
-//   const accessReq = `https:accounts.spotify.com/authorize?client_id=${
-//     this.clientID
-//   }&scope=${encodeURIComponent(scopes)}&response_type=token&redirect_uri=${
-//     regex.exec(currentLocation)[1]
-//   }/callback`;
-//   console.log(accessReq);
-//   window.location.href = accessReq;
-//   // http://localhost:3000
-// };
-export function getToken() {
-  window.location.href =
-    "https://accounts.spotify.com/authorize?client_id=25be93ebc6a047cfbf6ed82187d766b4&scope=playlist-read-private%20playlist-read-collaborative%20playlist-modify-public%20user-read-recently-played%20playlist-modify-private%20ugc-image-upload%20user-follow-modify%20user-follow-read%20user-library-read%20user-library-modify%20user-read-private%20user-read-email%20user-top-read%20user-read-playback-state&response_type=token&redirect_uri=https://react-spotify-client.firebaseapp.com/";
-}
+export const getToken = function() {
+  const scopes =
+    "playlist-read-private playlist-modify-private playlist-modify-public playlist-read-collaborative user-modify-playback-state user-read-currently-playing user-read-playback-state user-top-read user-read-recently-played app-remote-control streaming user-read-birthdate user-read-email user-read-private user-follow-read user-follow-modify user-library-modify user-library-read";
+  const currentLocation = window.location.href;
+  const regex = RegExp(/^(https?.+(\d+|\.\D+))\//g);
+  const accessReq = `https:accounts.spotify.com/authorize?client_id=${
+    this.clientID
+  }&scope=${encodeURIComponent(scopes)}&response_type=token&redirect_uri=${
+    regex.exec(currentLocation)[1]
+  }/callback`;
+  console.log(accessReq);
+  window.location.href = accessReq;
+  // http://localhost:3000
+};
+// export function getToken() {
+//   window.location.href =
+//     "https://accounts.spotify.com/authorize?client_id=25be93ebc6a047cfbf6ed82187d766b4&scope=playlist-read-private%20playlist-read-collaborative%20playlist-modify-public%20user-read-recently-played%20playlist-modify-private%20ugc-image-upload%20user-follow-modify%20user-follow-read%20user-library-read%20user-library-modify%20user-read-private%20user-read-email%20user-top-read%20user-read-playback-state&response_type=token&redirect_uri=https://react-spotify-client.firebaseapp.com/";
+// }
 
 export const getFtrdPlay = function() {
   fetch("https://api.spotify.com/v1/browse/featured-playlists", {

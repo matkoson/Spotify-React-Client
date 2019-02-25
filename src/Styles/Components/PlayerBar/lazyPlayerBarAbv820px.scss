@@ -1,0 +1,151 @@
+@import "../../Base/_mixins";
+
+.player-bar {
+  @include abv820px {
+    height: 90px;
+  }
+  &__tab {
+    @include abv820px {
+      margin-right: 2%;
+    }
+  }
+  &__perip-tab {
+    @include abv820px {
+      width: 30%;
+      min-width: 180px;
+    }
+  }
+  &--end {
+    @include abv1070px {
+      width: 30%;
+    }
+  }
+  &__center-tab {
+    @include abv820px {
+      width: 80%;
+      right: 0;
+    }
+  }
+  &__player-controls {
+    @include abv820px {
+      width: 310px;
+    }
+    @include abv1070px {
+      width: 500px;
+      right: 0;
+    }
+  }
+  &__album-img {
+    @include abv820px {
+      display: block;
+      max-width: 56px;
+      max-height: 56px;
+    }
+  }
+  &__left-tab {
+    @include abv820px {
+      width: 30%;
+      max-width: inherit;
+      margin-left: inherit;
+      position: static;
+      font-size: 12px;
+      justify-content: space-around;
+    }
+    &__center {
+      @include abv820px {
+        margin-left: 14px;
+        flex-direction: column;
+        width: 60%;
+        margin-left: 0;
+        margin-right: 14px;
+        font-size: 12px;
+        justify-content: center;
+        align-items: flex-start;
+      }
+      &-title-artist__title {
+        @include abv820px {
+          font-size: 18px;
+          opacity: 1;
+          width: 100%;
+          order: 0;
+          text-align: left;
+        }
+      }
+      &-title-artist__artist {
+        @include abv820px {
+          width: 100%;
+          text-align: left;
+        }
+      }
+    }
+  }
+
+  &__player-progress {
+    @include abv820px {
+      width: 310px;
+      margin: 0 auto;
+      position: relative;
+    }
+    @include abv1070px {
+      width: 500px;
+      justify-content: space-between;
+    }
+  }
+  &__progress-bar {
+    @include abv1070px {
+      margin-right: 5px;
+      margin-left: 5px;
+    }
+  }
+
+  &__right-tab {
+    @include abv820px {
+      display: block;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      position: relative;
+      margin-right: 0;
+    }
+    @include abv1070px {
+      justify-content: flex-end;
+    }
+  }
+  &__volume-wrapper {
+    @include abv1070px {
+      width: 200px;
+    }
+  }
+}
+.player-bar .fas {
+  @include abv820px {
+    font-size: 12px;
+  }
+}
+.player-bar .fa-play:before {
+  @include abv820px {
+    width: 50%;
+    height: 50%;
+    position: absolute;
+    left: 9px;
+  }
+}
+
+.player-bar .fa-pause:before {
+  @include abv820px {
+    position: absolute;
+    left: 8px;
+    width: 50%;
+    height: 50%;
+  }
+}
+
+.player__play-pause {
+  @include abv820px {
+    font-size: 8px !important;
+    border: 2px solid gray;
+    display: flex;
+    padding: 6px;
+    border-radius: 50%;
+  }
+}

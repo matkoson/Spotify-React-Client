@@ -2,13 +2,13 @@
 @import "../Base/_mixins";
 
 .left-tab {
-  @include atMedium {
+  @include below820px {
     .desktop {
       display: none;
       margin-left: 0;
     }
   }
-  @include abvMedium {
+  @include abv820px {
     .mobile {
       display: none;
     }

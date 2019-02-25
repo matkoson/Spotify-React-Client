@@ -27,6 +27,8 @@ import {
   faSearch,
   faSpinner
 } from "@fortawesome/free-solid-svg-icons";
+import "./Styles/Base/app.scss";
+
 import { faReact } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import initSDK from "./APIconnection/initSDK";
@@ -45,17 +47,11 @@ library.add(
   faReact,
   faSpinner
 );
-lazy(import("./Styles/Components/left-tab.scss"));
-lazy(import("./Styles/Base/app.scss"));
-lazy(import("./Styles/Base/appLazy.scss"));
-const Desktop =
-  window.innerView > 820
-    ? import("./Components/Desktop/Desktop")
-    : lazy(() => import("./Components/Desktop/Desktop"));
-const Mobile =
-  window.innerView > 820
-    ? import("./Components/Mobile/Mobile")
-    : lazy(() => import("./Components/Mobile/Mobile"));
+
+lazy(() => import("./Styles/Components/left-tab.scss"));
+lazy(() => import("./Styles/Base/appLazy.scss"));
+const Desktop = lazy(() => import("./Components/Desktop/Desktop"));
+const Mobile = lazy(() => import("./Components/Mobile/Mobile"));
 const Charts = lazy(() => import("./Components/Charts/Charts"));
 const Album = lazy(() => import("./Components/Album/Album"));
 const Library = lazy(() => import("./Components/Library/Library"));
@@ -175,16 +171,18 @@ export default class App extends Component {
       this.homeRef.current.scrollIntoView();
     window.addEventListener("resize", this.state.handleResize);
     //Initiate Spotify SDK Player through cdn script
-    cdnLoader({
-      src: "https://sdk.scdn.co/spotify-player.js",
-      id: "SDK",
-      callback: () => {
-        this.setState({ SDKloaded: true });
-        return (window.onSpotifyWebPlaybackSDKReady = () => {
-          this.initSDK(this.state.tokenSDK);
-        });
-      }
-    });
+    lazy(() =>
+      cdnLoader({
+        src: "https://sdk.scdn.co/spotify-player.js",
+        id: "SDK",
+        callback: () => {
+          this.setState({ SDKloaded: true });
+          return (window.onSpotifyWebPlaybackSDKReady = () => {
+            this.initSDK(this.state.tokenSDK);
+          });
+        }
+      })
+    );
     const currAd = window.location.href;
     if (/access_token/.test(currAd)) {
       this.setToken(currAd);

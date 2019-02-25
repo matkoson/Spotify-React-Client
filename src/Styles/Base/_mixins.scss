@@ -1,35 +1,42 @@
-@mixin atSmall {
+// axtSmall
+@mixin below545px {
   @media (max-width: 545px) {
     @content;
   }
 }
 
-@mixin atMedium {
+// axtMedium
+@mixin below820px {
   @media (max-width: 820px) {
     @content;
   }
 }
-@mixin abvMedium {
+// axbvMedium
+@mixin abv820px {
   @media (min-width: 820px) {
     @content;
   }
 }
-@mixin atLarge {
+// axtLarge
+@mixin below1070px {
   @media (max-width: 1070px) {
     @content;
   }
 }
-@mixin abvLarge {
+// axbvLarge
+@mixin abv1070px {
   @media (min-width: 1070px) {
     @content;
   }
 }
-@mixin atXLarge {
+// axtXLarge
+@mixin below1235px {
   @media (max-width: 1235px) {
     @content;
   }
 }
-@mixin abvXLarge {
+// axbvXLarge
+@mixin abv1235px {
   @media (min-width: 1235px) {
     @content;
   }

@@ -2,8 +2,10 @@ import React, { PureComponent, lazy } from "react";
 import PlayerControls from "./InnerComps/PlayerControls";
 import SideControls from "./InnerComps/SideControls";
 import { Context } from "../../Context/Context";
-import "../../Styles/Components/player-bar.scss";
+import "../../Styles/Components/PlayerBar/player-bar.scss";
+// import "../../Styles/Components/PlayerBar/lazyPlayerBarAbv820px.scss";
 
+lazy(import("../../Styles/Components/PlayerBar/lazyPlayerBarAbv820px.scss"));
 const DeviceTab = lazy(() => import("./InnerComps/DeviceTab"));
 const AlbumDetails = lazy(() => import("./InnerComps/AlbumDetails"));
 const getPerc = (progressTime, totalTime) =>
