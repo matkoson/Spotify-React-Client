@@ -13,7 +13,7 @@ const calc = (x, y) => [
   1.03
 ];
 const trans = (x, y, s) =>
-  `perspective(2000px) rotateX(${x}deg) rotateY(${y}deg) scale(${s})`;
+  `perspective(500px) rotateX(${x}deg) rotateY(${y}deg) scale(${s})`;
 
 function ContainerGenerator(props) {
   let data = props.data,

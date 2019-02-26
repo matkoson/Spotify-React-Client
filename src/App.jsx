@@ -130,6 +130,7 @@ export default class App extends Component {
     this.homeRef = React.createRef();
   }
   componentDidMount() {
+    import('./loadFonts')
     let handleNavClick,
       handleMainRightChange,
       handleAlbumRightOverride,
@@ -139,6 +140,7 @@ export default class App extends Component {
       handleMobileNavToggle;
     lazy(
       import("./AppMethods/AppMethods").then(res => {
+        console.log("2. Started", Date.now());
         handleNavClick = res.handleNavClick.bind(this);
         handleMainRightChange = res.handleMainRightChange.bind(this);
         handleAlbumRightOverride = res.handleAlbumRightOverride.bind(this);
@@ -146,18 +148,21 @@ export default class App extends Component {
         handleDeviceTabClick = res.handleDeviceTabClick.bind(this);
         handleResize = res.handleResize.bind(this);
         handleMobileNavToggle = res.handleMobileNavToggle.bind(this);
-        return this.setState({
-          handleNavClick,
-          handleDeviceTabClick,
-          handleResize,
-          handleMobileNavToggle,
-          handleMainRightChange,
-          valueContext: {
-            ...this.state.valueContext,
-            handleAlbumRightOverride,
-            handleMainRightViewChange
-          }
-        });
+        return this.setState(
+          {
+            handleNavClick,
+            handleDeviceTabClick,
+            handleResize,
+            handleMobileNavToggle,
+            handleMainRightChange,
+            valueContext: {
+              ...this.state.valueContext,
+              handleAlbumRightOverride,
+              handleMainRightViewChange
+            }
+          },
+          () => console.log("3. Setted", Date.now())
+        );
       })
     );
     lazy(
@@ -165,7 +170,22 @@ export default class App extends Component {
         return this.setState({ countryCodes: res.default() });
       })
     );
-    // lazy(import("./fontBundle"));
+    lazy(
+      import("./loadScript").then(res =>
+        res.default({
+          src: "https://sdk.scdn.co/spotify-player.js",
+          id: "SDK",
+          callback: () => {
+            this.setState({ SDKloaded: true }, () =>
+              console.log("SDK LOADED", Date.now())
+            );
+            return (window.onSpotifyWebPlaybackSDKReady = () => {
+              this.initSDK(this.state.tokenSDK);
+            });
+          }
+        })
+      )
+    );
     if (this.state.mainRightView === "Home" && this.homeRef.current)
       this.homeRef.current.scrollIntoView();
     window.addEventListener("resize", this.state.handleResize);
@@ -194,20 +214,6 @@ export default class App extends Component {
       if (!this.state.recentlyPlayed) this.getRecent();
       if (!this.state.featured) this.getFtrdPlay();
       if (!this.state.topRelatedArtists) this.getTopArtist();
-      lazy(
-        import("./loadScript").then(res =>
-          res.default({
-            src: "https://sdk.scdn.co/spotify-player.js",
-            id: "SDK",
-            callback: () => {
-              this.setState({ SDKloaded: true });
-              return (window.onSpotifyWebPlaybackSDKReady = () => {
-                this.initSDK(this.state.tokenSDK);
-              });
-            }
-          })
-        )
-      );
     }
   }
   getMinsSecs = (ms = 0) => {

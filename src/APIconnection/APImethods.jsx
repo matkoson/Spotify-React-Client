@@ -18,7 +18,6 @@ export const getToken = function() {
   }/callback`;
   console.log(accessReq);
   window.location.href = accessReq;
-  // http://localhost:3000
 };
 // export function getToken() {
 //   window.location.href =

@@ -1,6 +1,14 @@
 @import "../Base/_variables";
 @import "../Base/_mixins";
 
+.anodinaX-ready {
+  .search {
+    font-family: "Anodina-ExtraLight";
+  }
+  .search__input__area {
+    font-family: "Anodina-ExtraLight";
+  }
+}
 .search {
   position: relative;
   color: #ffffff;
@@ -27,6 +35,7 @@
       width: 80%;
       left: 0;
     }
+
     &__area {
       width: 90%;
       color: #ffffff;
