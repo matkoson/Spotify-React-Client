@@ -79,10 +79,10 @@ class PlayerBar extends PureComponent {
     //at first viable update, while SDK is still not acitve, display the info from the last played track
     if (this.context.playerState && this.context.playerState.bitrate) {
       if (!this.playbackSDK) {
-        if (this.playbackSDKinterval) this.playbackSDKinterval();
+        if (this.state.playbackSDKinterval) this.state.playbackSDKinterval();
+        console.log(this.playbackSDK);
       }
     } else if (this.props.recent) {
-      // console.log("PLAYER-BAR, PROCESSING RECENT");
       this.processRecent();
     }
   }

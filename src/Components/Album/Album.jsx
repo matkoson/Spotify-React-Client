@@ -81,16 +81,32 @@ class Album extends React.Component {
                 {isPlaying && (
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    class="equilizer"
+                    className="equilizer"
                     viewBox="0 0 128 128"
                   >
                     <g>
                       <title>Audio Equilizer</title>
-                      <rect class="bar" transform="translate(0,0)" y="15" />
-                      <rect class="bar" transform="translate(25,0)" y="15" />
-                      <rect class="bar" transform="translate(50,0)" y="15" />
-                      <rect class="bar" transform="translate(75,0)" y="15" />
-                      <rect class="bar" transform="translate(100,0)" y="15" />
+                      <rect className="bar" transform="translate(0,0)" y="15" />
+                      <rect
+                        className="bar"
+                        transform="translate(25,0)"
+                        y="15"
+                      />
+                      <rect
+                        className="bar"
+                        transform="translate(50,0)"
+                        y="15"
+                      />
+                      <rect
+                        className="bar"
+                        transform="translate(75,0)"
+                        y="15"
+                      />
+                      <rect
+                        className="bar"
+                        transform="translate(100,0)"
+                        y="15"
+                      />
                     </g>
                   </svg>
                 )}
@@ -107,7 +123,10 @@ class Album extends React.Component {
       <div className="album">
         <div style={{ width }} className="album__presentation">
           <div className="album__presentation__img">
-            <div style={{ width, height }} class="album__presentation__veneer">
+            <div
+              style={{ width, height }}
+              className="album__presentation__veneer"
+            >
               <img
                 ref={this.initRef}
                 className="album__presentation__img__file"
@@ -116,7 +135,7 @@ class Album extends React.Component {
               />
             </div>
           </div>
-          <div class="album__presentation__img-title">
+          <div className="album__presentation__img-title">
             <div className="album__presentation__img__title">{name}</div>
             <div className="album__presentation__img__artist">
               {artists && artists[0].name}
@@ -133,7 +152,7 @@ class Album extends React.Component {
             className="album__presentation__play-btn"
           >
             <FontAwesomeIcon icon="play" />
-            {/* <i class="fas fa-play album__presentation__play-btn__icon" /> */}
+            {/* <i className="fas fa-play album__presentation__play-btn__icon" /> */}
             <div className="album__presentation__play-btn__caption">
               {"Play All"}
             </div>

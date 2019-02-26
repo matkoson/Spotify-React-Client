@@ -15,44 +15,19 @@ export default function PlayerControls(props) {
           style={{ color: props.shuffled ? "#1db954" : "white" }}
           className="fas"
         />
-
-        {/* <i
-
-          className="fas fa-random"
-        /> */}
-        {/* <i
-          onClick={() => props.player.previousTrack()}
-          className="fas fa-step-backward"
-        /> */}
         <FontAwesomeIcon icon="step-backward" className="fas" />
-
         <div onClick={props.handlePausePlay} className="player-bar__play-pause">
           {props.paused || !props.playbackSDK ? (
-            // <i className="fas fa-play player__play-pause" />
             <FontAwesomeIcon icon="play" className="fas" />
           ) : (
-            // <i className="fas fa-pause player__play-pause" />
             <FontAwesomeIcon icon="pause" className="fas" />
           )}
         </div>
-        {/* */}
-        {/* <i
-          className="fas fa-step-forward"
-        /> */}
         <FontAwesomeIcon
           onClick={() => props.player.nextTrack()}
           icon="step-forward"
           className="fas"
         />
-
-        {/* <i
-          onClick={props.handleRepeatModeChange}
-          className={
-            props.repeatMode === "off"
-              ? "fas fa-redo"
-              : "fas fa-redo player-bar__redo-icon--repeat-cx"
-          }
-        > */}
         <FontAwesomeIcon
           icon="redo"
           onClick={props.handleRepeatModeChange}
