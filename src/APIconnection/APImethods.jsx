@@ -25,21 +25,17 @@ export const getToken = function() {
 //     "https://accounts.spotify.com/authorize?client_id=25be93ebc6a047cfbf6ed82187d766b4&scope=playlist-read-private%20playlist-read-collaborative%20playlist-modify-public%20user-read-recently-played%20playlist-modify-private%20ugc-image-upload%20user-follow-modify%20user-follow-read%20user-library-read%20user-library-modify%20user-read-private%20user-read-email%20user-top-read%20user-read-playback-state&response_type=token&redirect_uri=https://react-spotify-client.firebaseapp.com/";
 // }
 
-<<<<<<< HEAD
-export function getToken() {
-  // window.location.href =
-  //   "https://accounts.spotify.com/authorize?client_id=25be93ebc6a047cfbf6ed82187d766b4&scope=playlist-read-private%20playlist-read-collaborative%20playlist-modify-public%20user-read-recently-played%20playlist-modify-private%20ugc-image-upload%20user-follow-modify%20user-follow-read%20user-library-read%20user-library-modify%20user-read-private%20user-read-email%20user-top-read%20user-read-playback-state&response_type=token&redirect_uri=https://matkoson.github.io/React-Spotify-Client/";
-  window.location.href =
-    "https://accounts.spotify.com/authorize?client_id=25be93ebc6a047cfbf6ed82187d766b4&scope=playlist-read-private%20playlist-read-collaborative%20playlist-modify-public%20user-read-recently-played%20playlist-modify-private%20ugc-image-upload%20user-follow-modify%20user-follow-read%20user-library-read%20user-library-modify%20user-read-private%20user-read-email%20user-top-read%20user-read-playback-state&response_type=token&redirect_uri=https://react-spotify-client.firebaseapp.com/";
+// export function getToken() {
+// window.location.href =
+//   "https://accounts.spotify.com/authorize?client_id=25be93ebc6a047cfbf6ed82187d766b4&scope=playlist-read-private%20playlist-read-collaborative%20playlist-modify-public%20user-read-recently-played%20playlist-modify-private%20ugc-image-upload%20user-follow-modify%20user-follow-read%20user-library-read%20user-library-modify%20user-read-private%20user-read-email%20user-top-read%20user-read-playback-state&response_type=token&redirect_uri=https://matkoson.github.io/React-Spotify-Client/";
+// window.location.href =
+//   "https://accounts.spotify.com/authorize?client_id=25be93ebc6a047cfbf6ed82187d766b4&scope=playlist-read-private%20playlist-read-collaborative%20playlist-modify-public%20user-read-recently-played%20playlist-modify-private%20ugc-image-upload%20user-follow-modify%20user-follow-read%20user-library-read%20user-library-modify%20user-read-private%20user-read-email%20user-top-read%20user-read-playback-state&response_type=token&redirect_uri=https://react-spotify-client.firebaseapp.com/";
 
-  // window.location.href =
-  //   "https://accounts.spotify.com/authorize?client_id=25be93ebc6a047cfbf6ed82187d766b4&scope=playlist-read-private%20playlist-read-collaborative%20playlist-modify-public%20user-read-recently-played%20playlist-modify-private%20ugc-image-upload%20user-follow-modify%20user-follow-read%20user-library-read%20user-library-modify%20user-read-private%20user-read-email%20user-top-read%20user-read-playback-state&response_type=token&redirect_uri=http://localhost:4000/callback";
-}
+// window.location.href =
+//   "https://accounts.spotify.com/authorize?client_id=25be93ebc6a047cfbf6ed82187d766b4&scope=playlist-read-private%20playlist-read-collaborative%20playlist-modify-public%20user-read-recently-played%20playlist-modify-private%20ugc-image-upload%20user-follow-modify%20user-follow-read%20user-library-read%20user-library-modify%20user-read-private%20user-read-email%20user-top-read%20user-read-playback-state&response_type=token&redirect_uri=http://localhost:4000/callback";
+// }
 
 export function getFtrdPlay() {
-=======
-export const getFtrdPlay = function() {
->>>>>>> fixing-container-generator
   fetch("https://api.spotify.com/v1/browse/featured-playlists", {
     headers: { Authorization: this.state.auth },
     method: "GET"
@@ -51,7 +47,7 @@ export const getFtrdPlay = function() {
       }
     })
     .catch(e => console.error(e));
-};
+}
 export const getRecent = function() {
   fetch("https://api.spotify.com/v1/me/player/recently-played", {
     headers: { Authorization: this.state.auth },

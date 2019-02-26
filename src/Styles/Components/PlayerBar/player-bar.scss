@@ -41,8 +41,12 @@
     right: 100px;
     max-width: 722px;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
+    align-items: center;
     padding-bottom: 5px;
+    @include abv1235px {
+      align-items: flex-start;
+    }
   }
 
   &__player-controls {
@@ -51,7 +55,6 @@
     width: 80%;
     justify-content: space-between;
     align-items: center;
-    margin: 0 auto;
     margin-bottom: 4px;
     margin-top: 12px;
   }
@@ -132,7 +135,8 @@
       background-color: #b3b3b3;
       width: 100%;
       position: relative;
-      margin-left: 0;
+      margin-left: 0 !important;
+      margin-right: 0 !important;
     }
   }
 

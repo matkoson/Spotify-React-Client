@@ -1,4 +1,4 @@
-import { lazy } from "react";
+// import { lazy } from "react";
 export default function initSDK(token) {
   const nameSDK = "React Spotify Web Client";
   this.player = new window.Spotify.Player({
@@ -7,46 +7,53 @@ export default function initSDK(token) {
       cb(token);
     }
   });
+  console.log(this.player);
 
   // Error handling
-  lazy(() => import("./lazyInitSDK").then(res => res.default.bind(this)()));
-  this.player.addListener("initialization_error", ({ message }) => {
-    console.error(message);
-    this.setState({ SDKconnected: false });
-  });
-  this.player.addListener("authentication_error", ({ message }) => {
-    console.error(message);
-    this.setState({ SDKconnected: false });
-  });
-  this.player.addListener("account_error", ({ message }) => {
-    console.error(message);
-    this.setState({ SDKconnected: false });
-  });
-  this.player.addListener("playback_error", ({ message }) => {
-    console.error(message);
+
+  import("./lazyInitSDK").then(res => {
+    res.default.bind(this)();
+    console.log("loaded");
   });
 
-  // Playback status updates
-  this.player.addListener("player_state_changed", state => {
-    if (state) {
-      console.log(state);
-      if (state.bitrate && !state.paused) {
-        this.setState({
-          valueContext: { ...this.state.valueContext, playerState: state },
-          deviceTabOn: true
-        });
-      } else if (state.paused) {
-        this.setState({ playerState: state, deviceTabOn: false });
-      }
-    }
-  });
+  // this.player.addListener("initialization_error", ({ message }) => {
+  //   console.error(message);
+  //   this.setState({ SDKconnected: false });
+  // });
+  // this.player.addListener("authentication_error", ({ message }) => {
+  //   console.error(message);
+  //   this.setState({ SDKconnected: false });
+  // });
+  // this.player.addListener("account_error", ({ message }) => {
+  //   console.error(message);
+  //   this.setState({ SDKconnected: false });
+  // });
+  // this.player.addListener("playback_error", ({ message }) => {
+  //   console.error(message);
+  // });
+
+  // // Playback status updates
+  // this.player.addListener("player_state_changed", state => {
+  //   if (state) {
+  //     console.log(state);
+  //     if (state.bitrate && !state.paused) {
+  //       this.setState({
+  //         valueContext: { ...this.state.valueContext, playerState: state },
+  //         deviceTabOn: true
+  //       });
+  //     } else if (state.paused) {
+  //       this.setState({ playerState: state, deviceTabOn: false });
+  //     }
+  //   }
+  // });
   // Ready
   this.player.addListener("ready", ({ device_id }) => {
-    // console.log("Ready with Device ID", device_id);
+    console.log("Ready with Device ID", device_id);
     this.setState({
       SDKconnected: true,
       deviceID: device_id,
-      deviceName: nameSDK
+      deviceName: nameSDK,
+      player: this.player
     });
     return this.playerRequest("getDevices");
   });
@@ -59,6 +66,6 @@ export default function initSDK(token) {
 
   // Connect to the player!
   this.player.connect().then(success => {
-    // if (success) console.log("SDK connected, waiting for ready...");
+    if (success) console.log("SDK connected, waiting for ready...");
   });
 }

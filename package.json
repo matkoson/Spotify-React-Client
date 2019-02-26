@@ -13,21 +13,12 @@
     "react": "^16.8.2",
     "react-dom": "^16.8.2",
     "react-scripts": "^2.1.3",
-<<<<<<< HEAD
-    "react-spring": "^8.0.7",
+    "react-simple-img": "^2.1.0",
+    "react-spring": "^8.0.8",
     "source-map-explorer": "^1.7.0"
   },
   "scripts": {
-    "analyze": "source-map-explorer build/static/js/main.* --only-mapped --html",
-=======
-    "react-simple-img": "^2.1.0",
-    "react-spring": "^8.0.7",
-    "source-map-explorer": "^1.7.0",
-    "webpack-bundle-analyzer": "^3.0.4"
-  },
-  "scripts": {
     "analyze": "source-map-explorer build/static/js/main.*",
->>>>>>> fixing-container-generator
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",

@@ -2,7 +2,7 @@ import React, { Component, Suspense, lazy } from "react";
 import { Router, navigate } from "@reach/router";
 import RightTab from "./Components/RightTab/RightTab";
 import PlayerBar from "./Components/PlayerBar/PlayerBar";
-import cdnLoader from "./loadScript";
+
 import {
   setToken,
   getToken,
@@ -170,18 +170,8 @@ export default class App extends Component {
       this.homeRef.current.scrollIntoView();
     window.addEventListener("resize", this.state.handleResize);
     //Initiate Spotify SDK Player through cdn script
-    lazy(() =>
-      cdnLoader({
-        src: "https://sdk.scdn.co/spotify-player.js",
-        id: "SDK",
-        callback: () => {
-          this.setState({ SDKloaded: true });
-          return (window.onSpotifyWebPlaybackSDKReady = () => {
-            this.initSDK(this.state.tokenSDK);
-          });
-        }
-      })
-    );
+    // import cdnLoader from "./loadScript";
+
     const currAd = window.location.href;
     if (/access_token/.test(currAd)) {
       this.setToken(currAd);
@@ -204,6 +194,20 @@ export default class App extends Component {
       if (!this.state.recentlyPlayed) this.getRecent();
       if (!this.state.featured) this.getFtrdPlay();
       if (!this.state.topRelatedArtists) this.getTopArtist();
+      lazy(
+        import("./loadScript").then(res =>
+          res.default({
+            src: "https://sdk.scdn.co/spotify-player.js",
+            id: "SDK",
+            callback: () => {
+              this.setState({ SDKloaded: true });
+              return (window.onSpotifyWebPlaybackSDKReady = () => {
+                this.initSDK(this.state.tokenSDK);
+              });
+            }
+          })
+        )
+      );
     }
   }
   getMinsSecs = (ms = 0) => {

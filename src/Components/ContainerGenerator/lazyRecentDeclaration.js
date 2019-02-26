@@ -11,7 +11,6 @@ export default function recentDeclaration(e, data, i, type) {
     idS,
     albumType = "",
     albumTrack,
-    recentData,
     artistName;
   if (e.track) {
     albumTrack = e.track.album.id;

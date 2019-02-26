@@ -6,9 +6,9 @@ lazy(import("../../Styles/Components/generatorLazy.scss"));
 
 export default function RightTab(props) {
   const navMargin =
-    window.innerWidth < 428
+    window.innerWidth < 820
       ? props.mobile
-        ? { marginTop: "270px" }
+        ? { marginTop: "236px" }
         : { marginTop: 0 }
       : { marginTop: 0 };
   console.log(
