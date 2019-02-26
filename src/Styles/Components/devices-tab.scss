@@ -18,10 +18,10 @@
   flex-direction: column;
   align-items: center;
   font-weight: 800;
-  @include abvLarge {
+  @include abv1070px {
     right: 145px;
   }
-  @include abvXLarge {
+  @include abv1235px {
     right: 145px;
   }
   &:before {

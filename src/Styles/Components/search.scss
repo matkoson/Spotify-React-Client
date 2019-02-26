@@ -4,10 +4,10 @@
 .search {
   position: relative;
   color: #ffffff;
-  font-family: "SpaceGrotesk-SemiBold";
+  font-family: "Anodina-Light";
   width: calc(100vw - 240px);
   margin-left: 240px;
-  @include atMedium {
+  @include below820px {
     max-width: 100%;
     width: 100%;
     margin-left: 0;
@@ -23,7 +23,7 @@
     overflow: hidden;
     display: flex;
     padding-right: 25px;
-    @include atMedium {
+    @include below820px {
       width: 80%;
       left: 0;
     }
@@ -35,12 +35,11 @@
       background-color: transparent;
       border: none;
       font-size: 70px;
-      font-family: "Anodina-ExtraLight";
       margin-right: 15px;
-      @include atLarge {
+      @include below1070px {
         font-size: 50px;
       }
-      @include atMedium {
+      @include below820px {
         font-size: 40px;
       }
     }
@@ -57,14 +56,13 @@
 
     &__nav {
       list-style: none;
-      font-family: "Anodina-ExtraLight";
       font-weight: 300;
       display: flex;
       justify-content: space-between;
       align-self: flex-start;
       width: 70%;
       padding-bottom: 40px;
-      @include atSmall {
+      @include below545px {
         flex-wrap: wrap;
         align-self: center;
         width: 95%;
@@ -72,7 +70,7 @@
       &__li {
         position: relative;
         opacity: 0.6;
-        @include atSmall {
+        @include below545px {
           margin-bottom: 8px;
         }
       }
@@ -103,7 +101,7 @@
     &__album-example {
       display: flex;
       width: 100%;
-      @include atSmall {
+      @include below545px {
         flex-direction: column;
       }
       &__element {
@@ -147,7 +145,7 @@
       &__album-tracks {
         height: 250px;
         width: calc(100% - 250px);
-        @include atSmall {
+        @include below545px {
           width: 95%;
         }
       }
@@ -159,7 +157,6 @@
           display: flex;
           flex-direction: column;
           font-size: 12px;
-          font-family: "Anodina-ExtraLight";
           opacity: 0.9;
           height: 100%;
           justify-content: space-around;

@@ -1,6 +1,7 @@
 import React, { useEffect, useContext } from "react";
 import ContainerGenerator from "../ContainerGenerator/ContainerGenerator";
 import { Context } from "../../Context/Context";
+import HeadlineAnimator from "../Helpers/HeadlineAnimator";
 import "../../Styles/Base/app.scss";
 
 function Genres(props) {
@@ -21,12 +22,12 @@ function Genres(props) {
       />
     );
   }
+  let headlines = ["Genres & Moods"];
+  headlines = HeadlineAnimator(headlines);
   return (
     <div style={{ color: "#ffffff" }} className="generator genres">
-      <h2 className="app__fetch-title">{"Genres & Moods"}</h2>
-      <div className="app__fetch-container">
-        {categoriesList || <ContainerGenerator />}
-      </div>
+      {headlines[0]}
+      <div className="app__fetch-container">{categoriesList}</div>
     </div>
   );
 }

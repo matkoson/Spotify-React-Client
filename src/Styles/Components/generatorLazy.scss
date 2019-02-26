@@ -14,7 +14,7 @@
         transition-duration: 0.5s;
         border-radius: 10px;
         overflow: hidden;
-        @include atXLarge {
+        @include below1235px {
           width: 250px;
           height: 250px;
         }

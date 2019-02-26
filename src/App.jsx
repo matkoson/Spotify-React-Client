@@ -27,10 +27,14 @@ import {
   faSearch,
   faSpinner
 } from "@fortawesome/free-solid-svg-icons";
+import "./Styles/Base/app.scss";
+
 import { faReact } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import initSDK from "./APIconnection/initSDK";
 import HomeScreen from "./Components/HomeScreen/HomeScreen";
+import "./Styles/Components/left-tab.scss";
+
 library.add(
   faPlay,
   faPause,
@@ -45,17 +49,9 @@ library.add(
   faReact,
   faSpinner
 );
-lazy(import("./Styles/Components/left-tab.scss"));
-lazy(import("./Styles/Base/app.scss"));
-lazy(import("./Styles/Base/appLazy.scss"));
-const Desktop =
-  window.innerView > 820
-    ? import("./Components/Desktop/Desktop")
-    : lazy(() => import("./Components/Desktop/Desktop"));
-const Mobile =
-  window.innerView > 820
-    ? import("./Components/Mobile/Mobile")
-    : lazy(() => import("./Components/Mobile/Mobile"));
+
+const Desktop = lazy(() => import("./Components/Desktop/Desktop"));
+const Mobile = lazy(() => import("./Components/Mobile/Mobile"));
 const Charts = lazy(() => import("./Components/Charts/Charts"));
 const Album = lazy(() => import("./Components/Album/Album"));
 const Library = lazy(() => import("./Components/Library/Library"));
@@ -143,7 +139,6 @@ export default class App extends Component {
       handleMobileNavToggle;
     lazy(
       import("./AppMethods/AppMethods").then(res => {
-        console.log("PROMISED", res);
         handleNavClick = res.handleNavClick.bind(this);
         handleMainRightChange = res.handleMainRightChange.bind(this);
         handleAlbumRightOverride = res.handleAlbumRightOverride.bind(this);
@@ -175,16 +170,18 @@ export default class App extends Component {
       this.homeRef.current.scrollIntoView();
     window.addEventListener("resize", this.state.handleResize);
     //Initiate Spotify SDK Player through cdn script
-    cdnLoader({
-      src: "https://sdk.scdn.co/spotify-player.js",
-      id: "SDK",
-      callback: () => {
-        this.setState({ SDKloaded: true });
-        return (window.onSpotifyWebPlaybackSDKReady = () => {
-          this.initSDK(this.state.tokenSDK);
-        });
-      }
-    });
+    lazy(() =>
+      cdnLoader({
+        src: "https://sdk.scdn.co/spotify-player.js",
+        id: "SDK",
+        callback: () => {
+          this.setState({ SDKloaded: true });
+          return (window.onSpotifyWebPlaybackSDKReady = () => {
+            this.initSDK(this.state.tokenSDK);
+          });
+        }
+      })
+    );
     const currAd = window.location.href;
     if (/access_token/.test(currAd)) {
       this.setToken(currAd);
@@ -254,110 +251,113 @@ export default class App extends Component {
               />
             }
           >
-            <div path={process.env.PUBLIC_URL + "/*"} className="left-tab">
-              {window.innerWidth <= 820 && (
-                <Mobile
-                  path={process.env.PUBLIC_URL + "/*"}
-                  handleMainRightChange={this.state.handleMainRightChange}
-                  handleMobileNavToggle={this.state.handleMobileNavToggle}
-                  mobile={this.state.mobile}
-                />
-              )}
-              {window.innerWidth > 820 && (
-                <Desktop
-                  path={process.env.PUBLIC_URL + "/*"}
-                  handleNavClick={this.state.handleNavClick}
-                  handleMainRightChange={this.state.handleMainRightChange}
-                >
-                  <RecentlyPlayed
+            {this.state.auth && (
+              <React.Fragment>
+                <div path={process.env.PUBLIC_URL + "/*"} className="left-tab">
+                  <Mobile
+                    path={process.env.PUBLIC_URL + "/*"}
+                    handleMainRightChange={this.state.handleMainRightChange}
+                    handleMobileNavToggle={this.state.handleMobileNavToggle}
+                    mobile={this.state.mobile}
+                  />
+                  <Desktop
                     path={process.env.PUBLIC_URL + "/*"}
                     handleNavClick={this.state.handleNavClick}
-                    rawRecPlayed={this.state.recentlyPlayed}
+                    handleMainRightChange={this.state.handleMainRightChange}
+                  >
+                    <RecentlyPlayed
+                      path={process.env.PUBLIC_URL + "/*"}
+                      handleNavClick={this.state.handleNavClick}
+                      rawRecPlayed={this.state.recentlyPlayed}
+                      player={this.player}
+                      APIrequest={this.playerRequest}
+                    />
+                  </Desktop>
+                </div>
+                <Router primary={false}>
+                  <RightTab
+                    path={process.env.PUBLIC_URL + "/home"}
+                    mobile={this.state.mobile}
+                    handleNavClick={this.state.handleNavClick}
+                    className="right-tab"
+                  >
+                    <HomeScreen
+                      path={process.env.PUBLIC_URL + "/"}
+                      featured={this.state.featured}
+                      recent={this.state.recentlyPlayed}
+                      relatedTop={this.state.topRelatedArtists}
+                      topArtist={this.state.topArtist}
+                      player={this.player}
+                    />
+                    <Charts
+                      path={process.env.PUBLIC_URL + "charts"}
+                      getCategories={this.state.getCategories}
+                      getCategoryPlaylists={this.state.getCategoryPlaylists}
+                      PolandTop={this.state.PolandTop}
+                      countryCodes={this.state.countryCodes}
+                    />
+                    <Genres
+                      path={process.env.PUBLIC_URL + "genres-moods"}
+                      getCategories={this.state.getCategories}
+                      //
+                    />
+                    <NewReleases
+                      path={process.env.PUBLIC_URL + "new-releases"}
+                      getNewReleases={this.state.getNewReleases}
+                    />
+                    <Discover
+                      path={process.env.PUBLIC_URL + "discover"}
+                      getMultipleArtistAlbums={
+                        this.state.getMultipleArtistAlbums
+                      }
+                      idList={
+                        this.state.topRelatedArtists &&
+                        this.state.topRelatedArtists.map(e => e.id)
+                      }
+                    />
+                  </RightTab>
+                  <Search
+                    path={process.env.PUBLIC_URL + "/search"}
+                    searchQuery={this.state.searchQuery}
                     player={this.player}
-                    APIrequest={this.playerRequest}
                   />
-                </Desktop>
-              )}
-            </div>
-            <Router primary={false}>
-              <RightTab
-                path={process.env.PUBLIC_URL + "/home"}
-                mobile={this.state.mobile}
-                handleNavClick={this.state.handleNavClick}
-                className="right-tab"
-              >
-                <HomeScreen
-                  path={process.env.PUBLIC_URL + "/"}
-                  featured={this.state.featured}
-                  recent={this.state.recentlyPlayed}
-                  relatedTop={this.state.topRelatedArtists}
-                  topArtist={this.state.topArtist}
-                  player={this.player}
-                />
-                <Charts
-                  path={process.env.PUBLIC_URL + "charts"}
-                  getCategories={this.state.getCategories}
-                  getCategoryPlaylists={this.state.getCategoryPlaylists}
-                  PolandTop={this.state.PolandTop}
-                  countryCodes={this.state.countryCodes}
-                />
-                <Genres
-                  path={process.env.PUBLIC_URL + "genres-moods"}
-                  getCategories={this.state.getCategories}
-                  //
-                />
-                <NewReleases
-                  path={process.env.PUBLIC_URL + "new-releases"}
-                  getNewReleases={this.state.getNewReleases}
-                />
-                <Discover
-                  path={process.env.PUBLIC_URL + "discover"}
-                  getMultipleArtistAlbums={this.state.getMultipleArtistAlbums}
-                  idList={
-                    this.state.topRelatedArtists &&
-                    this.state.topRelatedArtists.map(e => e.id)
+                  <Library
+                    path={process.env.PUBLIC_URL + "/library"}
+                    getUserPlaylists={this.state.getUserPlaylists}
+                    getUserSavedAlbums={this.state.getUserSavedAlbums}
+                    getUserSavedTracks={this.state.getUserSavedTracks}
+                  />
+                  <Album
+                    path={process.env.PUBLIC_URL + "/album"}
+                    ref={this.albumRef}
+                    getAlbum={this.state.getAlbum}
+                    getPlaylist={this.state.getPlaylist}
+                    getPlaylistCover={this.state.getPlaylistCover}
+                    getPlaylistTracks={this.state.getPlaylistTracks}
+                    albumViewOption={this.state.albumViewOption}
+                  />
+                  <CatInnerView
+                    path={process.env.PUBLIC_URL + "/category"}
+                    PolandTop={this.state.PolandTop}
+                    getCategory={this.state.getCategory}
+                    getCategoryPlaylists={this.state.getCategoryPlaylists}
+                  />
+                </Router>
+                <PlayerBar
+                  path={process.env.PUBLIC_URL + "/*"}
+                  recent={
+                    this.state.recentlyPlayed &&
+                    this.state.recentlyPlayed.items[0]
                   }
+                  handleDeviceTabClick={this.state.handleDeviceTabClick}
+                  isDeviceTabOn={this.state.deviceTabOn}
+                  player={this.player}
+                  deviceId={this.state.deviceID}
+                  deviceName={this.state.deviceName}
+                  currentPlayback={this.state.currentPlayback}
                 />
-              </RightTab>
-              <Search
-                path={process.env.PUBLIC_URL + "/search"}
-                searchQuery={this.state.searchQuery}
-                player={this.player}
-              />
-              <Library
-                path={process.env.PUBLIC_URL + "/library"}
-                getUserPlaylists={this.state.getUserPlaylists}
-                getUserSavedAlbums={this.state.getUserSavedAlbums}
-                getUserSavedTracks={this.state.getUserSavedTracks}
-              />
-              <Album
-                path={process.env.PUBLIC_URL + "/album"}
-                ref={this.albumRef}
-                getAlbum={this.state.getAlbum}
-                getPlaylist={this.state.getPlaylist}
-                getPlaylistCover={this.state.getPlaylistCover}
-                getPlaylistTracks={this.state.getPlaylistTracks}
-                albumViewOption={this.state.albumViewOption}
-              />
-              <CatInnerView
-                path={process.env.PUBLIC_URL + "/category"}
-                PolandTop={this.state.PolandTop}
-                getCategory={this.state.getCategory}
-                getCategoryPlaylists={this.state.getCategoryPlaylists}
-              />
-            </Router>
-            <PlayerBar
-              path={process.env.PUBLIC_URL + "/*"}
-              recent={
-                this.state.recentlyPlayed && this.state.recentlyPlayed.items[0]
-              }
-              handleDeviceTabClick={this.state.handleDeviceTabClick}
-              isDeviceTabOn={this.state.deviceTabOn}
-              player={this.player}
-              deviceId={this.state.deviceID}
-              deviceName={this.state.deviceName}
-              currentPlayback={this.state.currentPlayback}
-            />
+              </React.Fragment>
+            )}
           </Suspense>
         </Provider>
       </main>

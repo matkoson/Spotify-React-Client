@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import ContainerGenerator from "../ContainerGenerator/ContainerGenerator";
 import { Context } from "../../Context/Context";
+import HeadlineAnimator from "../Helpers/HeadlineAnimator";
 import "../../Styles/Base/app.scss";
 
 function NewReleases(props) {
@@ -19,12 +20,11 @@ function NewReleases(props) {
         animate={true}
       />
     );
+  let headlines = ["New albums & singles"];
+  headlines = HeadlineAnimator(headlines);
   return (
     <div className="generator new-releases">
-      <h2 className="app__fetch-title">{"New albums & singles"}</h2>
-      <div className="app__fetch-container">
-        {newReleases || <ContainerGenerator />}
-      </div>
+      {headlines[0]} <div className="app__fetch-container">{newReleases}</div>
     </div>
   );
 }

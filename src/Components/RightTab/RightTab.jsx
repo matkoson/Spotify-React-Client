@@ -5,6 +5,18 @@ lazy(import("../../Styles/Components/generator.scss"));
 lazy(import("../../Styles/Components/generatorLazy.scss"));
 
 export default function RightTab(props) {
+  const navMargin =
+    window.innerWidth < 428
+      ? props.mobile
+        ? { marginTop: "270px" }
+        : { marginTop: 0 }
+      : { marginTop: 0 };
+  console.log(
+    navMargin,
+    window.innerWidth < 428,
+    window.innerWidth,
+    props.mobile
+  );
   return (
     <div className="right-tab app__right-container-generic__outer">
       {!props.mobile && (
@@ -48,10 +60,7 @@ export default function RightTab(props) {
           </Link>
         </div>
       )}
-      <div
-        className="wrapper"
-        style={props.mobile ? { marginTop: "208px" } : null}
-      >
+      <div className="wrapper" style={navMargin}>
         {props.children}
       </div>
     </div>

@@ -11,27 +11,27 @@
   overflow: auto;
   width: 765px;
   position: relative;
-  @include atLarge {
+  @include below1070px {
     width: 700px;
     flex-direction: column;
   }
-  @include atMedium {
+  @include below820px {
     width: 700px;
     flex-direction: column;
     margin-left: 0;
   }
-  @include atSmall {
+  @include below545px {
     max-width: 100%;
   }
 
   &__presentation {
     display: flex;
     flex-direction: column;
-    @include atLarge {
+    @include below1070px {
       flex-direction: row;
       width: 100% !important;
     }
-    @include atMedium {
+    @include below820px {
       flex-direction: column;
     }
     // width: 400px}
@@ -43,7 +43,7 @@
       position: relative;
       margin-right: 5px;
       margin-left: 0;
-      @include atSmall {
+      @include below545px {
         max-width: 100%;
       }
     }
@@ -51,7 +51,7 @@
     &__veneer {
       height: 400px;
       width: 400px;
-      @include atMedium {
+      @include below820px {
         position: relative;
         left: 50px;
         border-radius: 10px;
@@ -91,7 +91,7 @@
       width: 400px;
       max-width: 100%;
       font-size: 40px;
-      @include atLarge {
+      @include below1070px {
         position: absolute;
         top: 300px;
         left: 25px;
@@ -99,7 +99,7 @@
         text-align: left;
         width: 50%;
       }
-      @include atMedium {
+      @include below820px {
         width: 80%;
         margin: 0 auto;
         text-align: center;
@@ -129,7 +129,7 @@
       opacity: 0.6;
       cursor: pointer;
       display: flex;
-      @include atMedium {
+      @include below820px {
         display: none;
       }
     }
@@ -159,15 +159,15 @@
     width: 400px;
     margin-top: 50px;
     margin-left: 15px;
-    @include atLarge {
+    @include below1070px {
       width: 400px;
       margin: 0 auto;
       margin-top: 100px;
     }
-    @include atMedium {
+    @include below820px {
       margin-top: 0;
     }
-    @include atSmall {
+    @include below545px {
       max-width: 100%;
     }
 
@@ -203,7 +203,7 @@
       min-width: 300px;
       font-weight: 200;
       font-size: 20px;
-      @include atLarge {
+      @include below1070px {
         font-size: 15px;
         min-width: 0;
       }
@@ -221,7 +221,7 @@
 
     &__tracks__track__title {
       max-width: 75%;
-      @include atLarge {
+      @include below1070px {
         max-width: 50%;
       }
     }

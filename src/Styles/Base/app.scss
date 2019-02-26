@@ -1,6 +1,25 @@
 @import "./_variables.scss";
 @import "./_mixins.scss";
 
+@font-face {
+  font-family: "Horizon-Regular";
+  src: local("Horizon-Regular"), url("../../assets/fonts/subset-Horizon-Regular.woff") format("woff");
+  font-display: swap;
+}
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@font-face {
+  font-family: "Anodina-Light";
+  src: local("Anodina-Light"), url("../../assets/fonts/Anodina-Light.woff") format("woff");
+  font-display: swap;
+}
 .generator {
   display: flex;
   flex-direction: column;
@@ -10,14 +29,14 @@
   align-items: center;
   font-weight: 800;
   color: #fff;
-  @include atLarge {
+  @include below1070px {
     margin: 0 15px;
     width: 95%;
   }
 }
 .wrapper {
   width: calc(100vw - 240px);
-  @include atMedium {
+  @include below820px {
     width: 95%;
     margin-right: auto;
     margin-left: auto;
@@ -32,6 +51,10 @@
   transition: background-image 1.5s ease;
   color: #ffffff;
   position: relative;
+  &__rounded-album {
+    border-radius: 50%;
+    overflow: hidden;
+  }
   &__fetch {
     &__link {
       display: flex;
@@ -42,19 +65,20 @@
       margin-bottom: 2%;
       font-size: 42px;
       font-family: "SpaceGrotesk-Bold", sans-serif;
-      @include atXLarge {
+      @include below1235px {
         font-size: 35px;
       }
-      @include atLarge {
+      @include below1070px {
         text-align: center;
       }
     }
     &-container {
+      padding-top: 25px;
       display: flex;
       flex-wrap: wrap;
       justify-content: flex-start;
       margin-bottom: 5%;
-      @include atLarge {
+      @include below1070px {
         justify-content: center;
       }
     }
@@ -72,14 +96,17 @@
     margin-right: 0;
     margin-bottom: 90px;
     padding-right: 0;
-    @include atMedium {
+    @include below820px {
       margin-left: 0;
     }
     &__right-nav {
       display: flex;
       flex-wrap: wrap;
       justify-content: space-around;
-      margin: 42px auto;
+      margin: 56px auto;
+      @include below420px {
+        margin-bottom: 90px;
+      }
       width: 90%;
       font-size: 12px;
       font-weight: 700;
@@ -87,7 +114,7 @@
       list-style: none;
       line-height: 16px;
       letter-spacing: 0.15rem;
-      @include atMedium {
+      @include below820px {
         width: 80% !important;
         height: 124px;
       }
@@ -104,6 +131,12 @@
     align-items: center;
     font-size: 1.8rem;
     z-index: 1;
+    &--hover {
+      transform: scale(1.2);
+      border-radius: 50%;
+      border: 1px solid white;
+      z-index: 1;
+    }
   }
 }
 

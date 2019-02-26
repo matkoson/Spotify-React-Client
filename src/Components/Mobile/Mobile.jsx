@@ -5,7 +5,7 @@ import lib from "../../assets/svg/lib.svg";
 import { Link } from "@reach/router";
 import { useTransition, animated } from "react-spring";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import("../../Styles/Components/mobile.scss");
+import "../../Styles/Components/mobile.scss";
 
 export default function Mobile(props) {
   const { mobile, handleMobileNavToggle, handleMainRightChange } = props;

@@ -36,9 +36,7 @@ class CatInnerView extends React.Component {
         </div>
 
         <h2 className="app__fetch-title">{"Popular Playlists"}</h2>
-        <div className="app__fetch-container ">
-          {catRender || <ContainerGenerator />}
-        </div>
+        <div className="app__fetch-container ">{catRender}</div>
       </div>
     );
   }
