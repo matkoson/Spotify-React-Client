@@ -5,7 +5,7 @@
   font-family: "Horizon-Regular";
   src: local("Horizon-Regular"), url("../../assets/fonts/subset-Horizon-Regular.woff2") format("woff2"),
     url("../../assets/fonts/subset-Horizon-Regular.woff") format("woff");
-  // font-display: swap;
+  font-display: swap;
 }
 @keyframes App-logo-spin {
   from {
@@ -20,20 +20,20 @@
   font-family: "Anodina-Light";
   src: local("Anodina-Light"), url("../../assets/fonts/Anodina-Light.woff2") format("woff2"),
     url("../../assets/fonts/Anodina-Light.woff") format("woff");
-  // font-display: swap;
+  font-display: swap;
 }
 @font-face {
   font-family: "Anodina-ExtraLight";
   src: local("Anodina-ExtraLight"), url("../../assets/fonts/Anodina-ExtraLight.woff2") format("woff2"),
     url("../../assets/fonts/Anodina-ExtraLight.woff") format("woff");
-  // font-display: swap;
+  font-display: swap;
 }
 
 @font-face {
   font-family: "SpaceGrotesk-Bold";
   src: local("SpaceGrotesk-Bold"), url("../../assets/fonts/SpaceGrotesk-Bold.woff2") format("woff2"),
     url("../../assets/fonts/SpaceGrotesk-Bold.woff") format("woff");
-  // font-display: swap;
+  font-display: swap;
 }
 .generator {
   display: flex;
@@ -66,6 +66,8 @@
   transition: background-image 1.5s ease;
   color: #ffffff;
   position: relative;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans",
+    "Droid Sans", "Helvetica Neue", sans-serif;
   .anodina-ready {
     font-family: "Anodina-Light";
   }

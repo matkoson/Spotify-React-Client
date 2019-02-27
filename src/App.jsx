@@ -130,83 +130,69 @@ export default class App extends Component {
     this.homeRef = React.createRef();
   }
   componentDidMount() {
-    import('./loadFonts')
-    let handleNavClick,
-      handleMainRightChange,
-      handleAlbumRightOverride,
-      handleMainRightViewChange,
-      handleDeviceTabClick,
-      handleResize,
-      handleMobileNavToggle;
-    lazy(
-      import("./AppMethods/AppMethods").then(res => {
-        console.log("2. Started", Date.now());
-        handleNavClick = res.handleNavClick.bind(this);
-        handleMainRightChange = res.handleMainRightChange.bind(this);
-        handleAlbumRightOverride = res.handleAlbumRightOverride.bind(this);
-        handleMainRightViewChange = res.handleMainRightViewChange.bind(this);
-        handleDeviceTabClick = res.handleDeviceTabClick.bind(this);
-        handleResize = res.handleResize.bind(this);
-        handleMobileNavToggle = res.handleMobileNavToggle.bind(this);
-        return this.setState(
-          {
-            handleNavClick,
-            handleDeviceTabClick,
-            handleResize,
-            handleMobileNavToggle,
-            handleMainRightChange,
-            valueContext: {
-              ...this.state.valueContext,
-              handleAlbumRightOverride,
-              handleMainRightViewChange
-            }
-          },
-          () => console.log("3. Setted", Date.now())
-        );
-      })
-    );
-    lazy(
-      import("./assets/countries").then(res => {
-        return this.setState({ countryCodes: res.default() });
-      })
-    );
-    lazy(
-      import("./loadScript").then(res =>
-        res.default({
-          src: "https://sdk.scdn.co/spotify-player.js",
-          id: "SDK",
-          callback: () => {
-            this.setState({ SDKloaded: true }, () =>
-              console.log("SDK LOADED", Date.now())
-            );
-            return (window.onSpotifyWebPlaybackSDKReady = () => {
-              this.initSDK(this.state.tokenSDK);
-            });
-          }
+    if (this.state.auth) {
+      import("./loadFonts");
+      let handleNavClick,
+        handleMainRightChange,
+        handleAlbumRightOverride,
+        handleMainRightViewChange,
+        handleDeviceTabClick,
+        handleResize,
+        handleMobileNavToggle;
+      lazy(
+        import("./AppMethods/AppMethods").then(res => {
+          console.log("2. Started", Date.now());
+          handleNavClick = res.handleNavClick.bind(this);
+          handleMainRightChange = res.handleMainRightChange.bind(this);
+          handleAlbumRightOverride = res.handleAlbumRightOverride.bind(this);
+          handleMainRightViewChange = res.handleMainRightViewChange.bind(this);
+          handleDeviceTabClick = res.handleDeviceTabClick.bind(this);
+          handleResize = res.handleResize.bind(this);
+          handleMobileNavToggle = res.handleMobileNavToggle.bind(this);
+          return this.setState(
+            {
+              handleNavClick,
+              handleDeviceTabClick,
+              handleResize,
+              handleMobileNavToggle,
+              handleMainRightChange,
+              valueContext: {
+                ...this.state.valueContext,
+                handleAlbumRightOverride,
+                handleMainRightViewChange
+              }
+            },
+            () => console.log("3. Setted", Date.now())
+          );
         })
-      )
-    );
-    if (this.state.mainRightView === "Home" && this.homeRef.current)
-      this.homeRef.current.scrollIntoView();
-    window.addEventListener("resize", this.state.handleResize);
-    //Initiate Spotify SDK Player through cdn script
-    // import cdnLoader from "./loadScript";
+      );
+      lazy(
+        import("./assets/countries").then(res => {
+          return this.setState({ countryCodes: res.default() });
+        })
+      );
+      if (this.state.mainRightView === "Home" && this.homeRef.current)
+        this.homeRef.current.scrollIntoView();
+      window.addEventListener("resize", this.state.handleResize);
+      //Initiate Spotify SDK Player through cdn script
+      // import cdnLoader from "./loadScript";
 
-    const currAd = window.location.href;
-    if (/access_token/.test(currAd)) {
-      this.setToken(currAd);
-      navigate("home");
-      if (this.state.SDK) {
-        return this.checkSDK();
+      //
+    } else {
+      const currAd = window.location.href;
+      if (/access_token/.test(currAd)) {
+        this.setToken(currAd);
+        navigate("home");
+        if (this.state.SDK) {
+          return this.checkSDK();
+        } else {
+          return;
+        }
+      } else if (/access_denied/.test(currAd)) {
+        console.error("Access denied by the user");
       } else {
-        return;
+        this.getToken();
       }
-    } else if (/access_denied/.test(currAd)) {
-      console.error("Access denied by the user");
-    }
-    //
-    if (!this.state.auth) {
-      this.getToken();
     }
   }
   componentDidUpdate() {
@@ -214,6 +200,28 @@ export default class App extends Component {
       if (!this.state.recentlyPlayed) this.getRecent();
       if (!this.state.featured) this.getFtrdPlay();
       if (!this.state.topRelatedArtists) this.getTopArtist();
+      if (
+        this.state.recentlyPlayed &&
+        this.state.featured &&
+        this.state.topRelatedArtists &&
+        (Desktop || Mobile)
+      )
+        lazy(
+          import("./loadScript").then(res =>
+            res.default({
+              src: "https://sdk.scdn.co/spotify-player.js",
+              id: "SDK",
+              callback: () => {
+                this.setState({ SDKloaded: true }, () =>
+                  console.log("SDK LOADED", Date.now())
+                );
+                return (window.onSpotifyWebPlaybackSDKReady = () => {
+                  this.initSDK(this.state.tokenSDK);
+                });
+              }
+            })
+          )
+        );
     }
   }
   getMinsSecs = (ms = 0) => {
