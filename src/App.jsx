@@ -131,7 +131,7 @@ export default class App extends Component {
     this.homeRef = React.createRef();
   }
   componentDidMount() {
-    console.log(this.state);
+    // console.log(this.state);
     import("./loadFonts");
     if (!this.state.auth) {
       const currAd = window.location.href;
@@ -143,9 +143,9 @@ export default class App extends Component {
       } else {
         this.getToken();
       }
-      if (this.state.mainRightView === "Home" && this.homeRef.current) {
-        this.homeRef.current.scrollIntoView();
-      }
+      // if (this.state.mainRightView === "Home" && this.homeRef.current) {
+      //   this.homeRef.current.scrollIntoView();
+      // }
       window.addEventListener("resize", this.state.handleResize);
       console.log("here i am");
       this.importDeferredMethods();

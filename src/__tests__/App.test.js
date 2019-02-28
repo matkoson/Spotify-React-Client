@@ -9,7 +9,3 @@ it("Renders without crashing", () => {
   sinon.stub(window.location, "assign");
   render(<App />);
 });
-it("", () => {});
-// it("Renders correct initial URL",()=>{
-
-// })

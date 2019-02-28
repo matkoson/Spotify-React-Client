@@ -1,4 +1,5 @@
 import React from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default function ExampleAlbum(props) {
   let name, artist, albumsExmp, albums, cx, top5Tracks, totalDuration, idS;
@@ -35,7 +36,8 @@ export default function ExampleAlbum(props) {
             </span>
           </div>
           <div className="search__response__album-example__tracks-li__duration">
-            {`${totalDuration.min}:${totalDuration.sec}`}
+            {(totalDuration && `${totalDuration.min}:${totalDuration.sec}`) ||
+              "00:00"}
           </div>
         </li>
       );
@@ -58,14 +60,16 @@ export default function ExampleAlbum(props) {
             e.currentTarget.className =
               "search__response__album-example__element__img generator__playlist-element__img--hover";
           }}
-          onMouseLeave={e =>
-            (e.currentTarget.className =
-              "search__response__album-example__element__img generator__playlist-element__img")
-          }
-          onMouseDown={e =>
-            (e.currentTarget.className =
-              "search__response__album-example__element__img generator__playlist-element__img--hover generator__playlist-element__img--click")
-          }
+          onMouseLeave={e => {
+            e.currentTarget.className =
+              "search__response__album-example__element__img generator__playlist-element__img";
+            e.currentTarget.dataset.testid = "invisible";
+          }}
+          onMouseDown={e => {
+            e.currentTarget.className =
+              "search__response__album-example__element__img generator__playlist-element__img--hover generator__playlist-element__img--click";
+            e.currentTarget.dataset.testid = "clicked";
+          }}
           onMouseUp={e =>
             (e.currentTarget.className =
               "search__response__album-example__element__img generator__playlist-element__img--hover")
@@ -84,16 +88,23 @@ export default function ExampleAlbum(props) {
             >
               {props.playerState &&
               !props.playerState.paused &&
-              ((props.currentlyPlaying.item &&
+              ((props.currentlyPlaying &&
+                props.currentlyPlaying.item &&
                 cx === props.currentlyPlaying.item.uri) ||
-                (props.currentlyPlaying.context &&
+                (props.currentlyPlaying &&
+                  props.currentlyPlaying.context &&
                   cx === props.currentlyPlaying.context.uri)) ? (
-                <i
-                  id="pause"
+                <FontAwesomeIcon
+                  icon="pause"
+                  data-testid="pause"
                   className="fas fa-pause app__pause-visible__icon"
                 />
               ) : (
-                <i id="play" className="fas fa-play app__play-hover__icon" />
+                <FontAwesomeIcon
+                  icon="play"
+                  data-testid="play"
+                  className="fas fa-play app__play-hover__icon"
+                />
               )}
               {/* check whether the uri of the curr playing album/artist/track is same as the uri of the generated element */}
             </div>
@@ -101,8 +112,8 @@ export default function ExampleAlbum(props) {
           <img
             height="250px"
             width="250px"
-            src={albumsExmp && albums.items[0].images[0].url}
-            alt=""
+            src={albumsExmp && albumsExmp.images[0].url}
+            alt="Example album"
             className="search__response__album-example__img-file generator__playlist-element__img-pic"
           />
         </div>

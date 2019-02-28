@@ -11,19 +11,19 @@ class Search extends React.Component {
     super(props);
     this.state = { searchInput: "", chosenTab: "top result" };
     this.handleInputChange = this.handleInputChange.bind(this);
-    this.handleHighlightChange = this.handleHighlightChange.bind(this);
   }
   handleInputChange(e) {
     const value = e.target.value;
     this.setState({ searchInput: value });
     setTimeout(() => {
-      this.context.APIrequest("searchQuery", { query: value });
+      this.context.APIrequest &&
+        this.context.APIrequest("searchQuery", { query: value });
     }, 1000);
   }
-  handleHighlightChange(e) {}
 
   render() {
-    const { albums, artists, playlists, tracks } = this.props.searchQuery;
+    if (this.props.searchQuery)
+      var { albums, artists, playlists, tracks } = this.props.searchQuery;
     let resultRender;
     switch (this.state.chosenTab) {
       case "albums":
@@ -39,12 +39,12 @@ class Search extends React.Component {
           <React.Fragment>
             <h2 className="app__fetch-title">{"Matching Artists"}</h2>
             <div className="app__fetch-container ">
-              {
+              {artists && (
                 <ContainerGenerator
                   data={artists.items.slice(0, 10)}
                   type={"playlists"}
                 />
-              }
+              )}
             </div>
           </React.Fragment>
         );
@@ -54,12 +54,12 @@ class Search extends React.Component {
           <React.Fragment>
             <h2 className="app__fetch-title">{"Matching Tracks"}</h2>
             <div className="app__fetch-container ">
-              {
+              {tracks && (
                 <ContainerGenerator
                   data={tracks.items.slice(0, 100)}
                   type={"playlists"}
                 />
-              }
+              )}
             </div>
           </React.Fragment>
         );
@@ -67,7 +67,7 @@ class Search extends React.Component {
       case "playlists":
         resultRender = (
           <React.Fragment>
-            <h2 className="app__fetch-title">{"Matching Artists"}</h2>
+            <h2 className="app__fetch-title">{"Matching Playlists"}</h2>
             <div className="app__fetch-container generator--exception">
               {this.playlists}
             </div>
@@ -98,7 +98,7 @@ class Search extends React.Component {
         );
     }
     if (playlists) {
-      this.playlists = (
+      this.playlists = playlists && (
         <ContainerGenerator
           data={playlists.items.slice(0, 5)}
           type={"playlists"}
@@ -106,18 +106,18 @@ class Search extends React.Component {
       );
     }
     if (artists) {
-      this.artists = (
+      this.artists = artists && (
         <ContainerGenerator
           data={artists.items.slice(0, 2)}
           type={"playlists"}
-          animate={true}
+          // animate={true}
         />
       );
     }
     if (albums) {
-      this.albums = (
+      this.albums = albums && (
         <ContainerGenerator
-          data={albums.items.slice(0, 50)}
+          data={albums.items.slice(0, 5)}
           type={"playlists"}
           animate={true}
         />

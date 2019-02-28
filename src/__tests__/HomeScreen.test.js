@@ -3,7 +3,7 @@ import React from "react";
 import { render, waitForElement, getByText } from "react-testing-library";
 import HomeScreen from "../Components/HomeScreen/HomeScreen";
 
-const FeaturedObject = {
+const feed = {
   message: "Monday morning music, coming right up!",
   playlists: {
     href:
@@ -94,9 +94,9 @@ const FeaturedObject = {
     total: 12
   }
 };
-const titles = FeaturedObject.playlists.items.map(e => e.name);
+const titles = feed.playlists.items.map(e => e.name);
 it("Shows the main headline", async () => {
-  const { getByText } = render(<HomeScreen featured={FeaturedObject} />);
+  const { getByText } = render(<HomeScreen featured={feed} />);
   await waitForElement(() => getByText(titles[0]));
   // expect(getByText("Editor's picks")).toBeInTheDocument();
 });

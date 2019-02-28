@@ -10,9 +10,9 @@ class Album extends React.Component {
     super(props);
     this.initRef = React.createRef();
   }
-  componentDidMount() {
-    this.initRef.current.scrollIntoView();
-  }
+  // componentDidMount() {
+  //   this.initRef.current.scrollIntoView();
+  // }
   render() {
     const context = this.context;
     var trackNumber;

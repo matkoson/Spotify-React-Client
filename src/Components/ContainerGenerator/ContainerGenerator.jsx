@@ -252,6 +252,8 @@ function ContainerGenerator(props) {
         </React.Fragment>
       );
     });
+  } else {
+    return;
   }
 }
 
