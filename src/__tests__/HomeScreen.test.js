@@ -1,6 +1,5 @@
 import React from "react";
 // import ReactDOM from "react-dom";
-import { shallow } from "enzyme";
 import { render, waitForElement, getByText } from "react-testing-library";
 import HomeScreen from "../Components/HomeScreen/HomeScreen";
 
