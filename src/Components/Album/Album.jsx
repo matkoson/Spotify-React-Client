@@ -32,6 +32,7 @@ class Album extends React.Component {
           track_number
         } = this.props.getAlbum;
         tracks = tracks.items;
+
         var width = "400px",
           height = "400px";
       } else if (
@@ -45,79 +46,95 @@ class Album extends React.Component {
         var tracks = this.props.getPlaylistTracks.items.map(e => e.track);
         var width = "300px",
           height = "300px";
-        // var leftMargin=""
       }
 
-      if (tracks)
+      if (tracks) {
         tracks = tracks.map((e, i) => {
-          const totalDuration = context.getMinsSecs(e.duration_ms);
+          //some of the API response packages contain 'null' items
+          if (e) {
+            const totalDuration = context.getMinsSecs(e.duration_ms) || {
+              min: "00",
+              sec: "00"
+            };
 
-          const isPlaying =
-            context.playerState &&
-            e.id === context.playerState.track_window.current_track.id;
-          // console.log("ALBUM GEN", e);
-
-          return (
-            <div
-              key={e.uri}
-              data-album={uri}
-              data-track_number={track_number || i + 1}
-              onClick={e => {
-                // console.log(e.currentTarget.dataset);
-                e = e.currentTarget.dataset;
-                context.APIrequest("playSpecificPlayback", {
-                  cx: e.album,
-                  cx_pos: Number(e.track_number - 1)
-                });
-              }}
-              className={
-                isPlaying
-                  ? "album__tracklist__tracks__track--playing album__tracklist__tracks__track"
-                  : "album__tracklist__tracks__track"
-              }
-            >
-              <div className="album__tracklist__tracks__track__title">
-                {e.name}
-                {isPlaying && (
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="equilizer"
-                    viewBox="0 0 128 128"
-                  >
-                    <g>
-                      <title>Audio Equilizer</title>
-                      <rect className="bar" transform="translate(0,0)" y="15" />
-                      <rect
-                        className="bar"
-                        transform="translate(25,0)"
-                        y="15"
-                      />
-                      <rect
-                        className="bar"
-                        transform="translate(50,0)"
-                        y="15"
-                      />
-                      <rect
-                        className="bar"
-                        transform="translate(75,0)"
-                        y="15"
-                      />
-                      <rect
-                        className="bar"
-                        transform="translate(100,0)"
-                        y="15"
-                      />
-                    </g>
-                  </svg>
-                )}
+            const isPlaying =
+              context.playerState &&
+              e.id === context.playerState.track_window.current_track.id;
+            // console.log("ALBUM GEN", e);
+            if (context.playerState)
+              console.log(
+                context.playerState,
+                e.id,
+                context.playerState.track_window.current_track.id
+              );
+            return (
+              <div
+                key={e.uri}
+                data-album={uri}
+                data-track_number={track_number || i + 1}
+                onClick={e => {
+                  // console.log(e.currentTarget.dataset);
+                  e = e.currentTarget.dataset;
+                  context.APIrequest("playSpecificPlayback", {
+                    cx: e.album,
+                    cx_pos: Number(e.track_number - 1)
+                  });
+                }}
+                className={
+                  isPlaying
+                    ? "album__tracklist__tracks__track--playing album__tracklist__tracks__track"
+                    : "album__tracklist__tracks__track"
+                }
+              >
+                <div className="album__tracklist__tracks__track__title">
+                  {e.name}
+                  {isPlaying && (
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="equilizer"
+                      viewBox="0 0 128 128"
+                      data-testid="equalizer"
+                    >
+                      <g>
+                        <title>Audio Equilizer</title>
+                        <rect
+                          className="bar"
+                          transform="translate(0,0)"
+                          y="15"
+                        />
+                        <rect
+                          className="bar"
+                          transform="translate(25,0)"
+                          y="15"
+                        />
+                        <rect
+                          className="bar"
+                          transform="translate(50,0)"
+                          y="15"
+                        />
+                        <rect
+                          className="bar"
+                          transform="translate(75,0)"
+                          y="15"
+                        />
+                        <rect
+                          className="bar"
+                          transform="translate(100,0)"
+                          y="15"
+                        />
+                      </g>
+                    </svg>
+                  )}
+                </div>
+                <div className="album__tracklist__tracks__track__duration">
+                  {" "}
+                  {`${totalDuration.min}:${totalDuration.sec}`}
+                </div>
               </div>
-              <div className="album__tracklist__tracks__track__duration">
-                {" "}
-                {`${totalDuration.min}:${totalDuration.sec}`}
-              </div>
-            </div>
-          );
+            );
+          }
         });
+      }
     }
     return (
       <div className="album">
@@ -131,7 +148,7 @@ class Album extends React.Component {
                 ref={this.initRef}
                 className="album__presentation__img__file"
                 src={images && images[0].url}
-                alt=""
+                alt="Album Cover"
               />
             </div>
           </div>

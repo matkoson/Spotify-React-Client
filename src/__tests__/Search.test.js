@@ -3,7 +3,6 @@ import { render, waitForElement } from "react-testing-library";
 import { StateMock } from "@react-mock/state";
 import Search from "../Components/Search/Search";
 import { fireEvent } from "react-testing-library/dist";
-import ExampleAlbum from "../Components/Search/ExampleAlbum";
 
 const renderComponent = ({ searchInput, chosenTab }) =>
   render(

@@ -98,6 +98,10 @@
         opacity: 0.6;
         order: 1;
         text-align: center;
+        @include below545px {
+          max-height: 17px;
+          overflow: hidden;
+        }
       }
       &-title-artist__artist {
         font-size: 15px;

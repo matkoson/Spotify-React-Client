@@ -16,9 +16,11 @@
     flex-direction: column;
   }
   @include below820px {
-    width: 700px;
+    width: 100vw;
     flex-direction: column;
     margin-left: 0;
+    padding-left: 20px;
+    padding-right: 25px;
   }
   @include below545px {
     max-width: 100%;
@@ -53,7 +55,7 @@
       width: 400px;
       @include below820px {
         position: relative;
-        left: 50px;
+        left: 10px;
         border-radius: 10px;
         overflow: hidden;
         margin-bottom: 15px;
@@ -84,34 +86,31 @@
     }
 
     &__img-title {
+      font-family: "SpaceGrotesk-Bold";
       display: flex;
       flex-direction: column;
       justify-content: center;
       text-align: center;
       width: 400px;
       max-width: 100%;
-      font-size: 40px;
+      font-size: 50px;
       @include below1070px {
         position: absolute;
         top: 300px;
         left: 25px;
-        font-size: 25px;
+        font-size: 60px;
         text-align: left;
-        width: 50%;
+        width: 100%;
       }
       @include below820px {
         width: 80%;
         margin: 0 auto;
-        text-align: center;
         position: relative;
         top: 0;
         left: 0;
+        font-size: 40px;
       }
     }
-
-    // &__img__title {
-    //   font-size: 40px;
-    // }
 
     &__img__artist {
       font-size: 16px;
@@ -165,6 +164,7 @@
       margin-top: 100px;
     }
     @include below820px {
+      width: 100%;
       margin-top: 0;
     }
     @include below545px {
@@ -178,6 +178,9 @@
       font-size: 100px;
       font-weight: 200;
       margin-bottom: 20px;
+      @include below820px {
+        width: 100%;
+      }
     }
 
     &__tracks {

@@ -2,70 +2,7 @@ import { render } from "react-testing-library";
 import React from "react";
 import { fireEvent } from "react-testing-library/dist";
 import ExampleAlbum from "../Components/Search/ExampleAlbum";
-
-const feedExmplAlbum = {
-  items: [
-    {
-      artists: [
-        {
-          external_urls: {
-            spotify: "https://open.spotify.com/artist/0TnOYISbd1XYRBk9myaseg"
-          },
-          href: "https://api.spotify.com/v1/artists/0TnOYISbd1XYRBk9myaseg",
-          id: "0TnOYISbd1XYRBk9myaseg",
-          name: "Pitbull",
-          type: "artist",
-          uri: "spotify:artist:0TnOYISbd1XYRBk9myaseg"
-        },
-        {
-          external_urls: {
-            spotify: "https://open.spotify.com/artist/23zg3TcAtWQy7J6upgbUnj"
-          },
-          href: "https://api.spotify.com/v1/artists/23zg3TcAtWQy7J6upgbUnj",
-          id: "23zg3TcAtWQy7J6upgbUnj",
-          name: "Usher",
-          type: "artist",
-          uri: "spotify:artist:23zg3TcAtWQy7J6upgbUnj"
-        },
-        {
-          external_urls: {
-            spotify: "https://open.spotify.com/artist/4D75GcNG95ebPtNvoNVXhz"
-          },
-          href: "https://api.spotify.com/v1/artists/4D75GcNG95ebPtNvoNVXhz",
-          id: "4D75GcNG95ebPtNvoNVXhz",
-          name: "Afrojack",
-          type: "artist",
-          uri: "spotify:artist:4D75GcNG95ebPtNvoNVXhz"
-        }
-      ],
-      disc_number: 1,
-      duration_ms: 243160,
-      explicit: true,
-      external_urls: {
-        spotify: "https://open.spotify.com/track/6Q4PYJtrq8CBx7YCY5IyRN"
-      },
-      href: "https://api.spotify.com/v1/tracks/6Q4PYJtrq8CBx7YCY5IyRN",
-      id: "6Q4PYJtrq8CBx7YCY5IyRN",
-      is_local: false,
-      is_playable: true,
-      name: "Party Ain't Over, so let's keep dancing till the morning comes",
-      preview_url:
-        "https://p.scdn.co/mp3-preview/d3e3191991feb0cb732398374e8c59cdb2cc9fe7?cid=774b29d4f13844c495f206cafdad9c86",
-      track_number: 6,
-      type: "track",
-      uri: "spotify:track:6Q4PYJtrq8CBx7YCY5IyRN",
-      images: [{ url: "" }]
-    }
-  ]
-};
-const feedTracks = {
-  items: [
-    {
-      duration_ms: 150000,
-      artists: [{ name: "Romek jedzie na wakacje na Podkarpacie" }]
-    }
-  ]
-};
+import { feedTracks, feedExmplAlbum } from "../feeds";
 
 const handelAlbumFake = jest.fn();
 const APIfake = jest.fn();

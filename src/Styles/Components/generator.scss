@@ -57,10 +57,6 @@
         width: 250px;
         height: 250px;
       }
-      @include below545px {
-        width: 300px;
-        height: 300px;
-      }
       @include below420px {
         width: 200px;
         height: 200px;
@@ -95,7 +91,7 @@
           width: 300px;
           height: 300px;
         }
-        @include below1235px {
+        @include below1070px {
           width: 250px;
           height: 250px;
         }
