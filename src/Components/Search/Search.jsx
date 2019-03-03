@@ -15,6 +15,7 @@ class Search extends React.Component {
   handleInputChange(e) {
     const value = e.target.value;
     this.setState({ searchInput: value });
+    console.log("CX", !!this.context.APIrequest);
     setTimeout(() => {
       this.context.APIrequest &&
         this.context.APIrequest("searchQuery", { query: value });

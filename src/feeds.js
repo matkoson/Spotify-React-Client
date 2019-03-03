@@ -299,6 +299,293 @@ export const feedGetAlbum = {
   type: "album",
   uri: "spotify:album:0sNOF9WDwhWunNAHPD3Baj"
 };
+export const feedSearch = {
+  artists: {
+    href:
+      "https://api.spotify.com/v1/search?query=tania+bowra&offset=0&limit=20&type=artist",
+    items: [
+      {
+        external_urls: {
+          spotify: "https://open.spotify.com/artist/08td7MxkoHQkXnWAYD8d6Q"
+        },
+        genres: [],
+        href: "https://api.spotify.com/v1/artists/08td7MxkoHQkXnWAYD8d6Q",
+        id: "08td7MxkoHQkXnWAYD8d6Q",
+        images: [
+          {
+            height: 640,
+            url:
+              "https://i.scdn.co/image/f2798ddab0c7b76dc2d270b65c4f67ddef7f6718",
+            width: 640
+          },
+          {
+            height: 300,
+            url:
+              "https://i.scdn.co/image/b414091165ea0f4172089c2fc67bb35aa37cfc55",
+            width: 300
+          },
+          {
+            height: 64,
+            url:
+              "https://i.scdn.co/image/8522fc78be4bf4e83fea8e67bb742e7d3dfe21b4",
+            width: 64
+          }
+        ],
+        name: "Tania Bowra",
+        popularity: 0,
+        type: "artist",
+        uri: "spotify:artist:08td7MxkoHQkXnWAYD8d6Q"
+      }
+    ],
+    limit: 20,
+    next: null,
+    offset: 0,
+    previous: null,
+    total: 1
+  },
+  albums: { items: [] },
+  playlists: { items: [] },
+  tracks: { items: [] }
+};
+export const feedRecent = {
+  items: [
+    {
+      track: {
+        album: {
+          id: "3X90hTqv31ElSXpLz4EC8v",
+          name: "Chopin : Preludes, Ballades Nos 3 & 4, Nocturnes",
+          images: [{ url: "" }, { url: "" }, { url: "" }]
+        },
+        artists: [
+          {
+            external_urls: {
+              spotify: "https://open.spotify.com/artist/5INjqkS1o8h1imAzPqGZBb"
+            },
+            href: "https://api.spotify.com/v1/artists/5INjqkS1o8h1imAzPqGZBb",
+            id: "5INjqkS1o8h1imAzPqGZBb",
+            name: "Tame Impala",
+            type: "artist",
+            uri: "spotify:artist:5INjqkS1o8h1imAzPqGZBb"
+          }
+        ],
+        available_markets: ["CA", "MX", "US"],
+        disc_number: 1,
+        duration_ms: 108546,
+        explicit: false,
+        external_urls: {
+          spotify: "https://open.spotify.com/track/2gNfxysfBRfl9Lvi9T3v6R"
+        },
+        href: "https://api.spotify.com/v1/tracks/2gNfxysfBRfl9Lvi9T3v6R",
+        id: "2gNfxysfBRfl9Lvi9T3v6R",
+        name: "Disciples",
+        preview_url:
+          "https://p.scdn.co/mp3-preview/6023e5aac2123d098ce490488966b28838b14fa2",
+        track_number: 9,
+        type: "track",
+        uri: "spotify:track:2gNfxysfBRfl9Lvi9T3v6R"
+      },
+      played_at: "2016-12-13T20:44:04.589Z",
+      context: {
+        uri: "spotify:artist:5INjqkS1o8h1imAzPqGZBb",
+        external_urls: {
+          spotify: "https://open.spotify.com/artist/5INjqkS1o8h1imAzPqGZBb"
+        },
+        href: "https://api.spotify.com/v1/artists/5INjqkS1o8h1imAzPqGZBb",
+        type: "artist"
+      }
+    },
+    {
+      track: {
+        album: {
+          id: "3X90hTqv31ElSXpLz4EC8v",
+          name: "Chopin : Preludes, Ballades Nos 3 & 4, Nocturnes",
+          images: [{ url: "" }, { url: "" }, { url: "" }]
+        },
+        artists: [
+          {
+            external_urls: {
+              spotify: "https://open.spotify.com/artist/5INjqkS1o8h1imAzPqGZBb"
+            },
+            href: "https://api.spotify.com/v1/artists/5INjqkS1o8h1imAzPqGZBb",
+            id: "5INjqkS1o8h1imAzPqGZBb",
+            name: "Tame Impala",
+            type: "artist",
+            uri: "spotify:artist:5INjqkS1o8h1imAzPqGZBb"
+          }
+        ],
+        available_markets: ["CA", "MX", "US"],
+        disc_number: 1,
+        duration_ms: 467586,
+        explicit: false,
+        external_urls: {
+          spotify: "https://open.spotify.com/track/2X485T9Z5Ly0xyaghN73ed"
+        },
+        href: "https://api.spotify.com/v1/tracks/2X485T9Z5Ly0xyaghN73ed",
+        id: "2X485T9Z5Ly0xyaghN73ed",
+        name: "Let It Happen",
+        preview_url:
+          "https://p.scdn.co/mp3-preview/05dee1ad0d2a6fa4ad07fbd24ae49d58468e8194",
+        track_number: 1,
+        type: "track",
+        uri: "spotify:track:2X485T9Z5Ly0xyaghN73ed"
+      },
+      played_at: "2016-12-13T20:42:17.016Z",
+      context: {
+        uri: "spotify:artist:5INjqkS1o8h1imAzPqGZBb",
+        external_urls: {
+          spotify: "https://open.spotify.com/artist/5INjqkS1o8h1imAzPqGZBb"
+        },
+        href: "https://api.spotify.com/v1/artists/5INjqkS1o8h1imAzPqGZBb",
+        type: "artist"
+      }
+    }
+  ],
+  next:
+    "https://api.spotify.com/v1/me/player/recently-played?before=1481661737016&limit=2",
+  cursors: {
+    after: "1481661844589",
+    before: "1481661737016"
+  },
+  limit: 2,
+  href: "https://api.spotify.com/v1/me/player/recently-played?limit=2"
+};
+export const feedRelatedTop = {
+  artists: [
+    {
+      external_urls: {
+        spotify: "https://open.spotify.com/artist/5ZKMPRDHc7qElVJFh3uRqB"
+      },
+      followers: {
+        href: null,
+        total: 18108
+      },
+      genres: ["rockabilly"],
+      href: "https://api.spotify.com/v1/artists/5ZKMPRDHc7qElVJFh3uRqB",
+      id: "5ZKMPRDHc7qElVJFh3uRqB",
+      images: [
+        {
+          height: 997,
+          url:
+            "https://i.scdn.co/image/beff5827580bcc4d129cbc0872768095eeba8c14",
+          width: 1000
+        },
+        {
+          height: 638,
+          url:
+            "https://i.scdn.co/image/dbabf703779789917c4dd1c0e54da62c7a45ce92",
+          width: 640
+        },
+        {
+          height: 199,
+          url:
+            "https://i.scdn.co/image/74761c343bec27c814b8e44e4bc095cbf1b674bb",
+          width: 200
+        },
+        {
+          height: 64,
+          url:
+            "https://i.scdn.co/image/0c30af5647c74fee14fb97981c23b336abbc9f21",
+          width: 64
+        }
+      ],
+      name: "Wanda Jackson",
+      popularity: 59,
+      type: "artist",
+      uri: "spotify:artist:5ZKMPRDHc7qElVJFh3uRqB"
+    }
+  ]
+};
+export const feedFeatured = {
+  message: "Monday morning music, coming right up!",
+  playlists: {
+    href:
+      "https://api.spotify.com/v1/browse/featured-playlists?country=SE&timestamp=2015-05-18T06:44:32&offset=0&limit=2",
+    items: [
+      {
+        collaborative: false,
+        external_urls: {
+          spotify:
+            "http://open.spotify.com/user/spotify/playlist/6ftJBzU2LLQcaKefMi7ee7"
+        },
+        href:
+          "https://api.spotify.com/v1/users/spotify/playlists/6ftJBzU2LLQcaKefMi7ee7",
+        id: "6ftJBzU2LLQcaKefMi7ee7",
+        images: [
+          {
+            height: 300,
+            url:
+              "https://i.scdn.co/image/7bd33c65ebd1e45975bbcbbf513bafe272f033c7",
+            width: 300
+          }
+        ],
+        name: "Monday Morning Mood",
+        owner: {
+          external_urls: {
+            spotify: "http://open.spotify.com/user/spotify"
+          },
+          href: "https://api.spotify.com/v1/users/spotify",
+          id: "spotify",
+          type: "user",
+          uri: "spotify:user:spotify"
+        },
+        public: null,
+        snapshot_id:
+          "WwGvSIVUkUvGvqjgj/bQHlRycYmJ2TkoIxYfoalWlmIZT6TvsgvGMgtQ2dGbkrAW",
+        tracks: {
+          href:
+            "https://api.spotify.com/v1/users/spotify/playlists/6ftJBzU2LLQcaKefMi7ee7/tracks",
+          total: 245
+        },
+        type: "playlist",
+        uri: "spotify:user:spotify:playlist:6ftJBzU2LLQcaKefMi7ee7"
+      },
+      {
+        collaborative: false,
+        external_urls: {
+          spotify:
+            "http://open.spotify.com/user/spotify__sverige/playlist/4uOEx4OUrkoGNZoIlWMUbO"
+        },
+        href:
+          "https://api.spotify.com/v1/users/spotify__sverige/playlists/4uOEx4OUrkoGNZoIlWMUbO",
+        id: "4uOEx4OUrkoGNZoIlWMUbO",
+        images: [
+          {
+            height: 300,
+            url:
+              "https://i.scdn.co/image/24aa1d1b491dd529b9c03392f350740ed73438d8",
+            width: 300
+          }
+        ],
+        name: "Upp och hoppa!",
+        owner: {
+          external_urls: {
+            spotify: "http://open.spotify.com/user/spotify__sverige"
+          },
+          href: "https://api.spotify.com/v1/users/spotify__sverige",
+          id: "spotify__sverige",
+          type: "user",
+          uri: "spotify:user:spotify__sverige"
+        },
+        public: null,
+        snapshot_id:
+          "0j9Rcbt2KtCXEXKtKy/tnSL5r4byjDBOIVY1dn4S6GV73EEUgNuK2hU+QyDuNnXz",
+        tracks: {
+          href:
+            "https://api.spotify.com/v1/users/spotify__sverige/playlists/4uOEx4OUrkoGNZoIlWMUbO/tracks",
+          total: 38
+        },
+        type: "playlist",
+        uri: "spotify:user:spotify__sverige:playlist:4uOEx4OUrkoGNZoIlWMUbO"
+      }
+    ],
+    limit: 2,
+    next:
+      "https://api.spotify.com/v1/browse/featured-playlists?country=SE&timestamp=2015-05-18T06:44:32&offset=2&limit=2",
+    offset: 0,
+    previous: null,
+    total: 12
+  }
+};
 
 export const feedGetPlaylistTracks = {
   href:

@@ -4,8 +4,8 @@ import { animated, useSpring, useTransition } from "react-spring";
 import { Link } from "@reach/router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { SimpleImg, initSimpleImg } from "react-simple-img";
-import recentData from "./lazyRecentDeclaration";
-import playlistData from "./lazyPlaylistDeclaration";
+import recentDataDeclaration from "./lazyRecentDeclaration";
+import playlistDataDeclaration from "./lazyPlaylistDeclaration";
 initSimpleImg({ threshold: [0.6] });
 const calc = (x, y) => [
   -(y - window.innerHeight / 2) / 20,
@@ -23,14 +23,15 @@ function ContainerGenerator(props) {
     context = props.context,
     animate = props.animate,
     dataDef; // hash = {};
+
   let imgMeasurements = { width: "300px", height: "300px" };
   // console.log(type, data);
   if (props && data) {
     return data.map((e, i) => {
       if (type === "recent") {
-        dataDef = recentData(e, data, i, type);
+        dataDef = recentDataDeclaration(e, data, i, type);
       } else if (type === "playlists" || type === "categories") {
-        dataDef = playlistData(e, data, type);
+        dataDef = playlistDataDeclaration(e, data, type);
       }
       let {
         name,
@@ -58,7 +59,15 @@ function ContainerGenerator(props) {
           unique: true
         });
       }
+      console.log(
+        dataType === "track" &&
+          context.currentlyPlaying.item &&
+          cx === context.currentlyPlaying.item.uri,
+        dataType,
+        context.playerState && !context.playerState.paused
+      );
       //
+      const cxPlay = context.currentlyPlaying;
       const content = (
         <React.Fragment key={key || idS}>
           <div
@@ -93,7 +102,7 @@ function ContainerGenerator(props) {
                 });
               }
               if (e.currentTarget.dataset.data_type === "playlists") {
-                context.APIrequest("playSpecificPlayback", {
+                context.APIrequest("playSpecificxPlayback", {
                   cx: e.currentTarget.dataset.cx,
                   cx_pos: e.currentTarget.dataset.cx_pos
                 });
@@ -138,23 +147,26 @@ function ContainerGenerator(props) {
                 {context.playerState &&
                 !context.playerState.paused &&
                 ((dataType === "track" &&
-                  context.currentlyPlaying.item &&
-                  cx === context.currentlyPlaying.item.uri) ||
+                  cxPlay.item &&
+                  cx === cxPlay.item.uri) ||
                   (dataType === "artist" &&
-                    context.currentlyPlaying &&
-                    context.currentlyPlaying.item &&
-                    context.currentlyPlaying.item.artists[0].name === e.name) ||
-                  (dataType === "playlist" &&
-                    context.currentlyPlaying.context &&
-                    cx === context.currentlyPlaying.context.uri)) ? (
+                    cxPlay &&
+                    cxPlay.item &&
+                    cxPlay.artists &&
+                    cxPlay.item.artists[0].name === e.name) ||
+                  ((dataType === "playlist" || dataType === "track") &&
+                    cxPlay.context &&
+                    cxPlay.context.uri === cx)) ? (
                   <FontAwesomeIcon
-                    icon="play"
+                    icon="pause"
                     className=" app__pause-visible__icon"
+                    data-testid="pause"
                   />
                 ) : (
                   <FontAwesomeIcon
                     icon="play"
                     className="app__play-hover__icon"
+                    data-testid="play"
                   />
                 )}
                 {/* check whether the uri of the curr playing album/artist/track is same as the uri of the generated element */}
@@ -200,6 +212,7 @@ function ContainerGenerator(props) {
             <div
               data-identi={albumType}
               data-album={idS}
+              data-testid={idS}
               onClick={e => {
                 return context.handleAlbumRightOverride(e, albumType);
               }}

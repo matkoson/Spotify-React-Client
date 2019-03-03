@@ -18,7 +18,7 @@ function HomeScreen(props) {
       if (!hash[e.track.id]) {
         hash[e.track.id] = true;
         return true;
-      } else if (hash[e.id]) {
+      } else if (hash[e.track.id]) {
         return false;
       }
     });

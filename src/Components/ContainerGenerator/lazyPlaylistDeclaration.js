@@ -1,4 +1,4 @@
-export default function playlistDeclaration(e, data, type) {
+export default function playlistDataDeclaration(e, data, type) {
   let name,
     image,
     key,

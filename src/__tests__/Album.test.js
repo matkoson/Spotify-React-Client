@@ -40,9 +40,8 @@ const setupPlaylist = isPlaying => {
   );
 };
 it("Renders an equalier next to the track that is currently being played.", () => {
-  const { getByTestId, debug } = setupPlaylist(true);
+  const { getByTestId } = setupPlaylist(true);
   getByTestId("equalizer");
-  debug();
 });
 it("Correctly renders a given playlist dataset", () => {
   const { getByText } = setupPlaylist();

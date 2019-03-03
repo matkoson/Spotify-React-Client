@@ -1,4 +1,4 @@
-export default function recentDeclaration(e, data, i, type) {
+export default function recentDataDeclaration(e, data, i, type) {
   let name,
     image,
     key,
@@ -21,7 +21,7 @@ export default function recentDeclaration(e, data, i, type) {
     image =
       window.innerWidth < 820
         ? (image[1] && image[1].url) || image[0].url
-        : image[0].url;
+        : image && image[0].url;
     image =
       window.innerWidth < 500
         ? (e.track.album.images[2] && e.track.album.images[2].url) || image
