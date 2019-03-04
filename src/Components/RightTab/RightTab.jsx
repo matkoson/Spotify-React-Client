@@ -11,12 +11,6 @@ export default function RightTab(props) {
         ? { marginTop: "236px" }
         : { marginTop: 0 }
       : { marginTop: 0 };
-  // console.log(
-  //   navMargin,
-  //   window.innerWidth < 428,
-  //   window.innerWidth,
-  //   props.mobile
-  // );
   return (
     <div className="right-tab app__right-container-generic__outer">
       {!props.mobile && (

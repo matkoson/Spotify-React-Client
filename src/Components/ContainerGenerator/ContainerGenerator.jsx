@@ -59,14 +59,6 @@ function ContainerGenerator(props) {
           unique: true
         });
       }
-      console.log(
-        dataType === "track" &&
-          context.currentlyPlaying.item &&
-          cx === context.currentlyPlaying.item.uri,
-        dataType,
-        context.playerState && !context.playerState.paused
-      );
-      //
       const cxPlay = context.currentlyPlaying;
       const content = (
         <React.Fragment key={key || idS}>

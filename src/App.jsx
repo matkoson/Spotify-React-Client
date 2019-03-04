@@ -296,7 +296,6 @@ export default class App extends Component {
                 path={process.env.PUBLIC_URL + "/home"}
                 mobile={this.state.mobile}
                 handleNavClick={this.state.handleNavClick}
-                className="right-tab"
               >
                 <HomeScreen
                   path={process.env.PUBLIC_URL + "/"}
@@ -316,7 +315,6 @@ export default class App extends Component {
                 <Genres
                   path={process.env.PUBLIC_URL + "genres-moods"}
                   getCategories={this.state.getCategories}
-                  //
                 />
                 <NewReleases
                   path={process.env.PUBLIC_URL + "new-releases"}

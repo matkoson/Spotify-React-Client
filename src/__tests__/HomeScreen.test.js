@@ -1,16 +1,9 @@
 import React from "react";
-import {
-  render,
-  waitForElement,
-  getByText,
-  getByTestId
-} from "react-testing-library";
+import { render } from "react-testing-library";
 import HomeScreen from "../Components/HomeScreen/HomeScreen";
-import { feedHomeScreenAlbums } from "../feeds";
 import { feedRecent, feedFeatured, feedRelatedTop } from "../feeds";
 import { Provider, Consumer } from "../Context/Context";
 
-const titles = feedHomeScreenAlbums.playlists.items.map(e => e.name);
 const setupHomeScreen = isPlaying =>
   render(
     <Provider
