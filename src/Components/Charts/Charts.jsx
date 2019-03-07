@@ -16,7 +16,7 @@ function renderCharts(props) {
           country: "PL"
         });
       }
-      if (!props.getCategoryPlaylists.length) {
+      if (props.getCategoryPlaylists && !props.getCategoryPlaylists.length) {
         const visited = {};
         let index;
         for (let i = 0; i < 20; i += 1) {
@@ -100,7 +100,7 @@ export default function Charts(props) {
   // console.log("CHARTS", props);
   const { countryTop, countryViral, PolandTop } = renderCharts(props);
   return (
-    <div className="generator">
+    <div className="generator" data-testid="navCharts">
       <div className="app__fetch-container generator__playlist-container">
         {headlines[0]}
         {PolandTop}

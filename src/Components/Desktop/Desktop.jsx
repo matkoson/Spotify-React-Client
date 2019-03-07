@@ -5,11 +5,10 @@ import lib from "../../assets/svg/lib.svg";
 import { Link } from "@reach/router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "../../Styles/Components/desktop.scss";
-// import "../../Styles/Components/PlayerBar/lazyPlayerBarAbv820px.scss";
 
 export default function Desktop(props) {
   return (
-    <div className="desktop">
+    <div data-testid="navDesktop" className="desktop">
       <div
         className="desktop__logo"
         style={{ cursor: "pointer" }}

@@ -34,6 +34,7 @@ class PlayerBar extends PureComponent {
     this.processRecent = this.processRecent.bind(this);
   }
   componentDidMount() {
+    // console.log(this.props);
     let playbackSDKinterval,
       handleRangeChange,
       handlePausePlay,
@@ -77,10 +78,14 @@ class PlayerBar extends PureComponent {
   componentDidUpdate() {
     if (!this.player && this.props.player) this.player = this.props.player;
     //at first viable update, while SDK is still not acitve, display the info from the last played track
-    if (this.context.playerState && this.context.playerState.bitrate) {
+    if (
+      this.context &&
+      this.context.playerState &&
+      this.context.playerState.bitrate
+    ) {
       if (!this.playbackSDK) {
         if (this.state.playbackSDKinterval) this.state.playbackSDKinterval();
-        console.log(this.playbackSDK);
+        // console.log(this.playbackSDK);
       }
     } else if (this.props.recent) {
       this.processRecent();
@@ -99,14 +104,19 @@ class PlayerBar extends PureComponent {
       repeatMode,
       volumePercentage
     } = this.state;
-    const initVal = this.context.getMinsSecs(0);
+    // console.log("getminssecs", this.context && this.context.getMinsSecs);
+    const initVal = "00:00";
     progressTime = processedProgress || initVal;
-    totalTime = this.context.getMinsSecs(rawTrackTime) || initVal;
+    totalTime =
+      (this.context &&
+        this.context.getMinsSecs &&
+        this.context.getMinsSecs(rawTrackTime)) ||
+      initVal;
     progressPercentage = getPerc(rawTrackProgress, rawTrackTime) || 100;
     volumePercentage = this.state.muted ? 0 : volumePercentage;
     //
     return (
-      <div className="player-bar">
+      <div data-testid="navPlayerBar" className="player-bar">
         <AlbumDetails
           albumImage={albumImage}
           songTitle={songTitle}
@@ -115,7 +125,11 @@ class PlayerBar extends PureComponent {
         <PlayerControls
           shuffled={this.state.shuffled}
           handlePausePlay={this.state.handlePausePlay}
-          paused={this.context.playerState.paused}
+          paused={
+            this.context &&
+            this.context.playerState &&
+            this.context.playerState.paused
+          }
           playbackSDK={this.playbackSDK}
           player={this.player}
           repeatMode={repeatMode}

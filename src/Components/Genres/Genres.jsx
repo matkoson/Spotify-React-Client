@@ -25,7 +25,11 @@ function Genres(props) {
   let headlines = ["Genres & Moods"];
   headlines = HeadlineAnimator(headlines);
   return (
-    <div style={{ color: "#ffffff" }} className="generator genres">
+    <div
+      style={{ color: "#ffffff" }}
+      data-testid="navGenres"
+      className="generator genres"
+    >
       {headlines[0]}
       <div className="app__fetch-container">{categoriesList}</div>
     </div>

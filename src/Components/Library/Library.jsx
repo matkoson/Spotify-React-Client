@@ -10,6 +10,7 @@ class Library extends React.Component {
     this.state = { chosenTab: "PLAYLISTS" };
   }
   componentDidMount() {
+    console.log("LOL", window.location.href, this.context);
     this.context.APIrequest("getUserPlaylists");
     this.context.APIrequest("getUserSavedAlbums");
     this.context.APIrequest("getUserSavedTracks");
@@ -90,7 +91,10 @@ class Library extends React.Component {
       </li>
     ));
     return (
-      <div className="library app__right-container-generic__outer">
+      <div
+        data-testid="navLibrary"
+        className="library app__right-container-generic__outer"
+      >
         <ul className="app__right-container-generic__outer__right-nav library__nav">
           {libNav}
         </ul>

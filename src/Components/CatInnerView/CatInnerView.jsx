@@ -21,7 +21,7 @@ class CatInnerView extends React.Component {
       );
     }
     return (
-      <div className="cat-inner-view">
+      <div data-testid="navCatInnerView" className="cat-inner-view">
         <div className="cat-inner-view__cat-title">
           <div className="cat-inner-view__img">
             <img

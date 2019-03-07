@@ -131,7 +131,7 @@ export default class App extends Component {
     this.homeRef = React.createRef();
   }
   componentDidMount() {
-    // console.log(this.state);
+    // console.log("APPSTATE", this.state);
     import("./loadFonts");
     if (!this.state.auth) {
       const currAd = window.location.href;
@@ -147,7 +147,7 @@ export default class App extends Component {
       //   this.homeRef.current.scrollIntoView();
       // }
       window.addEventListener("resize", this.state.handleResize);
-      console.log("here i am");
+      // console.log("here i am");
       this.importDeferredMethods();
       lazy(
         import("./assets/countries").then(res => {
@@ -157,7 +157,7 @@ export default class App extends Component {
     }
   }
   importDeferredMethods() {
-    console.log("called");
+    // console.log("called");
     let handleNavClick,
       handleMainRightChange,
       handleAlbumRightOverride,
@@ -167,7 +167,7 @@ export default class App extends Component {
       handleMobileNavToggle;
     lazy(
       import("./AppMethods/AppMethods").then(res => {
-        console.log("2. Started", Date.now());
+        // console.log("2. Started", Date.now());
         handleNavClick = res.handleNavClick.bind(this);
         handleMainRightChange = res.handleMainRightChange.bind(this);
         handleAlbumRightOverride = res.handleAlbumRightOverride.bind(this);
@@ -187,8 +187,8 @@ export default class App extends Component {
               handleAlbumRightOverride,
               handleMainRightViewChange
             }
-          },
-          () => console.log("3. Setted", Date.now())
+          }
+          // () => console.log("3. Setted", Date.now())
         );
       })
     );
@@ -211,8 +211,10 @@ export default class App extends Component {
               src: "https://sdk.scdn.co/spotify-player.js",
               id: "SDK",
               callback: () => {
-                this.setState({ SDKloaded: true }, () =>
-                  console.log("SDK LOADED", Date.now())
+                this.setState(
+                  { SDKloaded: true }
+                  // () =>
+                  // console.log("SDK LOADED", Date.now())
                 );
                 return (window.onSpotifyWebPlaybackSDKReady = () => {
                   this.initSDK(this.state.tokenSDK);

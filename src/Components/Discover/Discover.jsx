@@ -27,7 +27,7 @@ function Discover(props) {
   let headlines = ["Recommended Albums & Singles"];
   headlines = HeadlineAnimator(headlines);
   return (
-    <div className="generator discover">
+    <div data-testid="navDiscover" className="generator discover">
       {headlines[0]}
       <div className="app__fetch-container">{discoverRender}</div>
     </div>

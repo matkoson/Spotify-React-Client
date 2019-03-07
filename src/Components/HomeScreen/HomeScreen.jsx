@@ -64,7 +64,7 @@ function HomeScreen(props) {
     ]);
   }
   return (
-    <div className="generator">
+    <div data-testid="navHome" className="generator">
       {headlines && headlines[0]}
       <div className="app__fetch-container generator__playlist-container">
         {albumPics}

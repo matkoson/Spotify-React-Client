@@ -130,7 +130,7 @@ class Album extends React.Component {
       }
     }
     return (
-      <div className="album">
+      <div data-testid="navAlbum" className="album">
         <div style={{ width }} className="album__presentation">
           <div className="album__presentation__img">
             <div

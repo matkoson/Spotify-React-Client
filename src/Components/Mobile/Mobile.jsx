@@ -9,6 +9,7 @@ import "../../Styles/Components/mobile.scss";
 
 export default function Mobile(props) {
   const { mobile, handleMobileNavToggle, handleMainRightChange } = props;
+  const navVisibility = mobile ? "VisibleMobileNav" : "InvisibleMobileNav";
   const transitions = useTransition(mobile, null, {
     from: { opacity: 0, transform: "translate3d(0,-40px,0)" },
     enter: { opacity: 1, transform: "translate3d(0,0px,0)" },
@@ -31,9 +32,13 @@ export default function Mobile(props) {
     </Link>
   ));
   return transitions.map(({ item, key, props }) => (
-    <div className="mobile">
+    <div className="mobile" data-testid="navMobile">
       {item ? (
-        <animated.div style={props} className="mobile__nav">
+        <animated.div
+          data-testid={navVisibility}
+          style={props}
+          className="mobile__nav"
+        >
           <div className="mobile__nav__ul">{mobileNav}</div>
         </animated.div>
       ) : (
@@ -55,6 +60,7 @@ export default function Mobile(props) {
           icon={["fab", "react"]}
           onClick={handleMobileNavToggle}
           className="mobile__logo__pic"
+          data-testid="reactLogo"
         />{" "}
       </div>
     </div>

@@ -70,12 +70,15 @@ export function handleNavClick(ele, navType) {
     basicClass = "right-tab__right-nav__element";
     clickedClass = "right-tab__right-nav__element--clicked";
     chosenView = ele.target.id;
-    //depending on the chosen view, make the right API request
-    const randomNum = Math.round(Math.random() * this.gradientArr.length - 1);
-    if (ele.target.className === "right-tab__right-nav__element") {
+    const randomNum =
+      this.gradientArr &&
+      Math.round(Math.random() * this.gradientArr.length - 1);
+    if (
+      this.setState &&
+      ele.target.className === "right-tab__right-nav__element"
+    ) {
       this.setState(state => {
         return {
-          // rightTabView: chosenView,
           currGrad:
             this.gradientArr[randomNum] ||
             "linear - gradient(to right bottom, #4d0b96, #3b2195, #292c91, #19348c, #0c3985)" ===
@@ -100,17 +103,21 @@ export function handleNavClick(ele, navType) {
   }
 
   allNavElems = allNavElems.forEach(e => {
-    if (e[strategy] === chosenOne[strategy]) {
-      e.className = `${basicClass} ${clickedClass}`;
-    } else if (
-      navType === "recent" &&
-      e.className === chosenOne.parentNode.className
-    ) {
-      e.className = `${basicClass} ${clickedClass}`;
-      e.dataset.clicked = true;
-    } else {
-      e.className = basicClass;
-      if (e.dataset && e.dataset.clicked) e.dataset.clicked = false;
+    if (chosenOne) {
+      if (e[strategy] === chosenOne[strategy]) {
+        e.className = `${basicClass} ${clickedClass}`;
+      } else if (
+        navType === "recent" &&
+        e.className === chosenOne.parentNode.className
+      ) {
+        e.className = `${basicClass} ${clickedClass}`;
+        // e.dataset.clicked = true;
+      } else {
+        e.className = basicClass;
+        // if (e.dataset && e.dataset.clicked) e.dataset.clicked = false;
+      }
+      chosenOne.dataset.testid = "clickedNavBtn";
+      console.log("DATASET", chosenOne.dataset);
     }
   });
 }

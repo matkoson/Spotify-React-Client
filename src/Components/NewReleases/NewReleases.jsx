@@ -23,7 +23,7 @@ function NewReleases(props) {
   let headlines = ["New albums & singles"];
   headlines = HeadlineAnimator(headlines);
   return (
-    <div className="generator new-releases">
+    <div data-testid="navNewReleases" className="generator new-releases">
       {headlines[0]} <div className="app__fetch-container">{newReleases}</div>
     </div>
   );

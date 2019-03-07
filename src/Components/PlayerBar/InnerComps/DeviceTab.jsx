@@ -3,7 +3,7 @@ import devicePng from "../../../assets/devices.png";
 import("../../../Styles/Components/devices-tab.scss");
 export default function DeviceTab(props) {
   return props.deviceName ? (
-    <div className="devices-tab">
+    <div className="devices-tab" data-testid="deviceTabOn">
       <span className="devices-tab__title">Active Device</span>
       <img className="devices-tab__img" src={devicePng} alt="" />
       <div className="devices-tab__listening-device">
@@ -16,7 +16,7 @@ export default function DeviceTab(props) {
       </div>
     </div>
   ) : (
-    <div className="devices-tab">
+    <div className="devices-tab" data-testid="deviceTabOn">
       <span className="devices-tab__title">No active devices</span>{" "}
     </div>
   );

@@ -12,7 +12,10 @@ export default function RightTab(props) {
         : { marginTop: 0 }
       : { marginTop: 0 };
   return (
-    <div className="right-tab app__right-container-generic__outer">
+    <div
+      data-testid="navRightTab"
+      className="right-tab app__right-container-generic__outer"
+    >
       {!props.mobile && (
         <div
           onClick={e => props.handleNavClick(e, "right")}

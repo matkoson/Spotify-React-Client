@@ -144,7 +144,7 @@ class Search extends React.Component {
       </li>
     ));
     return (
-      <div className="search generator">
+      <div data-testid="navSearch" className="search generator">
         <div className="search__input">
           <input
             autoFocus
