@@ -11,23 +11,27 @@ class RecentlyPlayed extends Component {
       set = set.map(e => {
         return (
           <div
-            data-clicked={false}
-            onMouseOver={e =>
-              (e.currentTarget.className = e.currentTarget.className =
-                "recently-played__element recently-played__element--modified")
-            }
+            onMouseOver={e => {
+              e.currentTarget.className = e.currentTarget.className =
+                "recently-played__element recently-played__element--modified";
+              e.currentTarget.dataset.testid = "navBtnOver";
+            }}
             onMouseLeave={e => {
-              if (e.currentTarget.dataset.clicked === "true") {
+              if (
+                e.currentTarget.children[0].dataset.testid === "clickedNavBtn"
+              ) {
+                e.currentTarget.dataset.testid = "navBtnClickedLeft";
+
                 e.currentTarget.className =
                   "recently-played__element left-tab__app-nav__icon-text--clicked";
               } else {
                 e.currentTarget.className = "recently-played__element";
+                e.currentTarget.dataset.testid = "navBtnLeft";
               }
             }}
             key={e.played_at}
             className="recently-played__element"
             onClick={() => {
-              // console.log("ele", e);
               if (this.props.player) {
                 this.props.APIrequest("playRecentTracks", {
                   cx: e.track.uri

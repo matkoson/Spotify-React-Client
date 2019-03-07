@@ -4,15 +4,37 @@ import { feedRawRecPlayed } from "../feeds";
 import React from "react";
 import { fireEvent } from "react-testing-library/dist";
 import { handleNavClick } from "../AppMethods/AppMethods";
+import { debug } from "util";
 
-it("Correctly acknowledges clicking on one of the recently played tracks", async () => {
-  const { getByText, getByTestId } = render(
+const fakeAPIrequest = jest.fn();
+const renderFakeRecentlyPlayed = () =>
+  render(
     <RecentlyPlayed
       handleNavClick={handleNavClick}
       rawRecPlayed={feedRawRecPlayed}
+      APIrequest={fakeAPIrequest}
+      player={[]}
     />
   );
+it("Correctly acknowledges clicking on one of the recently played tracks", async () => {
+  const { getByText, getByTestId, debug } = renderFakeRecentlyPlayed();
   const getTrack = getByText(feedRawRecPlayed.items[0].track.name);
   fireEvent.click(getTrack);
-  await wait(() => getByTestId("clickedNavBtn"));
+  expect(fakeAPIrequest).toHaveBeenCalledWith("playRecentTracks", {
+    cx: feedRawRecPlayed.items[0].track.uri
+  });
+  await wait(() => {
+    getByTestId("clickedNavBtn");
+    fireEvent.mouseLeave(getTrack);
+    debug();
+    getByTestId("navBtnClickedLeft");
+  });
+});
+it("Correctly responds to mouseOver and mouseLeave events.", () => {
+  const { getByText, getByTestId } = renderFakeRecentlyPlayed();
+  const getTrack = getByText(feedRawRecPlayed.items[0].track.name);
+  fireEvent.mouseOver(getTrack);
+  getByTestId("navBtnOver");
+  fireEvent.mouseLeave(getTrack);
+  getByTestId("navBtnLeft");
 });

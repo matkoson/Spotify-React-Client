@@ -3,11 +3,6 @@ import ContainerGenerator from "../ContainerGenerator/ContainerGenerator";
 import "../../Styles/Components/cat-inner-view.scss";
 
 class CatInnerView extends React.Component {
-  constructor(props) {
-    super(props);
-    this.generateInnerView = this.generateInnerView.bind(this);
-  }
-  generateInnerView() {}
   render() {
     let categoryIcon, categoryName, catRender;
     if (this.props.getCategory && this.props.PolandTop) {

@@ -355,7 +355,7 @@ export default class App extends Component {
                 path={process.env.PUBLIC_URL + "/category"}
                 PolandTop={this.state.PolandTop}
                 getCategory={this.state.getCategory}
-                getCategoryPlaylists={this.state.getCategoryPlaylists}
+                // getCategoryPlaylists={this.state.getCategoryPlaylists}
               />
             </Router>
             <PlayerBar
