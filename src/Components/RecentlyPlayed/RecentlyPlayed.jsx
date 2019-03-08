@@ -7,7 +7,7 @@ class RecentlyPlayed extends Component {
     let set;
     if (this.props.rawRecPlayed) {
       set = this.props.rawRecPlayed.items.slice(0, 7);
-      console.log("set", set, this.props.player);
+      // console.log("set", set, this.props.player);
       set = set.map(e => {
         return (
           <div

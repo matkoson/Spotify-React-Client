@@ -347,6 +347,182 @@ export const feedSearch = {
   playlists: { items: [] },
   tracks: { items: [] }
 };
+export const feedGetUserPlaylists = {
+  items: [
+    {
+      collaborative: false,
+      external_urls: {
+        spotify:
+          "http://open.spotify.com/user/wizzler/playlists/53Y8wT46QIMz5H4WQ8O22c"
+      },
+      href:
+        "https://api.spotify.com/v1/users/wizzler/playlists/53Y8wT46QIMz5H4WQ8O22c",
+      id: "53Y8wT46QIMz5H4WQ8O22c",
+      images: [],
+      name: "Wizzlers Big Playlist",
+      owner: {
+        external_urls: { spotify: "http://open.spotify.com/user/wizzler" },
+        href: "https://api.spotify.com/v1/users/wizzler",
+        id: "wizzler",
+        type: "user",
+        uri: "spotify:user:wizzler"
+      },
+      public: true,
+      snapshot_id:
+        "bNLWdmhh+HDsbHzhckXeDC0uyKyg4FjPI/KEsKjAE526usnz2LxwgyBoMShVL+z+",
+      tracks: {
+        href:
+          "https://api.spotify.com/v1/users/wizzler/playlists/53Y8wT46QIMz5H4WQ8O22c/tracks",
+        total: 30
+      },
+      type: "playlist",
+      uri: "spotify:user:wizzler:playlist:53Y8wT46QIMz5H4WQ8O22c"
+    },
+    {
+      collaborative: false,
+      external_urls: {
+        spotify:
+          "http://open.spotify.com/user/wizzlersmate/playlists/1AVZz0mBuGbCEoNRQdYQju"
+      },
+      href:
+        "https://api.spotify.com/v1/users/wizzlersmate/playlists/1AVZz0mBuGbCEoNRQdYQju",
+      id: "1AVZz0mBuGbCEoNRQdYQju",
+      images: [],
+      name: "Another Playlist",
+      owner: {
+        external_urls: { spotify: "http://open.spotify.com/user/wizzlersmate" },
+        href: "https://api.spotify.com/v1/users/wizzlersmate",
+        id: "wizzlersmate",
+        type: "user",
+        uri: "spotify:user:wizzlersmate"
+      },
+      public: true,
+      snapshot_id:
+        "Y0qg/IT5T02DKpw4uQKc/9RUrqQJ07hbTKyEeDRPOo9LU0g0icBrIXwVkHfQZ/aD",
+      tracks: {
+        href:
+          "https://api.spotify.com/v1/users/wizzlersmate/playlists/1AVZz0mBuGbCEoNRQdYQju/tracks",
+        total: 58
+      },
+      type: "playlist",
+      uri: "spotify:user:wizzlersmate:playlist:1AVZz0mBuGbCEoNRQdYQju"
+    }
+  ]
+};
+export const feedGetUserSavedTracks = {
+  items: [
+    {
+      track: {
+        album: {
+          album_type: "album",
+          artists: [
+            {
+              external_urls: {
+                spotify:
+                  "https://open.spotify.com/artist/0LIll5i3kwo5A3IDpipgkS"
+              },
+              href: "https://api.spotify.com/v1/artists/0LIll5i3kwo5A3IDpipgkS",
+              id: "0LIll5i3kwo5A3IDpipgkS",
+              name: "Squirrel Nut Zippers",
+              type: "artist",
+              uri: "spotify:artist:0LIll5i3kwo5A3IDpipgkS"
+            }
+          ],
+          available_markets: [
+            "AD",
+            "AR",
+            "AT",
+            "AU",
+            "BE",
+            "BG",
+            "BO",
+            "BR",
+            "CH",
+            "CL",
+            "CO",
+            "CR",
+            "CY",
+            "CZ",
+            "DE",
+            "DK",
+            "DO",
+            "EC"
+          ],
+          external_urls: {
+            spotify: "https://open.spotify.com/album/63GBbuUNBel2ovJjUrfh5r"
+          },
+          href: "https://api.spotify.com/v1/albums/63GBbuUNBel2ovJjUrfh5r",
+          id: "63GBbuUNBel2ovJjUrfh5r",
+          images: [
+            {
+              height: 640,
+              url:
+                "https://i.scdn.co/image/e9c5fd63935b08ed27a7a5b0e65b2c6bf600fc4a",
+              width: 640
+            },
+            {
+              height: 300,
+              url:
+                "https://i.scdn.co/image/416b6589d9e2d91147ff5072d640d0041b04cb41",
+              width: 300
+            },
+            {
+              height: 64,
+              url:
+                "https://i.scdn.co/image/4bb6b451b8edde5881a5fcbe1a54bc8538f407ec",
+              width: 64
+            }
+          ],
+          name: "The Best of Squirrel Nut Zippers",
+          type: "album",
+          uri: "spotify:album:63GBbuUNBel2ovJjUrfh5r"
+        },
+        artists: [
+          {
+            external_urls: {
+              spotify: "https://open.spotify.com/artist/0LIll5i3kwo5A3IDpipgkS"
+            },
+            href: "https://api.spotify.com/v1/artists/0LIll5i3kwo5A3IDpipgkS",
+            id: "0LIll5i3kwo5A3IDpipgkS",
+            name: "Squirrel Nut Zippers",
+            type: "artist",
+            uri: "spotify:artist:0LIll5i3kwo5A3IDpipgkS"
+          }
+        ],
+        available_markets: [
+          "AD",
+          "AR",
+          "AT",
+          "AU",
+          "BE",
+          "SK",
+          "SV",
+          "TR",
+          "TW",
+          "UY"
+        ],
+        disc_number: 1,
+        duration_ms: 137040,
+        explicit: false,
+        external_ids: {
+          isrc: "USMA20215185"
+        },
+        external_urls: {
+          spotify: "https://open.spotify.com/track/2jpDioAB9tlYXMdXDK3BGl"
+        },
+        href: "https://api.spotify.com/v1/tracks/2jpDioAB9tlYXMdXDK3BGl",
+        id: "2jpDioAB9tlYXMdXDK3BGl",
+        name: "Good Enough For Granddad",
+        popularity: 19,
+        preview_url:
+          "https://p.scdn.co/mp3-preview/32cc6f7a3fca362dfcde753f0339f42539f15c9a",
+        track_number: 1,
+        type: "track",
+        uri: "spotify:track:2jpDioAB9tlYXMdXDK3BGl"
+      }
+    }
+  ]
+};
 export const feedRecent = {
   items: [
     {
@@ -577,21 +753,11 @@ export const feedRawRecPlayed = {
         type: "artist"
       }
     }
-  ],
-  next:
-    "https://api.spotify.com/v1/me/player/recently-played?before=1481661737016&limit=2",
-  cursors: {
-    after: "1481661844589",
-    before: "1481661737016"
-  },
-  limit: 2,
-  href: "https://api.spotify.com/v1/me/player/recently-played?limit=2"
+  ]
 };
 export const feedFeatured = {
   message: "Monday morning music, coming right up!",
   playlists: {
-    href:
-      "https://api.spotify.com/v1/browse/featured-playlists?country=SE&timestamp=2015-05-18T06:44:32&offset=0&limit=2",
     items: [
       {
         collaborative: false,
@@ -669,13 +835,7 @@ export const feedFeatured = {
         type: "playlist",
         uri: "spotify:user:spotify__sverige:playlist:4uOEx4OUrkoGNZoIlWMUbO"
       }
-    ],
-    limit: 2,
-    next:
-      "https://api.spotify.com/v1/browse/featured-playlists?country=SE&timestamp=2015-05-18T06:44:32&offset=2&limit=2",
-    offset: 0,
-    previous: null,
-    total: 12
+    ]
   }
 };
 export const feedGetCategory = {
@@ -691,7 +851,209 @@ export const feedGetCategory = {
   id: "party",
   name: "Party"
 };
-export const feedGetCategoryPlaylist = {
+export const feedGetUserSavedAlbums = {
+  items: [
+    {
+      added_at: "2015-11-26T19:13:31Z",
+      album: {
+        album_type: "album",
+        artists: [
+          {
+            external_urls: {
+              spotify: "https://open.spotify.com/artist/58RMTlPJKbmpmVk1AmRK3h"
+            },
+            href: "https://api.spotify.com/v1/artists/58RMTlPJKbmpmVk1AmRK3h",
+            id: "58RMTlPJKbmpmVk1AmRK3h",
+            name: "Abidaz",
+            type: "artist",
+            uri: "spotify:artist:58RMTlPJKbmpmVk1AmRK3h"
+          }
+        ],
+        available_markets: [
+          "AR",
+          "AT",
+          "AU",
+          "BE",
+          "BR",
+          "CL",
+          "CO",
+          "CY",
+          "CZ",
+          "DE"
+        ],
+        copyrights: [
+          {
+            text:
+              "(C) 2013 Soblue Music Group AB, Under exclusive license to Universal Music AB",
+            type: "C"
+          },
+          {
+            text:
+              "(P) 2013 Soblue Music Group AB, Under exclusive license to Universal Music AB",
+            type: "P"
+          }
+        ],
+        external_ids: {
+          upc: "00602537623730"
+        },
+        external_urls: {
+          spotify: "https://open.spotify.com/album/5m4VYOPoIpkV0XgOiRKkWC"
+        },
+        genres: [],
+        href: "https://api.spotify.com/v1/albums/5m4VYOPoIpkV0XgOiRKkWC",
+        id: "5m4VYOPoIpkV0XgOiRKkWC",
+        images: [
+          {
+            height: 640,
+            url:
+              "https://i.scdn.co/image/ccbb1e3bea2461e69783895e880965b171e29f4c",
+            width: 640
+          },
+          {
+            height: 300,
+            url:
+              "https://i.scdn.co/image/2210b7d23f320a2cab2736bd3b3b948415dd21d8",
+            width: 300
+          },
+          {
+            height: 64,
+            url:
+              "https://i.scdn.co/image/609153aca7f4760136d97fbaccdb4ec0757e4c9e",
+            width: 64
+          }
+        ],
+        name: "In & ut",
+        popularity: 49,
+        release_date: "2013-01-01",
+        release_date_precision: "day",
+        tracks: {
+          href:
+            "https://api.spotify.com/v1/albums/5m4VYOPoIpkV0XgOiRKkWC/tracks?offset=0&limit=50",
+          items: [
+            {
+              artists: [
+                {
+                  external_urls: {
+                    spotify:
+                      "https://open.spotify.com/artist/58RMTlPJKbmpmVk1AmRK3h"
+                  },
+                  href:
+                    "https://api.spotify.com/v1/artists/58RMTlPJKbmpmVk1AmRK3h",
+                  id: "58RMTlPJKbmpmVk1AmRK3h",
+                  name: "Abidaz",
+                  type: "artist",
+                  uri: "spotify:artist:58RMTlPJKbmpmVk1AmRK3h"
+                },
+                {
+                  external_urls: {
+                    spotify:
+                      "https://open.spotify.com/artist/1l63szZeUpN1m87MOD1u7K"
+                  },
+                  href:
+                    "https://api.spotify.com/v1/artists/1l63szZeUpN1m87MOD1u7K",
+                  id: "1l63szZeUpN1m87MOD1u7K",
+                  name: "Chapee",
+                  type: "artist",
+                  uri: "spotify:artist:1l63szZeUpN1m87MOD1u7K"
+                },
+                {
+                  external_urls: {
+                    spotify:
+                      "https://open.spotify.com/artist/1VLf7Ncxb5Jga6eyd3jh6K"
+                  },
+                  href:
+                    "https://api.spotify.com/v1/artists/1VLf7Ncxb5Jga6eyd3jh6K",
+                  id: "1VLf7Ncxb5Jga6eyd3jh6K",
+                  name: "C.U.P",
+                  type: "artist",
+                  uri: "spotify:artist:1VLf7Ncxb5Jga6eyd3jh6K"
+                }
+              ],
+              available_markets: [
+                "AR",
+                "AT",
+                "AU",
+                "BE",
+                "BR",
+                "CL",
+                "CO",
+                "CY",
+                "CZ",
+                "DE"
+              ],
+              disc_number: 1,
+              duration_ms: 170920,
+              explicit: false,
+              external_urls: {
+                spotify: "https://open.spotify.com/track/3VNWq8rTnQG6fM1eldSpZ0"
+              },
+              href: "https://api.spotify.com/v1/tracks/3VNWq8rTnQG6fM1eldSpZ0",
+              id: "3VNWq8rTnQG6fM1eldSpZ0",
+              name: "E.C.",
+              preview_url:
+                "https://p.scdn.co/mp3-preview/f95e0dba1a76b44fa2b52da2bc273d4f1c4126a5",
+              track_number: 1,
+              type: "track",
+              uri: "spotify:track:3VNWq8rTnQG6fM1eldSpZ0"
+            },
+            {
+              artists: [
+                {
+                  external_urls: {
+                    spotify:
+                      "https://open.spotify.com/artist/58RMTlPJKbmpmVk1AmRK3h"
+                  },
+                  href:
+                    "https://api.spotify.com/v1/artists/58RMTlPJKbmpmVk1AmRK3h",
+                  id: "58RMTlPJKbmpmVk1AmRK3h",
+                  name: "Abidaz",
+                  type: "artist",
+                  uri: "spotify:artist:58RMTlPJKbmpmVk1AmRK3h"
+                }
+              ],
+              available_markets: [
+                "AR",
+                "AT",
+                "AU",
+                "BE",
+                "BR",
+                "CL",
+                "CO",
+                "CY",
+                "CZ",
+                "DE",
+                "DK",
+                "EE"
+              ],
+              disc_number: 1,
+              duration_ms: 165946,
+              explicit: false,
+              external_urls: {
+                spotify: "https://open.spotify.com/track/6ZrVKylVlxkaXHj42O0q2r"
+              },
+              href: "https://api.spotify.com/v1/tracks/6ZrVKylVlxkaXHj42O0q2r",
+              id: "6ZrVKylVlxkaXHj42O0q2r",
+              name: "Råknas - Radio Edit",
+              preview_url:
+                "https://p.scdn.co/mp3-preview/a7c9a4bfa9e346e3733e9d88076ad1ae409136fb",
+              track_number: 13,
+              type: "track",
+              uri: "spotify:track:6ZrVKylVlxkaXHj42O0q2r"
+            }
+          ],
+          limit: 50,
+          next: null,
+          offset: 0,
+          previous: null,
+          total: 13
+        },
+        type: "album",
+        uri: "spotify:album:5m4VYOPoIpkV0XgOiRKkWC"
+      }
+    }
+  ]
+};
+export const feedPolandTop = {
   playlists: {
     href:
       "https://api.spotify.com/v1/browse/categories/party/playlists?country=BR&offset=0&limit=2",
@@ -771,16 +1133,788 @@ export const feedGetCategoryPlaylist = {
         },
         type: "playlist",
         uri: "spotify:user:spotifybrazilian:playlist:4HZh0C9y80GzHDbHZyX770"
+      },
+      {
+        collaborative: false,
+        external_urls: {
+          spotify:
+            "http://open.spotify.com/user/spotifybrazilian/playlist/4k7EZPI3uKMz4aRRrLVfen"
+        },
+        href:
+          "https://api.spotify.com/v1/users/spotifybrazilian/playlists/4k7EZPI3uKMz4aRRrLVfen",
+        id: "4k7EZPI3uKMz4aRRrLVfen",
+        images: [
+          {
+            height: 300,
+            url:
+              "https://i.scdn.co/image/bf6544c213532e9650088dfef76c8521093d970e",
+            width: 300
+          }
+        ],
+        name: "Noite Eletrônica",
+        owner: {
+          external_urls: {
+            spotify: "http://open.spotify.com/user/spotifybrazilian"
+          },
+          href: "https://api.spotify.com/v1/users/spotifybrazilian",
+          id: "spotifybrazilian",
+          type: "user",
+          uri: "spotify:user:spotifybrazilian"
+        },
+        public: null,
+        snapshot_id:
+          "PULvu1V2Ps8lzCxNXfNZTw4QbhBpaV0ZORc03Mw6oj6kQw9Ks2REwhL5Xcw/74wL",
+        tracks: {
+          href:
+            "https://api.spotify.com/v1/users/spotifybrazilian/playlists/4k7EZPI3uKMz4aRRrLVfen/tracks",
+          total: 100
+        },
+        type: "playlist",
+        uri: "spotify:user:spotifybrazilian:playlist:4k7EZPI3uKMz4aRRrLVfen"
+      },
+      {
+        collaborative: false,
+        external_urls: {
+          spotify:
+            "http://open.spotify.com/user/spotifybrazilian/playlist/4k7EZPI3uKMz4aRRrLVfen"
+        },
+        href:
+          "https://api.spotify.com/v1/users/spotifybrazilian/playlists/4k7EZPI3uKMz4aRRrLVfen",
+        id: "4k7EZPI3uKMz4aRRrLVfen",
+        images: [
+          {
+            height: 300,
+            url:
+              "https://i.scdn.co/image/bf6544c213532e9650088dfef76c8521093d970e",
+            width: 300
+          }
+        ],
+        name: "Noite Eletrônica",
+        owner: {
+          external_urls: {
+            spotify: "http://open.spotify.com/user/spotifybrazilian"
+          },
+          href: "https://api.spotify.com/v1/users/spotifybrazilian",
+          id: "spotifybrazilian",
+          type: "user",
+          uri: "spotify:user:spotifybrazilian"
+        },
+        public: null,
+        snapshot_id:
+          "PULvu1V2Ps8lzCxNXfNZTw4QbhBpaV0ZORc03Mw6oj6kQw9Ks2REwhL5Xcw/74wL",
+        tracks: {
+          href:
+            "https://api.spotify.com/v1/users/spotifybrazilian/playlists/4k7EZPI3uKMz4aRRrLVfen/tracks",
+          total: 100
+        },
+        type: "playlist",
+        uri: "spotify:user:spotifybrazilian:playlist:4k7EZPI3uKMz4aRRrLVfen"
+      },
+      {
+        collaborative: false,
+        external_urls: {
+          spotify:
+            "http://open.spotify.com/user/spotifybrazilian/playlist/4k7EZPI3uKMz4aRRrLVfen"
+        },
+        href:
+          "https://api.spotify.com/v1/users/spotifybrazilian/playlists/4k7EZPI3uKMz4aRRrLVfen",
+        id: "4k7EZPI3uKMz4aRRrLVfen",
+        images: [
+          {
+            height: 300,
+            url:
+              "https://i.scdn.co/image/bf6544c213532e9650088dfef76c8521093d970e",
+            width: 300
+          }
+        ],
+        name: "Noite Eletrônica",
+        owner: {
+          external_urls: {
+            spotify: "http://open.spotify.com/user/spotifybrazilian"
+          },
+          href: "https://api.spotify.com/v1/users/spotifybrazilian",
+          id: "spotifybrazilian",
+          type: "user",
+          uri: "spotify:user:spotifybrazilian"
+        },
+        public: null,
+        snapshot_id:
+          "PULvu1V2Ps8lzCxNXfNZTw4QbhBpaV0ZORc03Mw6oj6kQw9Ks2REwhL5Xcw/74wL",
+        tracks: {
+          href:
+            "https://api.spotify.com/v1/users/spotifybrazilian/playlists/4k7EZPI3uKMz4aRRrLVfen/tracks",
+          total: 100
+        },
+        type: "playlist",
+        uri: "spotify:user:spotifybrazilian:playlist:4k7EZPI3uKMz4aRRrLVfen"
+      },
+      {
+        collaborative: false,
+        external_urls: {
+          spotify:
+            "http://open.spotify.com/user/spotifybrazilian/playlist/4k7EZPI3uKMz4aRRrLVfen"
+        },
+        href:
+          "https://api.spotify.com/v1/users/spotifybrazilian/playlists/4k7EZPI3uKMz4aRRrLVfen",
+        id: "4k7EZPI3uKMz4aRRrLVfen",
+        images: [
+          {
+            height: 300,
+            url:
+              "https://i.scdn.co/image/bf6544c213532e9650088dfef76c8521093d970e",
+            width: 300
+          }
+        ],
+        name: "Noite Eletrônica",
+        owner: {
+          external_urls: {
+            spotify: "http://open.spotify.com/user/spotifybrazilian"
+          },
+          href: "https://api.spotify.com/v1/users/spotifybrazilian",
+          id: "spotifybrazilian",
+          type: "user",
+          uri: "spotify:user:spotifybrazilian"
+        },
+        public: null,
+        snapshot_id:
+          "PULvu1V2Ps8lzCxNXfNZTw4QbhBpaV0ZORc03Mw6oj6kQw9Ks2REwhL5Xcw/74wL",
+        tracks: {
+          href:
+            "https://api.spotify.com/v1/users/spotifybrazilian/playlists/4k7EZPI3uKMz4aRRrLVfen/tracks",
+          total: 100
+        },
+        type: "playlist",
+        uri: "spotify:user:spotifybrazilian:playlist:4k7EZPI3uKMz4aRRrLVfen"
+      },
+      {
+        collaborative: false,
+        external_urls: {
+          spotify:
+            "http://open.spotify.com/user/spotifybrazilian/playlist/4k7EZPI3uKMz4aRRrLVfen"
+        },
+        href:
+          "https://api.spotify.com/v1/users/spotifybrazilian/playlists/4k7EZPI3uKMz4aRRrLVfen",
+        id: "4k7EZPI3uKMz4aRRrLVfen",
+        images: [
+          {
+            height: 300,
+            url:
+              "https://i.scdn.co/image/bf6544c213532e9650088dfef76c8521093d970e",
+            width: 300
+          }
+        ],
+        name: "Noite Eletrônica",
+        owner: {
+          external_urls: {
+            spotify: "http://open.spotify.com/user/spotifybrazilian"
+          },
+          href: "https://api.spotify.com/v1/users/spotifybrazilian",
+          id: "spotifybrazilian",
+          type: "user",
+          uri: "spotify:user:spotifybrazilian"
+        },
+        public: null,
+        snapshot_id:
+          "PULvu1V2Ps8lzCxNXfNZTw4QbhBpaV0ZORc03Mw6oj6kQw9Ks2REwhL5Xcw/74wL",
+        tracks: {
+          href:
+            "https://api.spotify.com/v1/users/spotifybrazilian/playlists/4k7EZPI3uKMz4aRRrLVfen/tracks",
+          total: 100
+        },
+        type: "playlist",
+        uri: "spotify:user:spotifybrazilian:playlist:4k7EZPI3uKMz4aRRrLVfen"
       }
-    ],
-    limit: 2,
-    next:
-      "https://api.spotify.com/v1/browse/categories/party/playlists?country=BR&offset=2&limit=2",
-    offset: 0,
-    previous: null,
-    total: 86
+    ]
   }
 };
+export const feedGetCategoryPlaylist = [
+  {
+    playlists: {
+      href:
+        "https://api.spotify.com/v1/browse/categories/party/playlists?country=BR&offset=0&limit=2",
+      items: [
+        {
+          collaborative: false,
+          external_urls: {
+            spotify:
+              "http://open.spotify.com/user/spotifybrazilian/playlist/4k7EZPI3uKMz4aRRrLVfen"
+          },
+          href:
+            "https://api.spotify.com/v1/users/spotifybrazilian/playlists/4k7EZPI3uKMz4aRRrLVfen",
+          id: "4k7EZPI3uKMz4aRRrLVfen",
+          images: [
+            {
+              height: 300,
+              url:
+                "https://i.scdn.co/image/bf6544c213532e9650088dfef76c8521093d970e",
+              width: 300
+            }
+          ],
+          name: "Noite Eletrônica",
+          owner: {
+            external_urls: {
+              spotify: "http://open.spotify.com/user/spotifybrazilian"
+            },
+            href: "https://api.spotify.com/v1/users/spotifybrazilian",
+            id: "spotifybrazilian",
+            type: "user",
+            uri: "spotify:user:spotifybrazilian"
+          },
+          public: null,
+          snapshot_id:
+            "PULvu1V2Ps8lzCxNXfNZTw4QbhBpaV0ZORc03Mw6oj6kQw9Ks2REwhL5Xcw/74wL",
+          tracks: {
+            href:
+              "https://api.spotify.com/v1/users/spotifybrazilian/playlists/4k7EZPI3uKMz4aRRrLVfen/tracks",
+            total: 100
+          },
+          type: "playlist",
+          uri: "spotify:user:spotifybrazilian:playlist:4k7EZPI3uKMz4aRRrLVfen"
+        },
+        {
+          collaborative: false,
+          external_urls: {
+            spotify:
+              "http://open.spotify.com/user/spotifybrazilian/playlist/4HZh0C9y80GzHDbHZyX770"
+          },
+          href:
+            "https://api.spotify.com/v1/users/spotifybrazilian/playlists/4HZh0C9y80GzHDbHZyX770",
+          id: "4HZh0C9y80GzHDbHZyX770",
+          images: [
+            {
+              height: 300,
+              url:
+                "https://i.scdn.co/image/be6c333146674440123073cb32c1c8b851e69023",
+              width: 300
+            }
+          ],
+          name: "Festa Indie",
+          owner: {
+            external_urls: {
+              spotify: "http://open.spotify.com/user/spotifybrazilian"
+            },
+            href: "https://api.spotify.com/v1/users/spotifybrazilian",
+            id: "spotifybrazilian",
+            type: "user",
+            uri: "spotify:user:spotifybrazilian"
+          },
+          public: null,
+          snapshot_id:
+            "V66hh9k2HnLCdzHvtoXPv+tm0jp3ODM63SZ0oISfGnlHQxwG/scupDbKgIo99Zfz",
+          tracks: {
+            href:
+              "https://api.spotify.com/v1/users/spotifybrazilian/playlists/4HZh0C9y80GzHDbHZyX770/tracks",
+            total: 74
+          },
+          type: "playlist",
+          uri: "spotify:user:spotifybrazilian:playlist:4HZh0C9y80GzHDbHZyX770"
+        },
+        {
+          collaborative: false,
+          external_urls: {
+            spotify:
+              "http://open.spotify.com/user/spotifybrazilian/playlist/4k7EZPI3uKMz4aRRrLVfen"
+          },
+          href:
+            "https://api.spotify.com/v1/users/spotifybrazilian/playlists/4k7EZPI3uKMz4aRRrLVfen",
+          id: "4k7EZPI3uKMz4aRRrLVfen",
+          images: [
+            {
+              height: 300,
+              url:
+                "https://i.scdn.co/image/bf6544c213532e9650088dfef76c8521093d970e",
+              width: 300
+            }
+          ],
+          name: "Noite Eletrônica",
+          owner: {
+            external_urls: {
+              spotify: "http://open.spotify.com/user/spotifybrazilian"
+            },
+            href: "https://api.spotify.com/v1/users/spotifybrazilian",
+            id: "spotifybrazilian",
+            type: "user",
+            uri: "spotify:user:spotifybrazilian"
+          },
+          public: null,
+          snapshot_id:
+            "PULvu1V2Ps8lzCxNXfNZTw4QbhBpaV0ZORc03Mw6oj6kQw9Ks2REwhL5Xcw/74wL",
+          tracks: {
+            href:
+              "https://api.spotify.com/v1/users/spotifybrazilian/playlists/4k7EZPI3uKMz4aRRrLVfen/tracks",
+            total: 100
+          },
+          type: "playlist",
+          uri: "spotify:user:spotifybrazilian:playlist:4k7EZPI3uKMz4aRRrLVfen"
+        },
+        {
+          collaborative: false,
+          external_urls: {
+            spotify:
+              "http://open.spotify.com/user/spotifybrazilian/playlist/4k7EZPI3uKMz4aRRrLVfen"
+          },
+          href:
+            "https://api.spotify.com/v1/users/spotifybrazilian/playlists/4k7EZPI3uKMz4aRRrLVfen",
+          id: "4k7EZPI3uKMz4aRRrLVfen",
+          images: [
+            {
+              height: 300,
+              url:
+                "https://i.scdn.co/image/bf6544c213532e9650088dfef76c8521093d970e",
+              width: 300
+            }
+          ],
+          name: "Noite Eletrônica",
+          owner: {
+            external_urls: {
+              spotify: "http://open.spotify.com/user/spotifybrazilian"
+            },
+            href: "https://api.spotify.com/v1/users/spotifybrazilian",
+            id: "spotifybrazilian",
+            type: "user",
+            uri: "spotify:user:spotifybrazilian"
+          },
+          public: null,
+          snapshot_id:
+            "PULvu1V2Ps8lzCxNXfNZTw4QbhBpaV0ZORc03Mw6oj6kQw9Ks2REwhL5Xcw/74wL",
+          tracks: {
+            href:
+              "https://api.spotify.com/v1/users/spotifybrazilian/playlists/4k7EZPI3uKMz4aRRrLVfen/tracks",
+            total: 100
+          },
+          type: "playlist",
+          uri: "spotify:user:spotifybrazilian:playlist:4k7EZPI3uKMz4aRRrLVfen"
+        },
+        {
+          collaborative: false,
+          external_urls: {
+            spotify:
+              "http://open.spotify.com/user/spotifybrazilian/playlist/4k7EZPI3uKMz4aRRrLVfen"
+          },
+          href:
+            "https://api.spotify.com/v1/users/spotifybrazilian/playlists/4k7EZPI3uKMz4aRRrLVfen",
+          id: "4k7EZPI3uKMz4aRRrLVfen",
+          images: [
+            {
+              height: 300,
+              url:
+                "https://i.scdn.co/image/bf6544c213532e9650088dfef76c8521093d970e",
+              width: 300
+            }
+          ],
+          name: "Noite Eletrônica",
+          owner: {
+            external_urls: {
+              spotify: "http://open.spotify.com/user/spotifybrazilian"
+            },
+            href: "https://api.spotify.com/v1/users/spotifybrazilian",
+            id: "spotifybrazilian",
+            type: "user",
+            uri: "spotify:user:spotifybrazilian"
+          },
+          public: null,
+          snapshot_id:
+            "PULvu1V2Ps8lzCxNXfNZTw4QbhBpaV0ZORc03Mw6oj6kQw9Ks2REwhL5Xcw/74wL",
+          tracks: {
+            href:
+              "https://api.spotify.com/v1/users/spotifybrazilian/playlists/4k7EZPI3uKMz4aRRrLVfen/tracks",
+            total: 100
+          },
+          type: "playlist",
+          uri: "spotify:user:spotifybrazilian:playlist:4k7EZPI3uKMz4aRRrLVfen"
+        },
+        {
+          collaborative: false,
+          external_urls: {
+            spotify:
+              "http://open.spotify.com/user/spotifybrazilian/playlist/4k7EZPI3uKMz4aRRrLVfen"
+          },
+          href:
+            "https://api.spotify.com/v1/users/spotifybrazilian/playlists/4k7EZPI3uKMz4aRRrLVfen",
+          id: "4k7EZPI3uKMz4aRRrLVfen",
+          images: [
+            {
+              height: 300,
+              url:
+                "https://i.scdn.co/image/bf6544c213532e9650088dfef76c8521093d970e",
+              width: 300
+            }
+          ],
+          name: "Noite Eletrônica",
+          owner: {
+            external_urls: {
+              spotify: "http://open.spotify.com/user/spotifybrazilian"
+            },
+            href: "https://api.spotify.com/v1/users/spotifybrazilian",
+            id: "spotifybrazilian",
+            type: "user",
+            uri: "spotify:user:spotifybrazilian"
+          },
+          public: null,
+          snapshot_id:
+            "PULvu1V2Ps8lzCxNXfNZTw4QbhBpaV0ZORc03Mw6oj6kQw9Ks2REwhL5Xcw/74wL",
+          tracks: {
+            href:
+              "https://api.spotify.com/v1/users/spotifybrazilian/playlists/4k7EZPI3uKMz4aRRrLVfen/tracks",
+            total: 100
+          },
+          type: "playlist",
+          uri: "spotify:user:spotifybrazilian:playlist:4k7EZPI3uKMz4aRRrLVfen"
+        },
+        {
+          collaborative: false,
+          external_urls: {
+            spotify:
+              "http://open.spotify.com/user/spotifybrazilian/playlist/4k7EZPI3uKMz4aRRrLVfen"
+          },
+          href:
+            "https://api.spotify.com/v1/users/spotifybrazilian/playlists/4k7EZPI3uKMz4aRRrLVfen",
+          id: "4k7EZPI3uKMz4aRRrLVfen",
+          images: [
+            {
+              height: 300,
+              url:
+                "https://i.scdn.co/image/bf6544c213532e9650088dfef76c8521093d970e",
+              width: 300
+            }
+          ],
+          name: "Noite Eletrônica",
+          owner: {
+            external_urls: {
+              spotify: "http://open.spotify.com/user/spotifybrazilian"
+            },
+            href: "https://api.spotify.com/v1/users/spotifybrazilian",
+            id: "spotifybrazilian",
+            type: "user",
+            uri: "spotify:user:spotifybrazilian"
+          },
+          public: null,
+          snapshot_id:
+            "PULvu1V2Ps8lzCxNXfNZTw4QbhBpaV0ZORc03Mw6oj6kQw9Ks2REwhL5Xcw/74wL",
+          tracks: {
+            href:
+              "https://api.spotify.com/v1/users/spotifybrazilian/playlists/4k7EZPI3uKMz4aRRrLVfen/tracks",
+            total: 100
+          },
+          type: "playlist",
+          uri: "spotify:user:spotifybrazilian:playlist:4k7EZPI3uKMz4aRRrLVfen"
+        },
+        {
+          collaborative: false,
+          external_urls: {
+            spotify:
+              "http://open.spotify.com/user/spotifybrazilian/playlist/4k7EZPI3uKMz4aRRrLVfen"
+          },
+          href:
+            "https://api.spotify.com/v1/users/spotifybrazilian/playlists/4k7EZPI3uKMz4aRRrLVfen",
+          id: "4k7EZPI3uKMz4aRRrLVfen",
+          images: [
+            {
+              height: 300,
+              url:
+                "https://i.scdn.co/image/bf6544c213532e9650088dfef76c8521093d970e",
+              width: 300
+            }
+          ],
+          name: "Noite Eletrônica",
+          owner: {
+            external_urls: {
+              spotify: "http://open.spotify.com/user/spotifybrazilian"
+            },
+            href: "https://api.spotify.com/v1/users/spotifybrazilian",
+            id: "spotifybrazilian",
+            type: "user",
+            uri: "spotify:user:spotifybrazilian"
+          },
+          public: null,
+          snapshot_id:
+            "PULvu1V2Ps8lzCxNXfNZTw4QbhBpaV0ZORc03Mw6oj6kQw9Ks2REwhL5Xcw/74wL",
+          tracks: {
+            href:
+              "https://api.spotify.com/v1/users/spotifybrazilian/playlists/4k7EZPI3uKMz4aRRrLVfen/tracks",
+            total: 100
+          },
+          type: "playlist",
+          uri: "spotify:user:spotifybrazilian:playlist:4k7EZPI3uKMz4aRRrLVfen"
+        }
+      ]
+    }
+  },
+  {
+    playlists: {
+      href:
+        "https://api.spotify.com/v1/browse/categories/party/playlists?country=BR&offset=0&limit=2",
+      items: [
+        {
+          collaborative: false,
+          external_urls: {
+            spotify:
+              "http://open.spotify.com/user/spotifybrazilian/playlist/4k7EZPI3uKMz4aRRrLVfen"
+          },
+          href:
+            "https://api.spotify.com/v1/users/spotifybrazilian/playlists/4k7EZPI3uKMz4aRRrLVfen",
+          id: "4k7EZPI3uKMz4aRRrLVfen",
+          images: [
+            {
+              height: 300,
+              url:
+                "https://i.scdn.co/image/bf6544c213532e9650088dfef76c8521093d970e",
+              width: 300
+            }
+          ],
+          name: "Noite Eletrônica",
+          owner: {
+            external_urls: {
+              spotify: "http://open.spotify.com/user/spotifybrazilian"
+            },
+            href: "https://api.spotify.com/v1/users/spotifybrazilian",
+            id: "spotifybrazilian",
+            type: "user",
+            uri: "spotify:user:spotifybrazilian"
+          },
+          public: null,
+          snapshot_id:
+            "PULvu1V2Ps8lzCxNXfNZTw4QbhBpaV0ZORc03Mw6oj6kQw9Ks2REwhL5Xcw/74wL",
+          tracks: {
+            href:
+              "https://api.spotify.com/v1/users/spotifybrazilian/playlists/4k7EZPI3uKMz4aRRrLVfen/tracks",
+            total: 100
+          },
+          type: "playlist",
+          uri: "spotify:user:spotifybrazilian:playlist:4k7EZPI3uKMz4aRRrLVfen"
+        },
+        {
+          collaborative: false,
+          external_urls: {
+            spotify:
+              "http://open.spotify.com/user/spotifybrazilian/playlist/4HZh0C9y80GzHDbHZyX770"
+          },
+          href:
+            "https://api.spotify.com/v1/users/spotifybrazilian/playlists/4HZh0C9y80GzHDbHZyX770",
+          id: "4HZh0C9y80GzHDbHZyX770",
+          images: [
+            {
+              height: 300,
+              url:
+                "https://i.scdn.co/image/be6c333146674440123073cb32c1c8b851e69023",
+              width: 300
+            }
+          ],
+          name: "Festa Indie",
+          owner: {
+            external_urls: {
+              spotify: "http://open.spotify.com/user/spotifybrazilian"
+            },
+            href: "https://api.spotify.com/v1/users/spotifybrazilian",
+            id: "spotifybrazilian",
+            type: "user",
+            uri: "spotify:user:spotifybrazilian"
+          },
+          public: null,
+          snapshot_id:
+            "V66hh9k2HnLCdzHvtoXPv+tm0jp3ODM63SZ0oISfGnlHQxwG/scupDbKgIo99Zfz",
+          tracks: {
+            href:
+              "https://api.spotify.com/v1/users/spotifybrazilian/playlists/4HZh0C9y80GzHDbHZyX770/tracks",
+            total: 74
+          },
+          type: "playlist",
+          uri: "spotify:user:spotifybrazilian:playlist:4HZh0C9y80GzHDbHZyX770"
+        },
+        {
+          collaborative: false,
+          external_urls: {
+            spotify:
+              "http://open.spotify.com/user/spotifybrazilian/playlist/4k7EZPI3uKMz4aRRrLVfen"
+          },
+          href:
+            "https://api.spotify.com/v1/users/spotifybrazilian/playlists/4k7EZPI3uKMz4aRRrLVfen",
+          id: "4k7EZPI3uKMz4aRRrLVfen",
+          images: [
+            {
+              height: 300,
+              url:
+                "https://i.scdn.co/image/bf6544c213532e9650088dfef76c8521093d970e",
+              width: 300
+            }
+          ],
+          name: "Noite Eletrônica",
+          owner: {
+            external_urls: {
+              spotify: "http://open.spotify.com/user/spotifybrazilian"
+            },
+            href: "https://api.spotify.com/v1/users/spotifybrazilian",
+            id: "spotifybrazilian",
+            type: "user",
+            uri: "spotify:user:spotifybrazilian"
+          },
+          public: null,
+          snapshot_id:
+            "PULvu1V2Ps8lzCxNXfNZTw4QbhBpaV0ZORc03Mw6oj6kQw9Ks2REwhL5Xcw/74wL",
+          tracks: {
+            href:
+              "https://api.spotify.com/v1/users/spotifybrazilian/playlists/4k7EZPI3uKMz4aRRrLVfen/tracks",
+            total: 100
+          },
+          type: "playlist",
+          uri: "spotify:user:spotifybrazilian:playlist:4k7EZPI3uKMz4aRRrLVfen"
+        },
+        {
+          collaborative: false,
+          external_urls: {
+            spotify:
+              "http://open.spotify.com/user/spotifybrazilian/playlist/4k7EZPI3uKMz4aRRrLVfen"
+          },
+          href:
+            "https://api.spotify.com/v1/users/spotifybrazilian/playlists/4k7EZPI3uKMz4aRRrLVfen",
+          id: "4k7EZPI3uKMz4aRRrLVfen",
+          images: [
+            {
+              height: 300,
+              url:
+                "https://i.scdn.co/image/bf6544c213532e9650088dfef76c8521093d970e",
+              width: 300
+            }
+          ],
+          name: "Noite Eletrônica",
+          owner: {
+            external_urls: {
+              spotify: "http://open.spotify.com/user/spotifybrazilian"
+            },
+            href: "https://api.spotify.com/v1/users/spotifybrazilian",
+            id: "spotifybrazilian",
+            type: "user",
+            uri: "spotify:user:spotifybrazilian"
+          },
+          public: null,
+          snapshot_id:
+            "PULvu1V2Ps8lzCxNXfNZTw4QbhBpaV0ZORc03Mw6oj6kQw9Ks2REwhL5Xcw/74wL",
+          tracks: {
+            href:
+              "https://api.spotify.com/v1/users/spotifybrazilian/playlists/4k7EZPI3uKMz4aRRrLVfen/tracks",
+            total: 100
+          },
+          type: "playlist",
+          uri: "spotify:user:spotifybrazilian:playlist:4k7EZPI3uKMz4aRRrLVfen"
+        },
+        {
+          collaborative: false,
+          external_urls: {
+            spotify:
+              "http://open.spotify.com/user/spotifybrazilian/playlist/4k7EZPI3uKMz4aRRrLVfen"
+          },
+          href:
+            "https://api.spotify.com/v1/users/spotifybrazilian/playlists/4k7EZPI3uKMz4aRRrLVfen",
+          id: "4k7EZPI3uKMz4aRRrLVfen",
+          images: [
+            {
+              height: 300,
+              url:
+                "https://i.scdn.co/image/bf6544c213532e9650088dfef76c8521093d970e",
+              width: 300
+            }
+          ],
+          name: "Noite Eletrônica",
+          owner: {
+            external_urls: {
+              spotify: "http://open.spotify.com/user/spotifybrazilian"
+            },
+            href: "https://api.spotify.com/v1/users/spotifybrazilian",
+            id: "spotifybrazilian",
+            type: "user",
+            uri: "spotify:user:spotifybrazilian"
+          },
+          public: null,
+          snapshot_id:
+            "PULvu1V2Ps8lzCxNXfNZTw4QbhBpaV0ZORc03Mw6oj6kQw9Ks2REwhL5Xcw/74wL",
+          tracks: {
+            href:
+              "https://api.spotify.com/v1/users/spotifybrazilian/playlists/4k7EZPI3uKMz4aRRrLVfen/tracks",
+            total: 100
+          },
+          type: "playlist",
+          uri: "spotify:user:spotifybrazilian:playlist:4k7EZPI3uKMz4aRRrLVfen"
+        },
+        {
+          collaborative: false,
+          external_urls: {
+            spotify:
+              "http://open.spotify.com/user/spotifybrazilian/playlist/4k7EZPI3uKMz4aRRrLVfen"
+          },
+          href:
+            "https://api.spotify.com/v1/users/spotifybrazilian/playlists/4k7EZPI3uKMz4aRRrLVfen",
+          id: "4k7EZPI3uKMz4aRRrLVfen",
+          images: [
+            {
+              height: 300,
+              url:
+                "https://i.scdn.co/image/bf6544c213532e9650088dfef76c8521093d970e",
+              width: 300
+            }
+          ],
+          name: "Noite Eletrônica",
+          owner: {
+            external_urls: {
+              spotify: "http://open.spotify.com/user/spotifybrazilian"
+            },
+            href: "https://api.spotify.com/v1/users/spotifybrazilian",
+            id: "spotifybrazilian",
+            type: "user",
+            uri: "spotify:user:spotifybrazilian"
+          },
+          public: null,
+          snapshot_id:
+            "PULvu1V2Ps8lzCxNXfNZTw4QbhBpaV0ZORc03Mw6oj6kQw9Ks2REwhL5Xcw/74wL",
+          tracks: {
+            href:
+              "https://api.spotify.com/v1/users/spotifybrazilian/playlists/4k7EZPI3uKMz4aRRrLVfen/tracks",
+            total: 100
+          },
+          type: "playlist",
+          uri: "spotify:user:spotifybrazilian:playlist:4k7EZPI3uKMz4aRRrLVfen"
+        },
+        {
+          collaborative: false,
+          external_urls: {
+            spotify:
+              "http://open.spotify.com/user/spotifybrazilian/playlist/4k7EZPI3uKMz4aRRrLVfen"
+          },
+          href:
+            "https://api.spotify.com/v1/users/spotifybrazilian/playlists/4k7EZPI3uKMz4aRRrLVfen",
+          id: "4k7EZPI3uKMz4aRRrLVfen",
+          images: [
+            {
+              height: 300,
+              url:
+                "https://i.scdn.co/image/bf6544c213532e9650088dfef76c8521093d970e",
+              width: 300
+            }
+          ],
+          name: "Noite Eletrônica",
+          owner: {
+            external_urls: {
+              spotify: "http://open.spotify.com/user/spotifybrazilian"
+            },
+            href: "https://api.spotify.com/v1/users/spotifybrazilian",
+            id: "spotifybrazilian",
+            type: "user",
+            uri: "spotify:user:spotifybrazilian"
+          },
+          public: null,
+          snapshot_id:
+            "PULvu1V2Ps8lzCxNXfNZTw4QbhBpaV0ZORc03Mw6oj6kQw9Ks2REwhL5Xcw/74wL",
+          tracks: {
+            href:
+              "https://api.spotify.com/v1/users/spotifybrazilian/playlists/4k7EZPI3uKMz4aRRrLVfen/tracks",
+            total: 100
+          },
+          type: "playlist",
+          uri: "spotify:user:spotifybrazilian:playlist:4k7EZPI3uKMz4aRRrLVfen"
+        }
+      ]
+    }
+  }
+];
 
 export const feedGetPlaylistTracks = {
   href:

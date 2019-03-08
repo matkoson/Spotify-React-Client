@@ -28,7 +28,6 @@ function HomeScreen(props) {
       <ContainerGenerator
         data={recentProp}
         type={"recent"}
-        animate={true}
         importance={"high"}
       />
     );
@@ -40,7 +39,6 @@ function HomeScreen(props) {
       <ContainerGenerator
         data={ftrdProp.playlists.items.slice(0, 6)}
         type={"playlists"}
-        animate={true}
         importance={"auto"}
       />
     );
@@ -51,7 +49,6 @@ function HomeScreen(props) {
         data={props.relatedTop}
         type={"playlists"}
         special={true}
-        animate={true}
         importance={"low"}
       />
     );
@@ -66,20 +63,11 @@ function HomeScreen(props) {
   return (
     <div data-testid="navHome" className="generator">
       {headlines && headlines[0]}
-      <div className="app__fetch-container generator__playlist-container">
-        {albumPics}
-      </div>
-      {/*  */}
-      {/*  */}
-      {/*  */}
+      {albumPics}
       {headlines && headlines[1]}
-      <div className="app__fetch-container generator__playlist-container">
-        {processedProp}
-      </div>
+      {processedProp}
       {headlines && headlines[2]}
-      <div className="app__fetch-container generator__playlist-container">
-        {relatedTop}
-      </div>
+      {relatedTop}
     </div>
   );
 }

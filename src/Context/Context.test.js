@@ -26,7 +26,6 @@ it("Consumer shows default value", () => {
     </Provider>
   );
   const { getByText } = render(tree);
-  console.log(getByText);
   expect(getByText(/playerState/)).toHaveTextContent(
     "STATE",
     "API",

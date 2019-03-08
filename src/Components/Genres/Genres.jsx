@@ -17,8 +17,6 @@ function Genres(props) {
       <ContainerGenerator
         data={props.getCategories.categories.items.slice(1)}
         type={"categories"}
-        animate={true}
-        //+context
       />
     );
   }

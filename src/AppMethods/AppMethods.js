@@ -117,7 +117,7 @@ export function handleNavClick(ele, navType) {
         // if (e.dataset && e.dataset.clicked) e.dataset.clicked = false;
       }
       chosenOne.dataset.testid = "clickedNavBtn";
-      console.log("DATASET", chosenOne.innerHTML);
+      // console.log("DATASET", chosenOne.innerHTML);
     }
   });
 }

@@ -17,7 +17,6 @@ function NewReleases(props) {
       <ContainerGenerator
         data={props.getNewReleases.albums.items}
         type={"playlists"}
-        animate={true}
       />
     );
   let headlines = ["New albums & singles"];

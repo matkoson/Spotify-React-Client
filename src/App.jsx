@@ -260,7 +260,7 @@ export default class App extends Component {
           <Suspense
             fallback={
               <FontAwesomeIcon
-                spin
+                spin={"true"}
                 icon="spinner"
                 style={{
                   position: "absolute",
@@ -309,7 +309,7 @@ export default class App extends Component {
                 />
                 <Charts
                   path={process.env.PUBLIC_URL + "charts"}
-                  getCategories={this.state.getCategories}
+                  // getCategories={this.state.getCategories}
                   getCategoryPlaylists={this.state.getCategoryPlaylists}
                   PolandTop={this.state.PolandTop}
                   countryCodes={this.state.countryCodes}

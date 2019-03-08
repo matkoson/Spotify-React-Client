@@ -101,6 +101,7 @@
       flex-wrap: wrap;
       justify-content: flex-start;
       margin-bottom: 5%;
+      width: inherit;
       @include below1070px {
         justify-content: center;
       }

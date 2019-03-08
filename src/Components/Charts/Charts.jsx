@@ -36,40 +36,31 @@ function renderCharts(props) {
   if (props.PolandTop) {
     PolandTop = (
       <ContainerGenerator
-        data={props.PolandTop.playlists.items}
+        data={props.PolandTop.playlists.items.slice(0, 5)}
         type={"playlists"}
-        animate={true}
       />
     );
   }
   //
   //
   //
-  if (PolandTop) {
-    if (props.getCategoryPlaylists.length) {
-      let hash = {};
-      countryTop = props.getCategoryPlaylists
+  if (PolandTop && props.getCategoryPlaylists && props.getCategoryPlaylists) {
+    let hash = {};
+    countryTop =
+      props.getCategoryPlaylists.length &&
+      props.getCategoryPlaylists
         .map(e => {
           const name = e.playlists.items[e.playlists.items.length - 5].name;
           hash[name] ? (hash[name] += 1) : (hash[name] = 1);
           return e.playlists.items[e.playlists.items.length - 5];
         })
         .filter(e => {
-          return (
-            /^(?!.*(Global Top)).*50$/.test(e.name) &&
-            e.name.includes("Top") &&
-            hash[e.name] < 2
-          );
+          return hash[e.name] < 2 && /^(?!.*(Global Top)).*50$/.test(e.name);
         });
-      countryTop = (
-        <ContainerGenerator
-          data={countryTop.slice(0, 5)}
-          type={"playlists"}
-          // animate={true}
-        />
-      );
-      hash = {}; //cleaning hash
-      countryViral = props.getCategoryPlaylists
+    hash = {}; //cleaning hash
+    countryViral =
+      props.getCategoryPlaylists.length &&
+      props.getCategoryPlaylists
         .map(e => {
           const name = e.playlists.items[e.playlists.items.length - 2].name;
           hash[name] ? (hash[name] += 1) : (hash[name] = 1);
@@ -78,14 +69,6 @@ function renderCharts(props) {
         .filter(e => {
           return /^(?!.*(Global Viral)).*50$/.test(e.name) && hash[e.name] < 2;
         });
-      countryViral = (
-        <ContainerGenerator
-          data={countryViral.slice(0, 5)}
-          type={"playlists"}
-          // animate={true}
-        />
-      );
-    }
   }
   headlines = ["Featured Charts", "Top 50 by Country", "Viral 50 by Country"];
   headlines = HeadlineAnimator(headlines);
@@ -93,22 +76,32 @@ function renderCharts(props) {
   return {
     countryTop,
     countryViral,
-    PolandTop
+    PolandTop,
+    headlines
   };
 }
 export default function Charts(props) {
-  // console.log("CHARTS", props);
   const { countryTop, countryViral, PolandTop } = renderCharts(props);
   return (
     <div className="generator" data-testid="navCharts">
-      <div className="app__fetch-container generator__playlist-container">
-        {headlines[0]}
-        {PolandTop}
-      </div>
-      {PolandTop && headlines[1]}{" "}
-      <div className="app__fetch-container ">{countryTop}</div>
-      {PolandTop && headlines[2]}{" "}
-      <div className="app__fetch-container ">{countryViral}</div>
+      {headlines[0]}
+      {PolandTop}
+      {PolandTop && headlines[1]}
+      {PolandTop && (
+        <ContainerGenerator
+          forbidAnimate={true}
+          data={countryTop}
+          type={"playlists"}
+        />
+      )}
+      {PolandTop && headlines[2]}
+      {PolandTop && (
+        <ContainerGenerator
+          forbidAnimate={true}
+          data={countryViral}
+          type={"playlists"}
+        />
+      )}
     </div>
   );
 }

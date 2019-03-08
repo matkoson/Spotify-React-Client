@@ -15,7 +15,6 @@ class Search extends React.Component {
   handleInputChange(e) {
     const value = e.target.value;
     this.setState({ searchInput: value });
-    console.log("CX", !!this.context.APIrequest);
     setTimeout(() => {
       this.context.APIrequest &&
         this.context.APIrequest("searchQuery", { query: value });
@@ -98,32 +97,24 @@ class Search extends React.Component {
           </React.Fragment>
         );
     }
-    if (playlists) {
-      this.playlists = playlists && (
-        <ContainerGenerator
-          data={playlists.items.slice(0, 5)}
-          type={"playlists"}
-        />
-      );
-    }
-    if (artists) {
-      this.artists = artists && (
-        <ContainerGenerator
-          data={artists.items.slice(0, 2)}
-          type={"playlists"}
-          // animate={true}
-        />
-      );
-    }
-    if (albums) {
-      this.albums = albums && (
-        <ContainerGenerator
-          data={albums.items.slice(0, 5)}
-          type={"playlists"}
-          animate={true}
-        />
-      );
-    }
+    this.playlists = (
+      <ContainerGenerator
+        data={playlists && playlists.items.slice(0, 5)}
+        type={"playlists"}
+      />
+    );
+    this.artists = (
+      <ContainerGenerator
+        data={artists && artists.items.slice(0, 2)}
+        type={"playlists"}
+      />
+    );
+    this.albums = (
+      <ContainerGenerator
+        data={albums && albums.items.slice(0, 5)}
+        type={"playlists"}
+      />
+    );
     const searchNav = [
       "top result",
       "albums",
@@ -132,6 +123,7 @@ class Search extends React.Component {
       "tracks"
     ].map(e => (
       <li
+        key={e}
         id={e}
         className={
           this.state.chosenTab === e
@@ -155,8 +147,6 @@ class Search extends React.Component {
             className="search__input__area"
           />
           <FontAwesomeIcon icon="search" />
-
-          {/* <i className="fas fa-search" /> */}
         </div>
         {this.props.searchQuery &&
           (this.state.searchInput && (

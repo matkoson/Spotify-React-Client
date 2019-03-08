@@ -10,75 +10,59 @@ class Library extends React.Component {
     this.state = { chosenTab: "PLAYLISTS" };
   }
   componentDidMount() {
-    console.log("LOL", window.location.href, this.context);
     this.context.APIrequest("getUserPlaylists");
     this.context.APIrequest("getUserSavedAlbums");
     this.context.APIrequest("getUserSavedTracks");
   }
   render() {
-    // console.log("PROPS", this.props);
-    if (this.props.getUserPlaylists) {
-      //   console.log("PROPS IN");
-      this.userPlaylists = (
-        <React.Fragment>
-          <h2 className="app__fetch-title">{"Your Saved Playlists"}</h2>
-          <div className="app__fetch-container ">
-            {
-              <ContainerGenerator
-                data={this.props.getUserPlaylists.items}
-                type={"playlists"}
-                animate={true}
-              />
-            }
-          </div>
-        </React.Fragment>
-      );
-    }
-    if (this.props.getUserSavedAlbums) {
-      this.savedAlbums = (
-        <React.Fragment>
-          <h2 className="app__fetch-title">{"Your Saved Albums"}</h2>
-          <div className="app__fetch-container ">
-            {
-              <ContainerGenerator
-                data={this.props.getUserSavedAlbums.items.map(e => e.album)}
-                type={"playlists"}
-                animate={true}
-              />
-            }
-          </div>
-        </React.Fragment>
-      );
-    }
-    if (this.props.getUserSavedTracks) {
-      this.savedTracks = (
-        <React.Fragment>
-          <h2 className="app__fetch-title">{"Your Saved Tracks"}</h2>
-          <div className="app__fetch-container ">
-            {
-              <ContainerGenerator
-                data={this.props.getUserSavedTracks.items.map(e => e.track)}
-                type={"playlists"}
-                animate={true}
-              />
-            }
-          </div>
-        </React.Fragment>
-      );
-    }
     let renderLib;
     switch (this.state.chosenTab) {
       case "ALBUMS":
-        renderLib = this.savedAlbums;
+        renderLib = (
+          <React.Fragment>
+            <h2 className="app__fetch-title">{"Your Saved Albums"}</h2>
+            {this.props.getUserSavedAlbums && (
+              <ContainerGenerator
+                data={this.props.getUserSavedAlbums.items
+                  .map(e => e.album)
+                  .slice(0, 20)}
+                type={"playlists"}
+              />
+            )}
+          </React.Fragment>
+        );
         break;
       case "TRACKS":
-        renderLib = this.savedTracks;
+        renderLib = (
+          <React.Fragment>
+            <h2 className="app__fetch-title">{"Your Saved Tracks"}</h2>
+            {this.props.getUserSavedTracks && (
+              <ContainerGenerator
+                data={this.props.getUserSavedTracks.items}
+                type={"playlists"}
+              />
+            )}
+          </React.Fragment>
+        );
         break;
       default:
-        renderLib = this.userPlaylists;
+        renderLib = (
+          <React.Fragment>
+            <h2 className="app__fetch-title">{"Your Saved Playlists"}</h2>
+            <div className="app__fetch-container ">
+              {this.props.getUserPlaylists && (
+                <ContainerGenerator
+                  data={this.props.getUserPlaylists.items.slice(0, 20)}
+                  type={"playlists"}
+                />
+              )}
+            </div>
+          </React.Fragment>
+        );
     }
     const libNav = ["PLAYLISTS", "ALBUMS", "TRACKS"].map(e => (
       <li
+        key={e}
         id={e}
         onClick={e => this.setState({ chosenTab: e.target.id })}
         className={

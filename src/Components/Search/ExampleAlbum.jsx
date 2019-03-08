@@ -19,7 +19,10 @@ export default function ExampleAlbum(props) {
       totalDuration = e.duration_ms;
       totalDuration = props.getMinsSecs(totalDuration);
       return (
-        <li className="search__response__album-example__tracks-li">
+        <li
+          key={e.duration_ms}
+          className="search__response__album-example__tracks-li"
+        >
           <div
             className="title-name-wrapper"
             onClick={() => {

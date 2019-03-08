@@ -20,7 +20,6 @@ function Discover(props) {
       <ContainerGenerator
         data={discoverRender.slice(0, 5)}
         type={"playlists"}
-        animate={true}
       />
     );
   }

@@ -15,9 +15,12 @@
     width: 95%;
   }
   &__animation-wrapper {
-    margin-right: 7.5px;
     margin-left: 7.5px;
-    margin-bottom: 12.5px;
+    margin-bottom: 40px;
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: flex-start;
   }
   &--exception {
     .generator__playlist-element__img__overlay--hover {

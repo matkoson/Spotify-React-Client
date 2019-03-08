@@ -26,7 +26,7 @@ it("Correctly acknowledges clicking on one of the recently played tracks", async
   await wait(() => {
     getByTestId("clickedNavBtn");
     fireEvent.mouseLeave(getTrack);
-    debug();
+    // debug();
     getByTestId("navBtnClickedLeft");
   });
 });

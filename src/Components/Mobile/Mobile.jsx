@@ -21,6 +21,7 @@ export default function Mobile(props) {
     { name: "Library", src: lib }
   ].map(e => (
     <Link
+      key={e.name}
       to={process.env.PUBLIC_URL + "/" + e.name.toLocaleLowerCase()}
       className="mobile__nav__ul__li"
       onClick={() => {
@@ -32,7 +33,7 @@ export default function Mobile(props) {
     </Link>
   ));
   return transitions.map(({ item, key, props }) => (
-    <div className="mobile" data-testid="navMobile">
+    <div key={key} className="mobile" data-testid="navMobile">
       {item ? (
         <animated.div
           data-testid={navVisibility}
