@@ -309,7 +309,6 @@ export default class App extends Component {
                 />
                 <Charts
                   path={process.env.PUBLIC_URL + "charts"}
-                  // getCategories={this.state.getCategories}
                   getCategoryPlaylists={this.state.getCategoryPlaylists}
                   PolandTop={this.state.PolandTop}
                   countryCodes={this.state.countryCodes}
@@ -355,7 +354,6 @@ export default class App extends Component {
                 path={process.env.PUBLIC_URL + "/category"}
                 PolandTop={this.state.PolandTop}
                 getCategory={this.state.getCategory}
-                // getCategoryPlaylists={this.state.getCategoryPlaylists}
               />
             </Router>
             <PlayerBar

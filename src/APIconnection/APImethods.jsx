@@ -97,8 +97,6 @@ export const getTopArtist = function() {
     .catch(err => console.error(err));
 };
 export const getContentFromMultiArtists = function(multiArtists) {
-  // console.log("in again", multiArtists);
-  // , multiArtists.map(e => e.id));
   multiArtists.artists
     .map(e => e.id)
     .forEach(e => this.playerRequest("getMultipleArtistAlbums", { id: e }));
@@ -315,7 +313,6 @@ export const playerRequest = function(type, additional) {
                 return this.setState({ [type]: [...this.state[type], res] });
               }
             } else if (type === "getMultipleArtists") {
-              // console.log("in");
               this.getContentFromMultiArtists(res);
             } else if (type === "getMultipleArtistAlbums") {
               this.setState(state => {

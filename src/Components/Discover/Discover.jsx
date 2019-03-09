@@ -7,15 +7,22 @@ import "../../Styles/Base/app.scss";
 function Discover(props) {
   const context = useContext(Context);
   useEffect(() => {
-    if (context && !props.getMultipleArtistAlbums.length) {
-      context.APIrequest("getMultipleArtists", { ids: props.idList });
+    if (
+      context &&
+      (!props.getMultipleArtistAlbums ||
+        (props.getMultipleArtistAlbums.items &&
+          !props.getMultipleArtistAlbums.items.length))
+    ) {
+      return context.APIrequest("getMultipleArtists", { ids: props.idList });
     }
   });
   let discoverRender;
-  if (props.getMultipleArtistAlbums.length) {
+  if (!discoverRender && props.getMultipleArtistAlbums) {
     discoverRender = props.getMultipleArtistAlbums
       .map(e => e.items)
-      .reduce((acc, cur) => (acc = [...acc, ...cur]), []);
+      .reduce((acc, cur) => {
+        return (acc = [...acc, ...cur]);
+      }, []);
     discoverRender = (
       <ContainerGenerator
         data={discoverRender.slice(0, 5)}

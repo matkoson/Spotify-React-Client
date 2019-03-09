@@ -13,7 +13,7 @@ export default function Animator(props) {
   }));
   const trans = (x, y, s) =>
     `perspective(800px) rotateX(${x}deg) rotateY(${y}deg) scale(${s})`;
-  const { key, content } = props;
+  const { key } = props;
   return (
     <animated.div
       key={key}
@@ -24,7 +24,7 @@ export default function Animator(props) {
         transform: propsAnimate.xys.interpolate(trans)
       }}
     >
-      {content}
+      {props.children}
     </animated.div>
   );
 }

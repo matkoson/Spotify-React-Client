@@ -17,6 +17,7 @@ function ContainerGenerator(props) {
     context = props.context,
     forbidAnimate = props.forbidAnimate,
     dataDef;
+  // console.log("data", data);
 
   const transitions = useTransition(null, null, {
     from: { opacity: 0, transform: "translate3d(0,-40px,0)" },
@@ -216,7 +217,7 @@ function ContainerGenerator(props) {
             </React.Fragment>
           );
           const contentAnimated = (
-            <Animator key={key || idS} content={content} />
+            <Animator key={key || idS}>{content}</Animator>
           );
           return (
             <React.Fragment key={key || idS}>

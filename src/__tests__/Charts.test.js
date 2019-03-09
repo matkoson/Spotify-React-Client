@@ -21,9 +21,8 @@ const renderFakeCharts = () =>
   );
 
 it("Renders correctly", async () => {
-  const { getByText, debug } = renderFakeCharts();
+  const { getByText } = renderFakeCharts();
   await wait(() => {
-    debug();
     getByText("Featured Charts");
     getByText("Viral 50 by Country");
     getByText("Top 50 by Country");

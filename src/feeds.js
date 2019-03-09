@@ -1053,6 +1053,275 @@ export const feedGetUserSavedAlbums = {
     }
   ]
 };
+export const feedTopRelatedArtists = [
+  {
+    external_urls: {
+      spotify: "https://open.spotify.com/artist/5ZKMPRDHc7qElVJFh3uRqB"
+    },
+    followers: {
+      href: null,
+      total: 18108
+    },
+    genres: ["rockabilly"],
+    href: "https://api.spotify.com/v1/artists/5ZKMPRDHc7qElVJFh3uRqB",
+    id: "5ZKMPRDHc7qElVJFh3uRqB",
+    images: [
+      {
+        height: 997,
+        url: "https://i.scdn.co/image/beff5827580bcc4d129cbc0872768095eeba8c14",
+        width: 1000
+      },
+      {
+        height: 638,
+        url: "https://i.scdn.co/image/dbabf703779789917c4dd1c0e54da62c7a45ce92",
+        width: 640
+      },
+      {
+        height: 199,
+        url: "https://i.scdn.co/image/74761c343bec27c814b8e44e4bc095cbf1b674bb",
+        width: 200
+      },
+      {
+        height: 64,
+        url: "https://i.scdn.co/image/0c30af5647c74fee14fb97981c23b336abbc9f21",
+        width: 64
+      }
+    ],
+    name: "Wanda Jackson",
+    popularity: 59,
+    type: "artist",
+    uri: "spotify:artist:5ZKMPRDHc7qElVJFh3uRqB"
+  }
+].map(e => e.id);
+export const feedGetMultipleArtistAlbums = [
+  {
+    items: [
+      {
+        album_group: "appears_on",
+        album_type: "album",
+        artists: [
+          {
+            external_urls: {
+              spotify: "https://open.spotify.com/artist/0LyfQWJT6nXafLPZqxe9Of"
+            },
+            href: "https://api.spotify.com/v1/artists/0LyfQWJT6nXafLPZqxe9Of",
+            id: "0LyfQWJT6nXafLPZqxe9Of",
+            name: "Various Artists",
+            type: "artist",
+            uri: "spotify:artist:0LyfQWJT6nXafLPZqxe9Of"
+          }
+        ],
+        available_markets: [
+          "AD",
+          "AR",
+          "AT",
+          "AU",
+          "BE",
+          "BG",
+          "BO",
+          "BR",
+          "CH",
+          "CL",
+          "CO",
+          "CR",
+          "CY",
+          "CZ",
+          "DE",
+          "DK",
+          "DO",
+          "EC",
+          "EE",
+          "ES",
+          "FI",
+          "FR",
+          "GB",
+          "GR",
+          "GT",
+          "HK",
+          "HN",
+          "HU",
+          "ID",
+          "IE",
+          "IL",
+          "IS",
+          "IT",
+          "JP",
+          "LI",
+          "LT",
+          "LU",
+          "LV",
+          "MC",
+          "MT",
+          "MY",
+          "NI",
+          "NL",
+          "NO",
+          "NZ",
+          "PA",
+          "PE",
+          "PH",
+          "PL",
+          "PT",
+          "PY",
+          "RO",
+          "SE",
+          "SG",
+          "SK",
+          "SV",
+          "TH",
+          "TR",
+          "TW",
+          "UY",
+          "VN",
+          "ZA"
+        ],
+        external_urls: {
+          spotify: "https://open.spotify.com/album/43977e0YlJeMXG77uCCSMX"
+        },
+        href: "https://api.spotify.com/v1/albums/43977e0YlJeMXG77uCCSMX",
+        id: "43977e0YlJeMXG77uCCSMX",
+        images: [
+          {
+            height: 640,
+            url:
+              "https://i.scdn.co/image/0da79956d0440a55b20ea4e8e38877bce43275cd",
+            width: 640
+          },
+          {
+            height: 300,
+            url:
+              "https://i.scdn.co/image/29368267cc6b1eab2600e6e42485d3774621e7d4",
+            width: 300
+          },
+          {
+            height: 64,
+            url:
+              "https://i.scdn.co/image/779dd6d6a0e124e03a5143d2be729ee4bab3f15f",
+            width: 64
+          }
+        ],
+        name: "Shut Up Lets Dance (Vol. II)",
+        release_date: "2018-02-09",
+        release_date_precision: "day",
+        type: "album",
+        uri: "spotify:album:43977e0YlJeMXG77uCCSMX"
+      },
+      {
+        album_group: "appears_on",
+        album_type: "compilation",
+        artists: [
+          {
+            external_urls: {
+              spotify: "https://open.spotify.com/artist/0LyfQWJT6nXafLPZqxe9Of"
+            },
+            href: "https://api.spotify.com/v1/artists/0LyfQWJT6nXafLPZqxe9Of",
+            id: "0LyfQWJT6nXafLPZqxe9Of",
+            name: "Various Artists",
+            type: "artist",
+            uri: "spotify:artist:0LyfQWJT6nXafLPZqxe9Of"
+          }
+        ],
+        available_markets: [
+          "AD",
+          "AR",
+          "AT",
+          "AU",
+          "BE",
+          "BG",
+          "BO",
+          "BR",
+          "CA",
+          "CH",
+          "CL",
+          "CO",
+          "CR",
+          "CY",
+          "CZ",
+          "DE",
+          "DK",
+          "DO",
+          "EC",
+          "EE",
+          "ES",
+          "FI",
+          "FR",
+          "GB",
+          "GR",
+          "GT",
+          "HK",
+          "HN",
+          "HU",
+          "ID",
+          "IE",
+          "IL",
+          "IS",
+          "IT",
+          "JP",
+          "LI",
+          "LT",
+          "LU",
+          "LV",
+          "MC",
+          "MT",
+          "MX",
+          "MY",
+          "NI",
+          "NL",
+          "NO",
+          "NZ",
+          "PA",
+          "PE",
+          "PH",
+          "PL",
+          "PT",
+          "PY",
+          "RO",
+          "SE",
+          "SG",
+          "SK",
+          "SV",
+          "TH",
+          "TR",
+          "TW",
+          "US",
+          "UY",
+          "VN",
+          "ZA"
+        ],
+        external_urls: {
+          spotify: "https://open.spotify.com/album/189ngoT3WxR5mZSYkAGOLF"
+        },
+        href: "https://api.spotify.com/v1/albums/189ngoT3WxR5mZSYkAGOLF",
+        id: "189ngoT3WxR5mZSYkAGOLF",
+        images: [
+          {
+            height: 600,
+            url:
+              "https://i.scdn.co/image/42f4dbe7e54d52efa14f058fab74d8a0505ef26d",
+            width: 600
+          },
+          {
+            height: 300,
+            url:
+              "https://i.scdn.co/image/b221fb6d689f84f8e09b493776520194a6f4ef88",
+            width: 300
+          },
+          {
+            height: 64,
+            url:
+              "https://i.scdn.co/image/0fc4a3cb2ee5b14fdefeb8f20afd84b7fbae7707",
+            width: 64
+          }
+        ],
+        name: "Classic Club Monsters (25 Floor Killers)",
+        release_date: "2018-02-02",
+        release_date_precision: "day",
+        type: "album",
+        uri: "spotify:album:189ngoT3WxR5mZSYkAGOLF"
+      }
+    ]
+  }
+];
 export const feedPolandTop = {
   playlists: {
     href:
