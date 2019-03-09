@@ -15,7 +15,7 @@ function Genres(props) {
   if (props.getCategories) {
     categoriesList = (
       <ContainerGenerator
-        data={props.getCategories.categories.items.slice(1)}
+        data={props.getCategories.categories.items}
         type={"categories"}
       />
     );
