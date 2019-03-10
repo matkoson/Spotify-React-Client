@@ -11,7 +11,7 @@ const AlbumDetails = lazy(() => import("./InnerComps/AlbumDetails"));
 const getPerc = (progressTime, totalTime) =>
   100 - (progressTime / totalTime) * 100;
 let totalTime, progressTime;
-
+const repeatMode = ["off", "context", "track"];
 class PlayerBar extends PureComponent {
   constructor(props) {
     super(props);
@@ -20,7 +20,7 @@ class PlayerBar extends PureComponent {
       albumImage: "", //1
       songTitle: "", //2
       artistName: "", //3
-      repeatMode: "", //4
+      repeatMode: repeatMode[0], //4
       rawTrackTime: "", //5
       rawTrackProgress: "", //6
       volumePercentage: "", //7
@@ -30,8 +30,7 @@ class PlayerBar extends PureComponent {
       shuffled: false,
       muted: false
     };
-    this.repeatMode = ["off", "context", "track"];
-    this.processRecent = this.processRecent.bind(this);
+    this.repeatMode = repeatMode;
   }
   componentDidMount() {
     // console.log(this.props);
@@ -40,7 +39,6 @@ class PlayerBar extends PureComponent {
       handlePausePlay,
       handleRepeatModeChange,
       handleMute;
-    if (this.props.recent) this.processRecent();
     lazy(
       import("./PlayerBarMethods").then(res => {
         playbackSDKinterval = res.playbackSDKinterval.bind(this);
@@ -58,25 +56,11 @@ class PlayerBar extends PureComponent {
       })
     );
   }
-  processRecent() {
-    const lastTrack = this.props.recent.track;
-    const songTitle =
-      lastTrack.name.length >= 32
-        ? `${lastTrack.name.slice(0, 29)}...`
-        : lastTrack.name;
-    this.setState({
-      albumImage: lastTrack.album.images[0].url, //1
-      songTitle, //2
-      artistName: lastTrack.artists[0].name, //3
-      repeatMode: "off", //4
-      rawTrackTime: lastTrack.duration_ms, //5
-      rawTrackProgress: 0, //6
-      volumePercentage: 100, //7
-      paused: false
-    });
-  }
+
   componentDidUpdate() {
-    if (!this.player && this.props.player) this.player = this.props.player;
+    if (!this.state.player && this.props.player) {
+      this.setState({ player: this.props.player });
+    }
     //at first viable update, while SDK is still not acitve, display the info from the last played track
     if (
       this.context &&
@@ -84,35 +68,35 @@ class PlayerBar extends PureComponent {
       this.context.playerState.bitrate
     ) {
       if (!this.playbackSDK) {
-        if (this.state.playbackSDKinterval) this.state.playbackSDKinterval();
-        // console.log(this.playbackSDK);
+        if (this.state.player) {
+          this.state.playbackSDKinterval && this.state.playbackSDKinterval();
+        }
       }
-    } else if (this.props.recent) {
-      this.processRecent();
     }
   }
 
   render() {
-    let {
-      rawTrackProgress,
-      rawTrackTime,
-      albumImage,
-      songTitle,
-      artistName,
-      processedProgress,
-      progressPercentage,
-      repeatMode,
-      volumePercentage
-    } = this.state;
-    // console.log("getminssecs", this.context && this.context.getMinsSecs);
-    const initVal = "00:00";
-    progressTime = processedProgress || initVal;
+    const lastTrack = this.props.recent && this.props.recent.track;
+    let { rawTrackProgress, volumePercentage } = this.state;
+    const rawTrackTime =
+      this.state.rawTrackTime || (lastTrack && lastTrack.duration_ms);
+    const albumImage =
+      this.state.albumImage || (lastTrack && lastTrack.album.images[0].url);
+    const songTitle =
+      this.state.songTitle ||
+      (lastTrack &&
+        (lastTrack.name.length >= 32
+          ? `${lastTrack.name.slice(0, 29)}...`
+          : lastTrack.name));
+    const repeatMode = this.state.repeatMode || "off";
+    const artistName =
+      this.state.artistName || (lastTrack && lastTrack.artists[0].name);
+
     totalTime =
-      (this.context &&
-        this.context.getMinsSecs &&
-        this.context.getMinsSecs(rawTrackTime)) ||
-      initVal;
-    progressPercentage = getPerc(rawTrackProgress, rawTrackTime) || 100;
+      this.context &&
+      this.context.getMinsSecs &&
+      this.context.getMinsSecs(rawTrackTime);
+    const progressPercentage = getPerc(rawTrackProgress, rawTrackTime) || 0;
     volumePercentage = this.state.muted ? 0 : volumePercentage;
     //
     return (
@@ -131,7 +115,7 @@ class PlayerBar extends PureComponent {
             this.context.playerState.paused
           }
           playbackSDK={this.playbackSDK}
-          player={this.player}
+          player={this.state.player}
           repeatMode={repeatMode}
           handleRepeatModeChange={this.state.handleRepeatModeChange}
           progressTime={progressTime}

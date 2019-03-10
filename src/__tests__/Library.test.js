@@ -30,26 +30,26 @@ const renderFakeLibrary = tab =>
       </Consumer>
     </Provider>
   );
-it("Renders properly", () => {
+test("Renders properly", () => {
   const { getByText } = renderFakeLibrary();
   expect(fakeAPIrequest).toHaveBeenCalledWith("getUserPlaylists");
   expect(fakeAPIrequest).toHaveBeenCalledWith("getUserSavedAlbums");
   expect(fakeAPIrequest).toHaveBeenCalledWith("getUserSavedTracks");
   getByText("Your Saved Playlists");
 });
-it("Renders albums tab.", async () => {
+test("Renders albums tab.", async () => {
   const { getByText } = renderFakeLibrary("ALBUMS");
   await wait(() => {
     getByText("Your Saved Albums");
   });
 });
-it("Renders tracks tab", async () => {
+test("Renders tracks tab", async () => {
   const { getByText } = renderFakeLibrary("TRACKS");
   await wait(() => {
     getByText("Your Saved Tracks");
   });
 });
-it("Switches tabs onClick", async () => {
+test("Switches tabs onClick", async () => {
   const { getByText } = renderFakeLibrary("TRACKS");
   const tracksNavBtn = getByText("TRACKS");
   fireEvent.click(tracksNavBtn);

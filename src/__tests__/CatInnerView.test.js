@@ -8,7 +8,7 @@ const renderFakeCatInnerView = () =>
   render(
     <CatInnerView getCategory={feedGetCategory} PolandTop={feedPolandTop} />
   );
-it("Renders correctly", () => {
+test("Renders correctly", () => {
   const { getByTestId, getByText } = renderFakeCatInnerView();
   getByText("Popular Playlists");
   getByText(feedPolandTop.playlists.items[0].name);

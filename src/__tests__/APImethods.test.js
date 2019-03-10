@@ -4,14 +4,14 @@ import sinon from "sinon";
 // const fakeFetchComponent = ({})=>{
 // 	render(<FetchMock mocks={{}}></FetchMock>)
 // }
-it("Properly extracts both general authToken and the specific SDK one from the given window.location.href", () =>
+test("Properly extracts both general authToken and the specific SDK one from the given window.location.href", () =>
   expect(setToken("http://lolz.com/access_token=123lolz&token")).toEqual({
     auth: "Bearer 123lolz",
     tokenSDK: "123lolz"
   }));
 
 window.location = "http://lolz.com";
-it("Performs a correct redir calculation.", () => {
+test("Performs a correct redir calculation.", () => {
   sinon.stub(window.location, "assign");
   console.log(window.location.href);
   expect(getToken(/^(https?.+(\d*|\.\D+))\//g)).toBe(

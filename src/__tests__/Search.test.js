@@ -19,13 +19,13 @@ const renderSearch = ({ searchInput, chosenTab = "top result" }) =>
       </Consumer>
     </Provider>
   );
-it("Input and its placeholder are visible.", async () => {
+test("Input and its placeholder are visible.", async () => {
   const { getByPlaceholderText } = renderSearch(
     <Search state={{ searchInput: "lolz" }} />
   );
   getByPlaceholderText("Insert your query...");
 });
-it("Renders essential elements when on 'top result' tab(default)", async () => {
+test("Renders essential elements when on 'top result' tab(default)", async () => {
   const { getByText } = renderSearch({
     searchInput: "lolz",
     chosenTab: "top result"
@@ -35,28 +35,28 @@ it("Renders essential elements when on 'top result' tab(default)", async () => {
   );
 });
 
-it("Renders essential elements when on 'albums'", async () => {
+test("Renders essential elements when on 'albums'", async () => {
   const { getByText } = renderSearch({
     searchInput: "lolz",
     chosenTab: "albums"
   });
   await waitForElement(() => getByText("Matching Albums"));
 });
-it("Renders essential elements when on 'albums'", async () => {
+test("Renders essential elements when on 'albums'", async () => {
   const { getByText } = renderSearch({
     searchInput: "lolz",
     chosenTab: "artists"
   });
   await waitForElement(() => getByText("Matching Artists"));
 });
-it("Renders essential elements when on 'tracks'", async () => {
+test("Renders essential elements when on 'tracks'", async () => {
   const { getByText } = renderSearch({
     searchInput: "whatever",
     chosenTab: "tracks"
   });
   await waitForElement(() => getByText("Matching Tracks"));
 });
-it("Renders essential elements when on 'playlists'", async () => {
+test("Renders essential elements when on 'playlists'", async () => {
   const { getByText } = renderSearch({
     searchInput: "lolz",
     chosenTab: "playlists"
@@ -64,7 +64,7 @@ it("Renders essential elements when on 'playlists'", async () => {
   await waitForElement(() => getByText("Matching Playlists"));
 });
 
-it("Clicking on a nav btn changes the state value accordingly.", () => {
+test("Clicking on a nav btn changes the state value accordingly.", () => {
   const { getByText } = renderSearch({
     searchInput: "lolz",
     chosenTab: "top result"
@@ -73,7 +73,7 @@ it("Clicking on a nav btn changes the state value accordingly.", () => {
   getByText("Matching Tracks");
 });
 
-it("Clicking on a nav btn changes the state value accordingly.", async () => {
+test("Clicking on a nav btn changes the state value accordingly.", async () => {
   const { getByPlaceholderText } = renderSearch({
     searchInput: "lolz",
     chosenTab: "top result"
@@ -86,7 +86,7 @@ it("Clicking on a nav btn changes the state value accordingly.", async () => {
   );
 });
 
-it("Renders without issues, when some valid query response provided.", async () => {
+test("Renders without issues, when some valid query response provided.", async () => {
   const { getByText } = renderSearch({
     searchInput: "lolz",
     chosenTab: "top result"

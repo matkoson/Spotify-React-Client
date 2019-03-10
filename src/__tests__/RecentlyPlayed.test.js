@@ -16,7 +16,7 @@ const renderFakeRecentlyPlayed = () =>
       player={[]}
     />
   );
-it("Correctly acknowledges clicking on one of the recently played tracks", async () => {
+test("Correctly acknowledges clicking on one of the recently played tracks", async () => {
   const { getByText, getByTestId, debug } = renderFakeRecentlyPlayed();
   const getTrack = getByText(feedRawRecPlayed.items[0].track.name);
   fireEvent.click(getTrack);
@@ -30,7 +30,7 @@ it("Correctly acknowledges clicking on one of the recently played tracks", async
     getByTestId("navBtnClickedLeft");
   });
 });
-it("Correctly responds to mouseOver and mouseLeave events.", () => {
+test("Correctly responds to mouseOver and mouseLeave events.", () => {
   const { getByText, getByTestId } = renderFakeRecentlyPlayed();
   const getTrack = getByText(feedRawRecPlayed.items[0].track.name);
   fireEvent.mouseOver(getTrack);

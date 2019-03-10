@@ -8,12 +8,11 @@ function Discover(props) {
   const context = useContext(Context);
   useEffect(() => {
     if (
-      context &&
-      (!props.getMultipleArtistAlbums ||
-        (props.getMultipleArtistAlbums.items &&
-          !props.getMultipleArtistAlbums.items.length))
+      props.getMultipleArtistAlbums &&
+      !props.getMultipleArtistAlbums.length
     ) {
-      return context.APIrequest("getMultipleArtists", { ids: props.idList });
+      if (context)
+        context.APIrequest("getMultipleArtists", { ids: props.idList });
     }
   });
   let discoverRender;

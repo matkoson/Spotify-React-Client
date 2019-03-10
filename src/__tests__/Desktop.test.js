@@ -11,7 +11,7 @@ const renderFakeDesktop = () =>
       handleMainRightChange={fakeHandleMainRightChange}
     />
   );
-it("Invokes the correct callback in respone to a nav click", () => {
+test("Invokes the correct callback in respone to a nav click", () => {
   const { getByText } = renderFakeDesktop();
   const searchBtn = getByText("Search");
   fireEvent.click(searchBtn);
@@ -22,7 +22,7 @@ it("Invokes the correct callback in respone to a nav click", () => {
   expect(fakeHandleMainRightChange).toHaveBeenCalledWith("Library");
   expect(fakeHandleNavClick).toHaveBeenCalledWith(expect.anything(), "left");
 });
-it("Calls the correct method in response to clicking on visible logo.", () => {
+test("Calls the correct method in response to clicking on visible logo.", () => {
   const { getByText } = renderFakeDesktop();
   const reactLogo = getByText("React");
   fireEvent.click(reactLogo);

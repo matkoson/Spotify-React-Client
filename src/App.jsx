@@ -364,7 +364,7 @@ export default class App extends Component {
               handleDeviceTabClick={this.state.handleDeviceTabClick}
               isDeviceTabOn={this.state.deviceTabOn}
               player={this.player}
-              deviceId={this.state.deviceID}
+              // deviceId={this.state.deviceID}
               deviceName={this.state.deviceName}
               currentPlayback={this.state.currentPlayback}
             />

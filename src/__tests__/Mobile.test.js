@@ -4,7 +4,7 @@ import { render, fireEvent } from "react-testing-library";
 
 const fakeHandleMainRightChange = jest.fn();
 
-it("Calles the right callback when clicking on mobileNav", () => {
+test("Calles the right callback when clicking on mobileNav", () => {
   const { getByText } = render(
     <Mobile mobile={true} handleMainRightChange={fakeHandleMainRightChange} />
   );

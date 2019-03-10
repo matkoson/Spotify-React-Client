@@ -26,18 +26,18 @@ const setupHomeScreen = isPlaying =>
       </Consumer>
     </Provider>
   );
-it("Renders without an error, when fed with all the full input.", () => {
+test("Renders without an error, when fed with all the full input.", () => {
   const { getByText, getByTestId } = setupHomeScreen();
   getByText("Recently played");
   getByText(feedFeatured.message);
   getByText(`More like Mietek`);
   getByTestId("play");
 });
-it("Recognizes that the currently rendered album is being played, thus pause icon appears.", () => {
+test("Recognizes that the currently rendered album is being played, thus pause icon appears.", () => {
   const { getByTestId } = setupHomeScreen(true);
   getByTestId("pause");
 });
-it("Correctly gets rid of dupls while rendering recently played tracks.", () => {
+test("Correctly gets rid of dupls while rendering recently played tracks.", () => {
   const { getAllByTestId } = render(
     <HomeScreen
       recent={{

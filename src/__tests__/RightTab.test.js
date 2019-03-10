@@ -6,7 +6,7 @@ import { StateMock } from "@react-mock/state";
 
 const renderRightTab = () =>
   render(<RightTab handleNavClick={handleNavClick} mobile={false} />);
-it("Renders properly", () => {
+test("Renders properly", () => {
   const { getByText, getByTestId } = renderRightTab();
   const featuredLi = getByText("CHARTS");
   fireEvent.click(featuredLi);

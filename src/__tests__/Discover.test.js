@@ -13,7 +13,7 @@ const renderFakeDiscover = albumListPresent =>
         {context => (
           <Discover
             getMultipleArtistAlbums={
-              albumListPresent ? feedGetMultipleArtistAlbums : undefined
+              albumListPresent ? feedGetMultipleArtistAlbums : []
             }
             idList={feedTopRelatedArtists}
           />
@@ -22,13 +22,13 @@ const renderFakeDiscover = albumListPresent =>
     </Provider>
   );
 
-it("Makes right requests when not fed with getMultipleArtistAlbums", () => {
-  renderFakeDiscover();
+test("Makes right requests when not fed with getMultipleArtistAlbums", () => {
+  renderFakeDiscover(false);
   expect(fakeAPIrequest).toHaveBeenCalledWith("getMultipleArtists", {
     ids: feedTopRelatedArtists
   });
 });
-it("Renders correctly when fed with getMultipleArtistAlbums", async () => {
+test("Renders correctly when fed with getMultipleArtistAlbums", async () => {
   const { getByText } = renderFakeDiscover(true);
   getByText("Recommended Albums & Singles");
   await wait(() => {

@@ -3,7 +3,7 @@ import { render } from "react-testing-library";
 import "jest-dom/extend-expect";
 import { Provider, Consumer } from "./Context";
 
-it("Consumer shows default value", () => {
+test("Consumer shows default value", () => {
   const tree = (
     <Provider
       value={{

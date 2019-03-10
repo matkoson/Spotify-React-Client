@@ -20,7 +20,7 @@ const renderFakeCharts = () =>
     </Provider>
   );
 
-it("Renders correctly", async () => {
+test("Renders correctly", async () => {
   const { getByText } = renderFakeCharts();
   await wait(() => {
     getByText("Featured Charts");

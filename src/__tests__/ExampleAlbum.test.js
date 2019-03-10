@@ -22,7 +22,7 @@ const setup = (paused = false) => {
   const imgEle = utils.getByAltText("Example album");
   return { imgEle, ...utils };
 };
-it("Click on the example image leads to the correct API request being called for.", () => {
+test("Click on the example image leads to the correct API request being called for.", () => {
   const { imgEle } = setup();
   fireEvent.click(imgEle);
   expect(APIfake).toHaveBeenCalledWith("currentlyPlaying");
@@ -31,7 +31,7 @@ it("Click on the example image leads to the correct API request being called for
     expect.anything()
   );
 });
-it("Hovering over example displays the pause or play icon, depending on the conditions.", () => {
+test("Hovering over example displays the pause or play icon, depending on the conditions.", () => {
   let { imgEle } = setup();
   fireEvent.mouseOver(imgEle);
   let { getByTestId } = setup();
@@ -45,7 +45,7 @@ it("Hovering over example displays the pause or play icon, depending on the cond
   fireEvent.mouseDown(imgEle);
   getByTestId("clicked");
 });
-it("Click on the example album title results in the correct API request being made.", () => {
+test("Click on the example album title results in the correct API request being made.", () => {
   const { getByText } = setup();
   const albumEle = getByText(
     `${feedExmplAlbum.items[0].name.slice(0, 26)}...`,
@@ -54,7 +54,7 @@ it("Click on the example album title results in the correct API request being ma
   fireEvent.click(albumEle);
   expect(handelAlbumFake).toHaveBeenCalled();
 });
-it("Click on a track presented in the 'top results' section calles for a specific playback.", () => {
+test("Click on a track presented in the 'top results' section calles for a specific playback.", () => {
   const { getByText } = setup();
   const trackEle = getByText(feedTracks.items[0].artists[0].name);
   fireEvent.click(trackEle);

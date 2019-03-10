@@ -16,11 +16,15 @@ export default function PlayerControls(props) {
           className="fas"
         />
         <FontAwesomeIcon icon="step-backward" className="fas" />
-        <div onClick={props.handlePausePlay} className="player-bar__play-pause">
+        <div
+          data-testid="playPauseControl"
+          onClick={props.handlePausePlay}
+          className="player-bar__play-pause"
+        >
           {props.paused || !props.playbackSDK ? (
-            <FontAwesomeIcon icon="play" className="fas" />
+            <FontAwesomeIcon data-testid="play" icon="play" className="fas" />
           ) : (
-            <FontAwesomeIcon icon="pause" className="fas" />
+            <FontAwesomeIcon data-testid="pause" icon="pause" className="fas" />
           )}
         </div>
         <FontAwesomeIcon
@@ -30,6 +34,7 @@ export default function PlayerControls(props) {
         />
         <FontAwesomeIcon
           icon="redo"
+          data-testid="repeatIcon"
           onClick={props.handleRepeatModeChange}
           className={
             props.repeatMode === "off"
@@ -42,13 +47,15 @@ export default function PlayerControls(props) {
       </div>
       <div className="player-bar__player-progress">
         <div className="player-bar__player-progress__time">
-          {props.progressTime &&
-            `${props.progressTime.min}:${props.progressTime.sec}`}
+          {(props.progressTime &&
+            `${props.progressTime.min}:${props.progressTime.sec}`) ||
+            "00:00"}
         </div>
         <div
           id="progress-bar"
           className="player-bar__player-progress__wrapper"
           onClick={props.handleRangeChange}
+          data-testid="progressBar"
         >
           <div className="player-bar__player-progress__bar player-bar__progress-bar player-bar__progress-bar--static">
             <div
@@ -62,7 +69,9 @@ export default function PlayerControls(props) {
           </div>
         </div>
         <div className="player-bar__player-progress__time">
-          {props.totalTime && `${props.totalTime.min}:${props.totalTime.sec}`}
+          {(props.totalTime &&
+            `${props.totalTime.min}:${props.totalTime.sec}`) ||
+            "00:00"}
         </div>
       </div>
     </div>

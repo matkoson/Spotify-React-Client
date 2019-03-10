@@ -14,7 +14,7 @@ import {
 } from "@reach/router";
 // import { render } from "react-testing-library";
 
-it("Renders without crashing", () => {
+test("Renders without crashing", () => {
   sinon.stub(window.location, "assign");
   render(<App />);
 });
@@ -31,7 +31,7 @@ function renderWithRouter(
     history
   };
 }
-it("Renders/navigates correctly", async () => {
+test("Renders/navigates correctly", async () => {
   const {
     container,
     history: { navigate },
@@ -97,7 +97,7 @@ const renderApp = (tabOn, mobileOn) =>
       </Consumer>
     </Provider>
   );
-it("Correctly renders device tab, and hides it when there's an onClick registered anywhere on the app.", async () => {
+test("Correctly renders device tab, and hides it when there's an onClick registered anywhere on the app.", async () => {
   const { getByText, queryByTestId, getByTestId, debug } = renderApp(true);
   getByTestId("deviceTabOnIcon");
   await waitForElement(() => getByTestId("deviceTabOn"));
@@ -105,11 +105,11 @@ it("Correctly renders device tab, and hides it when there's an onClick registere
   fireEvent.click(homeBtn);
   expect(queryByTestId("deviceTabOn")).not.toBeInTheDocument();
 });
-it("Doesn't show device tab, when it's not required by the local state", () => {
+test("Doesn't show device tab, when it's not required by the local state", () => {
   const { queryByTestId } = renderApp();
   expect(queryByTestId("deviceTabOn")).not.toBeInTheDocument();
 });
-it("Toggles  mobile menu properly + ", async () => {
+test("Toggles  mobile menu properly + ", async () => {
   const { getByTestId, getByText, debug } = renderApp(false, true);
   let reactLogo;
   await waitForElement(() => (reactLogo = getByTestId("reactLogo")));
@@ -118,12 +118,21 @@ it("Toggles  mobile menu properly + ", async () => {
   fireEvent.click(reactLogo);
   await wait(() => getByTestId("InvisibleMobileNav"));
 });
-it("Invokes the right callback in response of clicking on tablet icon, which results in appearance of device tab.", async () => {
+test("Invokes the right callback in response of clicking on tablet icon, which results in appearance of device tab.", async () => {
   const { getByTestId, getByText } = renderApp();
   let deviceTabOnIcon;
   await wait(() => {
     deviceTabOnIcon = getByTestId("deviceTabOnIcon");
     fireEvent.click(deviceTabOnIcon);
     getByText("No active devices");
+  });
+});
+test("Correctly mutes the volume, which entails changing of the icon.", async () => {
+  const { getByTestId, debug } = renderApp();
+  await wait(async () => {
+    const volControlIcon = getByTestId("volControl");
+    getByTestId("volNotMuted");
+    fireEvent.click(volControlIcon);
+    await wait(() => getByTestId("volMuted"));
   });
 });

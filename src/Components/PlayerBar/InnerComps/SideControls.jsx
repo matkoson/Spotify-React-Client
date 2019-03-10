@@ -18,16 +18,29 @@ export default function SideControls(props) {
         />
         <div
           className="player-bar__right-tab__volume"
-          onClick={props.handleMute}
+          onClick={() => {
+            console.log(props);
+            props.handleMute();
+          }}
+          data-testid="volControl"
         >
           {props.muted ? (
-            <FontAwesomeIcon icon="volume-mute" className="fas" />
+            <FontAwesomeIcon
+              data-testid="volMuted"
+              icon="volume-mute"
+              className="fas"
+            />
           ) : (
-            <FontAwesomeIcon icon="volume-up" className="fas" />
+            <FontAwesomeIcon
+              data-testid="volNotMuted"
+              icon="volume-up"
+              className="fas"
+            />
           )}
         </div>
       </div>
       <div
+        data-testid="volumeBar"
         id="volume-bar"
         className="player-bar__volume-wrapper"
         onClick={props.handleRangeChange}

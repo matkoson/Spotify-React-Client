@@ -9,7 +9,7 @@ import Album from "../Components/Album/Album";
 import { feedGetPlaylist, feedGetPlaylistTracks, feedGetAlbum } from "../feeds";
 import { Provider, Consumer } from "../Context/Context";
 
-it("Correctly renders a component", async () => {
+test("Correctly renders a component", async () => {
   const { getByText } = render(<Album />);
   await waitForElement(() => getByText("Play All", "Tracklist"));
 });
@@ -39,11 +39,11 @@ const setupPlaylist = isPlaying => {
     </Provider>
   );
 };
-it("Renders an equalier next to the track that is currently being played.", () => {
+test("Renders an equalier next to the track that is currently being played.", () => {
   const { getByTestId } = setupPlaylist(true);
   getByTestId("equalizer");
 });
-it("Correctly renders a given playlist dataset", () => {
+test("Correctly renders a given playlist dataset", () => {
   const { getByText } = setupPlaylist();
   getByText(feedGetPlaylistTracks.items[0].track.name);
   getByText("00:00");
@@ -59,13 +59,13 @@ const setupAlbum = () =>
       </Consumer>
     </Provider>
   );
-it("Correctly renders a given album dataset", () => {
+test("Correctly renders a given album dataset", () => {
   const { getByText } = setupAlbum();
   getByText(feedGetAlbum.tracks.items[0].name);
   getByText(feedGetAlbum.name);
   getByText(feedGetAlbum.artists[0].name);
 });
-it("When clicking on a track, when album dataset is rendered, a request for the accurate playback type is made.", () => {
+test("When clicking on a track, when album dataset is rendered, a request for the accurate playback type is made.", () => {
   const { getByText } = setupAlbum();
   const track = getByText(feedGetAlbum.tracks.items[0].name);
   const trackObj = feedGetAlbum.tracks.items[0];

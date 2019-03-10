@@ -14,13 +14,13 @@ const renderFakeGenres = data =>
     </Provider>
   );
 
-it("Renders Genres component correctly, when fed with data.", async () => {
+test("Renders Genres component correctly, when fed with data.", async () => {
   const { getByText } = renderFakeGenres(true);
   feedGetCategories.categories.items
     .map(e => e.name)
     .forEach(e => getByText(e));
 });
-it("Makes the right request when no data is provided.", () => {
+test("Makes the right request when no data is provided.", () => {
   renderFakeGenres(false);
   expect(fakeAPIrequest).toHaveBeenCalledWith("getCategories");
 });
