@@ -11,6 +11,8 @@ function HomeScreen(props) {
     relatedTop,
     headlines,
     hash;
+  ftrdProp = props.featured;
+  ftrdMssg = ftrdProp && ftrdProp.message;
   if (props.recent) {
     hash = {};
     recentProp = props.recent.items.slice(0, 10);
@@ -23,36 +25,8 @@ function HomeScreen(props) {
       }
     });
     //Getting rid of dupls
+  }
 
-    processedProp = (
-      <ContainerGenerator
-        data={recentProp}
-        type={"recent"}
-        importance={"high"}
-      />
-    );
-  }
-  if (props.featured) {
-    ftrdProp = props.featured;
-    ftrdMssg = ftrdProp.message;
-    albumPics = (
-      <ContainerGenerator
-        data={ftrdProp.playlists.items.slice(0, 6)}
-        type={"playlists"}
-        importance={"auto"}
-      />
-    );
-  }
-  if (props.relatedTop) {
-    relatedTop = (
-      <ContainerGenerator
-        data={props.relatedTop}
-        type={"playlists"}
-        special={true}
-        importance={"low"}
-      />
-    );
-  }
   if (props.relatedTop && props.featured && props.recent) {
     headlines = HeadlineAnimator([
       ftrdMssg,
@@ -63,11 +37,28 @@ function HomeScreen(props) {
   return (
     <div data-testid="navHome" className="generator">
       {headlines && headlines[0]}
-      {albumPics}
+      <ContainerGenerator
+        key="ftrdProp"
+        data={ftrdProp && ftrdProp.playlists.items.slice(0, 6)}
+        type={"playlists"}
+        importance={"high"}
+      />
+
       {headlines && headlines[1]}
-      {processedProp}
+      <ContainerGenerator
+        key="recentProp"
+        data={recentProp && recentProp}
+        type={"recent"}
+        importance={"low"}
+      />
       {headlines && headlines[2]}
-      {relatedTop}
+      <ContainerGenerator
+        key="relatedTop"
+        data={props.relatedTop}
+        type={"playlists"}
+        special={true}
+        importance={"low"}
+      />
     </div>
   );
 }

@@ -45,7 +45,7 @@
   &__playlist-element {
     display: flex;
     flex-direction: column;
-    margin-right: 1%;
+    margin-right: 10px;
     margin-bottom: 1%;
     width: 300px;
     @include below1235px {

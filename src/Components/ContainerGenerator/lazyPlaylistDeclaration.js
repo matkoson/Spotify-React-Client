@@ -11,18 +11,20 @@ export default function playlistDataDeclaration(e, data, type) {
     idS,
     albumType = "",
     albumTrack,
-    artistName,
-    hash = {};
+    artistName;
+  // hash = {};
 
   name = e.name;
   key = e.id;
-  if (hash[key]) {
-    console.log("CORRUPTED DATA", data);
-    console.log(name, key);
-    return null;
-  }
-  hash[key] = true;
+  // console.log(hash);
+  // if (hash[key]) {
+  //   console.log("CORRUPTED DATA", data);
+  //   console.log(name, key);
+  //   return null;
+  // }
+  // hash[key] = true;
   if ((e.images && e.images[0]) || e.icons || e.album) {
+    //Taking into account different accessors in returned payloads
     if (e.icons) {
       image = e.icons[0].url;
     } else if (type === "playlists") {
@@ -31,13 +33,17 @@ export default function playlistDataDeclaration(e, data, type) {
       } else {
         if (window.innerWidth < 820 && e.images && e.images[1]) {
           image = e.images[1].url;
+          //Attempt to download lower resolution image, in situation when the width of the user screen is below 820px
         } else {
           image = e.images && e.images[0].url;
+          //if it's not possible, due to the contents of the payload, stick to the only available resolution
         }
       }
     }
   }
   dataType = e.type === "artist" ? e.type : type;
+  //differentiate between artist-type payloads, in order to set the right onClick action, to make a correct request
+
   cx = e.uri;
   idS = e.id;
   if (e.type === "track") {
@@ -51,7 +57,8 @@ export default function playlistDataDeclaration(e, data, type) {
     e.type === "track"
   ) {
     artistName = e.artists[0].name;
-    if (e.album_type) albumType = e.album_type || e.track.album.album_type;
+    if (e.album_type)
+      albumType = e.album_type || e.track.album.album_type || e.type;
   }
 
   return {

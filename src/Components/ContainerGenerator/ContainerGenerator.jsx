@@ -17,7 +17,6 @@ function ContainerGenerator(props) {
     context = props.context,
     forbidAnimate = props.forbidAnimate,
     dataDef;
-  // console.log("data", data);
 
   const transitions = useTransition(null, null, {
     from: { opacity: 0, transform: "translate3d(0,-40px,0)" },
@@ -29,7 +28,11 @@ function ContainerGenerator(props) {
   const cxPlay = context.currentlyPlaying;
 
   return transitions.map(({ props }) => (
-    <animated.div className="generator__animation-wrapper" style={props}>
+    <animated.div
+      key={Date.now()}
+      className="generator__animation-wrapper"
+      style={props}
+    >
       {props &&
         data &&
         data.map((e, i) => {
@@ -52,7 +55,6 @@ function ContainerGenerator(props) {
             albumType,
             artistName
           } = dataDef;
-
           const content = (
             <React.Fragment key={key || idS}>
               <div
@@ -80,6 +82,15 @@ function ContainerGenerator(props) {
                 }
                 data-recent_pos={dataType === "track" ? recentTracksPos : null}
                 data-data_type={dataType}
+                data-testid={
+                  special
+                    ? "containerGeneratedAlbum"
+                    : dataType === "playlists"
+                    ? "containerGeneratedPlaylist"
+                    : dataType === "track"
+                    ? "containerGeneratedTrack"
+                    : "containerGeneratedElement"
+                }
                 data-category_type={dataType === "categories" ? id : null}
                 onClick={e => {
                   if (e.currentTarget.dataset.data_type === "categories") {
@@ -94,7 +105,7 @@ function ContainerGenerator(props) {
                     });
                   }
                   if (e.currentTarget.dataset.data_type === "playlists") {
-                    context.APIrequest("playSpecificxPlayback", {
+                    context.APIrequest("playSpecificPlayback", {
                       cx: e.currentTarget.dataset.cx,
                       cx_pos: e.currentTarget.dataset.cx_pos
                     });
@@ -204,7 +215,7 @@ function ContainerGenerator(props) {
                   data-album={idS}
                   data-testid={idS}
                   onClick={e => {
-                    return context.handleAlbumRightOverride(e, albumType);
+                    return context.handleAlbumRightOverride(e);
                   }}
                   className="generator__playlist-element__title"
                 >
@@ -217,7 +228,11 @@ function ContainerGenerator(props) {
             </React.Fragment>
           );
           const contentAnimated = (
-            <Animator key={key || idS}>{content}</Animator>
+            <Animator
+            // key={key || idS}
+            >
+              {content}
+            </Animator>
           );
           return (
             <React.Fragment key={key || idS}>
@@ -239,6 +254,7 @@ export default props => (
   <Consumer>
     {context => (
       <ContainerGenerator
+        key={Date.now()}
         data={props.data}
         type={props.type}
         context={context}

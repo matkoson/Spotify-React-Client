@@ -7,13 +7,13 @@ export default function initSDK(token) {
       cb(token);
     }
   });
-  console.log(this.player);
+  // console.log(this.player);
 
   // Error handling
 
   import("./lazyInitSDK").then(res => {
     res.default.bind(this)();
-    console.log("loaded");
+    // console.log("loaded");
   });
 
   // this.player.addListener("initialization_error", ({ message }) => {

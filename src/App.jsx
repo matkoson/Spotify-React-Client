@@ -260,7 +260,7 @@ export default class App extends Component {
           <Suspense
             fallback={
               <FontAwesomeIcon
-                spin={"true"}
+                spin={true}
                 icon="spinner"
                 style={{
                   position: "absolute",

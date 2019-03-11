@@ -37,6 +37,8 @@ const fakePlayerResume = jest.fn(() => Promise.resolve());
 const fakeSeek = jest.fn(() => Promise.resolve());
 const fakeSetVolume = jest.fn(() => Promise.resolve());
 const fakeGetVolume = jest.fn(() => Promise.resolve());
+const fakeNextTrack = jest.fn(() => Promise.resolve());
+const fakePreviousTrack = jest.fn(() => Promise.resolve());
 
 const fakeAPIrequest = jest.fn();
 const getMinsSecs = (ms = 0) => {
@@ -49,6 +51,7 @@ const getMinsSecs = (ms = 0) => {
   };
 };
 const repeatMode = ["off", "context", "track"];
+const shuffledBool = false;
 
 const renderFakePlayerBar = (playerOn, paused, voidState) =>
   render(
@@ -79,6 +82,7 @@ const renderFakePlayerBar = (playerOn, paused, voidState) =>
                 recent={feedRecent.items[0]}
                 handleDeviceTabClick={fakeHandleDeviceTabClick}
                 deviceName={"Spotify React Client"}
+                shuffle={shuffledBool}
                 player={{
                   pause: fakePlayerPause,
                   resume: fakePlayerResume,
@@ -87,7 +91,9 @@ const renderFakePlayerBar = (playerOn, paused, voidState) =>
                     : fakeGetCurrentState,
                   seek: fakeSeek,
                   setVolume: fakeSetVolume,
-                  getVolume: fakeGetVolume
+                  getVolume: fakeGetVolume,
+                  nextTrack: fakeNextTrack,
+                  previousTrack: fakePreviousTrack
                 }}
               />
             </StateMock>
@@ -181,5 +187,23 @@ test("Correctly renders details of the previously played song, when there's no c
   await wait(() => {
     getByText(feedRecent.items[0].track.name);
     getByText(feedRecent.items[0].track.artists[0].name);
+  });
+});
+test("Correctly changes the shuffle mode.", async () => {
+  const { getByTestId, debug } = renderFakePlayerBar();
+  await wait(async () => {
+    fireEvent.click(getByTestId("shuffleIcon"));
+    expect(fakeAPIrequest).toHaveBeenCalledWith("toggleShuffle", {
+      shuffle: !shuffledBool
+    });
+  });
+});
+test("Correctly responds to click on forward icon, making an adequate request.", async () => {
+  const { getByTestId, debug } = renderFakePlayerBar();
+  await wait(async () => {
+    fireEvent.click(getByTestId("stepForwardIcon"));
+    expect(fakeNextTrack).toHaveBeenCalled();
+    fireEvent.click(getByTestId("stepBackwardIcon"));
+    expect(fakePreviousTrack).toHaveBeenCalled();
   });
 });

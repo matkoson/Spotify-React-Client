@@ -1,5 +1,5 @@
 export default function remainingListeners() {
-  console.log("Called");
+  // console.log("Called");
   this.player.addListener("initialization_error", ({ message }) => {
     console.error(message);
     this.setState({ SDKconnected: false });

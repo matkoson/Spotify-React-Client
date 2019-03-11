@@ -122,6 +122,7 @@ class PlayerBar extends PureComponent {
           handleRangeChange={this.state.handleRangeChange}
           progressPercentage={progressPercentage}
           totalTime={totalTime}
+          APIrequest={this.context.APIrequest}
         />
         <SideControls
           isDeviceTabOn={this.props.isDeviceTabOn}

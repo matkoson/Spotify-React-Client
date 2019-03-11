@@ -2,20 +2,27 @@ import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default function PlayerControls(props) {
+  console.log(props);
   return (
     <div className="player-bar__tab player-bar__center-tab">
       <div className="player-bar__player-controls">
         <FontAwesomeIcon
           icon="random"
+          data-testid="shuffleIcon"
           onClick={() =>
-            this.props.APIrequest("toggleShuffle", {
+            props.APIrequest("toggleShuffle", {
               shuffle: !props.shuffled
             })
           }
           style={{ color: props.shuffled ? "#1db954" : "white" }}
           className="fas"
         />
-        <FontAwesomeIcon icon="step-backward" className="fas" />
+        <FontAwesomeIcon
+          data-testid="stepBackwardIcon"
+          onClick={() => props.player.previousTrack()}
+          icon="step-backward"
+          className="fas"
+        />
         <div
           data-testid="playPauseControl"
           onClick={props.handlePausePlay}
@@ -31,6 +38,7 @@ export default function PlayerControls(props) {
           onClick={() => props.player.nextTrack()}
           icon="step-forward"
           className="fas"
+          data-testid="stepForwardIcon"
         />
         <FontAwesomeIcon
           icon="redo"

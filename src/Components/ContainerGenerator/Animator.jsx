@@ -13,10 +13,8 @@ export default function Animator(props) {
   }));
   const trans = (x, y, s) =>
     `perspective(800px) rotateX(${x}deg) rotateY(${y}deg) scale(${s})`;
-  const { key } = props;
   return (
     <animated.div
-      key={key}
       className="generator__playlist-element"
       onMouseMove={({ clientX: x, clientY: y }) => set({ xys: calc(x, y) })}
       onMouseLeave={() => set({ xys: [0, 0, 1] })}

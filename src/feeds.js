@@ -1059,6 +1059,89 @@ export const feedFeatured = {
     ]
   }
 };
+export const feedFeaturedDUPL = {
+  message: "Monday morning music, coming right up!",
+  playlists: {
+    items: [
+      {
+        collaborative: false,
+        external_urls: {
+          spotify:
+            "http://open.spotify.com/user/spotify/playlist/6ftJBzU2LLQcaKefMi7ee7"
+        },
+        href:
+          "https://api.spotify.com/v1/users/spotify/playlists/6ftJBzU2LLQcaKefMi7ee7",
+        id: "6ftJBzU2LLQcaKefMi7ee7",
+        images: [
+          {
+            height: 300,
+            url:
+              "https://i.scdn.co/image/7bd33c65ebd1e45975bbcbbf513bafe272f033c7",
+            width: 300
+          }
+        ],
+        name: "Monday Morning Mood",
+        owner: {
+          external_urls: {
+            spotify: "http://open.spotify.com/user/spotify"
+          },
+          href: "https://api.spotify.com/v1/users/spotify",
+          id: "spotify",
+          type: "user",
+          uri: "spotify:user:spotify"
+        },
+        public: null,
+        snapshot_id:
+          "WwGvSIVUkUvGvqjgj/bQHlRycYmJ2TkoIxYfoalWlmIZT6TvsgvGMgtQ2dGbkrAW",
+        tracks: {
+          href:
+            "https://api.spotify.com/v1/users/spotify/playlists/6ftJBzU2LLQcaKefMi7ee7/tracks",
+          total: 245
+        },
+        type: "playlist",
+        uri: "spotify:user:spotify:playlist:6ftJBzU2LLQcaKefMi7ee7"
+      },
+      {
+        collaborative: false,
+        external_urls: {
+          spotify:
+            "http://open.spotify.com/user/spotify/playlist/6ftJBzU2LLQcaKefMi7ee7"
+        },
+        href:
+          "https://api.spotify.com/v1/users/spotify/playlists/6ftJBzU2LLQcaKefMi7ee7",
+        id: "6ftJBzU2LLQcaKefMi7ee7",
+        images: [
+          {
+            height: 300,
+            url:
+              "https://i.scdn.co/image/7bd33c65ebd1e45975bbcbbf513bafe272f033c7",
+            width: 300
+          }
+        ],
+        name: "Monday Morning Mood",
+        owner: {
+          external_urls: {
+            spotify: "http://open.spotify.com/user/spotify"
+          },
+          href: "https://api.spotify.com/v1/users/spotify",
+          id: "spotify",
+          type: "user",
+          uri: "spotify:user:spotify"
+        },
+        public: null,
+        snapshot_id:
+          "WwGvSIVUkUvGvqjgj/bQHlRycYmJ2TkoIxYfoalWlmIZT6TvsgvGMgtQ2dGbkrAW",
+        tracks: {
+          href:
+            "https://api.spotify.com/v1/users/spotify/playlists/6ftJBzU2LLQcaKefMi7ee7/tracks",
+          total: 245
+        },
+        type: "playlist",
+        uri: "spotify:user:spotify:playlist:6ftJBzU2LLQcaKefMi7ee7"
+      }
+    ]
+  }
+};
 export const feedGetCategory = {
   href: "https://api.spotify.com/v1/browse/categories/party",
   icons: [

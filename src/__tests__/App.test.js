@@ -14,6 +14,7 @@ import {
 } from "@reach/router";
 // import { render } from "react-testing-library";
 
+const fakeAPIrequest = jest.fn();
 test("Renders without crashing", () => {
   sinon.stub(window.location, "assign");
   render(<App />);
@@ -75,9 +76,15 @@ test("Renders/navigates correctly", async () => {
   getByTestId("navCatInnerView");
   expect(queryByTestId("navRightTab")).not.toBeInTheDocument();
 });
+const fakeHandleMainRightViewChange = jest.fn();
 const renderApp = (tabOn, mobileOn) =>
   render(
-    <Provider value={{ APIrequest: jest.fn() }}>
+    <Provider
+      value={{
+        handleMainRightViewChange: fakeHandleMainRightViewChange,
+        APIrequest: fakeAPIrequest
+      }}
+    >
       <Consumer>
         {context => (
           <StateMock
@@ -131,7 +138,6 @@ test("Correctly mutes the volume, which entails changing of the icon.", async ()
   const { getByTestId, debug } = renderApp();
   await wait(async () => {
     const volControlIcon = getByTestId("volControl");
-    getByTestId("volNotMuted");
     fireEvent.click(volControlIcon);
     await wait(() => getByTestId("volMuted"));
   });

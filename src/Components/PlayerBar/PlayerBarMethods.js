@@ -58,7 +58,6 @@ export function handleRangeChange(e) {
   }
 }
 export function handleRepeatModeChange(e) {
-  console.log(this.state);
   if (this.playbackSDK) {
     const currentI = this.repeatMode.indexOf(this.state.repeatMode);
     const current = this.repeatMode[(currentI + 1) % this.repeatMode.length];

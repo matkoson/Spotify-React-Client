@@ -12,7 +12,7 @@ export default function HeadlineAnimator(props) {
   return props.map((e, i) =>
     transitions.map(({ props }) => (
       <animated.h2
-        key={i}
+        key={e}
         style={props}
         className="app__fetch-title generator__title"
       >
