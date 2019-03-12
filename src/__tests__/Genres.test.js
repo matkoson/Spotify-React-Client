@@ -5,12 +5,12 @@ import { feedGetCategories } from "../feeds";
 import { Provider, Consumer } from "../Context/Context";
 
 const fakeAPIrequest = jest.fn();
-const fakeHandleMainRightViewChange = jest.fn();
+const fakeHandleInnerCategoryViewChangeChange = jest.fn();
 const renderFakeGenres = data =>
   render(
     <Provider
       value={{
-        handleMainRightViewChange: fakeHandleMainRightViewChange,
+        handleInnerCategoryViewChange: fakehandleInnerCategoryViewChangeChange,
         APIrequest: fakeAPIrequest
       }}
     >
@@ -34,5 +34,5 @@ test("Makes the right request when no data is provided.", () => {
 test("Makes the right request when no data is provided.", () => {
   const { getByTestId } = renderFakeGenres(true);
   fireEvent.click(getByTestId("containerGeneratedElement"));
-  expect(fakeHandleMainRightViewChange).toHaveBeenCalled();
+  expect(fakeHandleInnerCategoryViewChangeChange).toHaveBeenCalled();
 });

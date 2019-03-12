@@ -12,18 +12,20 @@ export function handleAlbumRightOverride(e) {
           "linear-gradient(to right bottom, #000000, #000000,  #202020, #282828, #282828)",
         mobile: false
       },
-      resolve(makeAPIcall(), console.log(that.state))
+      resolve(makeAPIcall())
     );
   });
   function makeAPIcall() {
     if (!albumType) {
-      that.playerRequest("getPlaylistTracks", {
+      that.state.playerRequest("getPlaylistTracks", {
         uri: e.target.dataset.album
       });
-      that.playerRequest("getPlaylistCover", { uri: e.target.dataset.album });
-      that.playerRequest("getPlaylist", { uri: e.target.dataset.album });
+      that.state.playerRequest("getPlaylistCover", {
+        uri: e.target.dataset.album
+      });
+      that.state.playerRequest("getPlaylist", { uri: e.target.dataset.album });
     } else if (albumType === "album") {
-      that.playerRequest("getAlbum", { uri: e.target.dataset.album });
+      that.state.playerRequest("getAlbum", { uri: e.target.dataset.album });
     }
   }
 }
@@ -46,10 +48,10 @@ export function handleMainRightChange(mainRightView) {
     : this.setState({ mainRightView, rightTabView: "" });
 }
 
-export function handleMainRightViewChange(e) {
+export function handleInnerCategoryViewChange(e) {
   const category = e.currentTarget.dataset.category_type;
-  this.playerRequest("getCategoryPlaylists", { category, country: "PL" });
-  this.playerRequest("getCategory", { category, country: "PL" });
+  this.state.playerRequest("getCategoryPlaylists", { category, country: "PL" });
+  this.state.playerRequest("getCategory", { category, country: "PL" });
   this.setState({
     mainRightView: category,
     currGrad:

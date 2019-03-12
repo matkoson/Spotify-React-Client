@@ -55,7 +55,7 @@ export default function initSDK(token) {
       deviceName: nameSDK,
       player: this.player
     });
-    return this.playerRequest("getDevices");
+    return this.state.playerRequest("getDevices");
   });
 
   // Not Ready

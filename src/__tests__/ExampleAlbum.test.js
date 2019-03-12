@@ -1,10 +1,12 @@
-import { render } from "react-testing-library";
+import { render, wait } from "react-testing-library";
 import React from "react";
 import { fireEvent } from "react-testing-library/dist";
 import ExampleAlbum from "../Components/Search/ExampleAlbum";
 import { feedTracks, feedExmplAlbum } from "../feeds";
 
-const handelAlbumFake = jest.fn();
+const fakeMakeAPIcall = jest.fn();
+
+const handelAlbumFake = jest.fn(() => Promise.resolve(fakeMakeAPIcall()));
 const APIfake = jest.fn();
 const setup = (paused = false) => {
   const utils = render(
@@ -45,7 +47,7 @@ test("Hovering over example displays the pause or play icon, depending on the co
   fireEvent.mouseDown(imgEle);
   getByTestId("clicked");
 });
-test("Click on the example album title results in the correct API request being made.", () => {
+test("Click on the example album title results in the correct API request being made.", async () => {
   const { getByText } = setup();
   const albumEle = getByText(
     `${feedExmplAlbum.items[0].name.slice(0, 26)}...`,
@@ -53,6 +55,7 @@ test("Click on the example album title results in the correct API request being 
   );
   fireEvent.click(albumEle);
   expect(handelAlbumFake).toHaveBeenCalled();
+  await wait(() => expect(fakeMakeAPIcall).toHaveBeenCalled());
 });
 test("Click on a track presented in the 'top results' section calles for a specific playback.", () => {
   const { getByText } = setup();

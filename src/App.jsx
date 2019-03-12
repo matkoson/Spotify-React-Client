@@ -76,7 +76,7 @@ export default class App extends Component {
     this.getFtrdPlay = getFtrdPlay.bind(this);
     this.getTopArtist = getTopArtist.bind(this);
     this.getMinsSecs = this.getMinsSecs.bind(this);
-    this.playerRequest = playerRequest.bind(this);
+    // this.state.playerRequest = playerRequest.bind(this);
     this.importDeferredMethods = this.importDeferredMethods.bind(this);
     this.getContentFromMultiArtists = getContentFromMultiArtists.bind(this);
     this.gradientArr = [
@@ -120,10 +120,11 @@ export default class App extends Component {
       getPlaylistTracks: "",
       getPlaylistCover: "",
       PolandTop: "",
+      playerRequest: playerRequest.bind(this),
       currGrad: "linear-gradient(105deg, rgba(112,45,58,1) 25%, #282828 56%)",
       valueContext: {
         playerState: "",
-        APIrequest: this.playerRequest,
+        APIrequest: playerRequest.bind(this),
         currentlyPlaying: "",
         getMinsSecs: this.getMinsSecs
       }
@@ -161,7 +162,7 @@ export default class App extends Component {
     let handleNavClick,
       handleMainRightChange,
       handleAlbumRightOverride,
-      handleMainRightViewChange,
+      handleInnerCategoryViewChange,
       handleDeviceTabClick,
       handleResize,
       handleMobileNavToggle;
@@ -171,7 +172,7 @@ export default class App extends Component {
         handleNavClick = res.handleNavClick.bind(this);
         handleMainRightChange = res.handleMainRightChange.bind(this);
         handleAlbumRightOverride = res.handleAlbumRightOverride.bind(this);
-        handleMainRightViewChange = res.handleMainRightViewChange.bind(this);
+        handleInnerCategoryViewChange = res.handleInnerCategoryViewChange.bind(this);
         handleDeviceTabClick = res.handleDeviceTabClick.bind(this);
         handleResize = res.handleResize.bind(this);
         handleMobileNavToggle = res.handleMobileNavToggle.bind(this);
@@ -185,7 +186,7 @@ export default class App extends Component {
             valueContext: {
               ...this.state.valueContext,
               handleAlbumRightOverride,
-              handleMainRightViewChange
+              handleInnerCategoryViewChange
             }
           }
           // () => console.log("3. Setted", Date.now())
@@ -289,7 +290,7 @@ export default class App extends Component {
                   handleNavClick={this.state.handleNavClick}
                   rawRecPlayed={this.state.recentlyPlayed}
                   player={this.player}
-                  APIrequest={this.playerRequest}
+                  APIrequest={this.state.playerRequest}
                 />
               </Desktop>
             </div>

@@ -19,8 +19,9 @@ function NewReleases(props) {
         type={"playlists"}
       />
     );
-  let headlines = ["New albums & singles"];
-  headlines = HeadlineAnimator(headlines);
+  let headlines = ["New albums & singles"].map(e => (
+    <HeadlineAnimator title={e} />
+  ));
   return (
     <div data-testid="navNewReleases" className="generator new-releases">
       {headlines[0]} <div className="app__fetch-container">{newReleases}</div>

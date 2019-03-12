@@ -4,7 +4,7 @@ import sinon from "sinon";
 import { render, fireEvent, waitForElement, wait } from "react-testing-library";
 import { Provider, Consumer } from "../Context/Context";
 import { StateMock } from "@react-mock/state";
-
+import { feedFeatured } from "../feeds";
 import {
   Router,
   Link,
@@ -76,12 +76,12 @@ test("Renders/navigates correctly", async () => {
   getByTestId("navCatInnerView");
   expect(queryByTestId("navRightTab")).not.toBeInTheDocument();
 });
-const fakeHandleMainRightViewChange = jest.fn();
+const fakeHandleInnerCategoryViewChange = jest.fn();
 const renderApp = (tabOn, mobileOn) =>
   render(
     <Provider
       value={{
-        handleMainRightViewChange: fakeHandleMainRightViewChange,
+        handleInnerCategoryViewChange: fakeHandleInnerCategoryViewChange,
         APIrequest: fakeAPIrequest
       }}
     >
@@ -141,4 +141,80 @@ test("Correctly mutes the volume, which entails changing of the icon.", async ()
     fireEvent.click(volControlIcon);
     await wait(() => getByTestId("volMuted"));
   });
+});
+test("Correctly invokes album-override method", async () => {
+  const fakePlayerRequest = jest.fn();
+  const { getByText, debug } = render(
+    <Provider
+      value={{
+        handleInnerCategoryViewChange: fakeHandleInnerCategoryViewChange,
+        APIrequest: fakeAPIrequest
+      }}
+    >
+      <Consumer>
+        {context => (
+          <StateMock
+            state={{
+              auth: "1234",
+              valueContext: { APIrequest: jest.fn() },
+              handleNavClick: jest.fn(),
+              handleDeviceTabClick: jest.fn(),
+              handleResize: jest.fn(),
+              featured: feedFeatured,
+              playerRequest: fakePlayerRequest
+            }}
+          >
+            <App />
+          </StateMock>
+        )}
+      </Consumer>
+    </Provider>
+  );
+  await wait(async () => {
+    fireEvent.click(getByText(feedFeatured.playlists.items[0].name));
+    await wait(() => {
+      expect(fakePlayerRequest).toHaveBeenCalledWith(
+        "getPlaylistTracks",
+        expect.anything()
+      );
+      expect(fakePlayerRequest).toHaveBeenCalledWith(
+        "getPlaylistCover",
+        expect.anything()
+      );
+      expect(fakePlayerRequest).toHaveBeenCalledWith(
+        "getPlaylist",
+        expect.anything()
+      );
+    });
+  });
+});
+
+test("Correctly invokes category-view overrider method", async () => {
+  const fakePlayerRequest = jest.fn();
+  const { getByText, debug } = render(
+    <Provider
+      value={{
+        handleInnerCategoryViewChange: fakeHandleInnerCategoryViewChange,
+        APIrequest: fakeAPIrequest
+      }}
+    >
+      <Consumer>
+        {context => (
+          <StateMock
+            state={{
+              auth: "1234",
+              valueContext: { APIrequest: jest.fn() },
+              handleNavClick: jest.fn(),
+              handleDeviceTabClick: jest.fn(),
+              handleResize: jest.fn(),
+              featured: feedFeatured,
+              playerRequest: fakePlayerRequest
+            }}
+          >
+            <App />
+          </StateMock>
+        )}
+      </Consumer>
+    </Provider>
+  );
 });

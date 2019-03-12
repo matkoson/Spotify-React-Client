@@ -29,8 +29,9 @@ function Discover(props) {
       />
     );
   }
-  let headlines = ["Recommended Albums & Singles"];
-  headlines = HeadlineAnimator(headlines);
+  let headlines = ["Recommended Albums & Singles"].map(e => (
+    <HeadlineAnimator title={e} />
+  ));
   return (
     <div data-testid="navDiscover" className="generator discover">
       {headlines[0]}

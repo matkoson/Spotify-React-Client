@@ -20,8 +20,7 @@ function Genres(props) {
       />
     );
   }
-  let headlines = ["Genres & Moods"];
-  headlines = HeadlineAnimator(headlines);
+  let headlines = ["Genres & Moods"].map(e => <HeadlineAnimator title={e} />);
   return (
     <div
       style={{ color: "#ffffff" }}

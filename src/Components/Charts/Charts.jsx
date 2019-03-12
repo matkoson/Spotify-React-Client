@@ -70,8 +70,11 @@ function renderCharts(props) {
           return /^(?!.*(Global Viral)).*50$/.test(e.name) && hash[e.name] < 2;
         });
   }
-  headlines = ["Featured Charts", "Top 50 by Country", "Viral 50 by Country"];
-  headlines = HeadlineAnimator(headlines);
+  headlines = [
+    "Featured Charts",
+    "Top 50 by Country",
+    "Viral 50 by Country"
+  ].map(e => <HeadlineAnimator title={e} />);
 
   return {
     countryTop,

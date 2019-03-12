@@ -28,11 +28,11 @@ function HomeScreen(props) {
   }
 
   if (props.relatedTop && props.featured && props.recent) {
-    headlines = HeadlineAnimator([
+    headlines = [
       ftrdMssg,
       "Recently played",
       `More like ${props.topArtist}`
-    ]);
+    ].map(e => <HeadlineAnimator title={e} />);
   }
   return (
     <div data-testid="navHome" className="generator">

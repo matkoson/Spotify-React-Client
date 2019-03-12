@@ -94,7 +94,7 @@ function ContainerGenerator(props) {
                 data-category_type={dataType === "categories" ? id : null}
                 onClick={e => {
                   if (e.currentTarget.dataset.data_type === "categories") {
-                    context.handleMainRightViewChange(e);
+                    context.handleInnerCategoryViewChange(e);
                   }
                   if (
                     special ||

@@ -2,7 +2,6 @@ import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default function PlayerControls(props) {
-  console.log(props);
   return (
     <div className="player-bar__tab player-bar__center-tab">
       <div className="player-bar__player-controls">
