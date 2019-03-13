@@ -10,7 +10,7 @@ const renderFakeGenres = data =>
   render(
     <Provider
       value={{
-        handleInnerCategoryViewChange: fakehandleInnerCategoryViewChangeChange,
+        handleInnerCategoryViewChange: fakeHandleInnerCategoryViewChangeChange,
         APIrequest: fakeAPIrequest
       }}
     >

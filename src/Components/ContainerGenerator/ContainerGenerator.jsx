@@ -16,7 +16,8 @@ function ContainerGenerator(props) {
     artistName = null,
     context = props.context,
     forbidAnimate = props.forbidAnimate,
-    dataDef;
+    dataDef,
+    key = props.key;
 
   const transitions = useTransition(null, null, {
     from: { opacity: 0, transform: "translate3d(0,-40px,0)" },
@@ -29,7 +30,7 @@ function ContainerGenerator(props) {
 
   return transitions.map(({ props }) => (
     <animated.div
-      key={Date.now()}
+      key={key}
       className="generator__animation-wrapper"
       style={props}
     >
@@ -254,7 +255,7 @@ export default props => (
   <Consumer>
     {context => (
       <ContainerGenerator
-        key={Date.now()}
+        key={props.key}
         data={props.data}
         type={props.type}
         context={context}
