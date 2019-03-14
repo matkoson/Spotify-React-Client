@@ -2,6 +2,7 @@ import React, { Component, Suspense, lazy } from "react";
 import { Router, navigate } from "@reach/router";
 import RightTab from "./Components/RightTab/RightTab";
 import PlayerBar from "./Components/PlayerBar/PlayerBar";
+import WelcomeScreen from "./Components/WelcomeScreen/WelcomeScreen";
 
 import {
   setToken,
@@ -138,7 +139,7 @@ export default class App extends Component {
       const currAd = window.location.href;
       if (/access_token/.test(currAd)) {
         this.setToken(currAd);
-        navigate("home");
+        navigate("welcome");
       } else if (/access_denied/.test(currAd)) {
         console.error("Access denied by the user");
       } else {
@@ -172,25 +173,24 @@ export default class App extends Component {
         handleNavClick = res.handleNavClick.bind(this);
         handleMainRightChange = res.handleMainRightChange.bind(this);
         handleAlbumRightOverride = res.handleAlbumRightOverride.bind(this);
-        handleInnerCategoryViewChange = res.handleInnerCategoryViewChange.bind(this);
+        handleInnerCategoryViewChange = res.handleInnerCategoryViewChange.bind(
+          this
+        );
         handleDeviceTabClick = res.handleDeviceTabClick.bind(this);
         handleResize = res.handleResize.bind(this);
         handleMobileNavToggle = res.handleMobileNavToggle.bind(this);
-        return this.setState(
-          {
-            handleNavClick,
-            handleDeviceTabClick,
-            handleResize,
-            handleMobileNavToggle,
-            handleMainRightChange,
-            valueContext: {
-              ...this.state.valueContext,
-              handleAlbumRightOverride,
-              handleInnerCategoryViewChange
-            }
+        return this.setState({
+          handleNavClick,
+          handleDeviceTabClick,
+          handleResize,
+          handleMobileNavToggle,
+          handleMainRightChange,
+          valueContext: {
+            ...this.state.valueContext,
+            handleAlbumRightOverride,
+            handleInnerCategoryViewChange
           }
-          // () => console.log("3. Setted", Date.now())
-        );
+        });
       })
     );
   }
@@ -212,11 +212,7 @@ export default class App extends Component {
               src: "https://sdk.scdn.co/spotify-player.js",
               id: "SDK",
               callback: () => {
-                this.setState(
-                  { SDKloaded: true }
-                  // () =>
-                  // console.log("SDK LOADED", Date.now())
-                );
+                this.setState({ SDKloaded: true });
                 return (window.onSpotifyWebPlaybackSDKReady = () => {
                   this.initSDK(this.state.tokenSDK);
                 });
@@ -224,8 +220,6 @@ export default class App extends Component {
             })
           )
         );
-      //Initiate Spotify SDK Player through cdn script
-      // import cdnLoader from "./loadScript";
     }
   }
   getMinsSecs = (ms = 0) => {
@@ -295,6 +289,7 @@ export default class App extends Component {
               </Desktop>
             </div>
             <Router primary={false}>
+              <WelcomeScreen path={process.env.PUBLIC_URL + "/welcome"} />
               <RightTab
                 path={process.env.PUBLIC_URL + "/home"}
                 mobile={this.state.mobile}
