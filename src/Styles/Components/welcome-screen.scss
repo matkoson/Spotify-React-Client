@@ -9,13 +9,27 @@
   @include below820px {
     padding-left: 10px;
   }
+  &__button-tag {
+    background-color: transparent;
+    border-radius: 10px;
+    color: #fff;
+    font-size: 30px;
+    padding: 5%;
+    min-width: 170px;
+    &--recommended {
+      border: 3px solid #fd1d1d;
+    }
+    &--search {
+      border: 3px solid #833ab4;
+    }
+  }
+
   &__hi-there {
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 0;
     margin-bottom: 40px;
     font-size: 60px;
+    text-align: center;
   }
+
   &__question {
     margin-bottom: 10px;
     @include below820px {
@@ -35,12 +49,23 @@
     display: flex;
     justify-content: center;
   }
-  &__button-tag {
-    background-color: transparent;
-    border: 3px solid #fff;
-    border-radius: 10px;
-    color: #fff;
-    font-size: 30px;
-    padding: 5%;
+  &__gradient-text {
+    background: linear-gradient(-60deg, #833ab4, #fd1d1d, #fcb045);
+    animation: flow 15s ease-in-out infinite;
+    background-size: 300%;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+}
+
+@keyframes flow {
+  0% {
+    background-position: 0 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
   }
 }

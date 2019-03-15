@@ -33,7 +33,6 @@ import "./Styles/Base/app.scss";
 import { faReact } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import initSDK from "./APIconnection/initSDK";
-import HomeScreen from "./Components/HomeScreen/HomeScreen";
 import "./Styles/Components/left-tab.scss";
 
 library.add(
@@ -50,7 +49,7 @@ library.add(
   faReact,
   faSpinner
 );
-
+const HomeScreen = lazy(() => import("./Components/HomeScreen/HomeScreen"));
 const Desktop = lazy(() => import("./Components/Desktop/Desktop"));
 const Mobile = lazy(() => import("./Components/Mobile/Mobile"));
 const Charts = lazy(() => import("./Components/Charts/Charts"));

@@ -32,7 +32,7 @@ function HomeScreen(props) {
       ftrdMssg,
       "Recently played",
       `More like ${props.topArtist}`
-    ].map(e => <HeadlineAnimator title={e} />);
+    ].map(e => <HeadlineAnimator key={e} title={e} />);
   }
   return (
     <div data-testid="navHome" className="generator">
