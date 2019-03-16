@@ -6,8 +6,12 @@
   padding: 10%;
   width: 100vw;
   overflow-y: hidden !important;
+  padding-right: 10% !important;
   @include below820px {
     padding-left: 10px;
+  }
+  @include abv1070px {
+    padding-top: 60px;
   }
   &__button-tag {
     background-color: transparent;
@@ -22,6 +26,12 @@
     &--search {
       border: 3px solid #833ab4;
     }
+  }
+  a {
+    cursor: unset;
+  }
+  button {
+    cursor: pointer;
   }
 
   &__hi-there {
@@ -43,12 +53,13 @@
     flex-direction: column;
     justify-content: center;
     text-align: center;
-    margin-bottom: 20%;
+    margin-bottom: 60px;
   }
   &__button {
     display: flex;
     justify-content: center;
   }
+
   &__gradient-text {
     background: linear-gradient(-60deg, #833ab4, #fd1d1d, #fcb045);
     animation: flow 15s ease-in-out infinite;

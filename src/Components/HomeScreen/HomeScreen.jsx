@@ -1,8 +1,21 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import ContainerGenerator from "../ContainerGenerator/ContainerGenerator";
 import HeadlineAnimator from "../Helpers/HeadlineAnimator";
+import { Context } from "../../Context/Context";
 
 function HomeScreen(props) {
+  const [mount, set] = useState(false);
+  const context = useContext(Context);
+  useEffect(
+    () => {
+      context.setCompGradient(
+        "linear-gradient(105deg, #000000 15%, #2A0943 25%,#711c33 100%)"
+      );
+      set(true);
+    },
+    [mount]
+  );
+
   let ftrdMssg,
     albumPics,
     ftrdProp,
@@ -35,7 +48,11 @@ function HomeScreen(props) {
     ].map(e => <HeadlineAnimator key={e} title={e} />);
   }
   return (
-    <div data-testid="navHome" className="generator">
+    <div
+      data-testid="navHome"
+      className="generator"
+      style={{ color: "#FB3268" }}
+    >
       {headlines && headlines[0]}
       <ContainerGenerator
         key="ftrdProp"

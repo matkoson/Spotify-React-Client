@@ -36,12 +36,15 @@ welcome-screen__gradient-text"
         </button>
       </Link>
     </animated.div>,
-    <animated.div className="welcome-screen__choose">
-      <div className="welcome-screen__choose-search welcome-screen__question">
-        Lastly, the spinning atom in the <bold>top-right</bold> corner will
-        provide you with more options
-      </div>
-    </animated.div>
+    props.mobile ? (
+      <animated.div className="welcome-screen__choose">
+        <div className="welcome-screen__choose-search welcome-screen__question">
+          Lastly, the spinning atom in the{" "}
+          <strong className="welcome-screen__gradient-text">top-right</strong>{" "}
+          corner will provide you with more options
+        </div>
+      </animated.div>
+    ) : null
   ];
   const trail = useTrail(elements.length, {
     config: config.molasses,

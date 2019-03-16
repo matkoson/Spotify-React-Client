@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from "react";
+import React, { useEffect, useContext, useState } from "react";
 import ContainerGenerator from "../ContainerGenerator/ContainerGenerator";
 import HeadlineAnimator from "../Helpers/HeadlineAnimator";
 import { Context } from "../../Context/Context";
@@ -7,31 +7,41 @@ import "../../Styles/Base/app.scss";
 let headlines;
 function renderCharts(props) {
   const context = useContext(Context);
+  const [mount, set] = useState(false);
 
-  useEffect(() => {
-    if (context) {
-      if (!props.PolandTop) {
-        context.APIrequest("getCategoryPlaylists", {
-          category: "toplists",
-          country: "PL"
-        });
-      }
-      if (props.getCategoryPlaylists && !props.getCategoryPlaylists.length) {
-        const visited = {};
-        let index;
-        for (let i = 0; i < 20; i += 1) {
-          index = Math.round(Math.random() * (props.countryCodes.length - 1));
-          while (visited[props.countryCodes[index].isoCode])
-            index = Math.round(Math.random() * (props.countryCodes.length - 1)); //making sure not to fetch one country's playlists twice
-          visited[props.countryCodes[index].isoCode] = true;
+  useEffect(
+    () => {
+      if (context) {
+        set(true);
+        context.setCompGradient(
+          "linear-gradient(105deg, #000000 15%, #1D2338 25%,#1D667C 100%)"
+        );
+        if (!props.PolandTop) {
           context.APIrequest("getCategoryPlaylists", {
             category: "toplists",
-            country: props.countryCodes[index].isoCode
+            country: "PL"
           });
         }
+        if (props.getCategoryPlaylists && !props.getCategoryPlaylists.length) {
+          const visited = {};
+          let index;
+          for (let i = 0; i < 20; i += 1) {
+            index = Math.round(Math.random() * (props.countryCodes.length - 1));
+            while (visited[props.countryCodes[index].isoCode])
+              index = Math.round(
+                Math.random() * (props.countryCodes.length - 1)
+              ); //making sure not to fetch one country's playlists twice
+            visited[props.countryCodes[index].isoCode] = true;
+            context.APIrequest("getCategoryPlaylists", {
+              category: "toplists",
+              country: props.countryCodes[index].isoCode
+            });
+          }
+        }
       }
-    }
-  });
+    },
+    [mount]
+  );
   let countryTop, countryViral, PolandTop;
   if (props.PolandTop) {
     PolandTop = (
@@ -86,7 +96,11 @@ function renderCharts(props) {
 export default function Charts(props) {
   const { countryTop, countryViral, PolandTop } = renderCharts(props);
   return (
-    <div className="generator" data-testid="navCharts">
+    <div
+      style={{ color: "#FD2821" }}
+      className="generator"
+      data-testid="navCharts"
+    >
       {headlines[0]}
       {PolandTop}
       {PolandTop && headlines[1]}

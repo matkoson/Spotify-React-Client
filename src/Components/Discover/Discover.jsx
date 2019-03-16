@@ -1,20 +1,28 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import ContainerGenerator from "../ContainerGenerator/ContainerGenerator";
 import HeadlineAnimator from "../Helpers/HeadlineAnimator";
 import { Context } from "../../Context/Context";
 import "../../Styles/Base/app.scss";
-
 function Discover(props) {
   const context = useContext(Context);
-  useEffect(() => {
-    if (
-      props.getMultipleArtistAlbums &&
-      !props.getMultipleArtistAlbums.length
-    ) {
-      if (context)
-        context.APIrequest("getMultipleArtists", { ids: props.idList });
-    }
-  });
+  const [mount, set] = useState(false);
+
+  useEffect(
+    () => {
+      context.setCompGradient(
+        "linear-gradient(105deg, #000000 30%, #602227 40%,#CE3639 100%)"
+      );
+      set(true);
+      if (
+        props.getMultipleArtistAlbums &&
+        !props.getMultipleArtistAlbums.length
+      ) {
+        if (context)
+          context.APIrequest("getMultipleArtists", { ids: props.idList });
+      }
+    },
+    [mount]
+  );
   let discoverRender;
   if (!discoverRender && props.getMultipleArtistAlbums) {
     discoverRender = props.getMultipleArtistAlbums
@@ -33,7 +41,11 @@ function Discover(props) {
     <HeadlineAnimator title={e} />
   ));
   return (
-    <div data-testid="navDiscover" className="generator discover">
+    <div
+      style={{ color: "#3ACCDF" }}
+      data-testid="navDiscover"
+      className="generator discover"
+    >
       {headlines[0]}
       <div className="app__fetch-container">{discoverRender}</div>
     </div>

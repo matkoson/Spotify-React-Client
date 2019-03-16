@@ -1,17 +1,24 @@
-import React, { useEffect, useContext } from "react";
+import React, { useEffect, useContext, useState } from "react";
 import ContainerGenerator from "../ContainerGenerator/ContainerGenerator";
 import { Context } from "../../Context/Context";
 import HeadlineAnimator from "../Helpers/HeadlineAnimator";
 import "../../Styles/Base/app.scss";
-
 function Genres(props) {
-  let categoriesList;
+  const [mount, set] = useState(false);
   const context = useContext(Context);
-  useEffect(() => {
-    if (context && !props.getCategories) {
-      context.APIrequest("getCategories");
-    }
-  });
+  let categoriesList;
+  useEffect(
+    () => {
+      if (context && !props.getCategories) {
+        context.APIrequest("getCategories");
+      }
+      context.setCompGradient(
+        "linear-gradient(105deg, #000000 30%,  #584501 100%"
+      );
+      set(true);
+    },
+    [mount]
+  );
   if (props.getCategories) {
     categoriesList = (
       <ContainerGenerator
@@ -23,7 +30,7 @@ function Genres(props) {
   let headlines = ["Genres & Moods"].map(e => <HeadlineAnimator title={e} />);
   return (
     <div
-      style={{ color: "#ffffff" }}
+      style={{ color: "#FCCD21" }}
       data-testid="navGenres"
       className="generator genres"
     >
