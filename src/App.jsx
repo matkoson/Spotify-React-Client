@@ -1,6 +1,5 @@
 import React, { Component, Suspense, lazy } from "react";
 import { Router, navigate } from "@reach/router";
-import RightTab from "./Components/RightTab/RightTab";
 import PlayerBar from "./Components/PlayerBar/PlayerBar";
 import WelcomeScreen from "./Components/WelcomeScreen/WelcomeScreen";
 
@@ -49,6 +48,9 @@ library.add(
   faReact,
   faSpinner
 );
+
+const RightTab = lazy(() => import("./Components/RightTab/RightTab"));
+
 const HomeScreen = lazy(() => import("./Components/HomeScreen/HomeScreen"));
 const Desktop = lazy(() => import("./Components/Desktop/Desktop"));
 const Mobile = lazy(() => import("./Components/Mobile/Mobile"));
@@ -130,7 +132,7 @@ export default class App extends Component {
         navigate("welcome");
       } else if (/access_denied/.test(currAd)) {
         console.error("Access denied by the user");
-      } else {
+      } else if (/access_token/.test(currAd) === false) {
         this.getToken();
       }
       window.addEventListener("resize", this.state.handleResize);

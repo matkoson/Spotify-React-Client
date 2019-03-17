@@ -14,6 +14,7 @@ import {
 } from "@reach/router";
 // import { render } from "react-testing-library";
 
+const fakeSetCompGradient = jest.fn();
 const fakeAPIrequest = jest.fn();
 test("Renders without crashing", () => {
   sinon.stub(window.location, "assign");
@@ -25,7 +26,11 @@ function renderWithRouter(
 ) {
   return {
     ...render(
-      <Provider value={{}}>
+      <Provider
+        value={{
+          setCompGradient: fakeSetCompGradient
+        }}
+      >
         <LocationProvider history={history}>{ui}</LocationProvider>
       </Provider>
     ),
@@ -82,7 +87,8 @@ const renderApp = (tabOn, mobileOn) =>
     <Provider
       value={{
         handleInnerCategoryViewChange: fakeHandleInnerCategoryViewChange,
-        APIrequest: fakeAPIrequest
+        APIrequest: fakeAPIrequest,
+        setCompGradient: fakeSetCompGradient
       }}
     >
       <Consumer>
@@ -148,7 +154,8 @@ test("Correctly invokes album-override method", async () => {
     <Provider
       value={{
         handleInnerCategoryViewChange: fakeHandleInnerCategoryViewChange,
-        APIrequest: fakeAPIrequest
+        APIrequest: fakeAPIrequest,
+        setCompGradient: fakeSetCompGradient
       }}
     >
       <Consumer>
@@ -156,7 +163,10 @@ test("Correctly invokes album-override method", async () => {
           <StateMock
             state={{
               auth: "1234",
-              valueContext: { APIrequest: jest.fn() },
+              valueContext: {
+                APIrequest: jest.fn(),
+                setCompGradient: fakeSetCompGradient
+              },
               handleNavClick: jest.fn(),
               handleDeviceTabClick: jest.fn(),
               handleResize: jest.fn(),
@@ -194,6 +204,7 @@ test("Correctly invokes category-view overrider method", async () => {
   const { getByText, debug } = render(
     <Provider
       value={{
+        setCompGradient: fakeSetCompGradient,
         handleInnerCategoryViewChange: fakeHandleInnerCategoryViewChange,
         APIrequest: fakeAPIrequest
       }}
@@ -203,7 +214,10 @@ test("Correctly invokes category-view overrider method", async () => {
           <StateMock
             state={{
               auth: "1234",
-              valueContext: { APIrequest: jest.fn() },
+              valueContext: {
+                APIrequest: jest.fn(),
+                setCompGradient: fakeSetCompGradient
+              },
               handleNavClick: jest.fn(),
               handleDeviceTabClick: jest.fn(),
               handleResize: jest.fn(),

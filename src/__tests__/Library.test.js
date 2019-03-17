@@ -9,10 +9,17 @@ import {
 import { Provider, Consumer } from "../Context/Context";
 import { StateMock } from "@react-mock/state";
 
+const fakeSetCompGradient = jest.fn();
+
 const fakeAPIrequest = jest.fn();
 const renderFakeLibrary = tab =>
   render(
-    <Provider value={{ APIrequest: fakeAPIrequest }}>
+    <Provider
+      value={{
+        APIrequest: fakeAPIrequest,
+        setCompGradient: fakeSetCompGradient
+      }}
+    >
       <Consumer>
         {context => (
           <StateMock
@@ -36,6 +43,9 @@ test("Renders properly", () => {
   expect(fakeAPIrequest).toHaveBeenCalledWith("getUserSavedAlbums");
   expect(fakeAPIrequest).toHaveBeenCalledWith("getUserSavedTracks");
   getByText("Your Saved Playlists");
+  expect(fakeSetCompGradient).toHaveBeenCalledWith(
+    "linear-gradient(105deg, #000000 15%, #282828 100%)"
+  );
 });
 test("Renders albums tab.", async () => {
   const { getByText } = renderFakeLibrary("ALBUMS");

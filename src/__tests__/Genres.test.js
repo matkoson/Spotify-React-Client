@@ -4,6 +4,7 @@ import { render, fireEvent } from "react-testing-library";
 import { feedGetCategories } from "../feeds";
 import { Provider, Consumer } from "../Context/Context";
 
+const fakeSetCompGradient = jest.fn();
 const fakeAPIrequest = jest.fn();
 const fakeHandleInnerCategoryViewChangeChange = jest.fn();
 const renderFakeGenres = data =>
@@ -11,7 +12,8 @@ const renderFakeGenres = data =>
     <Provider
       value={{
         handleInnerCategoryViewChange: fakeHandleInnerCategoryViewChangeChange,
-        APIrequest: fakeAPIrequest
+        APIrequest: fakeAPIrequest,
+        setCompGradient: fakeSetCompGradient
       }}
     >
       <Consumer>
@@ -20,7 +22,7 @@ const renderFakeGenres = data =>
     </Provider>
   );
 
-test("Renders Genres component correctly, when fed with data.", async () => {
+test("Renders Genres component correctly, when fed with data.", () => {
   const { getByText } = renderFakeGenres(true);
   feedGetCategories.categories.items
     .map(e => e.name)
@@ -29,6 +31,9 @@ test("Renders Genres component correctly, when fed with data.", async () => {
 test("Makes the right request when no data is provided.", () => {
   renderFakeGenres(false);
   expect(fakeAPIrequest).toHaveBeenCalledWith("getCategories");
+  expect(fakeSetCompGradient).toHaveBeenCalledWith(
+    "linear-gradient(105deg, #000000 30%,  #584501 100%"
+  );
 });
 
 test("Makes the right request when no data is provided.", () => {

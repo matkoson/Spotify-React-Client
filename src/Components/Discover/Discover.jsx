@@ -9,7 +9,7 @@ function Discover(props) {
 
   useEffect(
     () => {
-      context.setCompGradient(
+      context&&context.setCompGradient(
         "linear-gradient(105deg, #000000 30%, #602227 40%,#CE3639 100%)"
       );
       set(true);

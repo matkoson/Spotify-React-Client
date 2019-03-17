@@ -13,7 +13,7 @@ function renderCharts(props) {
     () => {
       if (context) {
         set(true);
-        context.setCompGradient(
+        context&&context.setCompGradient(
           "linear-gradient(105deg, #000000 15%, #1D2338 25%,#1D667C 100%)"
         );
         if (!props.PolandTop) {

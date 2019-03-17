@@ -13,6 +13,10 @@ class Library extends React.Component {
     this.context.APIrequest("getUserPlaylists");
     this.context.APIrequest("getUserSavedAlbums");
     this.context.APIrequest("getUserSavedTracks");
+    this.context &&
+      this.context.setCompGradient(
+        "linear-gradient(105deg, #000000 15%, #282828 100%)"
+      );
   }
   render() {
     let renderLib;

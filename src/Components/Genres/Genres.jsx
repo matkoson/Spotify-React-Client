@@ -12,7 +12,7 @@ function Genres(props) {
       if (context && !props.getCategories) {
         context.APIrequest("getCategories");
       }
-      context.setCompGradient(
+      context&&context.setCompGradient(
         "linear-gradient(105deg, #000000 30%,  #584501 100%"
       );
       set(true);

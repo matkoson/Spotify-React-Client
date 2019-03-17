@@ -14,7 +14,7 @@ function NewReleases(props) {
       if (context && !props.getNewReleases) {
         context.APIrequest("getNewReleases");
       }
-      context.setCompGradient(
+      context&&context.setCompGradient(
         "linear-gradient(105deg, #000000 20%, #7d1463 30%,#5e1330 100%)"
       );
       set(true);

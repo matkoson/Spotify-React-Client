@@ -8,9 +8,7 @@ function HomeScreen(props) {
   const context = useContext(Context);
   useEffect(
     () => {
-      context.setCompGradient(
-        "linear-gradient(105deg, #000000 15%, #2A0943 25%,#711c33 100%)"
-      );
+      context.setCompGradient && context.setCompGradient("linear-gradient(105deg, #000000 15%, #2A0943 25%,#711c33 100%)");
       set(true);
     },
     [mount]
