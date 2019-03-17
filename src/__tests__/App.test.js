@@ -47,11 +47,13 @@ test("Renders/navigates correctly", async () => {
   } = renderWithRouter(<App />);
   const appContainer = container;
   await navigate(process.env.PUBLIC_URL + "/home");
-  getByTestId("navHome");
-  getByTestId("navMobile");
-  getByTestId("navDesktop");
-  getByTestId("navPlayerBar");
-  getByTestId("navRightTab");
+  await wait(() => {
+    getByTestId("navHome");
+    getByTestId("navMobile");
+    getByTestId("navDesktop");
+    getByTestId("navPlayerBar");
+    getByTestId("navRightTab");
+  });
 
   await navigate(process.env.PUBLIC_URL + "/home/charts");
   getByTestId("navCharts");

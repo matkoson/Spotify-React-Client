@@ -91,13 +91,12 @@ class PlayerBar extends PureComponent {
     const repeatMode = this.state.repeatMode || "off";
     const artistName =
       this.state.artistName || (lastTrack && lastTrack.artists[0].name);
-
-    totalTime =
-      this.context &&
-      this.context.getMinsSecs &&
-      this.context.getMinsSecs(rawTrackTime);
     const progressPercentage = getPerc(rawTrackProgress, rawTrackTime) || 0;
     volumePercentage = this.state.muted ? 0 : volumePercentage;
+    if (this.context && this.context.getMinsSecs) {
+      progressTime = this.context.getMinsSecs(rawTrackProgress);
+      totalTime = this.context.getMinsSecs(rawTrackTime);
+    }
     //
     return (
       <div data-testid="navPlayerBar" className="player-bar">
