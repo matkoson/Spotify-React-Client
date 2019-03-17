@@ -2,7 +2,7 @@ export function handleMute() {
   this.setState({ muted: !this.state.muted });
 }
 export function handlePausePlay(e) {
-  // console.log(this.playbackSDK, this.props.recent, "recent");
+  console.log(this.playbackSDK, this.props.recent, "recent");
   if (this.state.player) {
     if (!this.playbackSDK) {
       this.context.APIrequest("playRecentTracks", {
@@ -66,7 +66,7 @@ export function playbackSDKinterval() {
     this.playbackSDK = setInterval(() => {
       this.state.player.getCurrentState().then(state => {
         if (state) {
-          // console.log("SDK updated, state:", state);
+          console.log("SDK updated, state:", state);
           const trackPlaying = state.track_window.current_track;
           const songTitle =
             trackPlaying.name.length >= 32

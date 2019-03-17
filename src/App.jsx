@@ -25,7 +25,9 @@ import {
   faVolumeMute,
   faRedo,
   faSearch,
-  faSpinner
+  faSpinner,
+  faHeadphonesAlt,
+  faLaptop
 } from "@fortawesome/free-solid-svg-icons";
 import "./Styles/Base/app.scss";
 
@@ -46,7 +48,9 @@ library.add(
   faRedo,
   faSearch,
   faReact,
-  faSpinner
+  faSpinner,
+  faHeadphonesAlt,
+  faLaptop
 );
 
 const RightTab = lazy(() => import("./Components/RightTab/RightTab"));
@@ -352,7 +356,6 @@ export default class App extends Component {
               handleDeviceTabClick={this.state.handleDeviceTabClick}
               isDeviceTabOn={this.state.deviceTabOn}
               player={this.player}
-              // deviceId={this.state.deviceID}
               deviceName={this.state.deviceName}
               currentPlayback={this.state.currentPlayback}
             />

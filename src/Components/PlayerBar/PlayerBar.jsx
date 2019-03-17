@@ -108,11 +108,7 @@ class PlayerBar extends PureComponent {
         <PlayerControls
           shuffled={this.state.shuffled}
           handlePausePlay={this.state.handlePausePlay}
-          paused={
-            this.context &&
-            this.context.playerState &&
-            this.context.playerState.paused
-          }
+          paused={this.state.paused}
           playbackSDK={this.playbackSDK}
           player={this.state.player}
           repeatMode={repeatMode}
@@ -130,10 +126,12 @@ class PlayerBar extends PureComponent {
           volumePercentage={volumePercentage}
           handleMute={this.state.handleMute}
           muted={this.state.muted}
+          oneIsEnough={this.state.oneIsEnough}
         >
-          {this.props.isDeviceTabOn && (
-            <DeviceTab deviceName={this.props.deviceName} />
-          )}
+          <DeviceTab
+            isDeviceTabOn={this.props.isDeviceTabOn}
+            deviceName={this.props.deviceName}
+          />
         </SideControls>
       </div>
     );
