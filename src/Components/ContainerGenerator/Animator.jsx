@@ -1,5 +1,5 @@
 import React from "react";
-import { animated, useSpring, useTransition } from "react-spring";
+import { animated, useSpring } from "react-spring";
 
 export default function Animator(props) {
   const calc = (x, y) => [

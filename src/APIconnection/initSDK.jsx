@@ -1,52 +1,16 @@
 // import { lazy } from "react";
 export default function initSDK(token) {
-  const nameSDK = "React Spotify Web Client";
+  const nameSDK = "Spotify React Client";
   this.player = new window.Spotify.Player({
     name: nameSDK,
     getOAuthToken: cb => {
       cb(token);
     }
   });
-  // console.log(this.player);
-
-  // Error handling
 
   import("./lazyInitSDK").then(res => {
     res.default.bind(this)();
-    // console.log("loaded");
   });
-
-  // this.player.addListener("initialization_error", ({ message }) => {
-  //   console.error(message);
-  //   this.setState({ SDKconnected: false });
-  // });
-  // this.player.addListener("authentication_error", ({ message }) => {
-  //   console.error(message);
-  //   this.setState({ SDKconnected: false });
-  // });
-  // this.player.addListener("account_error", ({ message }) => {
-  //   console.error(message);
-  //   this.setState({ SDKconnected: false });
-  // });
-  // this.player.addListener("playback_error", ({ message }) => {
-  //   console.error(message);
-  // });
-
-  // // Playback status updates
-  // this.player.addListener("player_state_changed", state => {
-  //   if (state) {
-  //     console.log(state);
-  //     if (state.bitrate && !state.paused) {
-  //       this.setState({
-  //         valueContext: { ...this.state.valueContext, playerState: state },
-  //         deviceTabOn: true
-  //       });
-  //     } else if (state.paused) {
-  //       this.setState({ playerState: state, deviceTabOn: false });
-  //     }
-  //   }
-  // });
-  // Ready
   this.player.addListener("ready", ({ device_id }) => {
     console.log("Ready with Device ID", device_id);
     this.setState({

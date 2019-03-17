@@ -31,7 +31,7 @@ function ContainerGenerator(props) {
   return transitions.map(({ props }) => (
     <animated.div
       key={key}
-      className="generator__animation-wrapper"
+      className="app__fetch-container generator__playlist-container"
       style={props}
     >
       {props &&

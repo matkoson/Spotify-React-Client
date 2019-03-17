@@ -22,9 +22,15 @@
 
     &--clicked {
       opacity: 1 !important;
+      @include below820px {
+        color: $mainGreen;
+      }
     }
 
     &--clicked:before {
+      @include below820px {
+        display: none;
+      }
       margin-left: -15px;
       opacity: 1;
       content: "";

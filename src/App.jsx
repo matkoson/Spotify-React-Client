@@ -1,7 +1,7 @@
 import React, { Component, Suspense, lazy } from "react";
 import { Router, navigate } from "@reach/router";
-import RightTab from "./Components/RightTab/RightTab";
 import PlayerBar from "./Components/PlayerBar/PlayerBar";
+import WelcomeScreen from "./Components/WelcomeScreen/WelcomeScreen";
 
 import {
   setToken,
@@ -32,7 +32,6 @@ import "./Styles/Base/app.scss";
 import { faReact } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import initSDK from "./APIconnection/initSDK";
-import HomeScreen from "./Components/HomeScreen/HomeScreen";
 import "./Styles/Components/left-tab.scss";
 
 library.add(
@@ -50,6 +49,9 @@ library.add(
   faSpinner
 );
 
+const RightTab = lazy(() => import("./Components/RightTab/RightTab"));
+
+const HomeScreen = lazy(() => import("./Components/HomeScreen/HomeScreen"));
 const Desktop = lazy(() => import("./Components/Desktop/Desktop"));
 const Mobile = lazy(() => import("./Components/Mobile/Mobile"));
 const Charts = lazy(() => import("./Components/Charts/Charts"));
@@ -79,17 +81,6 @@ export default class App extends Component {
     // this.state.playerRequest = playerRequest.bind(this);
     this.importDeferredMethods = this.importDeferredMethods.bind(this);
     this.getContentFromMultiArtists = getContentFromMultiArtists.bind(this);
-    this.gradientArr = [
-      "linear-gradient(105deg, rgba(67,13,107,1) 25%, #282828 56%);",
-      "linear-gradient(105deg, rgba(13,28,107,1) 25%, #282828 56%)",
-      "linear-gradient(105deg, rgba(13,82,107,1) 25%, #282828 56%)",
-      "linear-gradient(105deg, rgba(124,113,10,1) 25%, #282828 56%)",
-      "linear-gradient(105deg, rgba(102,37,37,1) 25%, #282828 56%)",
-      "linear-gradient(105deg, rgba(127,22,7,1) 25%, #282828 56%)",
-      " linear-gradient(105deg, rgba(52,54,81,1) 25%, #282828 56%)",
-      "linear-gradient(105deg, rgba(81,52,79,1) 25%, #282828 56%)",
-      "linear-gradient(105deg, rgba(107,13,20,1) 25%, #282828 56%)"
-    ];
     this.state = {
       alreadyViewed: [],
       mobile: false,
@@ -121,34 +112,30 @@ export default class App extends Component {
       getPlaylistCover: "",
       PolandTop: "",
       playerRequest: playerRequest.bind(this),
-      currGrad: "linear-gradient(105deg, rgba(112,45,58,1) 25%, #282828 56%)",
       valueContext: {
         playerState: "",
         APIrequest: playerRequest.bind(this),
         currentlyPlaying: "",
-        getMinsSecs: this.getMinsSecs
+        getMinsSecs: this.getMinsSecs,
+        currGrad:
+          "linear-gradient(105deg, #000000 25%,#000000 50%, #6f0000 100%)"
       }
     };
     this.homeRef = React.createRef();
   }
   componentDidMount() {
-    // console.log("APPSTATE", this.state);
     import("./loadFonts");
     if (!this.state.auth) {
       const currAd = window.location.href;
       if (/access_token/.test(currAd)) {
         this.setToken(currAd);
-        navigate("home");
+        navigate("welcome");
       } else if (/access_denied/.test(currAd)) {
         console.error("Access denied by the user");
-      } else {
+      } else if (/access_token/.test(currAd) === false) {
         this.getToken();
       }
-      // if (this.state.mainRightView === "Home" && this.homeRef.current) {
-      //   this.homeRef.current.scrollIntoView();
-      // }
       window.addEventListener("resize", this.state.handleResize);
-      // console.log("here i am");
       this.importDeferredMethods();
       lazy(
         import("./assets/countries").then(res => {
@@ -158,39 +145,39 @@ export default class App extends Component {
     }
   }
   importDeferredMethods() {
-    // console.log("called");
     let handleNavClick,
       handleMainRightChange,
       handleAlbumRightOverride,
       handleInnerCategoryViewChange,
       handleDeviceTabClick,
       handleResize,
-      handleMobileNavToggle;
+      handleMobileNavToggle,
+      setCompGradient;
     lazy(
       import("./AppMethods/AppMethods").then(res => {
-        // console.log("2. Started", Date.now());
         handleNavClick = res.handleNavClick.bind(this);
         handleMainRightChange = res.handleMainRightChange.bind(this);
         handleAlbumRightOverride = res.handleAlbumRightOverride.bind(this);
-        handleInnerCategoryViewChange = res.handleInnerCategoryViewChange.bind(this);
+        handleInnerCategoryViewChange = res.handleInnerCategoryViewChange.bind(
+          this
+        );
+        setCompGradient = res.setCompGradient.bind(this);
         handleDeviceTabClick = res.handleDeviceTabClick.bind(this);
         handleResize = res.handleResize.bind(this);
         handleMobileNavToggle = res.handleMobileNavToggle.bind(this);
-        return this.setState(
-          {
-            handleNavClick,
-            handleDeviceTabClick,
-            handleResize,
-            handleMobileNavToggle,
-            handleMainRightChange,
-            valueContext: {
-              ...this.state.valueContext,
-              handleAlbumRightOverride,
-              handleInnerCategoryViewChange
-            }
+        return this.setState({
+          handleNavClick,
+          handleDeviceTabClick,
+          handleResize,
+          handleMobileNavToggle,
+          handleMainRightChange,
+          valueContext: {
+            ...this.state.valueContext,
+            handleAlbumRightOverride,
+            handleInnerCategoryViewChange,
+            setCompGradient
           }
-          // () => console.log("3. Setted", Date.now())
-        );
+        });
       })
     );
   }
@@ -212,11 +199,7 @@ export default class App extends Component {
               src: "https://sdk.scdn.co/spotify-player.js",
               id: "SDK",
               callback: () => {
-                this.setState(
-                  { SDKloaded: true }
-                  // () =>
-                  // console.log("SDK LOADED", Date.now())
-                );
+                this.setState({ SDKloaded: true });
                 return (window.onSpotifyWebPlaybackSDKReady = () => {
                   this.initSDK(this.state.tokenSDK);
                 });
@@ -224,8 +207,6 @@ export default class App extends Component {
             })
           )
         );
-      //Initiate Spotify SDK Player through cdn script
-      // import cdnLoader from "./loadScript";
     }
   }
   getMinsSecs = (ms = 0) => {
@@ -247,7 +228,7 @@ export default class App extends Component {
         ref={this.homeRef}
         className="app"
         style={{
-          backgroundImage: this.state.currGrad,
+          backgroundImage: this.state.valueContext.currGrad,
           transitionDuration: "1.5s"
         }}
         onClick={() =>
@@ -295,6 +276,12 @@ export default class App extends Component {
               </Desktop>
             </div>
             <Router primary={false}>
+              {this.state.auth && (
+                <WelcomeScreen
+                  mobile={window.innerWidth < 820 ? true : false}
+                  path={process.env.PUBLIC_URL + "/welcome"}
+                />
+              )}
               <RightTab
                 path={process.env.PUBLIC_URL + "/home"}
                 mobile={this.state.mobile}

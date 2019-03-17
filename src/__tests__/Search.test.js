@@ -7,9 +7,12 @@ import { feedSearch } from "../feeds";
 import { Provider, Consumer } from "../Context/Context";
 
 const APIfake = jest.fn();
+const fakeSetCompGradient = jest.fn();
 const renderSearch = ({ searchInput, chosenTab = "top result" }) =>
   render(
-    <Provider value={{ APIrequest: APIfake }}>
+    <Provider
+      value={{ APIrequest: APIfake, setCompGradient: fakeSetCompGradient }}
+    >
       <Consumer>
         {context => (
           <StateMock state={{ searchInput, chosenTab }}>
@@ -30,9 +33,12 @@ test("Renders essential elements when on 'top result' tab(default)", async () =>
     searchInput: "lolz",
     chosenTab: "top result"
   });
-  await waitForElement(() =>
-    getByText("Top Result", "Matching Artists", "Matching Playlists")
-  );
+  await wait(() => {
+    getByText("Top Result", "Matching Artists", "Matching Playlists");
+    expect(fakeSetCompGradient).toHaveBeenCalledWith(
+      "linear-gradient(105deg, #000000 15%, #282828 100%)"
+    );
+  });
 });
 
 test("Renders essential elements when on 'albums'", async () => {

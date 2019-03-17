@@ -12,6 +12,12 @@ class Search extends React.Component {
     this.state = { searchInput: "", chosenTab: "top result" };
     this.handleInputChange = this.handleInputChange.bind(this);
   }
+  componentWillMount() {
+    this.context &&
+      this.context.setCompGradient(
+        "linear-gradient(105deg, #000000 15%, #282828 100%)"
+      );
+  }
   handleInputChange(e) {
     const value = e.target.value;
     this.setState({ searchInput: value });

@@ -39,8 +39,6 @@ export function handleDeviceTabClick(e) {
 export function handleMainRightChange(mainRightView) {
   mainRightView === "Search"
     ? this.setState({
-        // mainRightView,
-        // rightTabView: "",
         currGrad:
           "linear-gradient(to right bottom, #000000, #000000,  #202020, #282828, #282828)",
         mobile: false
@@ -72,26 +70,6 @@ export function handleNavClick(ele, navType) {
     basicClass = "right-tab__right-nav__element";
     clickedClass = "right-tab__right-nav__element--clicked";
     chosenView = ele.target.id;
-    const randomNum =
-      this.gradientArr &&
-      Math.round(Math.random() * this.gradientArr.length - 1);
-    if (
-      this.setState &&
-      ele.target.className === "right-tab__right-nav__element"
-    ) {
-      this.setState(state => {
-        return {
-          currGrad:
-            this.gradientArr[randomNum] ||
-            "linear - gradient(to right bottom, #4d0b96, #3b2195, #292c91, #19348c, #0c3985)" ===
-              state.currGrad
-              ? this.gradientArr[randomNum + 1] ||
-                this.gradientArr[randomNum - 1]
-              : this.gradientArr[randomNum] ||
-                "linear - gradient(to right bottom, #4d0b96, #3b2195, #292c91, #19348c, #0c3985)"
-        };
-      });
-    }
   } else if (navType === "left") {
     strategy = "offsetTop";
     basicClass = "desktop__app-nav__search desktop__app-nav__icon-text";
@@ -116,10 +94,17 @@ export function handleNavClick(ele, navType) {
         // e.dataset.clicked = true;
       } else {
         e.className = basicClass;
-        // if (e.dataset && e.dataset.clicked) e.dataset.clicked = false;
       }
       chosenOne.dataset.testid = "clickedNavBtn";
-      // console.log("DATASET", chosenOne.innerHTML);
+    }
+  });
+}
+export function setCompGradient(gradientValue) {
+  console.log(gradientValue);
+  return this.setState({
+    valueContext: {
+      ...this.state.valueContext,
+      currGrad: gradientValue
     }
   });
 }

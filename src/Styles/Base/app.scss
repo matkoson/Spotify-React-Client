@@ -108,7 +108,9 @@
     }
   }
   &__right-container-generic__outer {
-    position: relative;
+    @include below820px {
+      width: 100%;
+    }
     overflow-y: scroll;
     overflow-x: hidden;
     width: calc(100vw - 240px);

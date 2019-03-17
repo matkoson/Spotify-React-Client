@@ -99,7 +99,9 @@ export const getTopArtist = function() {
 export const getContentFromMultiArtists = function(multiArtists) {
   multiArtists.artists
     .map(e => e.id)
-    .forEach(e => this.state.playerRequest("getMultipleArtistAlbums", { id: e }));
+    .forEach(e =>
+      this.state.playerRequest("getMultipleArtistAlbums", { id: e })
+    );
 };
 
 export const playerRequest = function(type, additional) {
