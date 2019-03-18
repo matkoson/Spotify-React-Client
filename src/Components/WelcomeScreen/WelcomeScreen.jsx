@@ -18,7 +18,7 @@ welcome-screen__gradient-text"
         to={process.env.PUBLIC_URL + "/search"}
       >
         <button className="welcome-screen__button-tag welcome-screen__button-tag--search ">
-          Search
+          <span>Search</span>
         </button>
       </Link>
     </animated.div>,

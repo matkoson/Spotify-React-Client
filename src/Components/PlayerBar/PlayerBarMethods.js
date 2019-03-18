@@ -1,5 +1,17 @@
 export function handleMute() {
-  this.setState({ muted: !this.state.muted });
+  if (!this.state.muted) {
+    this.setState(state => {
+      return {
+        muted: !this.state.muted,
+        beforeMute: state.volumePercentage || 100
+      };
+    });
+    this.state.player.setVolume(0);
+  } else {
+    this.setState({ muted: !this.state.muted });
+    console.log(this.state);
+    this.state.player.setVolume(this.state.beforeMute / 100);
+  }
 }
 export function handlePausePlay(e) {
   console.log(this.playbackSDK, this.props.recent, "recent");
