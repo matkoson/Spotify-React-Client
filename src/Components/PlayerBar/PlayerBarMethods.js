@@ -78,7 +78,7 @@ export function playbackSDKinterval() {
     this.playbackSDK = setInterval(() => {
       this.state.player.getCurrentState().then(state => {
         if (state) {
-          console.log("SDK updated, state:", state);
+          // console.log("SDK updated, state:", state);
           const trackPlaying = state.track_window.current_track;
           const songTitle =
             trackPlaying.name.length >= 32

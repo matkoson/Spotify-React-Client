@@ -1,7 +1,8 @@
-import React from "react";
+import React, { lazy } from "react";
 import { Link } from "@reach/router";
 import "../../Styles/Components/welcome-screen.scss";
 import { animated, useTrail, config } from "react-spring";
+lazy(import("../../Styles/Base/app.scss"));
 
 export default function WelcomeScreen(props) {
   const elements = [
@@ -55,7 +56,9 @@ welcome-screen__gradient-text"
   return (
     <div className="welcome-screen app__right-container-generic__outer">
       {trail.map(({ ...rest }, i) => (
-        <animated.div style={{ ...rest }}>{elements[i]}</animated.div>
+        <animated.div key={i} style={{ ...rest }}>
+          {elements[i]}
+        </animated.div>
       ))}
     </div>
   );

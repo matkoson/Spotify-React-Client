@@ -52,10 +52,11 @@ library.add(
   faHeadphonesAlt,
   faLaptop
 );
-
+lazy(import("./Styles/Components/generator.scss"));
 const RightTab = lazy(() => import("./Components/RightTab/RightTab"));
-
 const HomeScreen = lazy(() => import("./Components/HomeScreen/HomeScreen"));
+const Search = lazy(() => import("./Components/Search/Search"));
+
 const Desktop = lazy(() => import("./Components/Desktop/Desktop"));
 const Mobile = lazy(() => import("./Components/Mobile/Mobile"));
 const Charts = lazy(() => import("./Components/Charts/Charts"));
@@ -64,7 +65,6 @@ const Library = lazy(() => import("./Components/Library/Library"));
 const Genres = lazy(() => import("./Components/Genres/Genres"));
 const NewReleases = lazy(() => import("./Components/NewReleases/NewReleases"));
 const Discover = lazy(() => import("./Components/Discover/Discover"));
-const Search = lazy(() => import("./Components/Search/Search"));
 const CatInnerView = lazy(() =>
   import("./Components/CatInnerView/CatInnerView")
 );

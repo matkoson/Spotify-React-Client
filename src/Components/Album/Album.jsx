@@ -59,7 +59,10 @@ class Album extends React.Component {
 
             const isPlaying =
               context.playerState &&
-              e.id === context.playerState.track_window.current_track.id;
+              ((e.track &&
+                e.track.name ===
+                  context.playerState.track_window.current_track.name) ||
+                e.name === context.playerState.track_window.current_track.name);
             return (
               <div
                 key={e.uri}

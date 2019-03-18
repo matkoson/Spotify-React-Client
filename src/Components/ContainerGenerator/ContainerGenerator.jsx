@@ -7,7 +7,9 @@ import { SimpleImg, initSimpleImg } from "react-simple-img";
 import recentDataDeclaration from "./lazyRecentDeclaration";
 import playlistDataDeclaration from "./lazyPlaylistDeclaration";
 import Animator from "./Animator";
-initSimpleImg({ threshold: [0.6] });
+import "../../Styles/Components/generator.scss";
+import "../../Styles/Components/generatorLazy.scss";
+initSimpleImg({ threshold: [0.4] });
 
 function ContainerGenerator(props) {
   let data = props.data,
