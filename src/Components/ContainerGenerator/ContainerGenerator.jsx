@@ -20,6 +20,7 @@ function ContainerGenerator(props) {
     forbidAnimate = props.forbidAnimate,
     dataDef,
     key = props.key;
+  console.log(data);
 
   const transitions = useTransition(null, null, {
     from: { opacity: 0, transform: "translate3d(0,-40px,0)" },

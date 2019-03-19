@@ -152,7 +152,7 @@ test("Correctly invokes callback for handling pause/play action.", async () => {
 test("Correctly calls for resuming playback, when paused", async () => {
   const { getByTestId } = renderFakePlayerBar(true, true);
   await wait(async () => {
-    getByTestId("pause");
+    getByTestId("play");
     const playbackControlIcon = getByTestId("playPauseControl");
     fireEvent.click(playbackControlIcon);
     expect(fakePlayerResume).toHaveBeenCalled();

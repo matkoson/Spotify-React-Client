@@ -19,7 +19,6 @@ export default function SideControls(props) {
         <div
           className="player-bar__right-tab__volume"
           onClick={() => {
-            console.log(props);
             props.handleMute();
           }}
           data-testid="volControl"

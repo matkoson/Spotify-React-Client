@@ -6,15 +6,16 @@ export function handleMute() {
         beforeMute: state.volumePercentage || 100
       };
     });
-    this.state.player.setVolume(0);
+    this.state.player && this.state.player.setVolume(0);
   } else {
     this.setState({ muted: !this.state.muted });
     console.log(this.state);
-    this.state.player.setVolume(this.state.beforeMute / 100);
+    this.state.player &&
+      this.state.player.setVolume(this.state.beforeMute / 100);
   }
 }
 export function handlePausePlay(e) {
-  console.log(this.playbackSDK, this.props.recent, "recent");
+  // console.log(this.playbackSDK, this.props.recent, "recent");
   if (this.state.player) {
     if (!this.playbackSDK) {
       this.context.APIrequest("playRecentTracks", {

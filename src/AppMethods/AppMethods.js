@@ -100,7 +100,6 @@ export function handleNavClick(ele, navType) {
   });
 }
 export function setCompGradient(gradientValue) {
-  console.log(gradientValue);
   return this.setState({
     valueContext: {
       ...this.state.valueContext,
