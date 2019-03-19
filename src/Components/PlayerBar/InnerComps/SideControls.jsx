@@ -2,6 +2,10 @@ import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default function SideControls(props) {
+  const tabletIconColor = props.isDeviceTabOn
+    ? { color: "#1db954" }
+    : { color: "rgb(255, 255, 255)" };
+  console.log(props.isDeviceTabOn, tabletIconColor);
   return (
     <div className="player-bar__tab player-bar__right-tab player-bar__perip-tab--end">
       <div className="player-bar__right-tab__controls">
@@ -9,11 +13,7 @@ export default function SideControls(props) {
           className="fas"
           icon="tablet"
           data-testid="deviceTabOnIcon"
-          style={
-            props.isDeviceTabOn
-              ? { color: "#1db954" }
-              : { color: "rgb(255, 255, 255)" }
-          }
+          style={tabletIconColor}
           onClick={props.handleDeviceTabClick}
         />
         <div

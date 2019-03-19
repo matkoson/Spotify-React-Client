@@ -12,17 +12,11 @@ export default function playlistDataDeclaration(e, data, type) {
     albumType = "",
     albumTrack,
     artistName;
-  // hash = {};
-
+  // debugger;
+  if (e.track) e = e.track;
+  //covergin saved tracks case
   name = e.name;
   key = e.id;
-  // console.log(hash);
-  // if (hash[key]) {
-  //   console.log("CORRUPTED DATA", data);
-  //   console.log(name, key);
-  //   return null;
-  // }
-  // hash[key] = true;
   if ((e.images && e.images[0]) || e.icons || e.album) {
     //Taking into account different accessors in returned payloads
     if (e.icons) {

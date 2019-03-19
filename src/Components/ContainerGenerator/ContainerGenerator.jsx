@@ -59,6 +59,7 @@ function ContainerGenerator(props) {
             albumType,
             artistName
           } = dataDef;
+          console.log(dataDef);
           const content = (
             <React.Fragment key={key || idS}>
               <div

@@ -23,7 +23,7 @@ class Search extends React.Component {
     setTimeout(() => {
       this.context.APIrequest &&
         this.context.APIrequest("searchQuery", { query: value });
-    }, 1000);
+    }, 1500);
   }
 
   render() {

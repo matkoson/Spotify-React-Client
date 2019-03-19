@@ -11,7 +11,7 @@ export default function WelcomeScreen(props) {
     </animated.h1>,
     <animated.div className="welcome-screen__choose welcome-screen__choose--search">
       <div className="welcome-screen__choose-search welcome-screen__question">
-        If you'd like to make a search, please click on the button below
+        If you'd like to make a search, please click on the button below.
       </div>
       <Link
         className="welcome-screen__button 
@@ -25,7 +25,7 @@ welcome-screen__gradient-text"
     </animated.div>,
     <animated.div className="welcome-screen__choose welcome-screen__choose--recommended">
       <div className="welcome-screen__choose-recommended welcome-screen__question">
-        Otherwise, you can check musical recommendations we've prepared
+        Otherwise, you can check musical recommendations we've prepared.
       </div>
       <Link
         className="
