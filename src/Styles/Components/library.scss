@@ -1,0 +1,46 @@
+@import "../Base/_variables";
+@import "../Base/_mixins";
+
+.library {
+  &__nav {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    line-height: 16px;
+    letter-spacing: 0.15rem;
+    opacity: 0.6;
+    width: 90%;
+    font-size: 12px;
+    margin: 42px auto;
+    list-style: none;
+    top: 0;
+    font-family: "Anodina-Light";
+    &__li {
+      cursor: pointer;
+      position: relative;
+    }
+
+    &--clicked {
+      opacity: 1 !important;
+      @include below820px {
+        color: $mainGreen;
+      }
+    }
+
+    &--clicked:before {
+      @include below820px {
+        display: none;
+      }
+      margin-left: -15px;
+      opacity: 1;
+      content: "";
+      height: 2px;
+      background-color: $mainGreen;
+      width: 30px;
+      position: absolute;
+      display: block;
+      bottom: -4px;
+      left: 50%;
+    }
+  }
+}

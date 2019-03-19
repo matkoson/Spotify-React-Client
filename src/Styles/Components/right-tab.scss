@@ -1,0 +1,48 @@
+@import "../Base/_variables";
+@import "../Base/_mixins";
+
+.right-tab {
+  @include below820px {
+    width: 100vw !important;
+  }
+  &__right-nav {
+    &__element {
+      margin-right: 15px;
+      flex-basis: 10%;
+      min-width: 150px;
+      margin-bottom: 3%;
+      position: relative;
+      text-align: center;
+      opacity: 0.6;
+      transition-duration: 500ms;
+      @include below820px {
+        margin-bottom: 20px;
+        font-size: 15px;
+      }
+      &:hover {
+        opacity: 1;
+        cursor: pointer;
+      }
+      &--clicked {
+        color: $mainGreen;
+      }
+      &--clicked:before {
+        content: "";
+        height: 2px;
+        background-color: $mainGreen;
+        width: 30px;
+        position: absolute;
+        display: block;
+        bottom: -4px;
+        left: 50%;
+        margin-left: -15px;
+        @include below820px {
+          left: 10px;
+          top: 0;
+          width: 4px;
+          height: 16px;
+        }
+      }
+    }
+  }
+}

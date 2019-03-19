@@ -1,0 +1,209 @@
+@import "../Base/_variables";
+@import "../Base/_mixins";
+
+.anodinaX-ready {
+  .search {
+    font-family: "Anodina-ExtraLight";
+  }
+  .search__input__area {
+    font-family: "Anodina-ExtraLight";
+  }
+}
+.search {
+  position: relative;
+  color: #ffffff;
+  font-family: "Anodina-Light";
+  width: calc(100vw - 240px);
+  margin-left: 240px;
+  @include below820px {
+    max-width: 100%;
+    width: 100%;
+    margin-left: 0;
+  }
+
+  &__input {
+    padding-left: 25px;
+    width: 100%;
+    height: 100px;
+    position: relative;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    display: flex;
+    padding-right: 25px;
+    @include below820px {
+      width: 80%;
+      left: 0;
+    }
+
+    &__area {
+      width: 90%;
+      color: #ffffff;
+      outline: none;
+      caret-color: #1ed760;
+      background-color: transparent;
+      border: 1px solid black;
+      font-size: 70px;
+      margin-right: 15px;
+      @include below1070px {
+        font-size: 50px;
+      }
+      @include below820px {
+        font-size: 40px;
+      }
+    }
+    &__area:hover {
+      border: 1px solid #1ed760;
+    }
+  }
+
+  &__response {
+    padding-left: 25px;
+    padding-right: 25px;
+    margin-top: 150px;
+    width: 100%;
+    height: calc(100%);
+    display: flex;
+    flex-direction: column;
+
+    &__nav {
+      list-style: none;
+      font-weight: 300;
+      display: flex;
+      justify-content: space-between;
+      align-self: flex-start;
+      width: 70%;
+      padding-bottom: 40px;
+      @include below545px {
+        flex-wrap: wrap;
+        align-self: center;
+        width: 95%;
+      }
+      &__li {
+        position: relative;
+        opacity: 0.6;
+        @include below545px {
+          margin-bottom: 8px;
+        }
+      }
+
+      &__li:hover {
+        cursor: pointer;
+        opacity: 1;
+      }
+
+      &--clicked {
+        opacity: 1 !important;
+      }
+
+      &--clicked:before {
+        margin-left: -15px;
+        opacity: 1;
+        content: "";
+        height: 2px;
+        background-color: $mainGreen;
+        width: 30px;
+        position: absolute;
+        display: block;
+        bottom: -4px;
+        left: 50%;
+      }
+    }
+
+    &__album-example {
+      display: flex;
+      width: 100%;
+      @include below545px {
+        flex-direction: column;
+      }
+      &__element {
+        max-width: 250px;
+        &__img {
+          height: 250px;
+          width: 250px;
+          position: relative;
+          display: block;
+          border-radius: 10px;
+          overflow: hidden;
+        }
+        &__img .app__play-hover {
+          position: absolute;
+          left: calc(50% - 30px);
+          top: calc(50% - 30px);
+        }
+        &__img::after {
+          background-image: linear-gradient(
+            to right bottom,
+            #000000,
+            $mainSidebarBlack,
+            rgba(32, 32, 32, 0.5),
+            transparent,
+            transparent
+          );
+          display: block;
+          position: absolute;
+          top: 0;
+          content: "";
+          opacity: 1;
+          width: 100%;
+          height: 100%;
+        }
+      }
+
+      &__img-file {
+        opacity: 1;
+      }
+
+      &__album-tracks {
+        height: 250px;
+        width: calc(100% - 250px);
+        @include below545px {
+          width: 95%;
+        }
+      }
+
+      &__tracks {
+        &-ul {
+          list-style: none;
+          max-width: 500px;
+          display: flex;
+          flex-direction: column;
+          font-size: 12px;
+          opacity: 0.9;
+          height: 100%;
+          justify-content: space-around;
+          padding-left: 15px;
+          padding-right: 0;
+        }
+
+        &-li {
+          width: 100%;
+          display: flex;
+          justify-content: space-between;
+          &__name {
+            font-size: 14px;
+          }
+          &__name:hover {
+            cursor: pointer;
+          }
+
+          &__artist {
+            opacity: 0.6;
+          }
+        }
+      }
+    }
+  }
+}
+
+.title-name-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.fa-search {
+  opacity: 0.3;
+  font-size: 50px;
+  align-self: center;
+}
+/*# sourceMappingURL=_Search.scss.map */

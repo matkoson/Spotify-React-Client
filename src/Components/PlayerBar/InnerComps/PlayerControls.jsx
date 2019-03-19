@@ -1,54 +1,68 @@
 import React from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default function PlayerControls(props) {
   return (
     <div className="player-bar__tab player-bar__center-tab">
       <div className="player-bar__player-controls">
-        <i
+        <FontAwesomeIcon
+          icon="random"
+          data-testid="shuffleIcon"
           onClick={() =>
-            this.props.APIrequest("toggleShuffle", {
+            props.APIrequest("toggleShuffle", {
               shuffle: !props.shuffled
             })
           }
           style={{ color: props.shuffled ? "#1db954" : "white" }}
-          className="fas fa-random"
+          className="fas"
         />
-        <i
+        <FontAwesomeIcon
+          data-testid="stepBackwardIcon"
           onClick={() => props.player.previousTrack()}
-          className="fas fa-step-backward"
+          icon="step-backward"
+          className="fas"
         />
-        <div onClick={props.handlePausePlay} className="player-bar__play-pause">
+        <div
+          data-testid="playPauseControl"
+          onClick={props.handlePausePlay}
+          className="player-bar__play-pause"
+        >
           {props.paused || !props.playbackSDK ? (
-            <i className="fas fa-play player__play-pause" />
+            <FontAwesomeIcon data-testid="play" icon="play" className="fas" />
           ) : (
-            <i className="fas fa-pause player__play-pause" />
+            <FontAwesomeIcon data-testid="pause" icon="pause" className="fas" />
           )}
         </div>
-        {/* */}
-        <i
+        <FontAwesomeIcon
           onClick={() => props.player.nextTrack()}
-          className="fas fa-step-forward"
+          icon="step-forward"
+          className="fas"
+          data-testid="stepForwardIcon"
         />
-        <i
+        <FontAwesomeIcon
+          icon="redo"
+          data-testid="repeatIcon"
           onClick={props.handleRepeatModeChange}
           className={
             props.repeatMode === "off"
-              ? "fas fa-redo"
-              : "fas fa-redo player-bar__redo-icon--repeat-cx"
+              ? "fas"
+              : "player-bar__redo-icon--repeat-cx fas"
           }
         >
           {props.repeatMode === "track" ? <span>1</span> : null}
-        </i>
+        </FontAwesomeIcon>
       </div>
       <div className="player-bar__player-progress">
         <div className="player-bar__player-progress__time">
-          {props.progressTime &&
-            `${props.progressTime.min}:${props.progressTime.sec}`}
+          {(props.progressTime &&
+            `${props.progressTime.min}:${props.progressTime.sec}`) ||
+            "00:00"}
         </div>
         <div
           id="progress-bar"
           className="player-bar__player-progress__wrapper"
           onClick={props.handleRangeChange}
+          data-testid="progressBar"
         >
           <div className="player-bar__player-progress__bar player-bar__progress-bar player-bar__progress-bar--static">
             <div
@@ -62,7 +76,9 @@ export default function PlayerControls(props) {
           </div>
         </div>
         <div className="player-bar__player-progress__time">
-          {props.totalTime && `${props.totalTime.min}:${props.totalTime.sec}`}
+          {(props.totalTime &&
+            `${props.totalTime.min}:${props.totalTime.sec}`) ||
+            "00:00"}
         </div>
       </div>
     </div>

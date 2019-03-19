@@ -1,0 +1,51 @@
+@import "../Base/_variables";
+@import "../Base/_mixins";
+
+.mobile {
+  position: fixed;
+  width: 100vw;
+  z-index: 1;
+  &__nav {
+    z-index: 1;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    height: 400px;
+    background: linear-gradient(180deg, #282828 25%, rgba(0, 0, 0, 0) 56%);
+    &__ul {
+      padding-top: 40px;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      width: 75%;
+      margin: 0 auto;
+      &__li {
+        display: flex;
+        flex-direction: column;
+      }
+      &__li:hover {
+        cursor: pointer;
+      }
+    }
+  }
+  &__logo {
+    width: 140px;
+    height: 140px;
+    position: fixed;
+    right: 0;
+    display: flex;
+    padding-top: 1px;
+    padding-right: 1px;
+    align-items: flex-start;
+    justify-content: flex-end;
+    z-index: 1;
+    &__pic {
+      display: block;
+      font-size: 50px;
+      animation: App-logo-spin infinite 20s linear;
+    }
+    &__pic:hover {
+      cursor: pointer;
+    }
+  }
+}

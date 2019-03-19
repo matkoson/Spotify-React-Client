@@ -1,0 +1,134 @@
+@import "../Base/_variables";
+@import "../Base/_mixins";
+
+.generator {
+  display: flex;
+  flex-direction: column;
+  max-width: 100%;
+  margin: 0 15px;
+  justify-content: center;
+  align-items: center;
+  font-weight: 800;
+  color: #fff;
+  @include below1070px {
+    margin: 0 15px;
+    width: 95%;
+  }
+  @include abv1235px {
+    align-items: flex-start;
+  }
+  &__animation-wrapper {
+    margin-left: 7.5px;
+    margin-bottom: 40px;
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: flex-start;
+  }
+  &--exception {
+    .generator__playlist-element__img__overlay--hover {
+      height: 100%;
+      max-height: 100%;
+    }
+    .generator__playlist-element__img__pic {
+      min-height: 100%;
+      width: 100%;
+      height: 100%;
+    }
+    .generator__playlist-element__img {
+      width: 100%;
+      height: 100%;
+    }
+    .generator__playlist-element__img--hover {
+      width: 100%;
+      height: 100% !important;
+    }
+  }
+
+  &__playlist-element {
+    display: flex;
+    flex-direction: column;
+    margin-right: 10px;
+    margin-bottom: 1%;
+    width: 300px;
+    @include below1235px {
+      width: 250px;
+    }
+    @include below545px {
+      justify-content: center;
+      align-items: center;
+    }
+    &__img {
+      @include below1235px {
+        width: 250px;
+        height: 250px;
+      }
+      @include below420px {
+        width: 200px;
+        height: 200px;
+      }
+      transition: box-shadow 0.5s;
+      will-change: transform;
+      //
+      width: 300px;
+      height: 300px;
+      margin-bottom: 3%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 10px;
+      overflow: hidden;
+      position: relative;
+      & .app__play-hover .fa-play {
+        display: none;
+        opacity: 1;
+      }
+      &__overlay {
+        // display: block;
+        width: 100%;
+        height: inherit;
+      }
+
+      &__pic {
+        width: 100%;
+        height: 300px;
+
+        @include abv1070px {
+          width: 300px;
+          height: 300px;
+        }
+        @include below1070px {
+          width: 250px;
+          height: 250px;
+        }
+        @include below545px {
+          width: 300px;
+          height: 300px;
+        }
+      }
+    }
+    &--fake {
+      margin-bottom: 3%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 10px;
+      overflow: hidden;
+      opacity: 0.7;
+    }
+    &__title {
+      max-width: 100%;
+      font-size: 12px;
+      text-align: center;
+    }
+
+    &__artists {
+      max-width: 100%;
+      font-size: 11px;
+      text-align: center;
+      opacity: 0.6;
+    }
+  }
+}
+
+/*# sourceMappingURL=_HomeScreen.scss.map */
