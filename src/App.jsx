@@ -1,237 +1,372 @@
-import React, { Component } from "react";
-import "./App.sass";
-import LeftTab from "./Components/LeftTab/LeftTab";
-import RightTab from "./Components/RightTab/RightTab";
-import "./assets/fonts/Rubik-Light.woff";
-import RecentlyPlayed from "./Components/RecentlyPlayed/RecentlyPlayed";
-import "./Components/RecentlyPlayed/RecentlyPlayed.sass";
-import HomeScreen from "./Components/HomeScreen/HomeScreen";
-import "./Components/HomeScreen/HomeScreen.sass";
+import React, { Component, Suspense, lazy } from "react";
+import { Router, navigate } from "@reach/router";
 import PlayerBar from "./Components/PlayerBar/PlayerBar";
-import "./Components/PlayerBar/PlayerBar.sass";
-import "./globalStyles.sass";
-import cdnLoader from "./loadScript";
-import initSDK from "./APIconnection/initSDK";
+import WelcomeScreen from "./Components/WelcomeScreen/WelcomeScreen";
+
 import {
   setToken,
   getToken,
   getFtrdPlay,
   getRecent,
   getTopArtist,
-  playerRequest
+  playerRequest,
+  getContentFromMultiArtists
 } from "./APIconnection/APImethods";
+import { Provider } from "./Context/Context";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import {
+  faPlay,
+  faPause,
+  faStepForward,
+  faStepBackward,
+  faRandom,
+  faTablet,
+  faVolumeUp,
+  faVolumeMute,
+  faRedo,
+  faSearch,
+  faSpinner,
+  faHeadphonesAlt,
+  faLaptop
+} from "@fortawesome/free-solid-svg-icons";
+import "./Styles/Base/app.scss";
 
-class App extends Component {
+import { faReact } from "@fortawesome/free-brands-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import initSDK from "./APIconnection/initSDK";
+import "./Styles/Components/left-tab.scss";
+
+library.add(
+  faPlay,
+  faPause,
+  faStepForward,
+  faStepBackward,
+  faRandom,
+  faTablet,
+  faVolumeUp,
+  faVolumeMute,
+  faRedo,
+  faSearch,
+  faReact,
+  faSpinner,
+  faHeadphonesAlt,
+  faLaptop
+);
+const RightTab = lazy(() => import("./Components/RightTab/RightTab"));
+const HomeScreen = lazy(() => import("./Components/HomeScreen/HomeScreen"));
+const Search = lazy(() => import("./Components/Search/Search"));
+const Desktop = lazy(() => import("./Components/Desktop/Desktop"));
+const Mobile = lazy(() => import("./Components/Mobile/Mobile"));
+const Charts = lazy(() => import("./Components/Charts/Charts"));
+const Album = lazy(() => import("./Components/Album/Album"));
+const Library = lazy(() => import("./Components/Library/Library"));
+const Genres = lazy(() => import("./Components/Genres/Genres"));
+const NewReleases = lazy(() => import("./Components/NewReleases/NewReleases"));
+const Discover = lazy(() => import("./Components/Discover/Discover"));
+const CatInnerView = lazy(() =>
+  import("./Components/CatInnerView/CatInnerView")
+);
+const RecentlyPlayed = lazy(() =>
+  import("./Components/RecentlyPlayed/RecentlyPlayed")
+);
+export default class App extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      auth: "",
-      recentlyPlayed: "",
-      featured: "",
-      topRelatedArtists: "",
-      topArtist: "",
-      currentlyPlaying: "",
-      audio: "",
-      tokenSDK: "",
-      playerState: "",
-      shuffle: false,
-      deviceName: "",
-      deviceTabOn: false,
-      currGrad:
-        (this.gradientArr &&
-          this.gradientArr[
-            Math.round(Math.random() * this.gradientArr.length)
-          ]) ||
-        "linear-gradient(to right, #f9d423 0%, #ff4e50 100%)"
-    };
-    //
-    //
-    //
     this.clientID = "25be93ebc6a047cfbf6ed82187d766b4";
+    this.initSDK = initSDK.bind(this);
     this.setToken = setToken.bind(this);
     this.getToken = getToken.bind(this);
     this.getRecent = getRecent.bind(this);
     this.getFtrdPlay = getFtrdPlay.bind(this);
     this.getTopArtist = getTopArtist.bind(this);
-    this.playerRequest = playerRequest.bind(this);
-    this.handleResize = this.handleResize.bind(this);
-    this.handleNavClick = this.handleNavClick.bind(this);
-    this.gradientCarousel = this.gradientCarousel.bind(this);
-    this.handleDeviceTabClick = this.handleDeviceTabClick.bind(this);
-    this.initSDK = initSDK.bind(this);
-    this.gradientArr = [
-      "linear-gradient(to right, #f9d423 0%, #ff4e50 100%)",
-      "linear-gradient(-225deg, #231557 0%, #44107A 29%, #FF1361 67%, #FFF800 100%)",
-      "linear-gradient(to right, #f9d423 0%, #ff4e50 100%)",
-      "linear-gradient(45deg, #874da2 0%, #c43a30 100%)",
-      "linear-gradient(to right, #434343 0%, black 100%)",
-      "linear-gradient(to top, #f43b47 0%, #453a94 100%)",
-      "linear-gradient(to top, #3f51b1 0%, #5a55ae 13%, #7b5fac 25%, #8f6aae 38%, #a86aa4 50%, #cc6b8e 62%, #f18271 75%, #f3a469 87%, #f7c978 100%)",
-      "linear-gradient(120deg, #fccb90 0%, #d57eeb 100%)",
-      "linear-gradient(to right, #2575fc 100%,#6a11cb 0%)",
-      " linear-gradient(to right, #b8cbb8 0%, #b8cbb8 0%, #b465da 0%, #cf6cc9 33%, #ee609c 66%, #ee609c 100%)"
-    ];
+    this.getMinsSecs = this.getMinsSecs.bind(this);
+    // this.state.playerRequest = playerRequest.bind(this);
+    this.importDeferredMethods = this.importDeferredMethods.bind(this);
+    this.getContentFromMultiArtists = getContentFromMultiArtists.bind(this);
+    this.state = {
+      alreadyViewed: [],
+      mobile: false,
+      mainRightView: "Home",
+      searchQuery: "",
+      rightTabView: "",
+      auth: "",
+      recentlyPlayed: "",
+      featured: "",
+      topRelatedArtists: "",
+      topArtist: "",
+      getAlbum: "",
+      getUserPlaylists: "",
+      getUserSavedAlbums: "",
+      getUserSavedTracks: "",
+      audio: "",
+      tokenSDK: "",
+      playerState: "",
+      shuffle: false,
+      albumViewOption: "",
+      deviceName: "",
+      deviceTabOn: false,
+      getCategories: "",
+      getCategory: "",
+      getCategoryPlaylists: [],
+      getMultipleArtistAlbums: [],
+      getPlaylist: "",
+      getPlaylistTracks: "",
+      getPlaylistCover: "",
+      PolandTop: "",
+      playerRequest: playerRequest.bind(this),
+      valueContext: {
+        playerState: "",
+        APIrequest: playerRequest.bind(this),
+        currentlyPlaying: "",
+        getMinsSecs: this.getMinsSecs,
+        currGrad:
+          "linear-gradient(105deg, #000000 25%,#000000 50%, #6f0000 100%)"
+      }
+    };
+    this.homeRef = React.createRef();
   }
   componentDidMount() {
-    // this.gradientCarousel();
-    window.addEventListener("resize", this.handleResize);
-    //Initiate Spotify SDK Player through cdn script
-    cdnLoader({
-      src: "https://sdk.scdn.co/spotify-player.js",
-      id: "SDK",
-      callback: () => {
-        this.setState({ SDKloaded: true });
-        return (window.onSpotifyWebPlaybackSDKReady = () => {
-          this.initSDK(this.state.tokenSDK);
-        });
-      }
-    });
-    //
-    //
-    const currAd = window.location.href;
-    if (/callback/.test(currAd)) {
-      this.setToken(currAd);
-      if (this.state.SDK) {
-        return this.checkSDK();
-      } else {
-        return;
-      }
-    } else if (/access_denied/.test(currAd)) {
-      console.error("Access denied by the user");
-    }
-    //
+    debugger;
+    import("./loadFonts");
+    console.log(this.state.auth);
     if (!this.state.auth) {
-      this.getToken();
-    }
-  }
-  gradientCarousel() {
-    this.gradientChange = setInterval(() => {
-      console.log(
-        "changing",
-        this.gradientArr[Math.round(Math.random() * this.gradientArr.length)]
-      );
-      this.setState({
-        currGrad: this.gradientArr[
-          Math.round(Math.random() * this.gradientArr.length)
-        ]
-      });
-    }, 1000 * 10);
-  }
-  handleResize() {
-    if (!this.state.windowWidth) {
-      this.setState({ windowWidth: window.innerWidth });
-    } else {
-      if (this.state.windowWidth > 1000 && window.innerWidth < 1000) {
-        this.setState({ windowWidth: window.innerWidth });
+      const currAd = window.location.href;
+      if (/access_token/.test(currAd)) {
+        this.setToken(currAd);
+        navigate("welcome");
+      } else if (/access_denied/.test(currAd)) {
+        console.error("Access denied by the user");
+        // } else if (
+        //   /https: \/\/react-spotify-client\.firebaseapp\.com\/./.test(currAd)
+        // ) {
+        //   return (window.location.href =
+        //     "https://react-spotify-client.firebaseapp.com");
+      } else if (/access_token/.test(currAd) === false) {
+        this.getToken();
       }
-      if (this.state.windowWidth < 1000 && window.innerWidth > 1000)
-        this.setState({ windowWidth: window.innerWidth });
+      window.addEventListener("resize", this.state.handleResize);
+      this.importDeferredMethods();
+      lazy(
+        import("./assets/countries").then(res => {
+          return this.setState({ countryCodes: res.default() });
+        })
+      );
     }
   }
-  handleDeviceTabClick(e) {
-    e.target.style.color === "rgb(255, 255, 255)"
-      ? (e.target.style.color = "#1db954")
-      : (e.target.style.color = "rgb(255, 255, 255)");
-    this.setState({ deviceTabOn: !this.state.deviceTabOn });
+  importDeferredMethods() {
+    let handleNavClick,
+      handleMainRightChange,
+      handleAlbumRightOverride,
+      handleInnerCategoryViewChange,
+      handleDeviceTabClick,
+      handleResize,
+      handleMobileNavToggle,
+      setCompGradient;
+    lazy(
+      import("./AppMethods/AppMethods").then(res => {
+        handleNavClick = res.handleNavClick.bind(this);
+        handleMainRightChange = res.handleMainRightChange.bind(this);
+        handleAlbumRightOverride = res.handleAlbumRightOverride.bind(this);
+        handleInnerCategoryViewChange = res.handleInnerCategoryViewChange.bind(
+          this
+        );
+        setCompGradient = res.setCompGradient.bind(this);
+        handleDeviceTabClick = res.handleDeviceTabClick.bind(this);
+        handleResize = res.handleResize.bind(this);
+        handleMobileNavToggle = res.handleMobileNavToggle.bind(this);
+        return this.setState({
+          handleNavClick,
+          handleDeviceTabClick,
+          handleResize,
+          handleMobileNavToggle,
+          handleMainRightChange,
+          valueContext: {
+            ...this.state.valueContext,
+            handleAlbumRightOverride,
+            handleInnerCategoryViewChange,
+            setCompGradient
+          }
+        });
+      })
+    );
   }
   componentDidUpdate() {
     if (this.state.auth) {
-      if (!this.state.currentlyPlaying) {
-        this.playerRequest("currentlyPlaying");
-      } else {
-        // console.log(this.state.currentlyPlaying);
-      }
       if (!this.state.recentlyPlayed) this.getRecent();
       if (!this.state.featured) this.getFtrdPlay();
       if (!this.state.topRelatedArtists) this.getTopArtist();
+      if (
+        this.state.recentlyPlayed &&
+        this.state.featured &&
+        this.state.topRelatedArtists &&
+        (Desktop || Mobile) &&
+        !this.state.SDKloaded
+      )
+        lazy(
+          import("./loadScript").then(res =>
+            res.default({
+              src: "https://sdk.scdn.co/spotify-player.js",
+              id: "SDK",
+              callback: () => {
+                this.setState({ SDKloaded: true });
+                return (window.onSpotifyWebPlaybackSDKReady = () => {
+                  this.initSDK(this.state.tokenSDK);
+                });
+              }
+            })
+          )
+        );
     }
   }
+  getMinsSecs = (ms = 0) => {
+    ms = (ms - (ms % 1000)) / 1000;
+    return {
+      min: String(
+        Math.floor(ms / 60) < 10
+          ? `0${Math.floor(ms / 60)}`
+          : Math.floor(ms / 60)
+      ),
+      sec: String(ms % 60 < 10 ? `0${ms % 60}` : ms % 60)
+    };
+  };
 
-  handleNavClick(ele, navType) {
-    // eslint-disable-next-line
-    let allNavElems = Array.from(ele.currentTarget.children);
-    let chosenOne = ele.target;
-    let basicClass, clickedClass, strategy;
-    if (navType === "right") {
-      strategy = "innerText";
-      basicClass = "right-tab__right-nav__element";
-      clickedClass = "right-tab__right-nav__element--clicked";
-    } else if (navType === "left") {
-      strategy = "offsetTop";
-      basicClass = "left-tab__app-nav__search left-tab__app-nav__icon-text";
-      clickedClass = "left-tab__app-nav__icon-text--clicked";
-      chosenOne = chosenOne.offsetParent;
-    } else if (navType === "recent") {
-      strategy = "offsetTop";
-      basicClass = "recently-played__element ";
-      clickedClass =
-        "left-tab__app-nav__icon-text--clicked recently-played__element--modified";
-    }
-
-    allNavElems = allNavElems.forEach(e => {
-      if (e[strategy] === chosenOne[strategy]) {
-        e.className = `${basicClass} ${clickedClass}`;
-      } else if (
-        navType === "recent" &&
-        e.className === chosenOne.parentNode.className
-      ) {
-        e.className = `${basicClass} ${clickedClass}`;
-        e.dataset.clicked = true;
-      } else {
-        e.className = basicClass;
-        if (e.dataset && e.dataset.clicked) e.dataset.clicked = false;
-      }
-    });
-  }
   render() {
     return (
       <main
+        path={process.env.PUBLIC_URL + "/"}
+        ref={this.homeRef}
         className="app"
         style={{
-          backgroundImage: this.state.currGrad,
+          backgroundImage: this.state.valueContext.currGrad,
           transitionDuration: "1.5s"
         }}
         onClick={() =>
-          this.state.deviceTabOn ? this.setState({ deviceTabOn: false }) : null
+          this.state.deviceTabOn || this.state.mobile
+            ? this.setState({ deviceTabOn: false, mobile: false })
+            : null
         }
-        //click anywhere in the app to make deviceTab disappear
+        //click anywhere in the app to make deviceTab disappear + same thing with mobile-nav
       >
-        <LeftTab handleNavClick={this.handleNavClick}>
-          <RecentlyPlayed
-            handleNavClick={this.handleNavClick}
-            rawRecPlayed={this.state.recentlyPlayed}
-            player={this.player}
-            APIrequest={this.playerRequest}
-          />
-        </LeftTab>
-        <RightTab handleNavClick={this.handleNavClick}>
-          <HomeScreen
-            playerState={this.state.playerState}
-            featured={this.state.featured}
-            recent={this.state.recentlyPlayed}
-            relatedTop={this.state.topRelatedArtists}
-            topArtist={this.state.topArtist}
-            APIrequest={this.playerRequest}
-            currentlyPlaying={this.state.currentlyPlaying}
-            player={this.player}
-          />
-        </RightTab>
-        <PlayerBar
-          recent={
-            this.state.recentlyPlayed && this.state.recentlyPlayed.items[0]
-          }
-          handleDeviceTabClick={this.handleDeviceTabClick}
-          isDeviceTabOn={this.state.deviceTabOn}
-          player={this.player}
-          deviceId={this.state.deviceID}
-          deviceName={this.state.deviceName}
-          APIrequest={this.playerRequest}
-          currentlyPlaying={this.state.currentlyPlaying}
-          currentPlayback={this.state.currentPlayback}
-        />
+        <Provider value={this.state.valueContext}>
+          <Suspense
+            fallback={
+              <FontAwesomeIcon
+                spin={true}
+                icon="spinner"
+                style={{
+                  position: "absolute",
+                  top: `calc(50% - 100px)`,
+                  left: `calc(50% - 100px)`,
+                  height: "200px",
+                  width: "200px"
+                }}
+              />
+            }
+          >
+            <div path={process.env.PUBLIC_URL + "/*"} className="left-tab">
+              <Mobile
+                path={process.env.PUBLIC_URL + "/*"}
+                handleMainRightChange={this.state.handleMainRightChange}
+                handleMobileNavToggle={this.state.handleMobileNavToggle}
+                mobile={this.state.mobile}
+              />
+              <Desktop
+                path={process.env.PUBLIC_URL + "/*"}
+                handleNavClick={this.state.handleNavClick}
+                handleMainRightChange={this.state.handleMainRightChange}
+              >
+                <RecentlyPlayed
+                  path={process.env.PUBLIC_URL + "/*"}
+                  handleNavClick={this.state.handleNavClick}
+                  rawRecPlayed={this.state.recentlyPlayed}
+                  player={this.player}
+                  APIrequest={this.state.playerRequest}
+                />
+              </Desktop>
+            </div>
+            <Router primary={false}>
+              {this.state.auth && (
+                <WelcomeScreen
+                  mobile={window.innerWidth < 820 ? true : false}
+                  path={process.env.PUBLIC_URL + "/welcome"}
+                />
+              )}
+              <RightTab
+                path={process.env.PUBLIC_URL + "/home"}
+                mobile={this.state.mobile}
+                handleNavClick={this.state.handleNavClick}
+              >
+                <HomeScreen
+                  path={process.env.PUBLIC_URL + "/"}
+                  featured={this.state.featured}
+                  recent={this.state.recentlyPlayed}
+                  relatedTop={this.state.topRelatedArtists}
+                  topArtist={this.state.topArtist}
+                  player={this.player}
+                />
+                <Charts
+                  path={process.env.PUBLIC_URL + "charts"}
+                  getCategoryPlaylists={this.state.getCategoryPlaylists}
+                  PolandTop={this.state.PolandTop}
+                  countryCodes={this.state.countryCodes}
+                />
+                <Genres
+                  path={process.env.PUBLIC_URL + "genres-moods"}
+                  getCategories={this.state.getCategories}
+                />
+                <NewReleases
+                  path={process.env.PUBLIC_URL + "new-releases"}
+                  getNewReleases={this.state.getNewReleases}
+                />
+                <Discover
+                  path={process.env.PUBLIC_URL + "discover"}
+                  getMultipleArtistAlbums={this.state.getMultipleArtistAlbums}
+                  idList={
+                    this.state.topRelatedArtists &&
+                    this.state.topRelatedArtists.map(e => e.id)
+                  }
+                />
+              </RightTab>
+              <Search
+                path={process.env.PUBLIC_URL + "/search"}
+                searchQuery={this.state.searchQuery}
+                player={this.player}
+              />
+              <Library
+                path={process.env.PUBLIC_URL + "/library"}
+                getUserPlaylists={this.state.getUserPlaylists}
+                getUserSavedAlbums={this.state.getUserSavedAlbums}
+                getUserSavedTracks={this.state.getUserSavedTracks}
+              />
+              <Album
+                path={process.env.PUBLIC_URL + "/album"}
+                ref={this.albumRef}
+                getAlbum={this.state.getAlbum}
+                getPlaylist={this.state.getPlaylist}
+                getPlaylistCover={this.state.getPlaylistCover}
+                getPlaylistTracks={this.state.getPlaylistTracks}
+                albumViewOption={this.state.albumViewOption}
+              />
+              <CatInnerView
+                path={process.env.PUBLIC_URL + "/category"}
+                PolandTop={this.state.PolandTop}
+                getCategory={this.state.getCategory}
+              />
+            </Router>
+            <PlayerBar
+              path={process.env.PUBLIC_URL + "/*"}
+              recent={
+                this.state.recentlyPlayed && this.state.recentlyPlayed.items[0]
+              }
+              handleDeviceTabClick={this.state.handleDeviceTabClick}
+              isDeviceTabOn={this.state.deviceTabOn}
+              player={this.player}
+              deviceName={this.state.deviceName}
+              currentPlayback={this.state.currentPlayback}
+            />
+          </Suspense>
+        </Provider>
       </main>
     );
   }
 }
-
-export default App;

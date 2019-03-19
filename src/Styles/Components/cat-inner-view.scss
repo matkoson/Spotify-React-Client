@@ -1,0 +1,46 @@
+@import "../Base/_variables";
+@import "../Base/_mixins";
+
+.cat-inner-view {
+  width: 85%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  margin-left: 240px;
+  margin-right: 0;
+  margin-bottom: 90px;
+  align-items: flex-start;
+  color: white;
+  &__cat-title {
+    height: 130px;
+    width: 100%;
+    display: flex;
+    overflow: hidden;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    position: relative;
+  }
+
+  &__img {
+    width: 275px;
+    height: 100%;
+    position: relative;
+    margin-right: 15px;
+    border-radius: 15px;
+    overflow: hidden;
+    align-self: center;
+  }
+
+  &__img-file {
+    position: relative;
+    bottom: 45px;
+  }
+
+  &__cat-name {
+    font-size: 48px;
+    font-weight: 700;
+    align-self: center;
+  }
+}
+
+/*# sourceMappingURL=_CatInnerView.scss.map */

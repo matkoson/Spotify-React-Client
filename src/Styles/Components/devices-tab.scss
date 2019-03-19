@@ -1,0 +1,72 @@
+@import "../Base/_variables";
+@import "../Base/_mixins";
+
+.devices-tab {
+  max-width: 200px;
+  min-width: 175px;
+  width: 100%;
+  height: 250px;
+  padding: 5px;
+  position: absolute;
+  bottom: 80px;
+  right: 40px;
+  border-radius: 5px;
+  z-index: 1;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+  background-color: $mainPlayerBarGray;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-weight: 800;
+  @include abv1070px {
+    right: 145px;
+  }
+  @include abv1235px {
+    right: 145px;
+  }
+  &:before {
+    content: "";
+    border-top: 10px solid $mainPlayerBarGray;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    position: relative;
+    top: 102%;
+  }
+
+  &__title {
+    margin-bottom: 8px;
+  }
+
+  &__img {
+    width: 80%;
+    margin-bottom: 30px;
+  }
+  &__device-title {
+    margin-bottom: 10px;
+  }
+
+  &__device-name {
+    font-size: 10px;
+  }
+
+  &__listening-device {
+    width: 100%;
+    height: 30%;
+    display: flex;
+    font-size: 12px;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+
+    &__device-data {
+      display: flex;
+      align-items: center;
+      color: $mainGreen;
+    }
+  }
+  &__listening-device .fa-laptop {
+    height: 40px;
+    width: 40px;
+    font-size: 20px;
+  }
+}

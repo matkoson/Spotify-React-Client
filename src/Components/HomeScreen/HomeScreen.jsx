@@ -1,76 +1,81 @@
-import React, { Component } from "react";
-import GenAlbumContainer from "../GenAlbumContainer/GenAlbumContainer";
-class HomeScreen extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { playerState: "" };
+import React, { useContext, useEffect, useState } from "react";
+import ContainerGenerator from "../ContainerGenerator/ContainerGenerator";
+import HeadlineAnimator from "../Helpers/HeadlineAnimator";
+import { Context } from "../../Context/Context";
+
+function HomeScreen(props) {
+  const [mount, set] = useState(false);
+  const context = useContext(Context);
+  useEffect(
+    () => {
+      context.setCompGradient && context.setCompGradient("linear-gradient(105deg, #000000 15%, #2A0943 25%,#711c33 100%)");
+      set(true);
+    },
+    [mount]
+  );
+
+  let ftrdMssg,
+    albumPics,
+    ftrdProp,
+    recentProp,
+    processedProp,
+    relatedTop,
+    headlines,
+    hash;
+  ftrdProp = props.featured;
+  ftrdMssg = ftrdProp && ftrdProp.message;
+  if (props.recent) {
+    hash = {};
+    recentProp = props.recent.items.slice(0, 10);
+    recentProp = recentProp.filter(e => {
+      if (!hash[e.track.id]) {
+        hash[e.track.id] = true;
+        return true;
+      } else if (hash[e.track.id]) {
+        return false;
+      }
+    });
+    //Getting rid of dupls
   }
 
-  render() {
-    let ftrdMssg, albumPics, ftrdProp, recentProp, processedProp, relatedTop;
-    if (this.props.recent) {
-      recentProp = this.props.recent.items.slice(0, 6);
-      // console.log(this.props.recent, "recent");
-      processedProp = (
-        <GenAlbumContainer
-          playerState={this.props.playerState}
-          APIrequest={this.props.APIrequest}
-          data={recentProp}
-          type={"recent"}
-          currPlay={this.props.currentlyPlaying}
-        />
-      );
-    }
-    if (this.props.featured) {
-      ftrdProp = this.props.featured;
-      ftrdMssg = ftrdProp.message;
-      albumPics = (
-        <GenAlbumContainer
-          playerState={this.props.playerState}
-          APIrequest={this.props.APIrequest}
-          data={ftrdProp.playlists.items.slice(0, 6)}
-          type={"featured"}
-          currPlay={this.props.currentlyPlaying}
-        />
-      );
-    }
-    if (this.props.relatedTop) {
-      relatedTop = (
-        <GenAlbumContainer
-          playerState={this.props.playerState}
-          APIrequest={this.props.APIrequest}
-          data={this.props.relatedTop}
-          type={"related"}
-          currPlay={this.props.currentlyPlaying}
-        />
-      );
-    }
-    return (
-      <div className="home-screen">
-        <h2 className="app__fetch-title home-screen__made-for-user__title">
-          {ftrdMssg ? ftrdMssg : null}
-        </h2>
-        <div className="app__fetch-container home-screen__made-for-user__playlist-container">
-          {albumPics}
-        </div>
-        {/*  */}
-        {/*  */}
-        {/*  */}
-        <h2 className="app__fetch-title home-screen__recently-played">
-          Recently played
-        </h2>
-        <div className="app__fetch-container home-screen__made-for-user__playlist-container">
-          {processedProp}
-        </div>
-        <h2 className="app__fetch-title home-screen__recommendation">
-          More like {this.props.topArtist}
-        </h2>
-        <div className="app__fetch-container home-screen__made-for-user__playlist-container">
-          {relatedTop}
-        </div>
-      </div>
-    );
+  if (props.relatedTop && props.featured && props.recent) {
+    headlines = [
+      ftrdMssg,
+      "Recently played",
+      `More like ${props.topArtist}`
+    ].map(e => <HeadlineAnimator key={e} title={e} />);
   }
+  return (
+    <div
+      data-testid="navHome"
+      className="generator"
+      style={{ color: "#FB3268" }}
+    >
+      {headlines && headlines[0]}
+      <ContainerGenerator
+        key="ftrdProp"
+        data={ftrdProp && ftrdProp.playlists.items.slice(0, 6)}
+        type={"playlists"}
+        importance={"high"}
+      />
+
+      {headlines && headlines[1]}
+      <ContainerGenerator
+        key="recentProp"
+        data={recentProp && recentProp}
+        type={"recent"}
+        importance={"low"}
+      />
+      {headlines && headlines[2]}
+      <ContainerGenerator
+        key="relatedTop"
+        data={props.relatedTop}
+        type={"playlists"}
+        special={true}
+        importance={"low"}
+      />
+    </div>
+  );
 }
 
 export default HomeScreen;

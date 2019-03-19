@@ -1,0 +1,355 @@
+@import "../Base/_variables";
+@import "../Base/_mixins";
+
+.album {
+  margin-left: 240px;
+  padding-right: 25px;
+  padding-left: 25px;
+  margin-bottom: 90px;
+  display: flex;
+  height: 100%;
+  overflow: auto;
+  width: 765px;
+  position: relative;
+  @include below1070px {
+    width: 700px;
+    flex-direction: column;
+  }
+  @include below820px {
+    width: 100vw;
+    flex-direction: column;
+    margin-left: 0;
+    padding-left: 20px;
+    padding-right: 25px;
+  }
+  @include below545px {
+    max-width: 100%;
+  }
+
+  &__presentation {
+    display: flex;
+    flex-direction: column;
+    @include below1070px {
+      flex-direction: row;
+      width: 100% !important;
+    }
+    @include below820px {
+      flex-direction: column;
+    }
+    // width: 400px}
+    &__img {
+      border-radius: 10px;
+      overflow: hidden;
+      margin-top: 50px;
+      opacity: 0.6;
+      position: relative;
+      margin-right: 5px;
+      margin-left: 0;
+      @include below545px {
+        max-width: 100%;
+      }
+    }
+
+    &__veneer {
+      height: 400px;
+      width: 400px;
+      @include below820px {
+        position: relative;
+        left: 10px;
+        border-radius: 10px;
+        overflow: hidden;
+        margin-bottom: 15px;
+      }
+    }
+
+    &__veneer::after {
+      background-image: linear-gradient(
+        to right bottom,
+        #000000,
+        $mainSidebarBlack,
+        rgba(32, 32, 32, 0.5),
+        rgba(0, 0, 0, 0),
+        rgba(0, 0, 0, 0)
+      );
+      display: block;
+      position: absolute;
+      top: 0;
+      content: "";
+      opacity: 1;
+      width: 100%;
+      height: 100%;
+    }
+
+    &__img__file {
+      width: 100%;
+      max-height: 100%;
+    }
+
+    &__img-title {
+      font-family: "SpaceGrotesk-Bold";
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      text-align: center;
+      width: 400px;
+      max-width: 100%;
+      font-size: 50px;
+      @include below1070px {
+        position: absolute;
+        top: 300px;
+        left: 25px;
+        font-size: 60px;
+        text-align: left;
+        width: 100%;
+      }
+      @include below820px {
+        width: 80%;
+        margin: 0 auto;
+        position: relative;
+        top: 0;
+        left: 0;
+        font-size: 40px;
+      }
+    }
+
+    &__img__artist {
+      font-size: 16px;
+      opacity: 0.6;
+    }
+
+    &__play-btn {
+      width: 50%;
+      margin: 15px auto;
+      border-radius: 10px;
+      background-color: transparent;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0.6;
+      cursor: pointer;
+      display: flex;
+      @include below820px {
+        display: none;
+      }
+    }
+    // flex-direction: column
+
+    &__play-btn:hover {
+      opacity: 1;
+    }
+
+    &__play-btn__icon {
+      color: #ffffff;
+      font-size: 80px;
+      padding: 20px;
+    }
+    &__play-btn__caption {
+      font-family: "Horizon-Regular";
+      font-size: 100px;
+      line-height: 60px;
+      max-height: 100px;
+    }
+  }
+
+  &__tracklist {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 400px;
+    margin-top: 50px;
+    margin-left: 15px;
+    @include below1070px {
+      width: 400px;
+      margin: 0 auto;
+      margin-top: 100px;
+    }
+    @include below820px {
+      width: 100%;
+      margin-top: 0;
+    }
+    @include below545px {
+      max-width: 100%;
+    }
+
+    &__title {
+      width: 100%;
+      text-align: center;
+      font-family: "Horizon-Regular";
+      font-size: 100px;
+      font-weight: 200;
+      margin-bottom: 20px;
+      @include below820px {
+        width: 100%;
+      }
+    }
+
+    &__tracks {
+      padding-left: 5px;
+      padding-right: 5px;
+      width: 100%;
+    }
+
+    &__tracks:hover {
+      cursor: pointer;
+    }
+
+    &__tracks__track {
+      display: flex;
+      // font-family: 'DeValencia-Regular'
+
+      font-family: "Anodina-Light";
+      justify-content: space-between;
+      font-weight: 200;
+      padding-right: 10px;
+      padding-left: 10px;
+      max-width: 100%;
+      min-width: 300px;
+      font-weight: 200;
+      font-size: 20px;
+      @include below1070px {
+        font-size: 15px;
+        min-width: 0;
+      }
+
+      margin-bottom: 20px;
+      opacity: 0.6;
+      font-size: 16px;
+      position: relative;
+    }
+
+    &__tracks__track--playing {
+      opacity: 1 !important;
+      color: $mainGreen;
+    }
+
+    &__tracks__track__title {
+      max-width: 75%;
+      @include below1070px {
+        max-width: 50%;
+      }
+    }
+
+    &__tracks__track:hover {
+      opacity: 1;
+    }
+  }
+}
+
+// $max: 100px
+
+//////////////////////////////////////////////////
+.equilizer {
+  margin-left: 15px;
+  height: 20px;
+  width: 20px;
+  transform: rotate(180deg);
+  position: relative;
+  top: 2px;
+}
+
+.bar {
+  fill: #1ed760;
+  width: 18px;
+  animation: equalize 5s 0s infinite;
+}
+
+.bar:nth-child(1) {
+  animation-delay: -1.9s;
+}
+
+.bar:nth-child(2) {
+  animation-delay: -2s;
+}
+
+.bar:nth-child(3) {
+  animation-delay: -2.3s;
+}
+
+.bar:nth-child(4) {
+  animation-delay: -2.4s;
+}
+
+.bar:nth-child(5) {
+  animation-delay: -2.1s;
+}
+
+@keyframes equalize {
+  0% {
+    height: 60px;
+  }
+  4% {
+    height: 50px;
+  }
+  8% {
+    height: 40px;
+  }
+  12% {
+    height: 30px;
+  }
+  16% {
+    height: 20px;
+  }
+  20% {
+    height: 30px;
+  }
+  24% {
+    height: 40px;
+  }
+  28% {
+    height: 10px;
+  }
+  32% {
+    height: 40px;
+  }
+  36% {
+    height: 60px;
+  }
+  40% {
+    height: 20px;
+  }
+  44% {
+    height: 40px;
+  }
+  48% {
+    height: 70px;
+  }
+  52% {
+    height: 30px;
+  }
+  56% {
+    height: 10px;
+  }
+  60% {
+    height: 30px;
+  }
+  64% {
+    height: 50px;
+  }
+  68% {
+    height: 60px;
+  }
+  72% {
+    height: 70px;
+  }
+  76% {
+    height: 80px;
+  }
+  80% {
+    height: 70px;
+  }
+  84% {
+    height: 60px;
+  }
+  88% {
+    height: 50px;
+  }
+  92% {
+    height: 60px;
+  }
+  96% {
+    height: 70px;
+  }
+  100% {
+    height: 80px;
+  }
+}

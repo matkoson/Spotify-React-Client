@@ -1,0 +1,238 @@
+@import "../../Base/_variables";
+@import "../../Base/_mixins";
+
+.player-bar {
+  width: 100%;
+  background-color: $mainPlayerBarGray;
+  height: 100px;
+  padding: 0 16px;
+  position: fixed;
+  bottom: 0;
+  z-index: 1;
+  border-top: 1px solid black;
+  color: #fff;
+  display: flex;
+  justify-content: space-around;
+
+  &__tab {
+    height: 100%;
+    display: flex;
+    margin-right: 0;
+    @include abv820px {
+      margin-right: 2%;
+    }
+  }
+
+  &__perip-tab {
+    width: 15%;
+    min-width: 0;
+
+    max-width: 261px;
+
+    &--end {
+      width: 180px;
+    }
+  }
+
+  &__center-tab {
+    left: 0;
+    width: 100%;
+    position: relative;
+    right: 100px;
+    max-width: 722px;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding-bottom: 5px;
+    @include abv1235px {
+      align-items: flex-start;
+    }
+  }
+
+  &__player-controls {
+    display: flex;
+    height: 50%;
+    width: 80%;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 4px;
+    margin-top: 12px;
+  }
+
+  &__album-img {
+    display: none;
+    margin-right: 8px;
+  }
+
+  &__left-tab {
+    position: absolute;
+    width: 100%;
+    max-width: 100%;
+    margin-left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &__perip {
+      height: 100%;
+      justify-content: center;
+      align-items: center;
+      width: 30px;
+      height: 30px;
+    }
+    &__center {
+      height: 100%;
+      font-size: 14px;
+      display: flex;
+      justify-content: center;
+      padding-top: 4px;
+      align-items: flex-start;
+      text-align: left;
+      margin-left: 0;
+      margin-right: 10px;
+      width: 100%;
+
+      &-title-artist__title {
+        width: 50%;
+        font-size: 15px;
+        opacity: 0.6;
+        order: 1;
+        text-align: center;
+        @include below545px {
+          max-height: 17px;
+          overflow: hidden;
+        }
+      }
+      &-title-artist__artist {
+        font-size: 15px;
+        opacity: 0.6;
+        width: 50%;
+        text-align: center;
+      }
+    }
+  }
+
+  &__album-img {
+    width: 56px;
+    height: 56px;
+    background-color: gray;
+  }
+
+  &__player-progress {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
+
+  &__progress-bar {
+    height: 4px;
+    border-radius: 2px;
+
+    &--static {
+      background-color: gray;
+      position: relative;
+      overflow: hidden;
+    }
+
+    &--dynamic {
+      background-color: #b3b3b3;
+      width: 100%;
+      position: relative;
+      margin-left: 0 !important;
+      margin-right: 0 !important;
+    }
+  }
+
+  &__player-progress {
+    &__bar {
+      width: 100%;
+    }
+    &__wrapper {
+      height: 12px;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      margin-right: 10px;
+      margin-left: 10px;
+    }
+
+    &__time {
+      font-size: 12px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+  &__right-tab {
+    display: none;
+    &__volume {
+      width: 37px;
+      display: flex;
+      justify-content: space-around;
+    }
+
+    @include below1070px {
+      justify-content: flex-end;
+    }
+
+    &__controls {
+      justify-content: space-between;
+      align-items: center;
+      display: flex;
+    }
+    &_volume-bar {
+      width: 100%;
+    }
+  }
+
+  &__volume-wrapper {
+    height: 12px;
+    display: flex;
+    align-items: center;
+    transition-duration: 1s;
+    width: 60%;
+    @include below1070px {
+      width: 80px;
+    }
+  }
+
+  &__redo-icon--repeat-cx {
+    color: $mainGreen;
+  }
+}
+
+.player-bar .fas {
+  width: 15px;
+  height: 15px;
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+  opacity: 0.6;
+}
+
+.player-bar .fas:hover {
+  opacity: 1;
+  transform: scale(1.2);
+}
+.player-bar .fa-play:before {
+  width: 100%;
+  height: 100%;
+}
+.player-bar .fa-pause:before {
+  width: 100%;
+  height: 100%;
+}
+
+.player__play-pause {
+  font-size: 25px !important;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+
+  position: relative;
+}
+
+/*# sourceMappingURL=_PlayerBar.scss.map */

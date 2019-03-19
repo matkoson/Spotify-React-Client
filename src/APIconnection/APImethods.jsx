@@ -1,22 +1,42 @@
-export function setToken(currAd) {
+export const setToken = function(currAd) {
   const regexToken = /access_token=(.*)&token/g;
   const token = regexToken.exec(currAd)[1];
-  return this.setState({
+  const update = {
     auth: `Bearer ${token}`,
     tokenSDK: token
-  });
-}
-
-export function getToken() {
+  };
+  if (this) this.setState(update);
+  return update;
+};
+export const getToken = function(regexPatt = /^(https?.+(\d+|\.\D+))\//g) {
   const scopes =
     "playlist-read-private playlist-modify-private playlist-modify-public playlist-read-collaborative user-modify-playback-state user-read-currently-playing user-read-playback-state user-top-read user-read-recently-played app-remote-control streaming user-read-birthdate user-read-email user-read-private user-follow-read user-follow-modify user-library-modify user-library-read";
-  const accessReq = `https:accounts.spotify.com/authorize?client_id=${
-    this.clientID
-  }&scope=${encodeURIComponent(
+  const currentLocation = window.location.href;
+  const regex = RegExp(regexPatt);
+  const core = regex.exec(currentLocation);
+  const accessReq = `https:accounts.spotify.com/authorize?client_id=${(this &&
+    this.clientID) ||
+    1234}&scope=${encodeURIComponent(
     scopes
-  )}&response_type=token&redirect_uri=http://localhost:3000/callback`;
-  window.location.href = accessReq;
-}
+  )}&response_type=token&redirect_uri=${core && core[1]}/callback`;
+  window.location.assign(accessReq);
+  return accessReq;
+};
+// export function getToken() {
+//   const redir =
+//     "https://accounts.spotify.com/authorize?client_id=25be93ebc6a047cfbf6ed82187d766b4&scope=playlist-read-private%20playlist-read-collaborative%20playlist-modify-public%20user-read-recently-played%20playlist-modify-private%20ugc-image-upload%20user-follow-modify%20user-follow-read%20user-library-read%20user-library-modify%20user-read-private%20user-read-email%20user-top-read%20user-read-playback-state&response_type=token&redirect_uri=https://react-spotify-client.firebaseapp.com/";
+//   if (window.location.href !== redir) window.location.href = redir;
+// }
+
+// export function getToken() {
+// window.location.href =
+//   "https://accounts.spotify.com/authorize?client_id=25be93ebc6a047cfbf6ed82187d766b4&scope=playlist-read-private%20playlist-read-collaborative%20playlist-modify-public%20user-read-recently-played%20playlist-modify-private%20ugc-image-upload%20user-follow-modify%20user-follow-read%20user-library-read%20user-library-modify%20user-read-private%20user-read-email%20user-top-read%20user-read-playback-state&response_type=token&redirect_uri=https://matkoson.github.io/React-Spotify-Client/";
+// window.location.href =
+//   "https://accounts.spotify.com/authorize?client_id=25be93ebc6a047cfbf6ed82187d766b4&scope=playlist-read-private%20playlist-read-collaborative%20playlist-modify-public%20user-read-recently-played%20playlist-modify-private%20ugc-image-upload%20user-follow-modify%20user-follow-read%20user-library-read%20user-library-modify%20user-read-private%20user-read-email%20user-top-read%20user-read-playback-state&response_type=token&redirect_uri=https://react-spotify-client.firebaseapp.com/";
+
+// window.location.href =
+//   "https://accounts.spotify.com/authorize?client_id=25be93ebc6a047cfbf6ed82187d766b4&scope=playlist-read-private%20playlist-read-collaborative%20playlist-modify-public%20user-read-recently-played%20playlist-modify-private%20ugc-image-upload%20user-follow-modify%20user-follow-read%20user-library-read%20user-library-modify%20user-read-private%20user-read-email%20user-top-read%20user-read-playback-state&response_type=token&redirect_uri=http://localhost:4000/callback";
+// }
 
 export function getFtrdPlay() {
   fetch("https://api.spotify.com/v1/browse/featured-playlists", {
@@ -29,9 +49,9 @@ export function getFtrdPlay() {
         return this.setState({ featured: res });
       }
     })
-    .catch(e => console.log(e));
+    .catch(e => console.error(e));
 }
-export function getRecent() {
+export const getRecent = function() {
   fetch("https://api.spotify.com/v1/me/player/recently-played", {
     headers: { Authorization: this.state.auth },
     method: "GET"
@@ -45,8 +65,8 @@ export function getRecent() {
         });
     })
     .catch(e => console.error(e));
-}
-export function getTopArtist() {
+};
+export const getTopArtist = function() {
   // let name,topID,genres
   return fetch("https://api.spotify.com/v1/me/top/artists", {
     headers: { Authorization: this.state.auth },
@@ -76,9 +96,16 @@ export function getTopArtist() {
       }
     })
     .catch(err => console.error(err));
-}
+};
+export const getContentFromMultiArtists = function(multiArtists) {
+  multiArtists.artists
+    .map(e => e.id)
+    .forEach(e =>
+      this.state.playerRequest("getMultipleArtistAlbums", { id: e })
+    );
+};
 
-export function playerRequest(type, additional) {
+export const playerRequest = function(type, additional) {
   // console.log("called with type", type);
   const types = {
     currentPlayback: {
@@ -102,6 +129,25 @@ export function playerRequest(type, additional) {
       uri: "https://api.spotify.com/v1/me/player/previous",
       type: "POST"
     },
+    getNewReleases: {
+      uri: "https://api.spotify.com/v1/browse/new-releases",
+      type: "GET"
+    },
+    getCategories: {
+      uri: `https://api.spotify.com/v1/browse/categories`,
+      type: "GET"
+    },
+    getCategory: {
+      uri: `https://api.spotify.com/v1/browse/categories/${additional &&
+        additional.category}?country=${additional && additional.country}`,
+      type: "GET"
+    },
+    getCategoryPlaylists: {
+      uri: `https://api.spotify.com/v1/browse/categories/${additional &&
+        additional.category}/playlists?country=${additional &&
+        (additional.country || null)}`,
+      type: "GET"
+    },
     setVolume: {
       uri: `https://api.spotify.com/v1/me/player/volume?volume_percent=${additional &&
         additional.vol}`,
@@ -112,6 +158,18 @@ export function playerRequest(type, additional) {
         this.state.deviceID
       }`,
       type: "PUT"
+    },
+    getUserPlaylists: {
+      uri: `https://api.spotify.com/v1/me/playlists`,
+      type: "GET"
+    },
+    getUserSavedAlbums: {
+      uri: `https://api.spotify.com/v1/me/albums`,
+      type: "GET"
+    },
+    getUserSavedTracks: {
+      uri: `https://api.spotify.com/v1/me/tracks`,
+      type: "GET"
     },
     playSpecificPlayback: {
       uri: `https://api.spotify.com/v1/me/player/play?=device_id=${
@@ -140,9 +198,7 @@ export function playerRequest(type, additional) {
         this.state.deviceID
       }`,
       type: "PUT",
-      body: {
-        context_uri: additional && additional.cx
-      }
+      body: { context_uri: additional && additional.cx }
     },
     pausePlayback: {
       uri: `https://api.spotify.com/v1/me/player/pausedevice_id=${
@@ -154,6 +210,25 @@ export function playerRequest(type, additional) {
       uri: `https://api.spotify.com/v1/me/player/repeat?state=${additional &&
         additional.mode}`,
       type: "PUT"
+    },
+    getAlbum: {
+      uri: `https://api.spotify.com/v1/albums/${additional && additional.uri}`,
+      type: "GET"
+    },
+    getPlaylist: {
+      uri: `https://api.spotify.com/v1/playlists/${additional &&
+        additional.uri}`,
+      type: "GET"
+    },
+    getPlaylistTracks: {
+      uri: `https://api.spotify.com/v1/playlists/${additional &&
+        additional.uri}/tracks`,
+      type: "GET"
+    },
+    getPlaylistCover: {
+      uri: `https://api.spotify.com/v1/playlists/${additional &&
+        additional.uri}/images`,
+      type: "GET"
     },
     getDevices: {
       uri: "https://api.spotify.com/v1/me/player/devices",
@@ -167,72 +242,116 @@ export function playerRequest(type, additional) {
       uri: `https://api.spotify.com/v1/me/player/shuffle?state=${additional &&
         additional.shuffle}`,
       type: "PUT"
+    },
+    getMultipleArtists: {
+      uri: `https://api.spotify.com/v1/artists?ids=${additional &&
+        additional.ids}`,
+      type: "GET"
+    },
+    getMultipleArtistAlbums: {
+      uri: `https://api.spotify.com/v1/artists/${additional &&
+        additional.id}/albums`,
+      type: "GET"
+    },
+    searchQuery: {
+      uri: `https://api.spotify.com/v1/search?q=${additional &&
+        encodeURIComponent(additional.query)}&type=album,artist,playlist,track`,
+      type: "GET"
     }
   };
   //
   //
   //
   const chosen = types[type];
-  console.log("chosen", chosen, type, additional);
-  let request = {
-    GET: {
-      headers: { Authorization: this.state.auth },
-      method: "GET"
-    },
-    PUT: {
-      headers: {
-        Authorization: this.state.auth
+  // console.log("chosen", chosen, type, additional);
+  let request;
+  if (chosen) {
+    request = {
+      GET: {
+        headers: { Authorization: this.state.auth },
+        method: "GET"
       },
-      method: "PUT",
-      body: JSON.stringify(chosen.body)
-    }
-  };
-  request = request[chosen.type];
-  if (type === "playSpecificPlayback" || type === "playRecentTracks")
-    console.log(request, chosen.uri);
-  return fetch(chosen.uri, request)
-    .then(res => {
-      // console.log(res.body);
-      const reader = res.body.getReader();
-      //refactor for handling readableStream in order to avoid JSON's 'unexpected end of input' error
-      const stream = new ReadableStream({
-        start(controller) {
-          function push() {
-            reader.read().then(({ done, value }) => {
-              if (done) {
-                controller.close();
-                return;
-              }
-              controller.enqueue(value);
-              push();
-            });
-          }
-          push();
-        }
-      });
-      new Response(stream, {
+      PUT: {
         headers: {
-          "Content-Type": "application/json"
-        }
-      })
-        .json()
+          Authorization: this.state.auth
+        },
+        method: "PUT",
+        body: JSON.stringify(chosen.body)
+      }
+    };
+    request = request[chosen.type];
+    if (this.state.auth) {
+      return fetch(chosen.uri, request)
         .then(res => {
-          // console.log(type);
-          if (type !== "currentlyPlaying")
-            if (!res.error) return this.setState({ [type]: res });
-          const firstRes = res;
-          // console.log("FIRST", firstRes);
-          fetch(res.item.href, request)
-            .then(res => {
-              if (!res.error)
-                return this.setState({ [type]: firstRes, audio: res.url });
+          // console.log("first", res.body);
+          if (res.body) {
+            const reader = res.body.getReader();
+            //refactor for handling readableStream in order to avoid JSON's 'unexpected end of input' error
+            const stream = new ReadableStream({
+              start(controller) {
+                function push() {
+                  reader.read().then(({ done, value }) => {
+                    if (done) {
+                      controller.close();
+                      return;
+                    }
+                    controller.enqueue(value);
+                    push();
+                  });
+                }
+                push();
+              }
+            });
+            new Response(stream, {
+              headers: {
+                "Content-Type": "application/json"
+              }
             })
-            .catch(err => err.reason);
+              .json()
+              .then(res => {
+                // console.log("RESP", type);
+                if (type === "getCategoryPlaylists") {
+                  if (!res.error) {
+                    // console.log("WARNING resPlaylist", res, this.state[type]);
+                    if (res.playlists.href.includes("country=PL"))
+                      return this.setState({ PolandTop: res });
+                    // console.log("WARNING resPlaylist", res, this.state[type]);
+                    return this.setState({
+                      [type]: [...this.state[type], res]
+                    });
+                  }
+                } else if (type === "getMultipleArtists") {
+                  this.getContentFromMultiArtists(res);
+                } else if (type === "getMultipleArtistAlbums") {
+                  this.setState(state => {
+                    return {
+                      getMultipleArtistAlbums: [
+                        ...state.getMultipleArtistAlbums,
+                        res
+                      ]
+                    };
+                  });
+                } else if (type === "currentlyPlaying") {
+                  this.setState({
+                    valueContext: {
+                      ...this.state.valueContext,
+                      currentlyPlaying: res
+                    }
+                  });
+                } else {
+                  // console.log(res);
+                  if (!res.error) return this.setState({ [type]: res });
+                }
+              })
+              .catch(err => err.reason);
+          } else {
+            console.error("No response body found!");
+          }
         })
-        .catch(err => err.reason);
-    })
-    .catch(err => console.log(err));
-}
+        .catch(err => console.error(err));
+    }
+  }
+};
 
 // fetch("https://api.spotify.com/v1/browse/featured-playlists", {
 //   headers: { Authorization: this.state.auth },

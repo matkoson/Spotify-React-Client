@@ -1,0 +1,82 @@
+@import "../Base/mixins";
+
+.welcome-screen {
+  display: flex;
+  flex-direction: column;
+  padding: 10%;
+  width: 100vw;
+  overflow-y: hidden !important;
+  padding-right: 10% !important;
+  @include below820px {
+    padding-left: 10px;
+  }
+  @include abv1070px {
+    padding-top: 60px;
+  }
+  &__button-tag {
+    background-color: transparent;
+    border-radius: 10px;
+    color: #fff;
+    font-size: 30px;
+    padding: 5%;
+    min-width: 170px;
+    &--recommended {
+      border: 3px solid #fd1d1d;
+    }
+    &--search {
+      border: 3px solid #833ab4;
+    }
+  }
+  a {
+    cursor: unset;
+  }
+  button {
+    cursor: pointer;
+  }
+
+  &__hi-there {
+    margin-bottom: 40px;
+    font-size: 60px;
+    text-align: center;
+  }
+
+  &__question {
+    margin-bottom: 10px;
+    @include below820px {
+      max-width: 85%;
+      margin-left: auto;
+      margin-right: auto;
+    }
+  }
+  &__choose {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    margin-bottom: 60px;
+  }
+  &__button {
+    display: flex;
+    justify-content: center;
+  }
+
+  &__gradient-text {
+    background: linear-gradient(-60deg, #833ab4, #fd1d1d, #fcb045);
+    animation: flow 15s ease-in-out infinite;
+    background-size: 300%;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+}
+
+@keyframes flow {
+  0% {
+    background-position: 0 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
