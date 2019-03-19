@@ -7,7 +7,9 @@ import { SimpleImg, initSimpleImg } from "react-simple-img";
 import recentDataDeclaration from "./lazyRecentDeclaration";
 import playlistDataDeclaration from "./lazyPlaylistDeclaration";
 import Animator from "./Animator";
-initSimpleImg({ threshold: [0.6] });
+import "../../Styles/Components/generator.scss";
+import "../../Styles/Components/generatorLazy.scss";
+initSimpleImg({ threshold: [0.4] });
 
 function ContainerGenerator(props) {
   let data = props.data,
@@ -18,6 +20,7 @@ function ContainerGenerator(props) {
     forbidAnimate = props.forbidAnimate,
     dataDef,
     key = props.key;
+  // console.log(data);
 
   const transitions = useTransition(null, null, {
     from: { opacity: 0, transform: "translate3d(0,-40px,0)" },
@@ -56,6 +59,7 @@ function ContainerGenerator(props) {
             albumType,
             artistName
           } = dataDef;
+          // console.log(dataDef);
           const content = (
             <React.Fragment key={key || idS}>
               <div

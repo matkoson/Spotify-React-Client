@@ -5,13 +5,19 @@ import lib from "../../assets/svg/lib.svg";
 import { Link } from "@reach/router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "../../Styles/Components/desktop.scss";
-
+import { animated, useTransition } from "react-spring";
 export default function Desktop(props) {
-  return (
+  const transition = useTransition(null, "desktop", {
+    from: { opacity: 0, transform: "translate3d(-40px,0,0)" },
+    enter: { opacity: 1, transform: "translate3d(0,0px,0)" },
+    unique: true
+  });
+  return transition.map(({ key, props }) => (
     <div data-testid="navDesktop" className="desktop">
-      <div
+      <animated.div
+        key={key}
         className="desktop__logo"
-        style={{ cursor: "pointer" }}
+        style={props}
         onClick={() => {
           props.handleMainRightChange("Home");
         }}
@@ -22,7 +28,7 @@ export default function Desktop(props) {
         />
         <div className="desktop__logo__title"> Spotify</div>
         <div className="desktop__logo__title-react">React</div>
-      </div>
+      </animated.div>
       <div
         onClick={e => props.handleNavClick(e, "left")}
         className="desktop__app-nav"
@@ -78,5 +84,5 @@ export default function Desktop(props) {
 				rawRecPlayed={this.state.recentlyPlayed}
 			/> */}
     </div>
-  );
+  ));
 }

@@ -31,9 +31,6 @@ export function handleAlbumRightOverride(e) {
 }
 
 export function handleDeviceTabClick(e) {
-  e.target.style.color === "rgb(255, 255, 255)"
-    ? (e.target.style.color = "#1db954")
-    : (e.target.style.color = "rgb(255, 255, 255)");
   this.setState({ deviceTabOn: !this.state.deviceTabOn });
 }
 export function handleMainRightChange(mainRightView) {
@@ -100,7 +97,6 @@ export function handleNavClick(ele, navType) {
   });
 }
 export function setCompGradient(gradientValue) {
-  console.log(gradientValue);
   return this.setState({
     valueContext: {
       ...this.state.valueContext,

@@ -12,6 +12,7 @@ import {
   createMemorySource,
   LocationProvider
 } from "@reach/router";
+import { handleMainRightChange } from "../AppMethods/AppMethods";
 // import { render } from "react-testing-library";
 
 const fakeSetCompGradient = jest.fn();
@@ -47,11 +48,13 @@ test("Renders/navigates correctly", async () => {
   } = renderWithRouter(<App />);
   const appContainer = container;
   await navigate(process.env.PUBLIC_URL + "/home");
-  getByTestId("navHome");
-  getByTestId("navMobile");
-  getByTestId("navDesktop");
-  getByTestId("navPlayerBar");
-  getByTestId("navRightTab");
+  await wait(() => {
+    getByTestId("navHome");
+    getByTestId("navMobile");
+    getByTestId("navDesktop");
+    getByTestId("navPlayerBar");
+    getByTestId("navRightTab");
+  });
 
   await navigate(process.env.PUBLIC_URL + "/home/charts");
   getByTestId("navCharts");
@@ -101,7 +104,8 @@ const renderApp = (tabOn, mobileOn) =>
               valueContext: { APIrequest: jest.fn() },
               handleNavClick: jest.fn(),
               handleDeviceTabClick: jest.fn(),
-              handleResize: jest.fn()
+              handleResize: jest.fn(),
+              handleMainRightChange: jest.fn()
             }}
           >
             <App />
@@ -111,12 +115,15 @@ const renderApp = (tabOn, mobileOn) =>
     </Provider>
   );
 test("Correctly renders device tab, and hides it when there's an onClick registered anywhere on the app.", async () => {
-  const { getByText, queryByTestId, getByTestId, debug } = renderApp(true);
+  const { getByText, getByTestId, debug } = renderApp(true);
   getByTestId("deviceTabOnIcon");
-  await waitForElement(() => getByTestId("deviceTabOn"));
-  const homeBtn = getByText("Home");
-  fireEvent.click(homeBtn);
-  expect(queryByTestId("deviceTabOn")).not.toBeInTheDocument();
+  await wait(async () => {
+    getByTestId("deviceTabOn");
+    const homeBtn = getByText("Home");
+    fireEvent.click(homeBtn);
+    await wait(() => debug());
+    // expect(queryByTestId("deviceTabOn").not.toBeInTheDocument());
+  });
 });
 test("Doesn't show device tab, when it's not required by the local state", () => {
   const { queryByTestId } = renderApp();

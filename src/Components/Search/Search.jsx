@@ -3,7 +3,6 @@ import ExampleAlbum from "./ExampleAlbum";
 import ContainerGenerator from "../ContainerGenerator/ContainerGenerator";
 import { Context } from "../../Context/Context";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import "../../Styles/Base/app.scss";
 import "../../Styles/Components/search.scss";
 
 class Search extends React.Component {
@@ -12,7 +11,7 @@ class Search extends React.Component {
     this.state = { searchInput: "", chosenTab: "top result" };
     this.handleInputChange = this.handleInputChange.bind(this);
   }
-  componentWillMount() {
+  componentDidMount() {
     this.context &&
       this.context.setCompGradient(
         "linear-gradient(105deg, #000000 15%, #282828 100%)"
@@ -24,7 +23,7 @@ class Search extends React.Component {
     setTimeout(() => {
       this.context.APIrequest &&
         this.context.APIrequest("searchQuery", { query: value });
-    }, 1000);
+    }, 1500);
   }
 
   render() {

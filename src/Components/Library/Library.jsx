@@ -27,9 +27,7 @@ class Library extends React.Component {
             <h2 className="app__fetch-title">{"Your Saved Albums"}</h2>
             {this.props.getUserSavedAlbums && (
               <ContainerGenerator
-                data={this.props.getUserSavedAlbums.items
-                  .map(e => e.album)
-                  .slice(0, 20)}
+                data={this.props.getUserSavedAlbums.items.map(e => e.album)}
                 type={"playlists"}
               />
             )}
@@ -56,7 +54,7 @@ class Library extends React.Component {
             <div className="app__fetch-container ">
               {this.props.getUserPlaylists && (
                 <ContainerGenerator
-                  data={this.props.getUserPlaylists.items.slice(0, 20)}
+                  data={this.props.getUserPlaylists.items}
                   type={"playlists"}
                 />
               )}

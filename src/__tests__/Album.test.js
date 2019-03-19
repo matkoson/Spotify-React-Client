@@ -21,7 +21,7 @@ const setupPlaylist = isPlaying => {
         playerState: {
           track_window: {
             current_track: {
-              id: isPlaying ? feedGetPlaylistTracks.items[0].track.id : null
+              name: isPlaying ? feedGetPlaylistTracks.items[0].track.name : null
             }
           }
         }

@@ -1,14 +1,8 @@
 import React from "react";
-import { render, wait } from "react-testing-library";
+import { render, wait, fireEvent } from "react-testing-library";
 import HomeScreen from "../Components/HomeScreen/HomeScreen";
-import {
-  feedRecent,
-  feedFeatured,
-  feedRelatedTop,
-  feedFeaturedDUPL
-} from "../feeds";
+import { feedRecent, feedFeatured, feedRelatedTop } from "../feeds";
 import { Provider, Consumer } from "../Context/Context";
-import { fireEvent } from "react-testing-library/dist";
 
 const fakeSetCompGradient = jest.fn();
 const fakeAPIrequest = jest.fn();

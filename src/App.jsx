@@ -25,7 +25,9 @@ import {
   faVolumeMute,
   faRedo,
   faSearch,
-  faSpinner
+  faSpinner,
+  faHeadphonesAlt,
+  faLaptop
 } from "@fortawesome/free-solid-svg-icons";
 import "./Styles/Base/app.scss";
 
@@ -46,12 +48,13 @@ library.add(
   faRedo,
   faSearch,
   faReact,
-  faSpinner
+  faSpinner,
+  faHeadphonesAlt,
+  faLaptop
 );
-
 const RightTab = lazy(() => import("./Components/RightTab/RightTab"));
-
 const HomeScreen = lazy(() => import("./Components/HomeScreen/HomeScreen"));
+const Search = lazy(() => import("./Components/Search/Search"));
 const Desktop = lazy(() => import("./Components/Desktop/Desktop"));
 const Mobile = lazy(() => import("./Components/Mobile/Mobile"));
 const Charts = lazy(() => import("./Components/Charts/Charts"));
@@ -60,7 +63,6 @@ const Library = lazy(() => import("./Components/Library/Library"));
 const Genres = lazy(() => import("./Components/Genres/Genres"));
 const NewReleases = lazy(() => import("./Components/NewReleases/NewReleases"));
 const Discover = lazy(() => import("./Components/Discover/Discover"));
-const Search = lazy(() => import("./Components/Search/Search"));
 const CatInnerView = lazy(() =>
   import("./Components/CatInnerView/CatInnerView")
 );
@@ -124,7 +126,9 @@ export default class App extends Component {
     this.homeRef = React.createRef();
   }
   componentDidMount() {
+    debugger;
     import("./loadFonts");
+    console.log(this.state.auth);
     if (!this.state.auth) {
       const currAd = window.location.href;
       if (/access_token/.test(currAd)) {
@@ -132,6 +136,11 @@ export default class App extends Component {
         navigate("welcome");
       } else if (/access_denied/.test(currAd)) {
         console.error("Access denied by the user");
+        // } else if (
+        //   /https: \/\/react-spotify-client\.firebaseapp\.com\/./.test(currAd)
+        // ) {
+        //   return (window.location.href =
+        //     "https://react-spotify-client.firebaseapp.com");
       } else if (/access_token/.test(currAd) === false) {
         this.getToken();
       }
@@ -352,7 +361,6 @@ export default class App extends Component {
               handleDeviceTabClick={this.state.handleDeviceTabClick}
               isDeviceTabOn={this.state.deviceTabOn}
               player={this.player}
-              // deviceId={this.state.deviceID}
               deviceName={this.state.deviceName}
               currentPlayback={this.state.currentPlayback}
             />

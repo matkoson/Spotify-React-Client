@@ -23,8 +23,9 @@ export const getToken = function(regexPatt = /^(https?.+(\d+|\.\D+))\//g) {
   return accessReq;
 };
 // export function getToken() {
-//   window.location.href =
+//   const redir =
 //     "https://accounts.spotify.com/authorize?client_id=25be93ebc6a047cfbf6ed82187d766b4&scope=playlist-read-private%20playlist-read-collaborative%20playlist-modify-public%20user-read-recently-played%20playlist-modify-private%20ugc-image-upload%20user-follow-modify%20user-follow-read%20user-library-read%20user-library-modify%20user-read-private%20user-read-email%20user-top-read%20user-read-playback-state&response_type=token&redirect_uri=https://react-spotify-client.firebaseapp.com/";
+//   if (window.location.href !== redir) window.location.href = redir;
 // }
 
 // export function getToken() {
@@ -263,86 +264,93 @@ export const playerRequest = function(type, additional) {
   //
   const chosen = types[type];
   // console.log("chosen", chosen, type, additional);
-  let request = {
-    GET: {
-      headers: { Authorization: this.state.auth },
-      method: "GET"
-    },
-    PUT: {
-      headers: {
-        Authorization: this.state.auth
+  let request;
+  if (chosen) {
+    request = {
+      GET: {
+        headers: { Authorization: this.state.auth },
+        method: "GET"
       },
-      method: "PUT",
-      body: JSON.stringify(chosen.body)
-    }
-  };
-  request = request[chosen.type];
-  return fetch(chosen.uri, request)
-    .then(res => {
-      // console.log("first", res.body);
-      if (res.body) {
-        const reader = res.body.getReader();
-        //refactor for handling readableStream in order to avoid JSON's 'unexpected end of input' error
-        const stream = new ReadableStream({
-          start(controller) {
-            function push() {
-              reader.read().then(({ done, value }) => {
-                if (done) {
-                  controller.close();
-                  return;
+      PUT: {
+        headers: {
+          Authorization: this.state.auth
+        },
+        method: "PUT",
+        body: JSON.stringify(chosen.body)
+      }
+    };
+    request = request[chosen.type];
+    if (this.state.auth) {
+      return fetch(chosen.uri, request)
+        .then(res => {
+          // console.log("first", res.body);
+          if (res.body) {
+            const reader = res.body.getReader();
+            //refactor for handling readableStream in order to avoid JSON's 'unexpected end of input' error
+            const stream = new ReadableStream({
+              start(controller) {
+                function push() {
+                  reader.read().then(({ done, value }) => {
+                    if (done) {
+                      controller.close();
+                      return;
+                    }
+                    controller.enqueue(value);
+                    push();
+                  });
                 }
-                controller.enqueue(value);
                 push();
-              });
-            }
-            push();
-          }
-        });
-        new Response(stream, {
-          headers: {
-            "Content-Type": "application/json"
+              }
+            });
+            new Response(stream, {
+              headers: {
+                "Content-Type": "application/json"
+              }
+            })
+              .json()
+              .then(res => {
+                // console.log("RESP", type);
+                if (type === "getCategoryPlaylists") {
+                  if (!res.error) {
+                    // console.log("WARNING resPlaylist", res, this.state[type]);
+                    if (res.playlists.href.includes("country=PL"))
+                      return this.setState({ PolandTop: res });
+                    // console.log("WARNING resPlaylist", res, this.state[type]);
+                    return this.setState({
+                      [type]: [...this.state[type], res]
+                    });
+                  }
+                } else if (type === "getMultipleArtists") {
+                  this.getContentFromMultiArtists(res);
+                } else if (type === "getMultipleArtistAlbums") {
+                  this.setState(state => {
+                    return {
+                      getMultipleArtistAlbums: [
+                        ...state.getMultipleArtistAlbums,
+                        res
+                      ]
+                    };
+                  });
+                } else if (type === "currentlyPlaying") {
+                  this.setState({
+                    valueContext: {
+                      ...this.state.valueContext,
+                      currentlyPlaying: res
+                    }
+                  });
+                } else {
+                  // console.log(res);
+                  if (!res.error) return this.setState({ [type]: res });
+                }
+              })
+              .catch(err => err.reason);
+          } else {
+            console.error("No response body found!");
           }
         })
-          .json()
-          .then(res => {
-            // console.log("RESP", type);
-            if (type === "getCategoryPlaylists") {
-              if (!res.error) {
-                // console.log("WARNING resPlaylist", res, this.state[type]);
-                if (res.playlists.href.includes("country=PL"))
-                  return this.setState({ PolandTop: res });
-                // console.log("WARNING resPlaylist", res, this.state[type]);
-                return this.setState({ [type]: [...this.state[type], res] });
-              }
-            } else if (type === "getMultipleArtists") {
-              this.getContentFromMultiArtists(res);
-            } else if (type === "getMultipleArtistAlbums") {
-              this.setState(state => {
-                return {
-                  getMultipleArtistAlbums: [
-                    ...state.getMultipleArtistAlbums,
-                    res
-                  ]
-                };
-              });
-            } else if (type === "currentlyPlaying") {
-              this.setState({
-                valueContext: {
-                  ...this.state.valueContext,
-                  currentlyPlaying: res
-                }
-              });
-            } else {
-              // console.log(res);
-              if (!res.error) return this.setState({ [type]: res });
-            }
-          })
-          .catch(err => err.reason);
-      } else {
-        console.error("No response body found!");
-      }
-    })
-    .catch(err => console.error(err));
+        .catch(err => console.error(err));
+    }
+  }
 };
 
 // fetch("https://api.spotify.com/v1/browse/featured-playlists", {

@@ -3,9 +3,8 @@ import PlayerControls from "./InnerComps/PlayerControls";
 import SideControls from "./InnerComps/SideControls";
 import { Context } from "../../Context/Context";
 import "../../Styles/Components/PlayerBar/player-bar.scss";
-// import "../../Styles/Components/PlayerBar/lazyPlayerBarAbv820px.scss";
+import "../../Styles/Components/PlayerBar/lazyPlayerBarAbv820px.scss";
 
-lazy(import("../../Styles/Components/PlayerBar/lazyPlayerBarAbv820px.scss"));
 const DeviceTab = lazy(() => import("./InnerComps/DeviceTab"));
 const AlbumDetails = lazy(() => import("./InnerComps/AlbumDetails"));
 const getPerc = (progressTime, totalTime) =>
@@ -91,13 +90,12 @@ class PlayerBar extends PureComponent {
     const repeatMode = this.state.repeatMode || "off";
     const artistName =
       this.state.artistName || (lastTrack && lastTrack.artists[0].name);
-
-    totalTime =
-      this.context &&
-      this.context.getMinsSecs &&
-      this.context.getMinsSecs(rawTrackTime);
     const progressPercentage = getPerc(rawTrackProgress, rawTrackTime) || 0;
     volumePercentage = this.state.muted ? 0 : volumePercentage;
+    if (this.context && this.context.getMinsSecs) {
+      progressTime = this.context.getMinsSecs(rawTrackProgress);
+      totalTime = this.context.getMinsSecs(rawTrackTime);
+    }
     //
     return (
       <div data-testid="navPlayerBar" className="player-bar">
@@ -109,11 +107,7 @@ class PlayerBar extends PureComponent {
         <PlayerControls
           shuffled={this.state.shuffled}
           handlePausePlay={this.state.handlePausePlay}
-          paused={
-            this.context &&
-            this.context.playerState &&
-            this.context.playerState.paused
-          }
+          paused={this.state.paused}
           playbackSDK={this.playbackSDK}
           player={this.state.player}
           repeatMode={repeatMode}
@@ -131,10 +125,12 @@ class PlayerBar extends PureComponent {
           volumePercentage={volumePercentage}
           handleMute={this.state.handleMute}
           muted={this.state.muted}
+          oneIsEnough={this.state.oneIsEnough}
         >
-          {this.props.isDeviceTabOn && (
-            <DeviceTab deviceName={this.props.deviceName} />
-          )}
+          <DeviceTab
+            isDeviceTabOn={this.props.isDeviceTabOn}
+            deviceName={this.props.deviceName}
+          />
         </SideControls>
       </div>
     );

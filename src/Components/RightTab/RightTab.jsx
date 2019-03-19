@@ -1,8 +1,6 @@
 import React, { lazy } from "react";
 import { Link } from "@reach/router";
 import "../../Styles/Components/right-tab.scss";
-lazy(import("../../Styles/Components/generator.scss"));
-lazy(import("../../Styles/Components/generatorLazy.scss"));
 
 export default function RightTab(props) {
   const navMargin =
