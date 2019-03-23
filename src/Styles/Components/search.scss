@@ -14,11 +14,13 @@
   color: #ffffff;
   font-family: "Anodina-Light";
   width: calc(100vw - 240px);
-  margin-left: 240px;
   @include below820px {
     max-width: 100%;
     width: 100%;
     margin-left: 0;
+  }
+  @include abv820px {
+    margin-left: 240px !important;
   }
 
   &__input {
@@ -32,8 +34,10 @@
     display: flex;
     padding-right: 25px;
     @include below820px {
-      width: 80%;
+      width: 100%;
       left: 0;
+      padding-left: 15px;
+      align-self: flex-start;
     }
 
     &__area {
@@ -65,6 +69,9 @@
     height: calc(100%);
     display: flex;
     flex-direction: column;
+    @include below820px {
+      margin-top: 50px;
+    }
 
     &__nav {
       list-style: none;

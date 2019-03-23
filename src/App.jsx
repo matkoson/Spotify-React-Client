@@ -126,9 +126,7 @@ export default class App extends Component {
     this.homeRef = React.createRef();
   }
   componentDidMount() {
-    debugger;
     import("./loadFonts");
-    console.log(this.state.auth);
     if (!this.state.auth) {
       const currAd = window.location.href;
       if (/access_token/.test(currAd)) {
@@ -232,141 +230,144 @@ export default class App extends Component {
 
   render() {
     return (
-      <main
-        path={process.env.PUBLIC_URL + "/"}
-        ref={this.homeRef}
-        className="app"
-        style={{
-          backgroundImage: this.state.valueContext.currGrad,
-          transitionDuration: "1.5s"
-        }}
-        onClick={() =>
-          this.state.deviceTabOn || this.state.mobile
-            ? this.setState({ deviceTabOn: false, mobile: false })
-            : null
-        }
-        //click anywhere in the app to make deviceTab disappear + same thing with mobile-nav
-      >
-        <Provider value={this.state.valueContext}>
-          <Suspense
-            fallback={
-              <FontAwesomeIcon
-                spin={true}
-                icon="spinner"
-                style={{
-                  position: "absolute",
-                  top: `calc(50% - 100px)`,
-                  left: `calc(50% - 100px)`,
-                  height: "200px",
-                  width: "200px"
-                }}
-              />
-            }
-          >
-            <div path={process.env.PUBLIC_URL + "/*"} className="left-tab">
-              <Mobile
-                path={process.env.PUBLIC_URL + "/*"}
-                handleMainRightChange={this.state.handleMainRightChange}
-                handleMobileNavToggle={this.state.handleMobileNavToggle}
-                mobile={this.state.mobile}
-              />
-              <Desktop
-                path={process.env.PUBLIC_URL + "/*"}
-                handleNavClick={this.state.handleNavClick}
-                handleMainRightChange={this.state.handleMainRightChange}
-              >
-                <RecentlyPlayed
+      this.state.auth && (
+        <main
+          path={process.env.PUBLIC_URL + "/"}
+          ref={this.homeRef}
+          className="app"
+          style={{
+            backgroundImage: this.state.valueContext.currGrad,
+            transitionDuration: "1.5s"
+          }}
+          onClick={() =>
+            this.state.deviceTabOn || this.state.mobile
+              ? this.setState({ deviceTabOn: false, mobile: false })
+              : null
+          }
+          //click anywhere in the app to make deviceTab disappear + same thing with mobile-nav
+        >
+          <Provider value={this.state.valueContext}>
+            <Suspense
+              fallback={
+                <FontAwesomeIcon
+                  spin={true}
+                  icon="spinner"
+                  style={{
+                    position: "absolute",
+                    top: `calc(50% - 100px)`,
+                    left: `calc(50% - 100px)`,
+                    height: "200px",
+                    width: "200px"
+                  }}
+                />
+              }
+            >
+              <div path={process.env.PUBLIC_URL + "/*"} className="left-tab">
+                <Mobile
+                  path={process.env.PUBLIC_URL + "/*"}
+                  handleMainRightChange={this.state.handleMainRightChange}
+                  handleMobileNavToggle={this.state.handleMobileNavToggle}
+                  mobile={this.state.mobile}
+                />
+                <Desktop
                   path={process.env.PUBLIC_URL + "/*"}
                   handleNavClick={this.state.handleNavClick}
-                  rawRecPlayed={this.state.recentlyPlayed}
+                  handleMainRightChange={this.state.handleMainRightChange}
+                >
+                  <RecentlyPlayed
+                    path={process.env.PUBLIC_URL + "/*"}
+                    handleNavClick={this.state.handleNavClick}
+                    rawRecPlayed={this.state.recentlyPlayed}
+                    player={this.player}
+                    APIrequest={this.state.playerRequest}
+                  />
+                </Desktop>
+              </div>
+              <Router primary={false}>
+                {this.state.auth && (
+                  <WelcomeScreen
+                    mobile={window.innerWidth < 820 ? true : false}
+                    path={process.env.PUBLIC_URL + "/welcome"}
+                  />
+                )}
+                <RightTab
+                  path={process.env.PUBLIC_URL + "/home"}
+                  mobile={this.state.mobile}
+                  handleNavClick={this.state.handleNavClick}
+                >
+                  <HomeScreen
+                    path={process.env.PUBLIC_URL + "/"}
+                    featured={this.state.featured}
+                    recent={this.state.recentlyPlayed}
+                    relatedTop={this.state.topRelatedArtists}
+                    topArtist={this.state.topArtist}
+                    player={this.player}
+                  />
+                  <Charts
+                    path={process.env.PUBLIC_URL + "charts"}
+                    getCategoryPlaylists={this.state.getCategoryPlaylists}
+                    PolandTop={this.state.PolandTop}
+                    countryCodes={this.state.countryCodes}
+                  />
+                  <Genres
+                    path={process.env.PUBLIC_URL + "genres-moods"}
+                    getCategories={this.state.getCategories}
+                  />
+                  <NewReleases
+                    path={process.env.PUBLIC_URL + "new-releases"}
+                    getNewReleases={this.state.getNewReleases}
+                  />
+                  <Discover
+                    path={process.env.PUBLIC_URL + "discover"}
+                    getMultipleArtistAlbums={this.state.getMultipleArtistAlbums}
+                    idList={
+                      this.state.topRelatedArtists &&
+                      this.state.topRelatedArtists.map(e => e.id)
+                    }
+                  />
+                </RightTab>
+                <Search
+                  path={process.env.PUBLIC_URL + "/search"}
+                  searchQuery={this.state.searchQuery}
                   player={this.player}
-                  APIrequest={this.state.playerRequest}
                 />
-              </Desktop>
-            </div>
-            <Router primary={false}>
-              {this.state.auth && (
-                <WelcomeScreen
-                  mobile={window.innerWidth < 820 ? true : false}
-                  path={process.env.PUBLIC_URL + "/welcome"}
+                <Library
+                  path={process.env.PUBLIC_URL + "/library"}
+                  getUserPlaylists={this.state.getUserPlaylists}
+                  getUserSavedAlbums={this.state.getUserSavedAlbums}
+                  getUserSavedTracks={this.state.getUserSavedTracks}
                 />
-              )}
-              <RightTab
-                path={process.env.PUBLIC_URL + "/home"}
-                mobile={this.state.mobile}
-                handleNavClick={this.state.handleNavClick}
-              >
-                <HomeScreen
-                  path={process.env.PUBLIC_URL + "/"}
-                  featured={this.state.featured}
-                  recent={this.state.recentlyPlayed}
-                  relatedTop={this.state.topRelatedArtists}
-                  topArtist={this.state.topArtist}
-                  player={this.player}
+                <Album
+                  path={process.env.PUBLIC_URL + "/album"}
+                  ref={this.albumRef}
+                  getAlbum={this.state.getAlbum}
+                  getPlaylist={this.state.getPlaylist}
+                  getPlaylistCover={this.state.getPlaylistCover}
+                  getPlaylistTracks={this.state.getPlaylistTracks}
+                  albumViewOption={this.state.albumViewOption}
                 />
-                <Charts
-                  path={process.env.PUBLIC_URL + "charts"}
-                  getCategoryPlaylists={this.state.getCategoryPlaylists}
+                <CatInnerView
+                  path={process.env.PUBLIC_URL + "/category"}
                   PolandTop={this.state.PolandTop}
-                  countryCodes={this.state.countryCodes}
+                  getCategory={this.state.getCategory}
                 />
-                <Genres
-                  path={process.env.PUBLIC_URL + "genres-moods"}
-                  getCategories={this.state.getCategories}
-                />
-                <NewReleases
-                  path={process.env.PUBLIC_URL + "new-releases"}
-                  getNewReleases={this.state.getNewReleases}
-                />
-                <Discover
-                  path={process.env.PUBLIC_URL + "discover"}
-                  getMultipleArtistAlbums={this.state.getMultipleArtistAlbums}
-                  idList={
-                    this.state.topRelatedArtists &&
-                    this.state.topRelatedArtists.map(e => e.id)
-                  }
-                />
-              </RightTab>
-              <Search
-                path={process.env.PUBLIC_URL + "/search"}
-                searchQuery={this.state.searchQuery}
+              </Router>
+              <PlayerBar
+                path={process.env.PUBLIC_URL + "/*"}
+                recent={
+                  this.state.recentlyPlayed &&
+                  this.state.recentlyPlayed.items[0]
+                }
+                handleDeviceTabClick={this.state.handleDeviceTabClick}
+                isDeviceTabOn={this.state.deviceTabOn}
                 player={this.player}
+                deviceName={this.state.deviceName}
+                currentPlayback={this.state.currentPlayback}
               />
-              <Library
-                path={process.env.PUBLIC_URL + "/library"}
-                getUserPlaylists={this.state.getUserPlaylists}
-                getUserSavedAlbums={this.state.getUserSavedAlbums}
-                getUserSavedTracks={this.state.getUserSavedTracks}
-              />
-              <Album
-                path={process.env.PUBLIC_URL + "/album"}
-                ref={this.albumRef}
-                getAlbum={this.state.getAlbum}
-                getPlaylist={this.state.getPlaylist}
-                getPlaylistCover={this.state.getPlaylistCover}
-                getPlaylistTracks={this.state.getPlaylistTracks}
-                albumViewOption={this.state.albumViewOption}
-              />
-              <CatInnerView
-                path={process.env.PUBLIC_URL + "/category"}
-                PolandTop={this.state.PolandTop}
-                getCategory={this.state.getCategory}
-              />
-            </Router>
-            <PlayerBar
-              path={process.env.PUBLIC_URL + "/*"}
-              recent={
-                this.state.recentlyPlayed && this.state.recentlyPlayed.items[0]
-              }
-              handleDeviceTabClick={this.state.handleDeviceTabClick}
-              isDeviceTabOn={this.state.deviceTabOn}
-              player={this.player}
-              deviceName={this.state.deviceName}
-              currentPlayback={this.state.currentPlayback}
-            />
-          </Suspense>
-        </Provider>
-      </main>
+            </Suspense>
+          </Provider>
+        </main>
+      )
     );
   }
 }
