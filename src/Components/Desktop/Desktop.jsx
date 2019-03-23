@@ -6,7 +6,7 @@ import { Link } from "@reach/router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "../../Styles/Components/desktop.scss";
 import { animated, useTransition } from "react-spring";
-export default function Desktop(props) {
+export default function Desktop(propsReact) {
   const transition = useTransition(null, "desktop", {
     from: { opacity: 0, transform: "translate3d(-40px,0,0)" },
     enter: { opacity: 1, transform: "translate3d(0,0px,0)" },
@@ -19,7 +19,7 @@ export default function Desktop(props) {
         className="desktop__logo"
         style={props}
         onClick={() => {
-          props.handleMainRightChange("Home");
+          propsReact.handleMainRightChange("Home");
         }}
       >
         <FontAwesomeIcon
@@ -30,7 +30,7 @@ export default function Desktop(props) {
         <div className="desktop__logo__title-react">React</div>
       </animated.div>
       <div
-        onClick={e => props.handleNavClick(e, "left")}
+        onClick={e => propsReact.handleNavClick(e, "left")}
         className="desktop__app-nav"
       >
         {/*  */}
@@ -38,7 +38,7 @@ export default function Desktop(props) {
           to={process.env.PUBLIC_URL + "/search"}
           className="desktop__app-nav__search desktop__app-nav__icon-text"
           onClick={() => {
-            props.handleMainRightChange("Search");
+            propsReact.handleMainRightChange("Search");
           }}
         >
           <img
@@ -55,7 +55,7 @@ export default function Desktop(props) {
           to={process.env.PUBLIC_URL + "/home"}
           className="desktop__app-nav__home desktop__app-nav__icon-text desktop__app-nav__icon-text--clicked"
           onClick={() => {
-            props.handleMainRightChange("Home");
+            propsReact.handleMainRightChange("Home");
           }}
         >
           <img className="desktop__app-nav__logo" src={home} alt="home icon" />
@@ -68,7 +68,7 @@ export default function Desktop(props) {
           to={process.env.PUBLIC_URL + "/library"}
           className="desktop__app-nav__library desktop__app-nav__icon-text"
           onClick={() => {
-            props.handleMainRightChange("Library");
+            propsReact.handleMainRightChange("Library");
           }}
         >
           <img className="desktop__app-nav__logo" src={lib} alt="lib icon" />
@@ -78,7 +78,7 @@ export default function Desktop(props) {
         </Link>
         {/*  */}
       </div>
-      {props.children}
+      {propsReact.children}
       {/* <RecentlyPlayed
 				handleNavClick={this.handleNavClick}
 				rawRecPlayed={this.state.recentlyPlayed}

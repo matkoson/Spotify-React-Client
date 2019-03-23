@@ -8,25 +8,25 @@ export const setToken = function(currAd) {
   if (this) this.setState(update);
   return update;
 };
-export const getToken = function(regexPatt = /^(https?.+(\d+|\.\D+))\//g) {
-  const scopes =
-    "playlist-read-private playlist-modify-private playlist-modify-public playlist-read-collaborative user-modify-playback-state user-read-currently-playing user-read-playback-state user-top-read user-read-recently-played app-remote-control streaming user-read-birthdate user-read-email user-read-private user-follow-read user-follow-modify user-library-modify user-library-read";
-  const currentLocation = window.location.href;
-  const regex = RegExp(regexPatt);
-  const core = regex.exec(currentLocation);
-  const accessReq = `https:accounts.spotify.com/authorize?client_id=${(this &&
-    this.clientID) ||
-    1234}&scope=${encodeURIComponent(
-    scopes
-  )}&response_type=token&redirect_uri=${core && core[1]}/callback`;
-  window.location.assign(accessReq);
-  return accessReq;
-};
-// export function getToken() {
-//   const redir =
-//     "https://accounts.spotify.com/authorize?client_id=25be93ebc6a047cfbf6ed82187d766b4&scope=playlist-read-private%20playlist-read-collaborative%20playlist-modify-public%20user-read-recently-played%20playlist-modify-private%20ugc-image-upload%20user-follow-modify%20user-follow-read%20user-library-read%20user-library-modify%20user-read-private%20user-read-email%20user-top-read%20user-read-playback-state&response_type=token&redirect_uri=https://react-spotify-client.firebaseapp.com/";
-//   if (window.location.href !== redir) window.location.href = redir;
-// }
+// export const getToken = function(regexPatt = /^(https?.+(\d+|\.\D+))\//g) {
+//   const scopes =
+//     "playlist-read-private playlist-modify-private playlist-modify-public playlist-read-collaborative user-modify-playback-state user-read-currently-playing user-read-playback-state user-top-read user-read-recently-played app-remote-control streaming user-read-birthdate user-read-email user-read-private user-follow-read user-follow-modify user-library-modify user-library-read";
+//   const currentLocation = window.location.href;
+//   const regex = RegExp(regexPatt);
+//   const core = regex.exec(currentLocation);
+//   const accessReq = `https:accounts.spotify.com/authorize?client_id=${(this &&
+//     this.clientID) ||
+//     1234}&scope=${encodeURIComponent(
+//     scopes
+//   )}&response_type=token&redirect_uri=${core && core[1]}/callback`;
+//   window.location.assign(accessReq);
+//   return accessReq;
+// };
+export function getToken() {
+  const redir =
+    "https://accounts.spotify.com/authorize?client_id=25be93ebc6a047cfbf6ed82187d766b4&scope=playlist-read-private%20playlist-read-collaborative%20playlist-modify-public%20user-read-recently-played%20playlist-modify-private%20ugc-image-upload%20user-follow-modify%20user-follow-read%20user-library-read%20user-library-modify%20user-read-private%20user-read-email%20user-top-read%20user-read-playback-state&response_type=token&redirect_uri=https://react-spotify-client.firebaseapp.com/";
+  if (window.location.href !== redir) window.location.href = redir;
+}
 
 // export function getToken() {
 // window.location.href =
