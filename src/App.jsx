@@ -327,6 +327,7 @@ export default class App extends Component {
                   player={this.player}
                 />
                 <Library
+                mobile={this.state.mobile}
                   path={process.env.PUBLIC_URL + "/library"}
                   getUserPlaylists={this.state.getUserPlaylists}
                   getUserSavedAlbums={this.state.getUserSavedAlbums}

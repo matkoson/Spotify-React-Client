@@ -82,7 +82,7 @@ class Library extends React.Component {
         className="library app__right-container-generic__outer"
       >
         <ul className="app__right-container-generic__outer__right-nav library__nav">
-          {libNav}
+          {!this.props.mobile&&libNav}
         </ul>
         <div className="generator">{renderLib}</div>
       </div>

@@ -15,6 +15,9 @@
     list-style: none;
     top: 0;
     font-family: "Anodina-Light";
+    @include below820px {
+      align-items: flex-end;
+    }
     &__li {
       cursor: pointer;
       position: relative;

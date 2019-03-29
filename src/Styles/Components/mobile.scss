@@ -19,6 +19,7 @@
       align-items: center;
       width: 75%;
       margin: 0 auto;
+      z-index: 1;
       &__li {
         display: flex;
         flex-direction: column;
@@ -38,11 +39,14 @@
     padding-right: 1px;
     align-items: flex-start;
     justify-content: flex-end;
-    z-index: 1;
     &__pic {
       display: block;
       font-size: 50px;
       animation: App-logo-spin infinite 20s linear;
+      position: fixed;
+      top: 0;
+      right: 0;
+      z-index: 2;
     }
     &__pic:hover {
       cursor: pointer;

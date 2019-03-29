@@ -57,13 +57,14 @@ export default function Mobile(props) {
         }
         className="mobile__logo"
       >
+      </div>
+
         <FontAwesomeIcon
           icon={["fab", "react"]}
           onClick={handleMobileNavToggle}
           className="mobile__logo__pic"
           data-testid="reactLogo"
-        />{" "}
-      </div>
+        />
     </div>
   ));
 }

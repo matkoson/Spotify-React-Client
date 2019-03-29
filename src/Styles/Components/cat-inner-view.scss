@@ -11,6 +11,19 @@
   margin-bottom: 90px;
   align-items: flex-start;
   color: white;
+  @include below820px {
+    margin-left: 0;
+  }
+  &__title {
+    @include below820px {
+      width: 100vw;
+    }
+  }
+  &__container {
+    @include below820px {
+      width: 100vw;
+    }
+  }
   &__cat-title {
     height: 130px;
     width: 100%;
@@ -19,6 +32,11 @@
     margin-top: 50px;
     margin-bottom: 50px;
     position: relative;
+    @include below820px {
+      flex-direction: column;
+      margin-bottom: 25px;
+      height: 180px;
+    }
   }
 
   &__img {
