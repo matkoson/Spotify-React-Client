@@ -134,11 +134,6 @@ export default class App extends Component {
         navigate("welcome");
       } else if (/access_denied/.test(currAd)) {
         console.error("Access denied by the user");
-        // } else if (
-        //   /https: \/\/react-spotify-client\.firebaseapp\.com\/./.test(currAd)
-        // ) {
-        //   return (window.location.href =
-        //     "https://react-spotify-client.firebaseapp.com");
       } else if (/access_token/.test(currAd) === false) {
         this.getToken();
       }

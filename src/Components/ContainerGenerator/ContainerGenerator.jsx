@@ -19,7 +19,7 @@ function ContainerGenerator(props) {
     context = props.context,
     forbidAnimate = props.forbidAnimate,
     dataDef,
-    key = props.key;
+    key = props.keyPass;
   // console.log(data);
 
   const transitions = useTransition(null, null, {
@@ -31,9 +31,9 @@ function ContainerGenerator(props) {
   let imgMeasurements = { width: "300px", height: "300px" };
   const cxPlay = context.currentlyPlaying;
 
-  return transitions.map(({ props }) => (
+  return transitions.map(({ props }, i) => (
     <animated.div
-      key={key}
+      key={`${key}+${i}`}
       className="app__fetch-container generator__playlist-container"
       style={props}
     >
@@ -233,16 +233,14 @@ function ContainerGenerator(props) {
             </React.Fragment>
           );
           const contentAnimated = (
-            <Animator
-            // key={key || idS}
-            >
-              {content}
-            </Animator>
+            <Animator key={key || idS}>{content}</Animator>
           );
           return (
             <React.Fragment key={key || idS}>
               {type === "categories" ? (
-                <Link to="../../category">{contentAnimated}</Link>
+                <Link key={key || idS} to="../../category">
+                  {contentAnimated}
+                </Link>
               ) : (
                 <React.Fragment key={key || idS}>
                   {contentAnimated}
@@ -255,18 +253,20 @@ function ContainerGenerator(props) {
   ));
 }
 
-export default props => (
-  <Consumer>
-    {context => (
-      <ContainerGenerator
-        key={props.key}
-        data={props.data}
-        type={props.type}
-        context={context}
-        special={props.special}
-        forbidAnimate={props.forbidAnimate}
-        importance={props.importance}
-      />
-    )}
-  </Consumer>
-);
+export default function ContainerGeneratorWithCX(props) {
+  return (
+    <Consumer>
+      {context => (
+        <ContainerGenerator
+          keyPass={props.keyPass}
+          data={props.data}
+          type={props.type}
+          context={context}
+          special={props.special}
+          forbidAnimate={props.forbidAnimate}
+          importance={props.importance}
+        />
+      )}
+    </Consumer>
+  );
+}

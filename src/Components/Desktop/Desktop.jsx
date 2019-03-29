@@ -13,7 +13,7 @@ export default function Desktop(propsReact) {
     unique: true
   });
   return transition.map(({ key, props }) => (
-    <div data-testid="navDesktop" className="desktop">
+    <div key="desktop" data-testid="navDesktop" className="desktop">
       <animated.div
         key={key}
         className="desktop__logo"

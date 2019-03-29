@@ -1,4 +1,4 @@
-import React, { lazy } from "react";
+import React from "react";
 import { Link } from "@reach/router";
 import "../../Styles/Components/right-tab.scss";
 

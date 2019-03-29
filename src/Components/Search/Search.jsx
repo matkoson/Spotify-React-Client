@@ -22,8 +22,11 @@ class Search extends React.Component {
     this.setState({ searchInput: value });
     setTimeout(() => {
       this.context.APIrequest &&
-        this.context.APIrequest("searchQuery", { query: value });
-    }, 1500);
+        this.context.APIrequest("searchQuery", {
+          query: this.state.searchInput
+        });
+    }, 2000);
+    //debouncing search queries
   }
 
   render() {
@@ -89,12 +92,15 @@ class Search extends React.Component {
               currentlyPlaying={this.context.currentlyPlaying}
               albums={albums}
               getMinsSecs={this.context.getMinsSecs}
-              tracks={tracks}
+              tracks={tracks && tracks.items.slice(0, 5)}
               APIrequest={this.context.APIrequest}
               player={this.props.player}
             />
             <h2 className="app__fetch-title">{"Matching Artists"}</h2>
-            <div className="app__fetch-container generator--exception">
+            <div
+              key="artists"
+              className="app__fetch-container generator--exception"
+            >
               {this.artists}
             </div>
             <h2 className="app__fetch-title">{"Matching Playlists"}</h2>

@@ -14,15 +14,12 @@ export default function ExampleAlbum(props) {
       idS = albumsExmp.id;
     }
   }
-  if (props.tracks && props.tracks.items) {
-    top5Tracks = props.tracks.items.slice(0, 5).map(e => {
+  if (props.tracks) {
+    top5Tracks = props.tracks.map((e, i) => {
       totalDuration = e.duration_ms;
       totalDuration = props.getMinsSecs(totalDuration);
       return (
-        <li
-          key={e.duration_ms}
-          className="search__response__album-example__tracks-li"
-        >
+        <li key={i} className="search__response__album-example__tracks-li">
           <div
             className="title-name-wrapper"
             onClick={() => {

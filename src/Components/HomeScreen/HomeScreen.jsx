@@ -8,7 +8,10 @@ function HomeScreen(props) {
   const context = useContext(Context);
   useEffect(
     () => {
-      context.setCompGradient && context.setCompGradient("linear-gradient(105deg, #000000 15%, #2A0943 25%,#711c33 100%)");
+      context.setCompGradient &&
+        context.setCompGradient(
+          "linear-gradient(105deg, #000000 15%, #2A0943 25%,#711c33 100%)"
+        );
       set(true);
     },
     [mount]
@@ -50,10 +53,11 @@ function HomeScreen(props) {
       data-testid="navHome"
       className="generator"
       style={{ color: "#FB3268" }}
+      key="home-screen"
     >
       {headlines && headlines[0]}
       <ContainerGenerator
-        key="ftrdProp"
+        keyPass="ftrdProp"
         data={ftrdProp && ftrdProp.playlists.items.slice(0, 6)}
         type={"playlists"}
         importance={"high"}
@@ -61,14 +65,14 @@ function HomeScreen(props) {
 
       {headlines && headlines[1]}
       <ContainerGenerator
-        key="recentProp"
+        keyPass="recentProp"
         data={recentProp && recentProp}
         type={"recent"}
         importance={"low"}
       />
       {headlines && headlines[2]}
       <ContainerGenerator
-        key="relatedTop"
+        keyPass="relatedTop"
         data={props.relatedTop}
         type={"playlists"}
         special={true}
