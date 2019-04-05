@@ -2,6 +2,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 This app is a React front-end only client, communicating with Spotify Web API, as well as Spotify Connect.
 Use these credentials to see the basic funcitonality.
+
 login: spotify.react.client@gmail.com
 password: react2019
 
