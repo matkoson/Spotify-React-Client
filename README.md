@@ -50,7 +50,7 @@ Application was created with the usage of the following technologies:
 ![welcome-mobile](images/welcomeScreenMobile.PNG?raw=true "Welcome Screen Mobile")
 ![recommended-mobile](images/recommendedMobile.PNG?raw=true "Recommended Mobile")
 ![album-mobile](images/albumMobile.PNG?raw=true "Album Mobile")
-![search-mobile](images/searchDesktop.PNG?raw=true "Search Mobile")
+![search-mobile](images/searchMobile.PNG?raw=true "Search Mobile")
 
 
 
