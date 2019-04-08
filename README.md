@@ -1,12 +1,27 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-This app is a React front-end only client, communicating with Spotify Web API, as well as Spotify Connect.
-Use these credentials to see the basic funcitonality.
+This app is a Ract-built client application, communicating with Spotify Web API, as well as Spotify Connect.
+Use these credentials to see the basic funcitonality. 
 
 login: spotify.react.client@gmail.com
 password: react2019
 
-App also allows to use Spotify Player, but it requires Premium account. This functionality was built with Spotify Web Playback SDK.
+**Important**
+App also allows to use Spotify Player, but it requires Premium subscription. This functionality was built with the use of Spotify Web Playback SDK.
+
+## Features
+
+- Play all available track with control of the playback
+ - pause/play, volume adjustment, shuffling(three modes)
+
+- Dedicated view for albums and playlists with tracking
+of the currently played track
+
+- Separate views of each component for both desktop
+and mobile devices
+
+- Efficient searching for artists, albums/playlists
+and tracks 
 
 ## Tech Stack
 
@@ -26,3 +41,7 @@ Application was created with the usage of the following technologies:
 - tree-shaking
 - lazy image loading
 - lazy font loading
+
+## Design
+
+
