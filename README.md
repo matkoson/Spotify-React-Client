@@ -42,14 +42,15 @@ Application was created with the usage of the following technologies:
 - lazy image loading
 - lazy font loading
 
+## Design
 ![welcome-desktop](images/welcomeScreen.PNG?raw=true "Welcome Screen Desktop")
-![welcome-mobile](images/welcomeScreenMobile.PNG?raw=true "Welcome Screen Mobile")
+<!-- ![welcome-mobile](images/welcomeScreenMobile.PNG?raw=true "Welcome Screen Mobile") -->
 ![recommended-desktop](images/recommendedDesktop.PNG?raw=true "Recommended Desktop")
-![recommended-mobile](images/recommendedMobile.png?raw=true "Recommended Mobile")
+<!-- ![recommended-mobile](images/recommendedMobile.png?raw=true "Recommended Mobile") -->
 ![album-desktop](images/albumDesktop.png?raw=true "Album Desktop")
-![album-mobile](images/albumMobile.png?raw=true "Album Mobile")
+<!-- ![album-mobile](images/albumMobile.png?raw=true "Album Mobile") -->
 ![search-desktop](images/searchDesktop.png?raw=true "Search Desktop")
-![search-mobile](images/searchDesktop.png?raw=true "Search Mobile")
+<!-- ![search-mobile](images/searchDesktop.png?raw=true "Search Mobile") -->
 
 
 
