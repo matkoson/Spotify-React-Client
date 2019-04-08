@@ -42,7 +42,6 @@ Application was created with the usage of the following technologies:
 - lazy image loading
 - lazy font loading
 
-## Design
 ![welcome-desktop](images/welcomeScreen.PNG?raw=true "Welcome Screen Desktop")
 ![welcome-mobile](images/welcomeScreenMobile.PNG?raw=true "Welcome Screen Mobile")
 ![recommended-desktop](images/recommendedDesktop.PNG?raw=true "Recommended Desktop")
